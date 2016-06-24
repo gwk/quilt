@@ -1,0 +1,16 @@
+# xcode.
+xcuserdata
+profile
+project.xcworkspace
+
+# finder.
+.DS_Store
+
+# python.
+__pycache__
+
+# swift.
+.build
+
+# quilt.
+_misc
