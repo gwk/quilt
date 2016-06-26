@@ -31,17 +31,14 @@ extension Int {
   }
 
   @warn_unused_result
-  public func dec(_ width: Int) -> String { return self.repr(10, width: width) }
+  public func dec(width: Int) -> String { return self.repr(10, width: width) }
 
   @warn_unused_result
-  public func hex(_ width: Int) -> String { return self.repr(16, width: width) }
-  
-  var dec: String { return self.dec(0) }
-  var hex: String { return self.hex(0) }
-  
-  @warn_unused_result
-  public func dec0(_ width: Int) -> String { return self.repr(10, pad: "0", width: width) }
+  public func hex(width: Int) -> String { return self.repr(16, width: width) }
 
   @warn_unused_result
-  public func hex0(_ width: Int) -> String { return self.repr(16, pad: "0", width: width) }
+  public func dec0(width: Int) -> String { return self.repr(10, pad: "0", width: width) }
+
+  @warn_unused_result
+  public func hex0(width: Int) -> String { return self.repr(16, pad: "0", width: width) }
 }
