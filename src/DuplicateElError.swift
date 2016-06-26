@@ -2,12 +2,5 @@
 
 
 public struct DuplicateElError<T>: ErrorProtocol {
-  let el: T
-}
-
-
-public struct DuplicateKeyError<K, V>: ErrorProtocol {
-  let key: K
-  let existing: V
-  let incoming: V
+  public let el: T
 }
