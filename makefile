@@ -4,11 +4,11 @@
 # $<: The name of the first prerequisite.
 # $^: The names of all the prerequisites, with spaces between them. 
 
-default: all
+.PHONY: default build clean gen test
 
-.PHONY: default all clean gen
+default: build
 
-all: gen
+build: gen
 	swift build
 
 clean:
@@ -16,13 +16,18 @@ clean:
 
 # all generated source targets.
 gen: \
-	src/mat-generated.swift \
-	src/vec-generated.swift \
+	src/Quilt/mat-generated.swift \
+	src/Quilt/vec-generated.swift \
 
-src/mat-generated.swift: gen/mat.py
+
+# build prereq is necessary because `swift test` does not check for it as of xc8b1.
+test: build
+	swift test
+
+src/Quilt/mat-generated.swift: gen/mat.py
 	$^ > $@
 
-src/vec-generated.swift: gen/vec.py
+src/Quilt/vec-generated.swift: gen/vec.py
 	$^ > $@
 
 #src/CGPoint-generated.swift: gen/vec.py

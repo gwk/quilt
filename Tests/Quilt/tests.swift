@@ -5,4 +5,7 @@ import XCTest
 
 class Tests: XCTestCase {
 
+  // functions beginning with 'test' are automatically run by `swift test`.
+  func testA() {}
+  func testB() {}
 }

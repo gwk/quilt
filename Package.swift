@@ -4,5 +4,9 @@
 import PackageDescription
 
 let package = Package(
-  name: "Quilt"
+  name: "Quilt",
+  targets: [
+    Target(name: "Quilt"),
+    Target(name: "test-Parser", dependencies: ["Quilt"]),
+  ]
 )
