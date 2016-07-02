@@ -159,7 +159,7 @@ public class OutFile: File, OutputStream {
   public func write(_ string: String) {
     string.nulTerminatedUTF8.withUnsafeBufferPointer {
       (buffer: UnsafeBufferPointer<UTF8.CodeUnit>) -> () in
-        Darwin.write(descriptor, buffer.baseAddress, buffer.count - 1) // do not write null terminator.
+        _ = Darwin.write(descriptor, buffer.baseAddress, buffer.count - 1) // do not write null terminator.
     }
   }
 

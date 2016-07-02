@@ -19,13 +19,13 @@ extension File {
       if let cf = cancelFn {
         source.setCancelHandler {
           [_self] in
-          _self
+          _ = _self
           cf()
         }
       } else {
         source.setCancelHandler {
           [_self] in
-          _self
+          _ = _self
         }
       }
       source.setEventHandler(handler: eventFn)

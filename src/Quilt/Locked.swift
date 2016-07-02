@@ -19,7 +19,7 @@ public class Locked<T: AnyObject> {
   
   public func access<R>(_ accessor: @noescape (T) -> R) -> R {
     // access the locked data.
-    _semaphore.wait(timeout: DispatchTime.distantFuture)
+    _ = _semaphore.wait(timeout: DispatchTime.distantFuture)
     let ret = accessor(_protected)
     let didAwakeBlocked = _semaphore.signal()
     if (didAwakeBlocked != 0) {
