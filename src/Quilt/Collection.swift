@@ -5,10 +5,13 @@ extension Collection where Iterator.Element : Equatable {
 
   public var range: Range<Index> { return startIndex..<endIndex }
 
-  @warn_unused_result
-  public func has<C: Collection where C.Iterator.Element == Iterator.Element>(_ query: C, atIndex: Index) -> Bool {
+  public func contains(_ element: Iterator.Element) -> Bool {
+    return index(of: element) != nil
+  }
+
+  public func contains<S: Sequence where S.Iterator.Element == Iterator.Element>(sequence: S, atIndex: Index) -> Bool {
     var i = atIndex
-    for e in query {
+    for e in sequence {
       if i == endIndex || e != self[i] {
         return false
       }

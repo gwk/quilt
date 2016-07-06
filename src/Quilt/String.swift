@@ -83,19 +83,12 @@ extension String {
 
   // MARK: utilities
   
-  @warn_unused_result
   public func contains(_ c: Character) -> Bool {
-    for e in self.characters {
-      if e == c {
-        return true
-      }
-    }
-    return false
+    return self.characters.contains(c)
   }
   
-  @warn_unused_result
-  public func has(_ query: String, atIndex: Index) -> Bool {
-    return characters.has(query.characters, atIndex: atIndex)
+  public func contains(string: String, atIndex: Index) -> Bool {
+    return characters.contains(sequence: string.characters, atIndex: atIndex)
   }
 
   @warn_unused_result
