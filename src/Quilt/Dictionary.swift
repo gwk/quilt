@@ -4,17 +4,17 @@
 extension Dictionary {
   
   @warn_unused_result
-  public func contains(_ key: Key) -> Bool {
+  public func contains(key: Key) -> Bool {
     return self[key] != nil
   }
 
   public mutating func insertNew(_ key: Key, value: Value) {
-    assert(!contains(key), "insertNew: key already inserted: \(key); value: \(value)")
+    assert(!contains(key: key), "insertNew: key already inserted: \(key); value: \(value)")
     self[key] = value
   }
 
   public mutating func updateExisting(_ key: Key, value: Value) {
-    assert(contains(key), "updateExisting: key not yet inserted: \(key); value: \(value)")
+    assert(contains(key: key), "updateExisting: key not yet inserted: \(key); value: \(value)")
     self[key] = value
   }
 

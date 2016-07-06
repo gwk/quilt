@@ -40,7 +40,7 @@ extension Sequence {
     var d: [K:V] = [:]
     for e in self {
       let (k, v) = transform(e)
-      if d.contains(k) { throw DuplicateKeyError(key: k, existing: d[k], incoming: v) }
+      if d.contains(key: k) { throw DuplicateKeyError(key: k, existing: d[k], incoming: v) }
       d[k] = v
     }
     return d
