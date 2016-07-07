@@ -10,14 +10,18 @@ extension Collection where Iterator.Element : Equatable {
   }
 
   public func contains<S: Sequence where S.Iterator.Element == Iterator.Element>(sequence: S, atIndex: Index) -> Bool {
+    return indexAfter(sequence: sequence, atIndex: atIndex) != nil
+  }
+
+  public func indexAfter<S: Sequence where S.Iterator.Element == Iterator.Element>(sequence: S, atIndex: Index) -> Index? {
     var i = atIndex
     for e in sequence {
       if i == endIndex || e != self[i] {
-        return false
+        return nil
       }
       i = index(after: i)
     }
-    return true
+    return i
   }
 
   @warn_unused_result
