@@ -26,7 +26,6 @@ public class AreaBuffer<Element>: Collection {
 
   public var count: Int { return array.count }
 
-  @warn_unused_result
   public func makeIterator() -> Iterator { return array.makeIterator() }
 
   public var startIndex: Index { return array.startIndex }
@@ -51,22 +50,18 @@ public class AreaBuffer<Element>: Collection {
     return array.withUnsafeBufferPointer(body)
   }
 
-  @warn_unused_result
   public func allCoords(start: V2I, end: V2I, step: V2I = V2I(1, 1)) -> AreaIterator {
     return AreaIterator(start: start, end: end, step: step)
   }
 
-  @warn_unused_result
   public func allCoords(end: V2I, step: V2I = V2I(1, 1)) -> AreaIterator {
     return allCoords(start: V2I(), end: end, step: step)
   }
 
-  @warn_unused_result
   public func allCoords(step: V2I = V2I(1, 1)) -> AreaIterator {
     return allCoords(start: V2I(), end: size, step: step)
   }
 
-  @warn_unused_result
   public func allCoords(inset: Int) -> AreaIterator {
     return allCoords(start: V2I(inset, inset), end: V2I(size.x - inset, size.y - inset))
   }
@@ -79,53 +74,43 @@ public class AreaBuffer<Element>: Collection {
     }
   }
   
-  @warn_unused_result
   public func index(_ coord: V2I) -> Int {
     return size.x * coord.y + coord.x
   }
 
-  @warn_unused_result
   public func coord(_ index: Int) -> V2I {
     return V2I(index % size.x, index / size.x)
   }
 
-  @warn_unused_result
   public func isInBounds(_ coord: V2I) -> Bool {
     return coord.x >= 0 && coord.x < size.x && coord.y >= 0 && coord.y < size.y
   }
 
-  @warn_unused_result
   public func isOnEdge(_ coord: V2I) -> Bool {
     return coord.x == 0 || coord.x == size.x - 1 || coord.y == 0 || coord.y == size.y - 1
   }
 
-  @warn_unused_result
   public func isOnHighEdge(_ coord: V2I) -> Bool {
     return coord.x == size.x - 1 || coord.y == size.y - 1
   }
 
-  @warn_unused_result
   public func isOnEdge(_ index: Int) -> Bool {
     return isOnEdge(coord(index))
   }
 
-  @warn_unused_result
   public func isOnHighEdge(_ index: Int) -> Bool {
     return isOnHighEdge(coord(index))
   }
-  
-  @warn_unused_result
+
   public func row(_ y: Int) -> Row {
     let off = size.x * y
     return self[off..<(off + size.x)]
   }
 
-  @warn_unused_result
   public func el(_ x: Int, _ y: Int) -> Element {
     return self[size.x * y + x]
   }
 
-  @warn_unused_result
   public func el(_ coord: V2I) -> Element { return el(coord.x, coord.y) }
   
   public func setEl(_ i: Int, _ j: Int, _ val: Element) {
@@ -134,7 +119,6 @@ public class AreaBuffer<Element>: Collection {
   
   public func setEl(_ coord: V2I, _ val: Element) { setEl(coord.x, coord.y, val) }
 
-  @warn_unused_result
   public func map<R>(_ transform: (Element)->R) -> AreaBuffer<R> {
     return AreaBuffer<R>(size: size, seq: array.map(transform))
   }

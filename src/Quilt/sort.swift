@@ -1,7 +1,6 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-@warn_unused_result
 public func sortQuadIndices(_ a: Int, _ b: Int, _ c: Int, _ d: Int, cmp: (Int, Int) -> Bool) -> (Int, Int, Int, Int) {
   let ab = cmp(a, b) ? (0, 1) : (1, 0)
   let cd = cmp(c, d) ? (2, 3) : (3, 2)

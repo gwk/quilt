@@ -38,7 +38,6 @@ public class File: CustomStringConvertible {
     self.descriptor = descriptor
   }
 
-  @warn_unused_result
   public class func openDescriptor(_ path: String, mode: CInt, create: Perms? = nil) throws -> Descriptor {
     var descriptor: Descriptor
     if let perms = create {
@@ -63,7 +62,6 @@ public class File: CustomStringConvertible {
     return descriptor
   }
 
-  @warn_unused_result
   public func stats() throws -> Stats {
     var stats = Darwin.stat()
     let res = Darwin.fstat(descriptor, &stats)
@@ -104,7 +102,6 @@ public class InFile: File {
     self.init(path: path, descriptor: try File.openDescriptor(path, mode: O_RDONLY, create: create))
   }
 
-  @warn_unused_result
   public func len() throws -> Int { return try Int(stats().st_size) }
   
   public func readAbs(offset: Int, len: Int, ptr: UnsafeMutablePointer<Void>) throws -> Int {
@@ -113,7 +110,6 @@ public class InFile: File {
     return len_act
   }
   
-  @warn_unused_result
   public func readText() throws -> String {
     let len = try self.len()
     let bufferLen = len + 1
@@ -136,13 +132,11 @@ public class InFile: File {
     }
   }
 
-  @warn_unused_result
   public static func readText(_ path: String) throws -> String {
     let f = try InFile(path: path)
     return try f.readText()
   }
 
-  @warn_unused_result
   public static func readTextOrFail(_ path: String) throws -> String {
     let f = try InFile(path: path)
     return try f.readText()

@@ -24,14 +24,12 @@ extension Collection where Iterator.Element : Equatable {
     return i
   }
 
-  @warn_unused_result
   public func part(_ range: Range<Index>) -> (SubSequence, SubSequence) {
     let ra = startIndex..<range.lowerBound
     let rb = range.upperBound..<endIndex
     return (self[ra], self[rb])
   }
 
-  @warn_unused_result
   public func part(_ separator: Self, start: Index? = nil, end: Index? = nil) -> (SubSequence, SubSequence)? {
     if let range = rangeOf(separator, start: start, end: end) {
       return part(range)
@@ -39,7 +37,6 @@ extension Collection where Iterator.Element : Equatable {
     return nil
   }
 
-  @warn_unused_result
   public func rangeOf<C: Collection where C.Iterator.Element == Iterator.Element>(_ query: C, start: Index? = nil, end: Index? = nil) -> Range<Index>? {
     var i = start.or(startIndex)
     let e = end.or(endIndex)
@@ -64,7 +61,6 @@ extension Collection where Iterator.Element : Equatable {
     return nil
   }
   
-  @warn_unused_result
   public func split<C: Collection where C.Iterator.Element == Iterator.Element>(sub: C, maxSplit: Int = Int.max, allowEmptySlices: Bool = false) -> [Self.SubSequence] {
     var result: [Self.SubSequence] = []
     var prev = startIndex

@@ -11,7 +11,6 @@ extension Set {
     self = set
   }
 
-  @warn_unused_result
   public static func fromUniqueSeq<S: Sequence where S.Iterator.Element == Element>(_ seq: S) throws -> Set {
     var set: Set = []
     for el in seq {
@@ -23,7 +22,6 @@ extension Set {
     return set
   }
 
-  @warn_unused_result
   public func setByRemoving(_ member: Element) -> Set<Element> {
     var set = self
     set.remove(member)

@@ -45,20 +45,16 @@ public class OSNoise2 {
     self.perm = perm
   }
 
-  @warn_unused_result
   public func extrapolate2(xsb: Int, ysb: Int, dx: Flt, dy: Flt) -> Flt {
     let index = perm[(perm[xsb & 0xFF] + ysb) & 0xFF] & 0x0E
     return Flt(OSNoise2.gradients2D[index]) * dx + Flt(OSNoise2.gradients2D[index + 1]) * dy
   }
 
-  @warn_unused_result
   public func fastFloor(_ x: Flt) -> Int {
     let i = Int(x)
     return x < Flt(i) ? i - 1 : i
   }
 
-
-  @warn_unused_result
   public func val(_ x: Flt, _ y: Flt) -> Flt {
 
     // Place input coordinates onto grid.
@@ -172,7 +168,6 @@ public class OSNoise2 {
     return value / OSNoise2.normFactor
   }
 
-  @warn_unused_result
   public func multiVal(_ x: Flt, _ y: Flt, octaveWeights: [Flt]) -> Flt {
     let totalWeight = octaveWeights.sum()
     var v = 0.0

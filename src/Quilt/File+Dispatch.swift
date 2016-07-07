@@ -5,7 +5,6 @@ import Dispatch
 
 extension File {
 
-  @warn_unused_result
   public func createDispatchSource(_ modes: DispatchSource.FileSystemEvent, queue: DispatchQueue = DispatchQueue.main,
     registerFn: Action? = nil, cancelFn: Action? = nil, eventFn: Action) -> DispatchSource {
       let source = DispatchSource.fileSystemObject(fileDescriptor: _dispatchSourceHandle, eventMask: modes, queue: queue)

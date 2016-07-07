@@ -44,7 +44,6 @@ extension String {
     }
   }
   
-  @warn_unused_result
   public func replacePathExt(_ ext: String) -> String {
     var pre: String
     if let r = pathExtDotRange {
@@ -91,7 +90,6 @@ extension String {
     return characters.contains(sequence: string.characters, atIndex: atIndex)
   }
 
-  @warn_unused_result
   public func beforeSuffix(_ suffix: String) -> String? {
     if hasSuffix(suffix) {
       return String(self.characters.dropLast(suffix.characters.count))
@@ -100,7 +98,6 @@ extension String {
     }
   }
 
-  @warn_unused_result
   public func mapChars(_ transform: (Character) -> Character) -> String {
     var s = ""
     for c in self.characters {
@@ -109,7 +106,6 @@ extension String {
     return s
   }
   
-  @warn_unused_result
   public func mapChars(_ transform: (Character) -> String) -> String {
     var s = ""
     for c in self.characters {
@@ -118,12 +114,10 @@ extension String {
     return s
   }
   
-  @warn_unused_result
   public func replace(_ query: Character, with: Character) -> String {
     return String(characters.replace(query, with: with))
   }
   
-  @warn_unused_result
   public func replace(_ query: String, with: String) -> String {
     return String(characters.replace(query.characters, with: with.characters))
   }
@@ -187,7 +181,6 @@ extension String {
     return charLines.map { String($0) }
   }
   
-  @warn_unused_result
   public func numberedLinesFrom(_ from: Int) -> [String] {
     return lines.enumerated().map() { (i, line) in " \(line)" }
   }
@@ -215,7 +208,6 @@ extension String {
   
   // MARK: partition
   
-  @warn_unused_result
   public func part(_ sep: String) -> (String, String)? {
     if let (a, b) = characters.part(sep.characters) {
       return (String(a), String(b))
@@ -223,7 +215,6 @@ extension String {
     return nil
   }
 
-  @warn_unused_result
   public func split(_ separator: Character) -> [String] {
     return characters.split(separator: separator).map() { String($0) }
   }

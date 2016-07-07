@@ -12,7 +12,6 @@ extension Time {
 }
 
 
-@warn_unused_result
 public func sysTime() -> Time {
   return ProcessInfo.processInfo().systemUptime
 }
@@ -25,7 +24,6 @@ public func initAppLaunchSysTime() -> Time {
   return appLaunchSysTime
 }
 
-@warn_unused_result
 public func appTime() -> Time {
   return sysTime() - appLaunchSysTime
 }

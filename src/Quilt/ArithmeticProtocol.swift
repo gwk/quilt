@@ -38,19 +38,16 @@ extension U16: ArithmeticProtocol {}
 extension U32: ArithmeticProtocol {}
 extension U64: ArithmeticProtocol {}
 
-@warn_unused_result
 public func clamp<T: ArithmeticProtocol>(_ a: T, min: T, max: T) -> T {
   if a < min { return min }
   if a > max { return max }
   return a
 }
 
-@warn_unused_result
 public func sign<T: ArithmeticProtocol>(_ b: Bool) -> T {
   return b ? 1 : -1
 }
 
-@warn_unused_result
 public func sign<T: ArithmeticProtocol>(_ x: T) -> T {
   if x < 0 { return -1 }
   if x > 0 { return 1 }
@@ -60,12 +57,10 @@ public func sign<T: ArithmeticProtocol>(_ x: T) -> T {
 
 extension Sequence where Iterator.Element: ArithmeticProtocol {
 
-  @warn_unused_result
   public func sum() -> Iterator.Element {
     return reduce(0) { (accum: Iterator.Element, item: Iterator.Element) in return accum + item }
   }
 
-  @warn_unused_result
   public func prod() -> Iterator.Element {
     return reduce(1) { (accum: Iterator.Element, item: Iterator.Element) in return accum * item }
   }

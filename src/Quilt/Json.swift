@@ -33,7 +33,6 @@ public enum Json {
   //case Array(NSArray)
   //case Dictionary(NSDictionary)
 
-  @warn_unused_result
   public static func fromData<T: JsonType>(_ data: Data, options: JSONSerialization.ReadingOptions = []) throws -> T {
     let json: JsonType
     do {
@@ -47,7 +46,6 @@ public enum Json {
     throw Error.unexpectedType(exp: T.self, json: json)
   }
 
-  @warn_unused_result
   public static func fromStream<T: JsonType>(_ stream: InputStream, options: JSONSerialization.ReadingOptions = []) throws -> T {
     let json: JsonType
     do {
@@ -64,7 +62,6 @@ public enum Json {
     throw Error.unexpectedType(exp: T.self, json: json)
   }
 
-  @warn_unused_result
   public static func fromPath<T: JsonType>(_ path: _String, options: JSONSerialization.ReadingOptions = []) throws -> T {
     var data: Data
     do {

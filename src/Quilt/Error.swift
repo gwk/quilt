@@ -3,7 +3,6 @@
 import Darwin
 
 
-@warn_unused_result
 public func stringForCurrentError() -> String {
   return String(cString: strerror(errno))
 }

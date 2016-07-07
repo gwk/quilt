@@ -30,7 +30,6 @@ public struct DictOfSet<Key: Hashable, SetElement: Hashable>: Collection {
 
   public func makeIterator() -> Iterator { return dict.makeIterator() }
 
-  @warn_unused_result
   public func index(_ forKey: Key) -> Index? { return dict.index(forKey: forKey) }
 
   public mutating func popFirst() -> Element? { return dict.popFirst() }

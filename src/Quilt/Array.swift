@@ -19,7 +19,6 @@ extension Array: DefaultInitializable {
     }
   }
 
-  @warn_unused_result
   public func optEl(_ index: Int) -> Element? {
     if index >= 0 && index < count {
       return self[index]
@@ -50,7 +49,6 @@ extension Array: DefaultInitializable {
     }
   }
 
-  @warn_unused_result
   public func permute(_ random: Random) -> Array {
     var a = self
     a.permuteInPlace(random)

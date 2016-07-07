@@ -22,7 +22,6 @@ public class ActionThread: Thread {
 }
 
 
-@warn_unused_result
 public func spawnThread(_ name: String, action: Action) -> ActionThread {
   let thread = ActionThread(name: name, action: action)
   thread.start()

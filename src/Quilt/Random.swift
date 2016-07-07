@@ -22,7 +22,6 @@ public class Random {
     self.init(state0: states[0], state1: states[1])
   }
 
-  @warn_unused_result
   public func raw() -> U64 {
     let s1 = state0
     let s0 = state1
@@ -35,7 +34,6 @@ public class Random {
     return state1
   }
 
-  @warn_unused_result
   public func u64(_ end: U64) -> U64 {
     // unbiased random.
     let bias_rem = ((U64.max % end) + 1) % end
@@ -48,19 +46,16 @@ public class Random {
     }
   }
 
-  @warn_unused_result
   public func u64(min: U64, end: U64) -> U64 {
     if min >= end { fatalError("Random.nextU64: min \(min) >= end \(end)") }
     return u64(end - min) + min
   }
 
-  @warn_unused_result
   public func int(_ end: Int) -> Int {
     // unbiased random.
     return Int(u64(U64(end)))
   }
 
-  @warn_unused_result
   public func int(min: Int, end: Int) -> Int {
     if min >= end { fatalError("Random.nextInt: min \(min) >= end \(end)") }
     let minU = U64(bitPattern: Int64(min))
@@ -69,15 +64,13 @@ public class Random {
     let randU = u64(rangeU)
     return Int(I64(bitPattern: randU + minU))
   }
-  
-  @warn_unused_result
+
   public func f64(_ max: F64) -> F64 {
     let endU: U64 = 1 << 52 // double precision has 53 digits; back off by one just to be safe.
     let u = raw() % endU // powers of two cannot be biased.
     return (F64(u) / F64(endU - 1)) * max // divide by maxU = endU - 1 to get float in range [0, 1].
   }
 
-  @warn_unused_result
   public func f64(min: F64, max: F64) -> F64 {
     if max <= min {
       return min
@@ -85,7 +78,6 @@ public class Random {
     return f64(max - min) + min
   }
 
-  @warn_unused_result
   public func bool() -> Bool {
     return raw() >= 0x8000000000000000
   }

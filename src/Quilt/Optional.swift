@@ -3,7 +3,6 @@
 
 extension Optional {
 
-  @warn_unused_result
   public func or(_ alt: @autoclosure () throws -> Wrapped) rethrows -> Wrapped {
     if let val = self {
       return val

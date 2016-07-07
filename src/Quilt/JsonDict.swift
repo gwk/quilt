@@ -56,23 +56,19 @@ public struct JsonDict: JsonInitable {
     return raw[key] as! JsonType?
   }
 
-  @warn_unused_result
   public func contains(_ key: String) -> Bool {
     return raw[key] != nil
   }
 
-  @warn_unused_result
   public func get(_ key: String) throws -> JsonType {
     guard let val = raw[key] else { throw Json.Error.key(key: key, json: raw) }
     return val as! JsonType
   }
 
-  @warn_unused_result
   public func convItems<T: JsonDictItemInitable>() throws -> [T] {
     return try raw.map { try T.init(key: $0.0 as! String, json: $0.1 as! JsonType) }
   }
 
-  @warn_unused_result
   public func mapVals<V>(transform: (JsonType) throws -> V) rethrows -> [String:V] {
     var d: [String:V] = [:]
     for (k, v) in raw {

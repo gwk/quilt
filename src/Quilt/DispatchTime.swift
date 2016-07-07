@@ -5,7 +5,6 @@ import Dispatch
 
 extension DispatchTime {
 
-  @warn_unused_result
   public static func fromNow(_ seconds: Double) -> DispatchTime {
     return now() + seconds
   }

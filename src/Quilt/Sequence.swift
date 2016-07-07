@@ -3,7 +3,6 @@
 
 extension Sequence {
 
-  @warn_unused_result
   public func group<K: Hashable>(_ fn: @noescape (Iterator.Element) -> K?) -> [K:[Iterator.Element]] {
     var d: [K:[Iterator.Element]] = [:]
     for e in self {
@@ -14,7 +13,6 @@ extension Sequence {
     return d
   }
 
-  @warn_unused_result
   public func filterMap<E>(transform: @noescape (Iterator.Element) throws -> E?) rethrows -> [E] {
     var a: [E] = []
     for e in self {
@@ -25,7 +23,6 @@ extension Sequence {
     return a
   }
 
-  @warn_unused_result
   public func mapToDict<K: Hashable, V>(_ transform: @noescape (Iterator.Element) -> (K, V)) -> [K:V] {
     var d: [K:V] = [:]
     for e in self {
@@ -35,7 +32,6 @@ extension Sequence {
     return d
   }
 
-  @warn_unused_result
   public func mapUniquesToDict<K: Hashable, V>(_ transform: @noescape (Iterator.Element) -> (K, V)) throws -> [K:V] {
     var d: [K:V] = [:]
     for e in self {
@@ -46,7 +42,6 @@ extension Sequence {
     return d
   }
 
-  @warn_unused_result
   public func all(_ predicate: @noescape (Iterator.Element) -> Bool) -> Bool {
     for e in self {
       if !predicate(e) {
@@ -56,7 +51,6 @@ extension Sequence {
     return true
   }
 
-  @warn_unused_result
   public func any(_ predicate: @noescape (Iterator.Element) -> Bool) -> Bool {
     for e in self {
       if predicate(e) {
@@ -77,7 +71,6 @@ extension Sequence {
 
 extension Sequence where Iterator.Element: Equatable {
 
-  @warn_unused_result
   public func replace(_ query: Iterator.Element, with: Iterator.Element) -> [Iterator.Element] {
     var result: [Iterator.Element] = []
     for e in self {
@@ -90,7 +83,6 @@ extension Sequence where Iterator.Element: Equatable {
     return result
   }
 
-  @warn_unused_result
   public func replace<Q: Collection, W: Collection where Q.Iterator.Element == Iterator.Element, W.Iterator.Element == Iterator.Element>(_ query: Q, with: W) -> [Iterator.Element] {
     if query.isEmpty {
       return Array(self)
@@ -118,7 +110,6 @@ extension Sequence where Iterator.Element: Equatable {
     return result
   }
 
-  @warn_unused_result
   public func countOccurrencesOf(_ el: Iterator.Element) -> Int {
     return reduce(0) { $1 == el ? $0 + 1 : $0 }
   }
@@ -127,7 +118,6 @@ extension Sequence where Iterator.Element: Equatable {
 
 extension Sequence where Iterator.Element : Sequence {
 
-  @warn_unused_result
   public func join() -> JoinedSequence<Self> {
     return self.joined(separator: [])
   }
@@ -136,7 +126,6 @@ extension Sequence where Iterator.Element : Sequence {
 
 extension Sequence where Iterator.Element == String {
 
-  @warn_unused_result
   public func join() -> String {
     return joined( separator: "")
   }
@@ -145,7 +134,6 @@ extension Sequence where Iterator.Element == String {
 
 extension Sequence where Iterator.Element == Bool {
 
-  @warn_unused_result
   public func all() -> Bool {
     for e in self {
       if !e {
@@ -155,7 +143,6 @@ extension Sequence where Iterator.Element == Bool {
     return true
   }
 
-  @warn_unused_result
   public func any() -> Bool {
     for e in self {
       if e {
@@ -167,7 +154,6 @@ extension Sequence where Iterator.Element == Bool {
 }
 
 
-@warn_unused_result
 public func allZip<S1: Sequence, S2: Sequence>(_ seq1: S1, _ seq2: S2, predicate: (S1.Iterator.Element, S2.Iterator.Element) -> Bool) -> Bool {
   var g2 = seq2.makeIterator()
   for e1 in seq1 {

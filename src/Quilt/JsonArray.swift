@@ -57,26 +57,22 @@ public struct JsonArray: JsonInitable {
     return raw[index] as! JsonType
   }
 
-  @warn_unused_result
   public func el(_ index: Int) throws -> JsonType {
     if index >= count { throw Json.Error.missingEl(index: index, json: raw) }
     return raw[index] as! JsonType
   }
 
   /* TODO
-  @warn_unused_result
   public func convEls<T: JsonInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
     let range = start..<end.or(raw.count)
     return try raw[range].map { try T.init(json: $0 as! JsonType) }
   }
 
-  @warn_unused_result
   public func convArrays<T: JsonArrayInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
     let range = start..<end.or(raw.count)
     return try raw[range].map { try T.init(jsonArray: try JsonArray(json: $0 as! JsonType)) }
   }
 
-  @warn_unused_result
   public func convDicts<T: JsonDictInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
     let range = start..<end.or(raw.count)
     return try raw[range].map { try T.init(jsonDict: try JsonDict(json: $0 as! JsonType)) }

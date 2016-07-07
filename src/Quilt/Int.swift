@@ -5,7 +5,6 @@ public let digitChars = [Character]("0123456789abcdef".characters)
 
 extension Int {
 
-  @warn_unused_result
   public func repr(_ base: Int = 10, pad: Character = " ", width: Int = 0) -> String {
     if self == 0 {
       let count = Swift.max(0, width - 1)
@@ -30,15 +29,11 @@ extension Int {
     return String(Array(a.reversed()))
   }
 
-  @warn_unused_result
   public func dec(width: Int) -> String { return self.repr(10, width: width) }
 
-  @warn_unused_result
   public func hex(width: Int) -> String { return self.repr(16, width: width) }
 
-  @warn_unused_result
   public func dec0(width: Int) -> String { return self.repr(10, pad: "0", width: width) }
 
-  @warn_unused_result
   public func hex0(width: Int) -> String { return self.repr(16, pad: "0", width: width) }
 }

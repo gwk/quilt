@@ -3,7 +3,6 @@
 import Foundation
 
 
-@warn_unused_result
 public func bitRevPermutation(_ powerOfTwo: Int) -> [Int] {
   var p = [0]
   for _ in 0..<powerOfTwo {
