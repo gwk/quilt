@@ -65,7 +65,7 @@ public enum Json {
   public static func fromPath<T: JsonType>(_ path: _String, options: JSONSerialization.ReadingOptions = []) throws -> T {
     var data: Data
     do {
-      data = try Data(contentsOf: URL(fileURLWithPath: path), options: [.dataReadingUncached])
+      data = try Data(contentsOf: URL(fileURLWithPath: path), options: []) // TODO: reinstate options once xcode8b2 bug is fixed: [.dataReadingUncached].
     } catch let e { throw Error.path(path, e) }
     return try fromData(data, options: options)
   }
