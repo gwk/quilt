@@ -5,8 +5,6 @@ import Foundation
 
 extension Bundle {
 
-  public class var main: Bundle { return Bundle.main() }
-  
   public class func resPath(_ name: String) -> String {
     return main.pathForResource(name, ofType: nil)!
   }

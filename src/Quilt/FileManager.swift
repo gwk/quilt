@@ -3,7 +3,7 @@
 import Foundation
 
 
-public let fileManager = FileManager.default()
+public let fileManager = FileManager.default
 
 
 public func absolutePath(_ path: String) -> String? {

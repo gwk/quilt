@@ -13,17 +13,22 @@ extension Time {
 
 
 public func sysTime() -> Time {
-  return ProcessInfo.processInfo().systemUptime
+  return ProcessInfo.processInfo.systemUptime
 }
 
-// note: this is lazily evaluated, so it must be accessed at launch time to initialize accurately.
-// TODO: remove and just use sysTime instead?
-public let appLaunchSysTime: Time = sysTime()
 
-public func initAppLaunchSysTime() -> Time {
-  return appLaunchSysTime
+private var _appLaunchSysTime: Time = 0
+
+public func initAppLaunchSysTime() {
+  if _appLaunchSysTime != 0 {
+    fatalError("recordAppLaunchSysTime(): must be called only once in main().")
+  }
+  _appLaunchSysTime = sysTime()
+  assert(_appLaunchSysTime > 0)
 }
+
 
 public func appTime() -> Time {
-  return sysTime() - appLaunchSysTime
+  assert(_appLaunchSysTime > 0)
+  return sysTime() - _appLaunchSysTime
 }

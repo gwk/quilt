@@ -16,7 +16,7 @@ public let resourceRootDir: String = {
     errL("resourceRootDir: using environment \(key): \(path)")
     return path
   }
-  return Bundle.main().pathForResource("res", ofType: nil)!
+  return Bundle.main.pathForResource("res", ofType: nil)!
 }()
 
 

@@ -23,8 +23,8 @@ extension String {
   
   // MARK: paths
 
-  public var pathExtDotRange: Range<Index>?    { return range(of: ".", options: .backwardsSearch) }
-  public var pathDirSlashRange: Range<Index>?  { return range(of: "/", options: .backwardsSearch) }
+  public var pathExtDotRange: Range<Index>?    { return range(of: ".", options: .backwards) }
+  public var pathDirSlashRange: Range<Index>?  { return range(of: "/", options: .backwards) }
 
   public var pathExt: String {
     if let r = pathExtDotRange {

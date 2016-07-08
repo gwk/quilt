@@ -5,4 +5,4 @@ import Foundation
 
 extension NotificationCenter {}
 
-public func noteCenter() -> NotificationCenter { return NotificationCenter.default() }
+public let noteCenter: NotificationCenter = NotificationCenter.default

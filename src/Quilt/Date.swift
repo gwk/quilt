@@ -18,8 +18,8 @@ extension Date {
     
   public func isSameDayAs(_ date: Date) -> Bool {
     let units = Calendar.Unit.preciseToDay
-    let s = Calendar.current().components(units, from: self)
-    let d = Calendar.current().components(units, from: date)
+    let s = Calendar.current.components(units, from: self)
+    let d = Calendar.current.components(units, from: date)
     return s.day == d.day && s.month == d.month && s.year == d.year && s.era == d.era
   }
   
@@ -30,7 +30,7 @@ extension Date {
   }
   
   public var dayDate: Date {
-    let cal = Calendar.current()
+    let cal = Calendar.current
     var c = cal.components(Calendar.Unit.preciseToDay, from: self)
     c.hour = 0
     c.minute = 0
@@ -44,7 +44,7 @@ extension Date {
   }
   
   public func sameTimePlusDays(_ days: Int) -> Date {
-    let cal = Calendar.current()
+    let cal = Calendar.current
     let t = cal.components(Calendar.Unit.timeOfDay, from: self)
     var d = cal.components(Calendar.Unit.preciseToDay, from: plusHours(24))
     d.hour = t.hour
@@ -55,7 +55,7 @@ extension Date {
   }
   
   public var weekdayFromSundayAs1: Int { // 1-indexed weekday beginning with sunday.
-    let cal = Calendar.current()
+    let cal = Calendar.current
     let c = cal.components(Calendar.Unit.weekday, from: self)
     return c.weekday!
   }
@@ -65,7 +65,7 @@ extension Date {
   }
   
   public var dayAndWeekday: (Int, Int) {
-    let cal = Calendar.current()
+    let cal = Calendar.current
     let c = cal.components(Calendar.Unit.dayAndWeekday, from: self)
     return (c.day!, (c.weekday! + 5) % 7)
   }
