@@ -3,6 +3,13 @@
 
 extension Dictionary {
   
+  init<S: Sequence where S.Iterator.Element == Iterator.Element>(elements: S) {
+    self = [:]
+    for (k, v) in elements {
+      self[k] = v
+    }
+  }
+
   public func contains(key: Key) -> Bool {
     return self[key] != nil
   }
