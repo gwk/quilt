@@ -1,20 +1,26 @@
 // © 2016 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public struct DictOfSet<Key: Hashable, SetElement: Hashable>: Collection {
+public struct DictOfSet<Key: Hashable, SetElement: Hashable>:
+  Collection, DictionaryLiteralConvertible {
 
-  public typealias SetType = Ref<Set<SetElement>>
-  public typealias DictType = [Key:SetType]
-  public typealias Index = DictType.Index
-  public typealias Element = DictType.Element
-  public typealias Iterator = DictType.Iterator
+  public typealias SetVal = Set<SetElement>
+  public typealias SetRef = Ref<SetVal>
+  public typealias Dict = [Key:SetRef]
+  public typealias Index = Dict.Index
+  public typealias Element = Dict.Element
+  public typealias Iterator = Dict.Iterator
 
-  private var dict: DictType = [:]
+  private var dict: Dict = [:]
 
   public init() {}
 
   public init(minimumCapacity: Int) {
-    dict = DictType(minimumCapacity: minimumCapacity)
+    dict = Dict(minimumCapacity: minimumCapacity)
+  }
+
+  public init(dictionaryLiteral elements: (Key, SetVal)...) {
+    dict = elements.mapToDict { (k, v) in (k, Ref(v)) }
   }
 
   public var count: Int { return dict.count }
@@ -24,9 +30,9 @@ public struct DictOfSet<Key: Hashable, SetElement: Hashable>: Collection {
 
   public var isEmpty: Bool { return dict.isEmpty }
 
-  public var keys: LazyMapCollection<DictType, Key> { return dict.keys }
+  public var keys: LazyMapCollection<Dict, Key> { return dict.keys }
 
-  public var values: LazyMapCollection<DictType, SetType> { return dict.values }
+  public var values: LazyMapCollection<Dict, SetRef> { return dict.values }
 
   public func makeIterator() -> Iterator { return dict.makeIterator() }
 
@@ -40,11 +46,11 @@ public struct DictOfSet<Key: Hashable, SetElement: Hashable>: Collection {
 
   public mutating func remove(_ at: Index) -> Element { return dict.remove(at: at) }
 
-  public mutating func removeValue(_ forKey: Key) -> SetType? { return dict.removeValue(forKey: forKey) }
+  public mutating func removeValue(_ forKey: Key) -> SetRef? { return dict.removeValue(forKey: forKey) }
 
   public subscript (index: Index) -> Element { return dict[index] }
 
-  public subscript (key: Key) -> SetType? {
+  public subscript (key: Key) -> SetRef? {
     get { return dict[key] }
     set { dict[key] = newValue }
   }
@@ -57,7 +63,7 @@ public struct DictOfSet<Key: Hashable, SetElement: Hashable>: Collection {
     if let ref = dict[key] {
       ref.val.insert(member)
     } else {
-      let ref = SetType([])
+      let ref = SetRef([])
       ref.val.insert(member)
       dict[key] = ref
     }
