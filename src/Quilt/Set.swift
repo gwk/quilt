@@ -3,23 +3,23 @@
 
 extension Set {
 
-  public init<S: Sequence where S.Iterator.Element: Sequence, S.Iterator.Element.Iterator.Element == Element>(seqs: S) {
+  public init<S: Sequence where S.Iterator.Element: Sequence, S.Iterator.Element.Iterator.Element == Element>(sequences: S) {
     var set = Set()
-    for s in seqs {
-      set.formUnion(s)
+    for sequence in sequences {
+      set.formUnion(sequence)
     }
     self = set
   }
 
-  public static func fromUniqueSeq<S: Sequence where S.Iterator.Element == Element>(_ seq: S) throws -> Set {
-    var set: Set = []
-    for el in seq {
+  public init<S: Sequence where S.Iterator.Element == Iterator.Element>(uniqueElements: S) throws {
+    var set = Set()
+    for el in uniqueElements {
       if set.contains(el) {
         throw DuplicateElError(el: el)
       }
       set.insert(el)
     }
-    return set
+    self = set
   }
 
   public func setByRemoving(_ member: Element) -> Set<Element> {
