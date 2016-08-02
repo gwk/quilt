@@ -10,6 +10,7 @@ default: build
 
 build: gen
 	swift build
+	@echo done.
 
 clean:
 	rm -rf .build/*
