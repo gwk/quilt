@@ -6,7 +6,7 @@ import Foundation
 extension Bundle {
 
   public class func resPath(_ name: String) -> String {
-    return main.pathForResource(name, ofType: nil)!
+    return main.path(forResource: name, ofType: nil)!
   }
 
   public class func textNamed(_ name: String) throws -> String {

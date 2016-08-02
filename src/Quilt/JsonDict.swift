@@ -24,7 +24,7 @@ public protocol JsonDictItemInitable {
 extension JsonType {
   public func asDict() throws -> JsonDict {
     guard let d = self as? NSDictionary else {
-      throw Json.Error.unexpectedType(exp: JsonDict.self, json: self)
+      throw Json.Err.unexpectedType(exp: JsonDict.self, json: self)
     }
     return JsonDict(raw: d)
   }
@@ -43,7 +43,7 @@ public struct JsonDict: JsonInitable {
   public init(json: JsonType) throws {
     if let raw = json as? NSDictionary {
       self.init(raw: raw)
-    } else { throw Json.Error.unexpectedType(exp: NSDictionary.self, json: json) }
+    } else { throw Json.Err.unexpectedType(exp: NSDictionary.self, json: json) }
   }
 
   public init(data: Data) throws { self.init(raw: try Json.fromData(data)) }
@@ -61,7 +61,7 @@ public struct JsonDict: JsonInitable {
   }
 
   public func get(_ key: String) throws -> JsonType {
-    guard let val = raw[key] else { throw Json.Error.key(key: key, json: raw) }
+    guard let val = raw[key] else { throw Json.Err.key(key: key, json: raw) }
     return val as! JsonType
   }
 

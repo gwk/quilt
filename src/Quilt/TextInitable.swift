@@ -8,7 +8,7 @@ public let textSymHeadChars = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs
 public let textSymTailChars = textSymHeadChars.union(textDecChars).union(["_"])
 public let textFloatChars = textDecChars.union(["."])
 
-public struct TextInitableError: ErrorProtocol {
+public struct TextInitableError: Error {
   let line: Int
   let col: Int
   let msg: String

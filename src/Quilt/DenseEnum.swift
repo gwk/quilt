@@ -13,7 +13,7 @@ extension DenseEnum {
 }
 
 
-public struct EnumSetU32<Element: DenseEnum>: ArrayLiteralConvertible {
+public struct EnumSetU32<Element: DenseEnum>: ExpressibleByArrayLiteral {
   public var rawValue: U32
 
   public init() {

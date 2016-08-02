@@ -24,13 +24,13 @@ public func isPathFileOrDir(_ path: String) -> Bool {
 public func isPathFile(_ path: String) -> Bool {
   var isDir: ObjCBool = false
   let exists = fileManager.fileExists(atPath: path, isDirectory: &isDir)
-  return exists && !isDir
+  return exists && !isDir.boolValue
 }
 
 public func isPathDir(_ path: String) -> Bool {
   var isDir: ObjCBool = false
   let exists = fileManager.fileExists(atPath: path, isDirectory: &isDir)
-  return exists && isDir
+  return exists && isDir.boolValue
 }
 
 public func removeFileOrDir(_ path: String) throws {

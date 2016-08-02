@@ -22,7 +22,7 @@ public func fail(_ message: String) {
 }
 
 @noreturn
-public func fail(error: ErrorProtocol) {
+public func fail(error: Error) {
   std_err.write("error: ")
   std_err.write(String(error))
   std_err.write("\n")

@@ -14,16 +14,16 @@ public typealias U32 = UInt32
 public typealias U64 = UInt64
 
 
-public protocol ArithmeticProtocol: IntegerLiteralConvertible, Equatable, Comparable {
-  func +(l: Self, r: Self) -> Self
-  func -(l: Self, r: Self) -> Self
-  func *(l: Self, r: Self) -> Self
-  func /(l: Self, r: Self) -> Self
-  func %(l: Self, r: Self) -> Self
-  func <(l: Self, r: Self) -> Bool
-  func >(l: Self, r: Self) -> Bool
-  func <=(l: Self, r: Self) -> Bool
-  func >=(l: Self, r: Self) -> Bool
+public protocol ArithmeticProtocol: ExpressibleByIntegerLiteral, Equatable, Comparable {
+  static func +(l: Self, r: Self) -> Self
+  static func -(l: Self, r: Self) -> Self
+  static func *(l: Self, r: Self) -> Self
+  static func /(l: Self, r: Self) -> Self
+  static func %(l: Self, r: Self) -> Self
+  static func <(l: Self, r: Self) -> Bool
+  static func >(l: Self, r: Self) -> Bool
+  static func <=(l: Self, r: Self) -> Bool
+  static func >=(l: Self, r: Self) -> Bool
 }
 
 extension Int: ArithmeticProtocol {}

@@ -7,7 +7,7 @@ public class Dir {
 
   public typealias Descriptor = UnsafeMutablePointer<Darwin.DIR>
 
-  enum Error: ErrorProtocol {
+  public enum Err: Error {
     case path(String)
   }
 
@@ -18,7 +18,7 @@ public class Dir {
     self.path = path
     self.descriptor = opendir(path)
     guard descriptor != nil else {
-      throw Error.path(path)
+      throw Err.path(path)
     }
   }
 

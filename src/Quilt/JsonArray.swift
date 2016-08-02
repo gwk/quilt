@@ -19,7 +19,7 @@ extension JsonArrayInitable {
 extension JsonType {
   public func asArray() throws -> JsonArray {
     guard let a = self as? NSArray else {
-      throw Json.Error.unexpectedType(exp: JsonArray.self, json: self)
+      throw Json.Err.unexpectedType(exp: JsonArray.self, json: self)
     }
     return JsonArray(raw: a)
   }
@@ -38,7 +38,7 @@ public struct JsonArray: JsonInitable {
   public init(json: JsonType) throws {
     if let raw = json as? NSArray {
       self.init(raw: raw)
-    } else { throw Json.Error.unexpectedType(exp: NSArray.self, json: json) }
+    } else { throw Json.Err.unexpectedType(exp: NSArray.self, json: json) }
   }
 
   public init(anyJson: JsonType) { // for non-array input, create an array of one element.
@@ -58,7 +58,7 @@ public struct JsonArray: JsonInitable {
   }
 
   public func el(_ index: Int) throws -> JsonType {
-    if index >= count { throw Json.Error.missingEl(index: index, json: raw) }
+    if index >= count { throw Json.Err.missingEl(index: index, json: raw) }
     return raw[index] as! JsonType
   }
 

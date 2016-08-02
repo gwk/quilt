@@ -14,7 +14,7 @@ public class File: CustomStringConvertible {
   public typealias Stats = Darwin.stat
   public typealias Perms = mode_t
 
-  enum Error: ErrorProtocol {
+  enum Err: Error {
     case changePerms(path: String, perms: Perms)
     case copy(from: String, to: String)
     case open(path: String, msg: String)
@@ -45,7 +45,7 @@ public class File: CustomStringConvertible {
     } else {
       descriptor = Darwin.open(path, mode)
     }
-    guard descriptor >= 0 else { throw Error.open(path: path, msg: stringForCurrentError()) }
+    guard descriptor >= 0 else { throw Err.open(path: path, msg: stringForCurrentError()) }
     return descriptor
   }
 
@@ -65,12 +65,12 @@ public class File: CustomStringConvertible {
   public func stats() throws -> Stats {
     var stats = Darwin.stat()
     let res = Darwin.fstat(descriptor, &stats)
-    guard res == 0 else { throw Error.stat(path: path, msg: stringForCurrentError()) }
+    guard res == 0 else { throw Err.stat(path: path, msg: stringForCurrentError()) }
     return stats
   }
 
   public func seekAbs(_ pos: Int) throws {
-    guard Darwin.lseek(descriptor, off_t(pos), SEEK_SET) == 0 else { throw Error.seek(path: path, pos: pos) }
+    guard Darwin.lseek(descriptor, off_t(pos), SEEK_SET) == 0 else { throw Err.seek(path: path, pos: pos) }
   }
 
   public func rewind() throws {
@@ -87,7 +87,7 @@ public class File: CustomStringConvertible {
   }
 
   public static func changePerms(_ path: String, _ perms: Perms) throws {
-    guard Darwin.chmod(path, perms) == 0 else { throw Error.changePerms(path: path, perms: perms) }
+    guard Darwin.chmod(path, perms) == 0 else { throw Err.changePerms(path: path, perms: perms) }
   }
 
   public func copy(fromPath: String, toPath: String, create: Perms? = nil) throws {
@@ -106,7 +106,7 @@ public class InFile: File {
   
   public func readAbs(offset: Int, len: Int, ptr: UnsafeMutablePointer<Void>) throws -> Int {
     let len_act = Darwin.pread(Int32(descriptor), ptr, len, off_t(offset))
-    guard len_act >= 0 else { throw Error.read(path: path, offset: offset, len: len) }
+    guard len_act >= 0 else { throw Err.read(path: path, offset: offset, len: len) }
     return len_act
   }
   
@@ -114,21 +114,21 @@ public class InFile: File {
     let len = try self.len()
     let bufferLen = len + 1
     let buffer = malloc(bufferLen)
-    guard buffer != nil else { throw Error.readMalloc(path: path, len: len) }
+    guard buffer != nil else { throw Err.readMalloc(path: path, len: len) }
     let len_act = try readAbs(offset: 0, len: len, ptr: buffer!)
-    guard len_act == len else { throw Error.read(path: path, offset: 0, len: len) }
+    guard len_act == len else { throw Err.read(path: path, offset: 0, len: len) }
     let charBuffer = unsafeBitCast(buffer, to: UnsafeMutablePointer<CChar>.self)
     charBuffer[len] = 0 // null terminator.
     let s = String(validatingUTF8: charBuffer)
     free(buffer)
-    guard let res = s else { throw Error.utf8Decode(path: path) }
+    guard let res = s else { throw Err.utf8Decode(path: path) }
     return res
   }
   
   public func copyTo(_ outFile: OutFile) throws {
     let attrs: Int32 = COPYFILE_ACL|COPYFILE_STAT|COPYFILE_XATTR|COPYFILE_DATA
     guard Darwin.fcopyfile(self.descriptor, outFile.descriptor, nil, copyfile_flags_t(attrs)) == 0 else {
-      throw Error.copy(from: path, to: outFile.path)
+      throw Err.copy(from: path, to: outFile.path)
     }
   }
 

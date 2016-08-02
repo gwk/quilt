@@ -1,7 +1,7 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public enum Chain<Element>: IteratorProtocol, Sequence, ArrayLiteralConvertible {
+public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLiteral {
 
   case end
   indirect case link(Element, Chain)

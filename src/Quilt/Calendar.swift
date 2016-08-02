@@ -3,21 +3,29 @@
 import Foundation
 
 
-extension Calendar.Unit {
+extension Calendar {
 
-  public static var preciseToDay: Calendar.Unit {
+  public func dateComponents(_ component: Component, from date: Date) -> DateComponents {
+    return dateComponents([component], from: date)
+  }
+}
+
+
+extension Calendar.Component {
+
+  public static var preciseToDay: Set<Calendar.Component> {
     return [.era, .year, .month, .day]
   }
 
-  public static var precise: Calendar.Unit {
+  public static var precise: Set<Calendar.Component> {
     return [.era, .year, .month, .day, .hour, .minute, .second, .nanosecond]
   }
 
-  public static var timeOfDay: Calendar.Unit {
+  public static var timeOfDay: Set<Calendar.Component> {
     return [.hour, .minute, .second, .nanosecond]
   }
 
-  public static var dayAndWeekday: Calendar.Unit {
+  public static var dayAndWeekday: Set<Calendar.Component> {
     return [.day, .weekday]
   }
 }

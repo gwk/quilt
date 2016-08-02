@@ -14,10 +14,10 @@ public protocol VecType: Equatable, CustomStringConvertible {
   var sqrLen: FloatType { get }
   var len: FloatType { get }
 
-  func +(l: Self, r: Self) -> Self
-  func -(l: Self, r: Self) -> Self
-  func *(l: Self, r: Scalar) -> Self
-  func /(l: Self, r: Scalar) -> Self
+  static func +(l: Self, r: Self) -> Self
+  static func -(l: Self, r: Self) -> Self
+  static func *(l: Self, r: Scalar) -> Self
+  static func /(l: Self, r: Scalar) -> Self
 }
 
 extension VecType {

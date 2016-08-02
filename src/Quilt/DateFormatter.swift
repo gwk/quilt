@@ -10,8 +10,7 @@ extension DateFormatter {
     dateFormat = format
   }
 
-#if false // TODO: reinstate once xcode8b2 bug is fixed.
-  public convenience init(dateStyle: DateFormatter.Style, timeStyle: DateFormatter.Style = .noStyle) {
+  public convenience init(dateStyle: DateFormatter.Style, timeStyle: DateFormatter.Style = .none) {
     self.init()
     self.dateStyle = dateStyle
     self.timeStyle = timeStyle
@@ -19,8 +18,7 @@ extension DateFormatter {
 
   public convenience init(timeStyle: DateFormatter.Style) {
     self.init()
-    self.dateStyle = .noStyle
+    self.dateStyle = .none
     self.timeStyle = timeStyle
   }
-#endif
 }

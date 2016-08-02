@@ -16,7 +16,7 @@ public let resourceRootDir: String = {
     errL("resourceRootDir: using environment \(key): \(path)")
     return path
   }
-  return Bundle.main.pathForResource("res", ofType: nil)!
+  return Bundle.main.path(forResource: "res", ofType: nil)!
 }()
 
 
@@ -68,7 +68,7 @@ public class Resource<T: Reloadable> {
       enqueue()
     } catch let e {
       errL("resource file unavailable: \(resPath); error: \(e)")
-      DispatchQueue.main.after(when: DispatchTime.fromNow(1)) {
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.fromNow(1)) {
         [weak self] in
         self?.retry()
       }
