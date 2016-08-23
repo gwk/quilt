@@ -2,7 +2,7 @@
 
 
 public struct DictOfSet<Key: Hashable, SetElement: Hashable>:
-  Collection, DictionaryLiteralConvertible {
+  Collection, ExpressibleByDictionaryLiteral {
 
   public typealias SetVal = Set<SetElement>
   public typealias SetRef = Ref<SetVal>
