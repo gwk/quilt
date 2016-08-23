@@ -7,8 +7,8 @@ public class AreaBuffer<Element>: Collection {
   public typealias Index = Array<Element>.Index
   public typealias Row = ArraySlice<Element>
 
-  private(set) var size: V2I = V2I()
-  private(set) var array: Array<Element> = []
+  public private(set) var size: V2I = V2I()
+  public private(set) var array: Array<Element> = []
 
   public init() {}
 

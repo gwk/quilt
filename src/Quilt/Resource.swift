@@ -33,7 +33,7 @@ public class Resource<T: Reloadable> {
   
   public let resPath: String
   public let path: String
-  private(set) var obj: T
+  public private(set) var obj: T
   private var file: InFile? = nil
   private var source: DispatchSource? = nil
   
