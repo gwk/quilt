@@ -9,11 +9,11 @@ extension Collection where Iterator.Element : Equatable {
     return index(of: element) != nil
   }
 
-  public func contains<S: Sequence where S.Iterator.Element == Iterator.Element>(sequence: S, atIndex: Index) -> Bool {
+  public func contains<S: Sequence>(sequence: S, atIndex: Index) -> Bool where S.Iterator.Element == Iterator.Element {
     return indexAfter(sequence: sequence, atIndex: atIndex) != nil
   }
 
-  public func indexAfter<S: Sequence where S.Iterator.Element == Iterator.Element>(sequence: S, atIndex: Index) -> Index? {
+  public func indexAfter<S: Sequence>(sequence: S, atIndex: Index) -> Index? where S.Iterator.Element == Iterator.Element {
     var i = atIndex
     for e in sequence {
       if i == endIndex || e != self[i] {
@@ -37,7 +37,8 @@ extension Collection where Iterator.Element : Equatable {
     return nil
   }
 
-  public func rangeOf<C: Collection where C.Iterator.Element == Iterator.Element>(_ query: C, start: Index? = nil, end: Index? = nil) -> Range<Index>? {
+  public func rangeOf<C: Collection>(_ query: C, start: Index? = nil, end: Index? = nil) -> Range<Index>?
+   where C.Iterator.Element == Iterator.Element {
     var i = start.or(startIndex)
     let e = end.or(endIndex)
     while i != e {
@@ -61,7 +62,8 @@ extension Collection where Iterator.Element : Equatable {
     return nil
   }
   
-  public func split<C: Collection where C.Iterator.Element == Iterator.Element>(sub: C, maxSplit: Int = Int.max, allowEmptySlices: Bool = false) -> [Self.SubSequence] {
+  public func split<C: Collection>(sub: C, maxSplit: Int = Int.max, allowEmptySlices: Bool = false) -> [Self.SubSequence]
+   where C.Iterator.Element == Iterator.Element {
     var result: [Self.SubSequence] = []
     var prev = startIndex
     var range = rangeOf(sub)
@@ -100,8 +102,8 @@ extension Collection where Iterator.Element: Comparable {
 }
 
 
-public func zipExact<C0: Collection, C1: Collection where C0.IndexDistance == C1.IndexDistance>(_ c0: C0, _ c1: C1) ->
-  Zip2Sequence<C0, C1> {
+public func zipExact<C0: Collection, C1: Collection>(_ c0: C0, _ c1: C1) -> Zip2Sequence<C0, C1>
+  where C0.IndexDistance == C1.IndexDistance {
   assert(c0.count == c1.count)
   return zip(c0, c1)
 }

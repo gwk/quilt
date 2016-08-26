@@ -6,7 +6,7 @@ public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLitera
   case end
   indirect case link(Element, Chain)
   
-  init<C: Collection where C.Iterator.Element == Element, C.Index: Comparable>(_ collection: C) {
+  init<C: Collection>(_ collection: C) where C.Iterator.Element == Element, C.Index: Comparable {
     var c: Chain<Element> = .end
     for e in collection.reversed() {
       c = .link(e, c)
@@ -40,7 +40,7 @@ public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLitera
 }
 
 
-public func ==<Element where Element: Equatable>(l: Chain<Element>, r: Chain<Element>) -> Bool {
+public func ==<Element>(l: Chain<Element>, r: Chain<Element>) -> Bool where Element: Equatable {
   var l = l
   var r = r
   while true {

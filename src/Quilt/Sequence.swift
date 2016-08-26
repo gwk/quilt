@@ -83,7 +83,8 @@ extension Sequence where Iterator.Element: Equatable {
     return result
   }
 
-  public func replace<Q: Collection, W: Collection where Q.Iterator.Element == Iterator.Element, W.Iterator.Element == Iterator.Element>(_ query: Q, with: W) -> [Iterator.Element] {
+  public func replace<Q: Collection, W: Collection>(_ query: Q, with: W) -> [Iterator.Element]
+    where Q.Iterator.Element == Iterator.Element, W.Iterator.Element == Iterator.Element {
     if query.isEmpty {
       return Array(self)
     }

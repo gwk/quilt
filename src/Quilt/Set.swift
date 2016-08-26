@@ -3,7 +3,7 @@
 
 extension Set {
 
-  public init<S: Sequence where S.Iterator.Element: Sequence, S.Iterator.Element.Iterator.Element == Element>(sequences: S) {
+  public init<S: Sequence>(sequences: S) where S.Iterator.Element: Sequence, S.Iterator.Element.Iterator.Element == Element {
     var set = Set()
     for sequence in sequences {
       set.formUnion(sequence)
@@ -11,7 +11,7 @@ extension Set {
     self = set
   }
 
-  public init<S: Sequence where S.Iterator.Element == Iterator.Element>(uniqueElements: S) throws {
+  public init<S: Sequence>(uniqueElements: S) throws where S.Iterator.Element == Iterator.Element {
     var set = Set()
     for el in uniqueElements {
       if set.contains(el) {

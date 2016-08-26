@@ -12,7 +12,7 @@ extension Array: DefaultInitializable {
     self.reserveCapacity(capacity)
   }
 
-  public init<S: Sequence where S.Iterator.Element == Iterator.Element>(join sequences: S...) {
+  public init<S: Sequence>(join sequences: S...) where S.Iterator.Element == Iterator.Element {
     self = []
     for s in sequences {
       append(contentsOf: s)
