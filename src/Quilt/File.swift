@@ -54,7 +54,7 @@ public class File: CustomStringConvertible {
   }
 
   public var description: String {
-    return "\(self.dynamicType)(path:'\(path)', descriptor: \(descriptor))"
+    return "\(type(of: self))(path:'\(path)', descriptor: \(descriptor))"
   }
 
   internal var _dispatchSourceHandle: Descriptor {

@@ -11,9 +11,9 @@ extension NSObject {
     return NSString(string: dynamicClassFullName).pathExtension // TODO: implement pathExtension for String.
   }
   
-  public var dynamicTypeFullName: String { return NSStringFromClass(self.dynamicType) }
+  public var typeFullName: String { return NSStringFromClass(type(of: self)) }
 
-  public var dynamicTypeName: String {
-    return NSString(string: dynamicTypeFullName).pathExtension // TODO: implement pathExtension for String.
+  public var typeName: String {
+    return NSString(string: typeFullName).pathExtension // TODO: implement pathExtension for String.
   }
 }
