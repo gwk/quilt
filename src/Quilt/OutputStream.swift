@@ -1,18 +1,19 @@
-// © 2015 George King. Permission to use this file is granted in license-quilt.txt.
+// © 2014 George King. Permission to use this file is granted in license-quilt.txt.
+
+import Foundation
 
 
-extension OutputStream {
+extension OutputStream: TextOutputStream {
 
-  public mutating func write(_ items: [Any], sep: String, end: String) {
-    var first = true
-    for item in items {
-      if first {
-        first = false
-      } else {
-        self.write(sep)
+  public func write(_ string: String) {
+    string.asUtf8NTUns() {
+      (buffer) -> () in
+      if buffer.count > 0 {
+        let written = self.write(buffer.baseAddress!, maxLength: buffer.count - 1)
+        // TODO: real error handling.
+        assert(buffer.count == written, "\(buffer.count) != \(written); error: \(self.streamError)")
       }
-      self.write(String(item))
+      return ()
     }
-    self.write(end)
   }
 }

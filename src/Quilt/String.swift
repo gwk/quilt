@@ -13,8 +13,7 @@ public let symbolTailCharsSet = Set(symbolTailChars)
 extension String {
 
   public init(char: Character, count: Int) {
-    // repeating:count: is overloaded, so character literals fail as ambiguous.
-    self.init(repeating: char, count: count)
+    self.init(repeating: String(char), count: count)
   }
 
   public init(indent: Int) {
@@ -194,15 +193,19 @@ extension String {
 
 
   // MARK: utf8
-  
-  public func asUtf8<R>(_ body: @noescape (UnsafeBufferPointer<UTF8.CodeUnit>) -> R) -> R {
-    return nulTerminatedUTF8.withUnsafeBufferPointer(body)
+
+  public func asUtf8NT<R>(_ body: (UnsafeBufferPointer<CChar>) -> R) -> R {
+    return utf8CString.withUnsafeBufferPointer(body)
   }
-  
-  public func asUtf8<R>(_ body: @noescape (UnsafePointer<UTF8.CodeUnit>, Int) -> R) -> R {
-    return asUtf8() {
-      (bp: UnsafeBufferPointer<UTF8.CodeUnit>) -> R in
-      return body(bp.baseAddress!, bp.count - 1) // subtract one to omit the null terminator.
+
+
+  public func asUtf8NTUns<R>(_ body: (UnsafeBufferPointer<UInt8>) -> R) -> R {
+    return utf8CString.withUnsafeBufferPointer {
+      (buffer: UnsafeBufferPointer<CChar>) -> R in
+      return buffer.baseAddress!.withMemoryRebound(to: UInt8.self, capacity: buffer.count) {
+        (reboundPtr: UnsafeMutablePointer<UInt8>) -> R in
+        return body(UnsafeBufferPointer(start: reboundPtr, count: buffer.count))
+      }
     }
   }
 
