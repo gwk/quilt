@@ -26,7 +26,7 @@ public class File: CustomStringConvertible {
   }
 
   public let path: String
-  private let descriptor: Descriptor
+  fileprivate let descriptor: Descriptor
 
   deinit {
     if Darwin.close(descriptor) != 0 { errL("WARNING: File.close failed: \(self); \(stringForCurrentError())") }
@@ -103,8 +103,8 @@ public class InFile: File {
   }
 
   public func len() throws -> Int { return try Int(stats().st_size) }
-  
-  public func readAbs(offset: Int, len: Int, ptr: UnsafeMutablePointer<Void>) throws -> Int {
+
+  public func readAbs(offset: Int, len: Int, ptr: UnsafeMutableRawPointer) throws -> Int {
     let len_act = Darwin.pread(Int32(descriptor), ptr, len, off_t(offset))
     guard len_act >= 0 else { throw Err.read(path: path, offset: offset, len: len) }
     return len_act
@@ -144,15 +144,15 @@ public class InFile: File {
 }
 
 
-public class OutFile: File, OutputStream {
-  
+public class OutFile: File, TextOutputStream {
+
   public convenience init(path: String, create: Perms? = nil) throws {
     self.init(path: path, descriptor: try File.openDescriptor(path, mode: O_WRONLY | O_TRUNC, create: create))
   }
 
   public func write(_ string: String) {
-    string.nulTerminatedUTF8.withUnsafeBufferPointer {
-      (buffer: UnsafeBufferPointer<UTF8.CodeUnit>) -> () in
+    _ = string.utf8CString.withUnsafeBufferPointer {
+      (buffer: UnsafeBufferPointer<CChar>) -> () in
         _ = Darwin.write(descriptor, buffer.baseAddress, buffer.count - 1) // do not write null terminator.
     }
   }
