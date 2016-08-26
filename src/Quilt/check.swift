@@ -29,7 +29,7 @@ public func fail(error: Error) {
   Process.exit(1)
 }
 
-public func guarded<R>(label: String = "error: ", _ fn: @noescape () throws -> R) -> R {
+public func guarded<R>(label: String = "error: ", _ fn: () throws -> R) -> R {
   do {
     return try fn()
   } catch let e {

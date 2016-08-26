@@ -18,7 +18,7 @@ public class AtmCounters {
   
   public subscript (idx: Int) -> I64 { return _counters[idx] }
   
-  public func withPtr(_ idx: Int, body: @noescape (UnsafeMutablePointer<I64>) -> ()) {
+  public func withPtr(_ idx: Int, body: (UnsafeMutablePointer<I64>)->()) {
     assert(idx < count)
     self._counters.withUnsafeMutableBufferPointer() {
       (buffer: inout UnsafeMutableBufferPointer<I64>) -> () in

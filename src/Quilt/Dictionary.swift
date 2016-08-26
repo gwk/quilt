@@ -24,7 +24,7 @@ extension Dictionary {
     self[key] = value
   }
 
-  public func mapVals<V>(transform: @noescape (Value) throws -> V) rethrows -> [Key:V] {
+  public func mapVals<V>(transform: (Value) throws -> V) rethrows -> [Key:V] {
     var d: [Key:V] = [:]
     for (k, v) in self {
       d[k] = try transform(v)
@@ -32,7 +32,7 @@ extension Dictionary {
     return d
   }
 
-  public mutating func getDefault(_ key: Key, dflt: @noescape () -> Value) -> Value {
+  public mutating func getDefault(_ key: Key, dflt: () -> Value) -> Value {
     if let v = self[key] {
       return v
     } else {

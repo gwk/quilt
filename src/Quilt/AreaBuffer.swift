@@ -46,7 +46,7 @@ public class AreaBuffer<Element>: Collection {
     return array.index(after: i)
   }
   
-  public func withUnsafeBufferPointer<R>(_ body: @noescape (UnsafeBufferPointer<Element>) -> R) -> R {
+  public func withUnsafeBufferPointer<R>(_ body: (UnsafeBufferPointer<Element>) -> R) -> R {
     return array.withUnsafeBufferPointer(body)
   }
 

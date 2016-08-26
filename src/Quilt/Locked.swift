@@ -17,7 +17,7 @@ public class Locked<T: AnyObject> {
     _semaphore = DispatchSemaphore(value: 1) // allow a single accessor at a time.
   }
   
-  public func access<R>(_ accessor: @noescape (T) -> R) -> R {
+  public func access<R>(_ accessor: (T) -> R) -> R {
     // access the locked data.
     _ = _semaphore.wait(timeout: DispatchTime.distantFuture)
     let ret = accessor(_protected)
