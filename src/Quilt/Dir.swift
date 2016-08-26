@@ -48,9 +48,9 @@ public class Dir {
     }
     return names
   }
-
   public func listPaths(prefix: String? = nil, suffix: String? = nil) -> [String] {
     return listNames(prefix: prefix, suffix: suffix).map() { "\(path)/\($0)" }
   }
+
 }
 

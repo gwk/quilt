@@ -16,11 +16,11 @@ extension String {
     // repeating:count: is overloaded, so character literals fail as ambiguous.
     self.init(repeating: char, count: count)
   }
-  
+
   public init(indent: Int) {
     self.init(char: " ", count: indent * 2)
   }
-  
+
   // MARK: paths
 
   public var pathExtDotRange: Range<Index>?    { return range(of: ".", options: .backwards) }
@@ -43,7 +43,7 @@ extension String {
       return self
     }
   }
-  
+
   public func replacePathExt(_ ext: String) -> String {
     var pre: String
     if let r = pathExtDotRange {
@@ -73,19 +73,19 @@ extension String {
   public var pathNameStem: String {
     return withoutPathDir.withoutPathExt
   }
-  
+
   // MARK: urls
-  
+
   public var fileUrl: URL? { return URL(fileURLWithPath: self, isDirectory: false) }
 
   public var dirUrl: URL? { return URL(fileURLWithPath: self, isDirectory: true) }
 
   // MARK: utilities
-  
+
   public func contains(_ c: Character) -> Bool {
     return self.characters.contains(c)
   }
-  
+
   public func contains(string: String, atIndex: Index) -> Bool {
     return characters.contains(sequence: string.characters, atIndex: atIndex)
   }
@@ -105,7 +105,7 @@ extension String {
     }
     return s
   }
-  
+
   public func mapChars(_ transform: (Character) -> String) -> String {
     var s = ""
     for c in self.characters {
@@ -113,19 +113,19 @@ extension String {
     }
     return s
   }
-  
+
   public func replace(_ query: Character, with: Character) -> String {
     return String(characters.replace(query, with: with))
   }
-  
+
   public func replace(_ query: String, with: String) -> String {
     return String(characters.replace(query.characters, with: with.characters))
   }
-  
+
   public var dashToUnder: String { return replace(Character("-"), with: Character("_")) }
-  
+
   // MARK: symbols
-  
+
   public var asSym: String { // TODO: decide if this should be strict; currently quite lax.
     for c0 in self.characters { // do not actually iterate; just get first element.
       if c0.isDigit {
@@ -136,7 +136,7 @@ extension String {
     }
     return "" // empty case.
   }
-  
+
   public var isSym: Bool { // TODO: decide if this should be strict; currently quite lax.
     if isEmpty {
       return false
@@ -155,13 +155,13 @@ extension String {
     }
     return true
   }
-  
+
   // MARK: lines
-  
+
   public init(lines: [String]) {
     self = lines.joined(separator: "\n")
   }
-  
+
   public init(lines: String...) {
     self = lines.joined(separator: "\n")
   }
@@ -180,19 +180,19 @@ extension String {
     let charLines = self.characters.split(separator: "\n", omittingEmptySubsequences: false)
     return charLines.map { String($0) }
   }
-  
+
   public func numberedLinesFrom(_ from: Int) -> [String] {
     return lines.enumerated().map() { (i, line) in " \(line)" }
   }
-  
+
   public var numberedLines: [String] { return numberedLinesFrom(1) }
-    
-  
+
+
   // MARK: unicode
-  
+
   public var codes: UnicodeScalarView { return unicodeScalars }
-  
-  
+
+
   // MARK: utf8
   
   public func asUtf8<R>(_ body: @noescape (UnsafeBufferPointer<UTF8.CodeUnit>) -> R) -> R {
@@ -205,9 +205,10 @@ extension String {
       return body(bp.baseAddress!, bp.count - 1) // subtract one to omit the null terminator.
     }
   }
-  
+
+
   // MARK: partition
-  
+
   public func part(_ sep: String) -> (String, String)? {
     if let (a, b) = characters.part(sep.characters) {
       return (String(a), String(b))

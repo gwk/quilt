@@ -31,7 +31,7 @@ public class File: CustomStringConvertible {
   deinit {
     if Darwin.close(descriptor) != 0 { errL("WARNING: File.close failed: \(self); \(stringForCurrentError())") }
   }
-  
+
   public init(path: String, descriptor: Descriptor) {
     guard descriptor >= 0 else { fatalError("bad file descriptor for File at path: \(path)") }
     self.path = path
@@ -52,7 +52,7 @@ public class File: CustomStringConvertible {
   public convenience init(path: String, mode: CInt, create: Perms? = nil) throws {
     self.init(path: path, descriptor: try File.openDescriptor(path, mode: mode, create: create))
   }
-  
+
   public var description: String {
     return "\(self.dynamicType)(path:'\(path)', descriptor: \(descriptor))"
   }
@@ -109,7 +109,7 @@ public class InFile: File {
     guard len_act >= 0 else { throw Err.read(path: path, offset: offset, len: len) }
     return len_act
   }
-  
+
   public func readText() throws -> String {
     let len = try self.len()
     let bufferLen = len + 1
@@ -124,7 +124,7 @@ public class InFile: File {
     guard let res = s else { throw Err.utf8Decode(path: path) }
     return res
   }
-  
+
   public func copyTo(_ outFile: OutFile) throws {
     let attrs: Int32 = COPYFILE_ACL|COPYFILE_STAT|COPYFILE_XATTR|COPYFILE_DATA
     guard Darwin.fcopyfile(self.descriptor, outFile.descriptor, nil, copyfile_flags_t(attrs)) == 0 else {
@@ -161,7 +161,7 @@ public class OutFile: File, OutputStream {
     write(string)
     write("\n")
   }
-  
+
   public func setPerms(_ perms: Perms) {
     if Darwin.fchmod(descriptor, perms) != 0 {
       fail("setPerms(\(perms)) failed: \(stringForCurrentError()); '\(path)'")

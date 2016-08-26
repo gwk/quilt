@@ -30,17 +30,17 @@ public class Resource<T: Reloadable> {
   // When the file changes the Resource calls reload to update the object.
   // It is intended as a means of speeding up the development cycle.
   // Note that this mechanism requires some sort of mutation of the object.
-  
+
   public let resPath: String
   public let path: String
   public private(set) var obj: T
   private var file: InFile? = nil
   private var source: DispatchSource? = nil
-  
+
   deinit {
     cancelSource()
   }
-  
+
   public init(resPath: String) {
     let path = pathForResource(resPath)
     self.resPath = resPath
