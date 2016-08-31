@@ -6,9 +6,6 @@ import Foundation
 public let symbolHeadChars = Set<Character>("_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".characters)
 public let symbolTailChars = symbolHeadChars.union("0123456789".characters)
 
-public let symbolHeadCharsSet = Set(symbolHeadChars)
-public let symbolTailCharsSet = Set(symbolTailChars)
-
 
 extension String {
 
@@ -128,28 +125,29 @@ extension String {
   public var asSym: String { // TODO: decide if this should be strict; currently quite lax.
     for c0 in self.characters { // do not actually iterate; just get first element.
       if c0.isDigit {
-        return "_" + mapChars() { symbolTailCharsSet.contains($0) ? $0 : "_" }
+        return "_" + mapChars() { symbolTailChars.contains($0) ? $0 : "_" }
       } else {
-        return mapChars() { symbolTailCharsSet.contains($0) ? $0 : "_" }
+        return mapChars() { symbolTailChars.contains($0) ? $0 : "_" }
       }
     }
     return "" // empty case.
   }
 
-  public var isSym: Bool { // TODO: decide if this should be strict; currently quite lax.
+  public var isSym: Bool { // TODO: allow unicode characters?
     if isEmpty {
       return false
     }
     var first = true
     for c in self.characters {
       if first {
-        if c.isDigit {
+        first = false
+        if !symbolHeadChars.contains(c) {
           return false
         }
-        first = false
-      }
-      if !symbolTailCharsSet.contains(c) {
-        return false
+      } else {
+        if !symbolTailChars.contains(c) {
+          return false
+        }
       }
     }
     return true
