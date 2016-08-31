@@ -131,16 +131,6 @@ public class InFile: File {
       throw Err.copy(from: path, to: outFile.path)
     }
   }
-
-  public static func readText(_ path: String) throws -> String {
-    let f = try InFile(path: path)
-    return try f.readText()
-  }
-
-  public static func readTextOrFail(_ path: String) throws -> String {
-    let f = try InFile(path: path)
-    return try f.readText()
-  }
 }
 
 
