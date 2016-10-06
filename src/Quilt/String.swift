@@ -118,8 +118,6 @@ extension String {
     return String(characters.replace(query.characters, with: with.characters))
   }
 
-  public var dashToUnder: String { return replace(Character("-"), with: Character("_")) }
-
   // MARK: symbols
 
   public var asSym: String { // TODO: decide if this should be strict; currently quite lax.
