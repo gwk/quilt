@@ -2,18 +2,18 @@
 
 # $@: The file name of the target of the rule.
 # $<: The name of the first prerequisite.
-# $^: The names of all the prerequisites, with spaces between them. 
+# $^: The names of all the prerequisites, with spaces between them.
 
 .PHONY: default build clean gen test
 
 default: build
 
 build: gen
-	swift build
+	swift build --build-path _build
 	@echo done.
 
 clean:
-	rm -rf .build/*
+	rm -rf _build/*
 
 # all generated source targets.
 gen: \
@@ -23,7 +23,7 @@ gen: \
 
 # build prereq is necessary because `swift test` does not check for it as of xc8b1.
 test: build
-	swift test
+	swift test --build-path _build
 
 src/Quilt/mat-generated.swift: gen/mat.py
 	$^ > $@
