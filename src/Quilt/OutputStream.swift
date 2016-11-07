@@ -6,14 +6,20 @@ import Foundation
 extension OutputStream: TextOutputStream {
 
   public func write(_ string: String) {
-    string.asUtf8NTUns() {
-      (buffer) -> () in
-      if buffer.count > 0 {
-        let written = self.write(buffer.baseAddress!, maxLength: buffer.count - 1)
-        // TODO: real error handling.
-        assert(buffer.count == written, "\(buffer.count) != \(written); error: \(self.streamError)")
+    let pageSize = 1 << 12
+    let bufferLength = min(string.utf16.count * 2, pageSize)
+      // guess a reasonable buffer size to avoid allocating a full page for tiny strings.
+    var buffer = [UInt8](repeating: 0, count: bufferLength)
+    var range = string.startIndex..<string.endIndex
+    while !range.isEmpty {
+      var length = 0
+      let ok = string.getBytes(&buffer, maxLength: bufferLength, usedLength: &length, encoding: .utf8,
+        range: range, remaining: &range)
+      if !ok {
+        warn("OutputStream.write: string conversion failed.")
+        break
       }
-      return ()
+      self.write(&buffer, maxLength: length)
     }
   }
 }
