@@ -194,7 +194,7 @@ extension String {
     return utf8CString.withUnsafeBufferPointer(body)
   }
 
-
+#if false
   public func asUtf8NTUns<R>(_ body: (UnsafeBufferPointer<UInt8>) -> R) -> R {
     return utf8CString.withUnsafeBufferPointer {
       (buffer: UnsafeBufferPointer<CChar>) -> R in
@@ -204,7 +204,15 @@ extension String {
       }
     }
   }
+#endif
 
+  public func asUtf8NTRaw<R>(_ body: (UnsafeRawBufferPointer) -> R) -> R {
+    return utf8CString.withUnsafeBufferPointer {
+      (buffer: UnsafeBufferPointer<Int8>) -> R in
+      let raw = UnsafeRawBufferPointer(buffer)
+      return body(raw)
+    }
+  }
 
   // MARK: partition
 
