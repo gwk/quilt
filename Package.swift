@@ -7,6 +7,5 @@ let package = Package(
   name: "Quilt",
   targets: [
     Target(name: "Quilt"),
-    Target(name: "test-Parser", dependencies: ["Quilt"]),
   ]
 )
