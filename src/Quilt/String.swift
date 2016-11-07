@@ -190,7 +190,7 @@ extension String {
 
   // MARK: utf8
 
-  public func asUtf8NT<R>(_ body: (UnsafeBufferPointer<CChar>) -> R) -> R {
+  public func asUtf8NT<R>(_ body: (UnsafeBufferPointer<Int8>) -> R) -> R {
     return utf8CString.withUnsafeBufferPointer(body)
   }
 
