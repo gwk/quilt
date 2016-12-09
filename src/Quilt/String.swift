@@ -234,3 +234,9 @@ extension String {
  */
 }
 
+
+public func pluralize(_ count: Int, _ word: String) -> String {
+  let s = (count == 1 ? "" : "s")
+  return "\(count) \(word)\(s)"
+}
+
