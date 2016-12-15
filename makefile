@@ -4,9 +4,9 @@
 # $<: The name of the first prerequisite.
 # $^: The names of all the prerequisites, with spaces between them.
 
-.PHONY: default build clean gen test
+.PHONY: _default build clean gen test
 
-default: build
+_default: build
 
 build: gen
 	swift build --build-path _build
@@ -19,9 +19,11 @@ clean:
 gen: \
 	src/Quilt/mat-generated.swift \
 	src/Quilt/vec-generated.swift \
+	src/QuiltBridge/CGPoint-generated.swift \
+	src/QuiltBridge/CGVector-generated.swift
+#	src/QuiltSceneKit/V3-generated.swift
+#	src/QuiltSceneKit/V4-generated.swift
 
-
-# build prereq is necessary because `swift test` does not check for it as of xc8b1.
 test: build
 	swift test --build-path _build
 
@@ -31,15 +33,15 @@ src/Quilt/mat-generated.swift: gen/mat.py
 src/Quilt/vec-generated.swift: gen/vec.py
 	$^ > $@
 
-#src/CGPoint-generated.swift: gen/vec.py
-#	$^ CGPoint 2 Flt Flt CoreGraphics > $@
-#
-#src/CGVector-generated.swift: gen/vec.py
-#	$^ CGVector 2 Flt Flt CoreGraphics > $@
-#
-#src/V3-generated.swift: gen/vec.py
+src/QuiltBridge/CGPoint-generated.swift: gen/vec.py
+	$^ CGPoint 2 Flt Flt CoreGraphics > $@
+
+src/QuiltBridge/CGVector-generated.swift: gen/vec.py
+	$^ CGVector 2 Flt Flt CoreGraphics > $@
+
+#src/QuiltSceneKit/V3-generated.swift: gen/vec.py
 #	$^ V3 3 Flt Flt SceneKit > $@
-#
-#src/scn/V4-generated.swift: gen/vec.py
+
+#src/QuiltSceneKit/V4-generated.swift: gen/vec.py
 #	$^ V4 4 Flt Flt SceneKit > $@
-#
+

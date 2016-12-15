@@ -59,13 +59,13 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
       outL('  public init(_ v: $) {', vt)
       outL('    self.init($)', jcf('Scalar(v.$)', comps))
       outL('  }')
-  
+
   if v_prev:
     last_comp = comps[dim - 1]
     outL('  public init(_ v: $, $: Scalar) {', v_prev, last_comp)
     outL('    self.init($)', jc(fmt('v.$', c) if i < dim - 1 else last_comp for i, c in enumerate(comps)))
     outL('  }')
-  
+
   outL('  public init(jsonArray: JsonArray) throws {')
   outL('    if jsonArray.count > $ {', dim)
   outL('      throw Json.Err.excessEl(index: $, exp: $.self, json: jsonArray.raw)', dim, v_type)
@@ -74,7 +74,8 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
   outL('  }')
   outL('')
 
-  outL('  public static let zero = $($)', v_type, jc('0' for comp in comps))
+  if not v_type.startswith('CG'):
+    outL('  public static let zero = $($)', v_type, jc('0' for comp in comps))
 
   for c in comps:
     outL('  public static let unit$ = $($)',
@@ -94,7 +95,7 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
     outL('    get { return $ }', c)
     outL('    set { $ = newValue }', c)
     outL('  }')
-  
+
   # TODO: swizzles.
 
   if s_type == 'U8':
@@ -166,6 +167,7 @@ if __name__ == '__main__':
   ''')
 
   outL('import Darwin')
+  outL('import simd\n')
 
   if args:
     (orig_type, dim_string, s_type, fs_type, import_name) = args
@@ -177,10 +179,10 @@ if __name__ == '__main__':
     dim = int(dim_string)
     v_type = orig_type
     outL('import $\n\n', import_name)
+    outL('import Quilt')
     gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev=v_prev, is_simd=False, is_novel=False)
 
   else:
-    outL('import simd\n')
     for d in dims:
       for s_type, suffix, fs_type, f_suffix, simd_type_prefix, is_novel in types:
         outL('')
