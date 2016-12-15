@@ -62,20 +62,18 @@ public struct JsonArray: JsonInitable {
     return raw[index] as! JsonType
   }
 
-  /* TODO
   public func convEls<T: JsonInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
     let range = start..<end.or(raw.count)
-    return try raw[range].map { try T.init(json: $0 as! JsonType) }
+    return try range.map { try T.init(json: raw[$0] as! JsonType) }
   }
 
   public func convArrays<T: JsonArrayInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
     let range = start..<end.or(raw.count)
-    return try raw[range].map { try T.init(jsonArray: try JsonArray(json: $0 as! JsonType)) }
+    return try range.map { try T.init(jsonArray: try JsonArray(json: raw[$0] as! JsonType)) }
   }
 
   public func convDicts<T: JsonDictInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
     let range = start..<end.or(raw.count)
-    return try raw[range].map { try T.init(jsonDict: try JsonDict(json: $0 as! JsonType)) }
+    return try range.map { try T.init(jsonDict: try JsonDict(json: raw[$0] as! JsonType)) }
   }
- */
 }

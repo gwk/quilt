@@ -16,14 +16,13 @@ extension NSNull: JsonLeafType {}
 
 public enum Json {
 
-  public typealias _String = Swift.String
-  enum Err: Error {
+  public enum Err: Error {
     case conversion(exp: Any.Type, json: JsonType) // error in converting the json value to the expected type.
     case excessEl(index: Int, exp: Any.Type, json: JsonType) // array is too long.
-    case key(key: _String, json: JsonType)
+    case key(key: String, json: JsonType)
     case missingEl(index: Int, json: JsonType) // array is too short.
     case other(Error)
-    case path(_String, Error)
+    case path(String, Error)
     case unexpectedType(exp: Any.Type, json: JsonType)
   }
 
@@ -62,10 +61,10 @@ public enum Json {
     throw Err.unexpectedType(exp: T.self, json: json)
   }
 
-  public static func fromPath<T: JsonType>(_ path: _String, options: JSONSerialization.ReadingOptions = []) throws -> T {
+  public static func fromPath<T: JsonType>(_ path: String, options: JSONSerialization.ReadingOptions = []) throws -> T {
     var data: Data
     do {
-      data = try Data(contentsOf: URL(fileURLWithPath: path), options: []) // TODO: reinstate options once xcode8b2 bug is fixed: [.dataReadingUncached].
+      data = try Data(contentsOf: URL(fileURLWithPath: path))
     } catch let e { throw Err.path(path, e) }
     return try fromData(data, options: options)
   }
