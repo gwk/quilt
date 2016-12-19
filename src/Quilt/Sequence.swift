@@ -128,7 +128,7 @@ extension Sequence where Iterator.Element : Sequence {
 extension Sequence where Iterator.Element == String {
 
   public func join() -> String {
-    return joined( separator: "")
+    return joined(separator: "")
   }
 }
 
