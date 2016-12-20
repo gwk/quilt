@@ -47,8 +47,8 @@ extension V2S : VecType2, FloatVecType, Equatable, CustomStringConvertible, Json
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 2 {
-      throw Json.Err.excessEl(index: 2, exp: V2S.self, json: jsonArray.raw)
+    if jsonArray.count != 2 {
+      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as F32, try jsonArray.el(1).conv() as F32)
   }
@@ -144,8 +144,8 @@ extension V2D : VecType2, FloatVecType, Equatable, CustomStringConvertible, Json
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 2 {
-      throw Json.Err.excessEl(index: 2, exp: V2D.self, json: jsonArray.raw)
+    if jsonArray.count != 2 {
+      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as F64, try jsonArray.el(1).conv() as F64)
   }
@@ -246,8 +246,8 @@ public struct V2I : VecType2, IntVecType, Equatable, CustomStringConvertible, Js
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 2 {
-      throw Json.Err.excessEl(index: 2, exp: V2I.self, json: jsonArray.raw)
+    if jsonArray.count != 2 {
+      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as Int, try jsonArray.el(1).conv() as Int)
   }
@@ -332,8 +332,8 @@ public struct V2U8 : VecType2, IntVecType, Equatable, CustomStringConvertible, J
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 2 {
-      throw Json.Err.excessEl(index: 2, exp: V2U8.self, json: jsonArray.raw)
+    if jsonArray.count != 2 {
+      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as U8, try jsonArray.el(1).conv() as U8)
   }
@@ -404,8 +404,8 @@ extension V3S : VecType3, FloatVecType, Equatable, CustomStringConvertible, Json
     self.init(v.x, v.y, z)
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 3 {
-      throw Json.Err.excessEl(index: 3, exp: V3S.self, json: jsonArray.raw)
+    if jsonArray.count != 3 {
+      throw Json.Err.unexpectedCount(expCount: 3, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as F32, try jsonArray.el(1).conv() as F32, try jsonArray.el(2).conv() as F32)
   }
@@ -503,8 +503,8 @@ extension V3D : VecType3, FloatVecType, Equatable, CustomStringConvertible, Json
     self.init(v.x, v.y, z)
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 3 {
-      throw Json.Err.excessEl(index: 3, exp: V3D.self, json: jsonArray.raw)
+    if jsonArray.count != 3 {
+      throw Json.Err.unexpectedCount(expCount: 3, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as F64, try jsonArray.el(1).conv() as F64, try jsonArray.el(2).conv() as F64)
   }
@@ -609,8 +609,8 @@ public struct V3I : VecType3, IntVecType, Equatable, CustomStringConvertible, Js
     self.init(v.x, v.y, z)
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 3 {
-      throw Json.Err.excessEl(index: 3, exp: V3I.self, json: jsonArray.raw)
+    if jsonArray.count != 3 {
+      throw Json.Err.unexpectedCount(expCount: 3, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as Int, try jsonArray.el(1).conv() as Int, try jsonArray.el(2).conv() as Int)
   }
@@ -693,8 +693,8 @@ public struct V3U8 : VecType3, IntVecType, Equatable, CustomStringConvertible, J
     self.init(v.x, v.y, z)
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 3 {
-      throw Json.Err.excessEl(index: 3, exp: V3U8.self, json: jsonArray.raw)
+    if jsonArray.count != 3 {
+      throw Json.Err.unexpectedCount(expCount: 3, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as U8, try jsonArray.el(1).conv() as U8, try jsonArray.el(2).conv() as U8)
   }
@@ -758,8 +758,8 @@ extension V4S : VecType4, FloatVecType, Equatable, CustomStringConvertible, Json
     self.init(v.x, v.y, v.z, w)
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 4 {
-      throw Json.Err.excessEl(index: 4, exp: V4S.self, json: jsonArray.raw)
+    if jsonArray.count != 4 {
+      throw Json.Err.unexpectedCount(expCount: 4, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as F32, try jsonArray.el(1).conv() as F32, try jsonArray.el(2).conv() as F32, try jsonArray.el(3).conv() as F32)
   }
@@ -851,8 +851,8 @@ extension V4D : VecType4, FloatVecType, Equatable, CustomStringConvertible, Json
     self.init(v.x, v.y, v.z, w)
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 4 {
-      throw Json.Err.excessEl(index: 4, exp: V4D.self, json: jsonArray.raw)
+    if jsonArray.count != 4 {
+      throw Json.Err.unexpectedCount(expCount: 4, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as F64, try jsonArray.el(1).conv() as F64, try jsonArray.el(2).conv() as F64, try jsonArray.el(3).conv() as F64)
   }
@@ -953,8 +953,8 @@ public struct V4I : VecType4, IntVecType, Equatable, CustomStringConvertible, Js
     self.init(v.x, v.y, v.z, w)
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 4 {
-      throw Json.Err.excessEl(index: 4, exp: V4I.self, json: jsonArray.raw)
+    if jsonArray.count != 4 {
+      throw Json.Err.unexpectedCount(expCount: 4, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as Int, try jsonArray.el(1).conv() as Int, try jsonArray.el(2).conv() as Int, try jsonArray.el(3).conv() as Int)
   }
@@ -1032,8 +1032,8 @@ public struct V4U8 : VecType4, IntVecType, Equatable, CustomStringConvertible, J
     self.init(v.x, v.y, v.z, w)
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 4 {
-      throw Json.Err.excessEl(index: 4, exp: V4U8.self, json: jsonArray.raw)
+    if jsonArray.count != 4 {
+      throw Json.Err.unexpectedCount(expCount: 4, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as U8, try jsonArray.el(1).conv() as U8, try jsonArray.el(2).conv() as U8, try jsonArray.el(3).conv() as U8)
   }

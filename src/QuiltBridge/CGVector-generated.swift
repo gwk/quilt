@@ -51,8 +51,8 @@ extension CGVector : VecType2, FloatVecType, CustomStringConvertible, JsonArrayI
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(jsonArray: JsonArray) throws {
-    if jsonArray.count > 2 {
-      throw Json.Err.excessEl(index: 2, exp: CGVector.self, json: jsonArray.raw)
+    if jsonArray.count != 2 {
+      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
     }
     self.init(try jsonArray.el(0).conv() as Flt, try jsonArray.el(1).conv() as Flt)
   }

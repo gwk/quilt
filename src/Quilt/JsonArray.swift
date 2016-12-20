@@ -62,18 +62,30 @@ public struct JsonArray: JsonInitable {
     return raw[index] as! JsonType
   }
 
+  public func last(_ index: Int) throws -> JsonType {
+    let end = index + 1
+    if end != count { throw Json.Err.unexpectedCount(expCount: end, json: raw) }
+    return raw[index] as! JsonType
+  }
+
   public func convEls<T: JsonInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
-    let range = start..<end.or(raw.count)
+    let end = end.or(raw.count)
+    if end > count { throw Json.Err.missingEl(index: count, json: raw) }
+    let range = start..<end
     return try range.map { try T.init(json: raw[$0] as! JsonType) }
   }
 
   public func convArrays<T: JsonArrayInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
-    let range = start..<end.or(raw.count)
+    let end = end.or(raw.count)
+    if end > count { throw Json.Err.missingEl(index: count, json: raw) }
+    let range = start..<end
     return try range.map { try T.init(jsonArray: try JsonArray(json: raw[$0] as! JsonType)) }
   }
 
   public func convDicts<T: JsonDictInitable>(start: Int = 0, end: Int? = nil) throws -> [T] {
-    let range = start..<end.or(raw.count)
+    let end = end.or(raw.count)
+    if end > count { throw Json.Err.missingEl(index: count, json: raw) }
+    let range = start..<end
     return try range.map { try T.init(jsonDict: try JsonDict(json: raw[$0] as! JsonType)) }
   }
 }

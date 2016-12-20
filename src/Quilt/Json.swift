@@ -18,11 +18,11 @@ public enum Json {
 
   public enum Err: Error {
     case conversion(exp: Any.Type, json: JsonType) // error in converting the json value to the expected type.
-    case excessEl(index: Int, exp: Any.Type, json: JsonType) // array is too long.
     case key(key: String, json: JsonType)
     case missingEl(index: Int, json: JsonType) // array is too short.
     case other(Error)
     case path(String, Error)
+    case unexpectedCount(expCount: Int, json: JsonType) // array is wrong length.
     case unexpectedType(exp: Any.Type, json: JsonType)
   }
 
