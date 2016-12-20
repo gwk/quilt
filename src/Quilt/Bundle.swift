@@ -13,7 +13,7 @@ extension Bundle {
     let p = resPath(name)
     do {
       return try String(contentsOfFile: p, encoding: String.Encoding.utf8)
-    } catch let e as NSError {
+    } catch let e {
       print("could not read resource text: \(name) error: \(e)")
       throw e
     }
