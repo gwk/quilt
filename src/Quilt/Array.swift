@@ -4,9 +4,9 @@ import Darwin
 
 
 extension Array: DefaultInitializable {
-  
+
   public var lastIndex: Int? { return count > 0 ? count - 1 : nil }
-  
+
   public init(capacity: Int) {
     self = []
     self.reserveCapacity(capacity)
