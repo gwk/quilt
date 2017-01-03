@@ -1,7 +1,7 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLiteral {
+public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLiteral, CustomStringConvertible {
 
   case end
   indirect case link(Element, Chain)
@@ -35,6 +35,21 @@ public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLitera
     switch self {
     case .end: return true
     case .link: return false
+    }
+  }
+
+  public var description: String {
+    switch self {
+    case .end: return "Chain()"
+    case .link: return map({String(describing: $0)}).joined(separator:"=>")
+    }
+  }
+
+  public func prepend(opt: Element?) -> Chain {
+    if let hd = opt {
+      return .link(hd, self)
+    } else {
+      return self
     }
   }
 }
