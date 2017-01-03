@@ -27,6 +27,18 @@ extension Array: DefaultInitializable {
     }
   }
 
+  public mutating func put(_ index: Int, el: Element, dflt: Element) {
+    if index < count {
+      self[index] = el
+    } else {
+      reserveCapacity(index + 1)
+      while count < index {
+        append(dflt)
+      }
+      append(el)
+    }
+  }
+
   public mutating func removeBySwappingLast(_ index: Int) -> Element {
     let last = self.removeLast()
     if index != count {
