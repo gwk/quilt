@@ -166,8 +166,3 @@ public func allZip<S1: Sequence, S2: Sequence>(_ seq1: S1, _ seq2: S2, predicate
   return g2.next() == nil
 }
 
-
-public func enumZip<S1: Sequence, S2: Sequence>(_ seq1: S1, _ seq2: S2)
- -> LazyMapSequence<EnumeratedSequence<Zip2Sequence<S1, S2>>, (Int, S1.Iterator.Element, S2.Iterator.Element)> {
-  return zip(seq1, seq2).enumerated().lazy.map { ($0.0, $0.1.0, $0.1.1) }
-}
