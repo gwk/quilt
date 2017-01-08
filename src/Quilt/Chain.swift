@@ -52,24 +52,23 @@ public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLitera
       return self
     }
   }
-}
 
-
-public func ==<Element>(l: Chain<Element>, r: Chain<Element>) -> Bool where Element: Equatable {
-  var l = l
-  var r = r
-  while true {
-    switch l {
-    case .end: return r.isEmpty
-    case .link(let lh, let lt):
-      switch r {
-      case .end: return false
-      case .link(let rh, let rt):
-        if lh != rh {
-          return false
+  public static func ==<Element>(l: Chain<Element>, r: Chain<Element>) -> Bool where Element: Equatable {
+    var l = l
+    var r = r
+    while true {
+      switch l {
+      case .end: return r.isEmpty
+      case .link(let lh, let lt):
+        switch r {
+        case .end: return false
+        case .link(let rh, let rt):
+          if lh != rh {
+            return false
+          }
+          l = lt
+          r = rt
         }
-        l = lt
-        r = rt
       }
     }
   }
