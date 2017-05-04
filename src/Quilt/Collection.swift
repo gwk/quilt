@@ -39,8 +39,8 @@ extension Collection where Iterator.Element : Equatable {
 
   public func rangeOf<C: Collection>(_ query: C, start: Index? = nil, end: Index? = nil) -> Range<Index>?
    where C.Iterator.Element == Iterator.Element {
-    var i = start.or(startIndex)
-    let e = end.or(endIndex)
+    var i = start ?? startIndex
+    let e = end ?? endIndex
     while i != e {
       var j = i
       var found = true
@@ -61,7 +61,7 @@ extension Collection where Iterator.Element : Equatable {
     }
     return nil
   }
-  
+
   public func split<C: Collection>(sub: C, maxSplit: Int = Int.max, allowEmptySlices: Bool = false) -> [Self.SubSequence]
    where C.Iterator.Element == Iterator.Element {
     var result: [Self.SubSequence] = []

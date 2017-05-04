@@ -33,7 +33,7 @@ extension CGContext {
   public func fillBounds() { self.fill(bounds) }
 
   public func draw(image: CGImage, rect: CGRect? = nil) {
-    self.draw(image, in: rect.or(bounds))
+    self.draw(image, in: rect ?? bounds)
   }
 
   public func createImage() -> CGImage {

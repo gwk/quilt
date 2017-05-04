@@ -18,12 +18,4 @@ extension Optional {
       return try alt()
     }
   }
-
-  public func or(_ alt: @autoclosure () throws -> Wrapped) rethrows -> Wrapped {
-    if let val = self {
-      return val
-    } else {
-      return try alt()
-    }
-  }
 }
