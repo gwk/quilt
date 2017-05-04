@@ -18,7 +18,9 @@ extension Flt: ArithmeticFloat {
 extension Flt: JsonInitable {
   public init(json: JsonType) throws {
     if let n = json as? NSNumber {
-      self = n as Flt
+      if let f = n as? Flt {
+        self = f
+      } else { throw Json.Err.conversion(exp: Flt.self, json: json) }
     } else if let s = json as? NSString {
       if let n = NativeType(s as String) {
         self = Flt(n)
