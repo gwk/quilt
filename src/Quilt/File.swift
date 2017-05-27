@@ -18,27 +18,27 @@ public class File: CustomStringConvertible {
     case changePerms(path: String, perms: Perms)
     case copy(from: String, to: String)
     case open(path: String, msg: String)
-    case read(path: String, offset: Int, len: Int)
-    case readMalloc(path: String, len: Int)
-    case seek(path: String, pos: Int)
-    case stat(path: String, msg: String)
-    case utf8Decode(path: String)
+    case read(name: String, offset: Int, len: Int)
+    case readMalloc(name: String, len: Int)
+    case seek(name: String, pos: Int)
+    case stat(name: String, msg: String)
+    case utf8Decode(name: String)
   }
 
-  public let path: String
+  public let name: String
   fileprivate let descriptor: Descriptor
 
   deinit {
     if Darwin.close(descriptor) != 0 { errL("WARNING: File.close failed: \(self); \(stringForCurrentError())") }
   }
 
-  public init(path: String, descriptor: Descriptor) {
-    guard descriptor >= 0 else { fatalError("bad file descriptor for File at path: \(path)") }
-    self.path = path
+  public init(name: String, descriptor: Descriptor) {
+    guard descriptor >= 0 else { fatalError("bad file descriptor for File named: \(name)") }
+    self.name = name
     self.descriptor = descriptor
   }
 
-  public class func openDescriptor(_ path: String, mode: CInt, create: Perms? = nil) throws -> Descriptor {
+  public class func openDescriptor(path: String, mode: CInt, create: Perms? = nil) throws -> Descriptor {
     var descriptor: Descriptor
     if let perms = create {
       descriptor = Darwin.open(path, mode | O_CREAT, perms)
@@ -50,11 +50,11 @@ public class File: CustomStringConvertible {
   }
 
   public convenience init(path: String, mode: CInt, create: Perms? = nil) throws {
-    self.init(path: path, descriptor: try File.openDescriptor(path, mode: mode, create: create))
+    self.init(name: path, descriptor: try File.openDescriptor(path: path, mode: mode, create: create))
   }
 
   public var description: String {
-    return "\(type(of: self))(path:'\(path)', descriptor: \(descriptor))"
+    return "\(type(of: self))(name:'\(name)', descriptor: \(descriptor))"
   }
 
   internal var _dispatchSourceHandle: Descriptor {
@@ -65,12 +65,12 @@ public class File: CustomStringConvertible {
   public func stats() throws -> Stats {
     var stats = Darwin.stat()
     let res = Darwin.fstat(descriptor, &stats)
-    guard res == 0 else { throw Err.stat(path: path, msg: stringForCurrentError()) }
+    guard res == 0 else { throw Err.stat(name: name, msg: stringForCurrentError()) }
     return stats
   }
 
   public func seekAbs(_ pos: Int) throws {
-    guard Darwin.lseek(descriptor, off_t(pos), SEEK_SET) == 0 else { throw Err.seek(path: path, pos: pos) }
+    guard Darwin.lseek(descriptor, off_t(pos), SEEK_SET) == 0 else { throw Err.seek(name: name, pos: pos) }
   }
 
   public func rewind() throws {
@@ -86,7 +86,7 @@ public class File: CustomStringConvertible {
     return true
   }
 
-  public static func changePerms(_ path: String, _ perms: Perms) throws {
+  public static func changePerms(path: String, _ perms: Perms) throws {
     guard Darwin.chmod(path, perms) == 0 else { throw Err.changePerms(path: path, perms: perms) }
   }
 
@@ -99,14 +99,14 @@ public class File: CustomStringConvertible {
 public class InFile: File {
 
   public convenience init(path: String, create: Perms? = nil) throws {
-    self.init(path: path, descriptor: try File.openDescriptor(path, mode: O_RDONLY, create: create))
+    self.init(name: path, descriptor: try File.openDescriptor(path: path, mode: O_RDONLY, create: create))
   }
 
   public func len() throws -> Int { return try Int(stats().st_size) }
 
   public func readAbs(offset: Int, len: Int, ptr: UnsafeMutableRawPointer) throws -> Int {
     let len_act = Darwin.pread(Int32(descriptor), ptr, len, off_t(offset))
-    guard len_act >= 0 else { throw Err.read(path: path, offset: offset, len: len) }
+    guard len_act >= 0 else { throw Err.read(name: name, offset: offset, len: len) }
     return len_act
   }
 
@@ -114,21 +114,21 @@ public class InFile: File {
     let len = try self.len()
     let bufferLen = len + 1
     let buffer = malloc(bufferLen)
-    guard buffer != nil else { throw Err.readMalloc(path: path, len: len) }
+    guard buffer != nil else { throw Err.readMalloc(name: name, len: len) }
     let len_act = try readAbs(offset: 0, len: len, ptr: buffer!)
-    guard len_act == len else { throw Err.read(path: path, offset: 0, len: len) }
+    guard len_act == len else { throw Err.read(name: name, offset: 0, len: len) }
     let charBuffer = unsafeBitCast(buffer, to: UnsafeMutablePointer<CChar>.self)
     charBuffer[len] = 0 // null terminator.
     let s = String(validatingUTF8: charBuffer)
     free(buffer)
-    guard let res = s else { throw Err.utf8Decode(path: path) }
+    guard let res = s else { throw Err.utf8Decode(name: name) }
     return res
   }
 
   public func copyTo(_ outFile: OutFile) throws {
     let attrs: Int32 = COPYFILE_ACL|COPYFILE_STAT|COPYFILE_XATTR|COPYFILE_DATA
     guard Darwin.fcopyfile(self.descriptor, outFile.descriptor, nil, copyfile_flags_t(attrs)) == 0 else {
-      throw Err.copy(from: path, to: outFile.path)
+      throw Err.copy(from: name, to: outFile.name)
     }
   }
 }
@@ -137,7 +137,7 @@ public class InFile: File {
 public class OutFile: File, TextOutputStream {
 
   public convenience init(path: String, create: Perms? = nil) throws {
-    self.init(path: path, descriptor: try File.openDescriptor(path, mode: O_WRONLY | O_TRUNC, create: create))
+    self.init(name: path, descriptor: try File.openDescriptor(path: path, mode: O_WRONLY | O_TRUNC, create: create))
   }
 
   public func write(_ string: String) {
@@ -154,15 +154,15 @@ public class OutFile: File, TextOutputStream {
 
   public func setPerms(_ perms: Perms) {
     if Darwin.fchmod(descriptor, perms) != 0 {
-      fail("setPerms(\(perms)) failed: \(stringForCurrentError()); '\(path)'")
+      fail("setPerms(\(perms)) failed: \(stringForCurrentError()); '\(name)'")
     }
   }
 }
 
 
-public var std_in = InFile(path: "std_in", descriptor: STDIN_FILENO)
-public var std_out = OutFile(path: "std_out", descriptor: STDOUT_FILENO)
-public var std_err = OutFile(path: "std_err", descriptor: STDERR_FILENO)
+public var std_in = InFile(name: "std_in", descriptor: STDIN_FILENO)
+public var std_out = OutFile(name: "std_out", descriptor: STDOUT_FILENO)
+public var std_err = OutFile(name: "std_err", descriptor: STDERR_FILENO)
 
 
 public func out<T>(_ item: T)  { print(item, separator: "", terminator: "", to: &std_out) }
