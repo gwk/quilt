@@ -117,22 +117,6 @@ extension Sequence where Iterator.Element: Equatable {
 }
 
 
-extension Sequence where Iterator.Element : Sequence {
-
-  public func join() -> JoinedSequence<Self> {
-    return self.joined(separator: [])
-  }
-}
-
-
-extension Sequence where Iterator.Element == String {
-
-  public func join() -> String {
-    return joined(separator: "")
-  }
-}
-
-
 extension Sequence where Iterator.Element == Bool {
 
   public func all() -> Bool {
