@@ -1,6 +1,7 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 import Darwin
+import Darwin.C.stdatomic // swift 3.1 does not expose atomic_fetch_add_explicit, so cannot fix deprecation warning below.
 
 
 public func atmInc(_ ptr: UnsafeMutablePointer<I64>) { OSAtomicIncrement64(ptr) }
