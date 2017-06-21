@@ -4,7 +4,7 @@
 # $<: The name of the first prerequisite.
 # $^: The names of all the prerequisites, with spaces between them.
 
-.PHONY: _default build clean gen test
+.PHONY: _default build clean gen test xcode
 
 _default: build
 
@@ -26,6 +26,9 @@ gen: \
 
 test: build
 	swift test --build-path _build
+
+xcode:
+	swift package generate-xcodeproj
 
 src/Quilt/mat-generated.swift: gen/mat.py
 	$^ > $@
