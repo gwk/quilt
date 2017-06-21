@@ -3,7 +3,7 @@
 
 extension Sequence {
 
-  public func group<K: Hashable>(_ fn: (Iterator.Element) -> K?) -> [K:[Iterator.Element]] {
+  public func group<K>(_ fn: (Iterator.Element) -> K?) -> [K:[Iterator.Element]] {
     var d: [K:[Iterator.Element]] = [:]
     for e in self {
       if let k = fn(e) {
@@ -23,7 +23,7 @@ extension Sequence {
     return a
   }
 
-  public func mapToDict<K: Hashable, V>(_ transform: (Iterator.Element) -> (K, V)) -> [K:V] {
+  public func mapToDict<K, V>(_ transform: (Iterator.Element) -> (K, V)) -> [K:V] {
     var d: [K:V] = [:]
     for e in self {
       let (k, v) = transform(e)
@@ -32,7 +32,7 @@ extension Sequence {
     return d
   }
 
-  public func mapUniquesToDict<K: Hashable, V>(_ transform: (Iterator.Element) -> (K, V)) throws -> [K:V] {
+  public func mapUniquesToDict<K, V>(_ transform: (Iterator.Element) -> (K, V)) throws -> [K:V] {
     var d: [K:V] = [:]
     for e in self {
       let (k, v) = transform(e)

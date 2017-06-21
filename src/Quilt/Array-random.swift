@@ -12,7 +12,10 @@ extension Array {
       let j = c - i
       let k = random.int(j + 1)
       if j == k { continue }
-      swap(&self[j], &self[k])
+      // note: as of swift 4b1, `swap(&self[j], &self[k])` warns about exclusive access.
+      let v = self[j]
+      self[j] = self[k]
+      self[k] = v
     }
   }
 

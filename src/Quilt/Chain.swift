@@ -6,7 +6,7 @@ public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLitera
   case end
   indirect case link(Element, Chain)
 
-  public init<C: Collection>(_ collection: C) where C.Iterator.Element == Element, C.Index: Comparable {
+  public init<C: Collection>(_ collection: C) where C.Iterator.Element == Element {
     var c: Chain<Element> = .end
     for e in collection.reversed() {
       c = .link(e, c)

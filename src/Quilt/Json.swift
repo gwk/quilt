@@ -3,7 +3,7 @@
 import Foundation
 
 
-public protocol JsonType: AnyObject {}
+public protocol JsonType: Any {}
 public protocol JsonRootType: JsonType {}
 public protocol JsonLeafType: JsonType {}
 

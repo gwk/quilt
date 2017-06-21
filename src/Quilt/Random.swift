@@ -79,6 +79,6 @@ public class Random {
   }
 
   public func bool() -> Bool {
-    return raw() >= 0x8000000000000000
+    return raw() > 0x7FFF_FFFF_FFFF_FFFF
   }
 }

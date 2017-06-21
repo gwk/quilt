@@ -1,18 +1,17 @@
 // © 2017 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public func zip3<S0: Sequence, S1: Sequence, S2: Sequence>(_ seq0: S0, _ seq1: S1, _ seq2: S2) -> Zip3Sequence<S0, S1, S2> {
+public func zip3<S0, S1, S2>(_ seq0: S0, _ seq1: S1, _ seq2: S2) -> Zip3Sequence<S0, S1, S2> {
   return Zip3Sequence(seq0, seq1, seq2)
 }
 
 
-public func zip3<S01: Sequence, S2: Sequence, E0, E1>(_ seq01: S01, _ seq2: S2) -> Zip21Sequence<S01, S2, E0, E1>
- where S01.Iterator.Element == (E0, E1) {
+public func zip3<S01, S2, E0, E1>(_ seq01: S01, _ seq2: S2) -> Zip21Sequence<S01, S2, E0, E1> {
   return Zip21Sequence(seq01, seq2)
 }
 
 
-public func enumZip<S1: Sequence, S2: Sequence>(_ seq1: S1, _ seq2: S2) -> Zip3Sequence<CountableClosedRange<Int>, S1, S2> {
+public func enumZip<S1, S2>(_ seq1: S1, _ seq2: S2) -> Zip3Sequence<CountableClosedRange<Int>, S1, S2> {
    return Zip3Sequence(0...Int.max, seq1, seq2)
 }
 
