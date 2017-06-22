@@ -112,7 +112,7 @@ extension CRView {
   }
 
   public func describeTree(_ depth: Int = 0) {
-    err(String(repeating: " ", count: depth))
+    errZ(String(repeating: " ", count: depth))
     errL(description)
   }
 

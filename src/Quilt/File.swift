@@ -158,24 +158,3 @@ public class OutFile: File, TextOutputStream {
     }
   }
 }
-
-
-public var std_in = InFile(name: "std_in", descriptor: STDIN_FILENO)
-public var std_out = OutFile(name: "std_out", descriptor: STDOUT_FILENO)
-public var std_err = OutFile(name: "std_err", descriptor: STDERR_FILENO)
-
-
-public func out<T>(_ item: T)  { print(item, separator: "", terminator: "", to: &std_out) }
-public func outL<T>(_ item: T) { print(item, separator: "", terminator: "\n", to: &std_out) }
-
-public func err<T>(_ item: T)  { print(item, separator: "", terminator: "", to: &std_err) }
-public func errL<T>(_ item: T) { print(item, separator: "", terminator: "\n", to: &std_err) }
-
-public func errSL(_ items: Any...) {
-  std_err.write(items, sep: " ", end: "\n")
-}
-
-public func warn(_ items: Any...) {
-  err("WARNING: ")
-  std_err.write(items, sep: " ", end: "\n")
-}
