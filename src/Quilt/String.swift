@@ -177,7 +177,7 @@ extension String {
   }
 
   public func numberedLinesFrom(_ from: Int) -> [String] {
-    return lines.enumerated().map() { (i, line) in " \(line)" }
+    return lines.enumerated().map() { "\($0.offset) \($0.element)" }
   }
 
   public var numberedLines: [String] { return numberedLinesFrom(1) }

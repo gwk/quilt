@@ -5,21 +5,21 @@
 public class Index<T: Hashable> {
   public var vals: [T] = []
   public var indexes: [T:Int] = [:]
-  
+
   public init(_ vals: [T]) {
     self.vals = vals
-    self.indexes = vals.enumerated().mapToDict { ($1, $0) }
+    self.indexes = vals.enumerated().mapToDict { ($0.element, $0.offset) }
   }
-  
+
   public var count: Int {
     assert(vals.count == indexes.count)
     return vals.count
   }
-  
+
   public func val(_ i: Int) -> T { return vals[i] }
-  
+
   public func index(_ val: T) -> Int? { return indexes[val] }
-  
+
   public func reg(_ val: T) -> Int {
     let oi = indexes[val]
     if let i = oi {

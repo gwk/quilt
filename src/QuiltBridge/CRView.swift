@@ -3,10 +3,10 @@
 #if os(OSX)
   import AppKit
   public typealias CRView = NSView
-  public typealias CRFlex = NSAutoresizingMaskOptions
-  public typealias CRAxis = NSLayoutConstraintOrientation
-  public typealias CRPriority = NSLayoutPriority
-  #else
+  public typealias CRFlex = NSView.AutoresizingMask
+  public typealias CRAxis = NSLayoutConstraint.Orientation
+  public typealias CRPriority = NSLayoutConstraint.Priority
+#else
   import UIKit
   public typealias CRView = UIView
   public typealias CRFlex = UIViewAutoresizing
@@ -19,15 +19,15 @@ import Quilt
 
 extension CRFlex {
 
-  #if os(OSX)
-  public static var N: CRFlex { return NSAutoresizingMaskOptions() }
-  public static var W: CRFlex { return viewWidthSizable }
-  public static var H: CRFlex { return viewHeightSizable }
-  public static var L: CRFlex { return viewMinXMargin }
-  public static var R: CRFlex { return viewMaxXMargin }
-  public static var T: CRFlex { return viewMinYMargin }
-  public static var B: CRFlex { return viewMaxYMargin }
-  #else
+#if os(OSX)
+  public static var N: CRFlex { return none }
+  public static var W: CRFlex { return width }
+  public static var H: CRFlex { return height }
+  public static var L: CRFlex { return minXMargin }
+  public static var R: CRFlex { return maxXMargin }
+  public static var T: CRFlex { return minYMargin }
+  public static var B: CRFlex { return maxYMargin }
+#else
   public static var N: CRFlex { return None }
   public static var W: CRFlex { return FlexibleWidth }
   public static var H: CRFlex { return FlexibleHeight }
@@ -35,7 +35,7 @@ extension CRFlex {
   public static var R: CRFlex { return FlexibleRightMargin }
   public static var T: CRFlex { return FlexibleTopMargin }
   public static var B: CRFlex { return FlexibleBottomMargin }
-  #endif
+#endif
 
   public static var Size: CRFlex { return [W, H] }
   public static var Hori: CRFlex { return [L, R] }

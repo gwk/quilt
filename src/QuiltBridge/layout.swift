@@ -2,7 +2,7 @@
 
 #if os(OSX)
   import AppKit
-  public typealias LOP = NSLayoutPriority
+  public typealias LOP = NSLayoutConstraint.Priority
   //let LOPReq = NSLayoutPriorityRequired // TODO: swift 1.1 omits the 'static' storage type, causing linker error.
   public let LOPReq = LOP(1000)
   public let LOPHidgh = LOP(750)
@@ -26,8 +26,8 @@ public struct QKLayoutOperand {
   // a layout operand represents one side of a constraint: a view and an X,Y pair of attributes;
   // many relations will only express an attribute in one dimension.
   public let v: CRView
-  public let ax: NSLayoutAttribute
-  public let ay: NSLayoutAttribute
+  public let ax: NSLayoutConstraint.Attribute
+  public let ay: NSLayoutConstraint.Attribute
 
   public var componentCount: Int { return (ax.isSome ? 1 : 0) + (ay.isSome ? 1 : 0) }
 }
@@ -97,23 +97,23 @@ public protocol QKLayoutConstraining {
   // allows for constraints and format strings to be specified in the same variadic call;
   // this is syntactically convenient, and also allows for simultaneous activation of all constraints,
   // which is more performant according to the comments around NSLayoutConstraint.activateConstraints.
-  func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutFormatOptions) -> [NSLayoutConstraint]
+  func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutConstraint.FormatOptions) -> [NSLayoutConstraint]
 }
 
 
 extension NSLayoutConstraint: QKLayoutConstraining {
 
   public var lv: CRView { return firstItem as! CRView }
-  public var la: NSLayoutAttribute { return firstAttribute }
+  public var la: NSLayoutConstraint.Attribute { return firstAttribute }
   public var rv: CRView? { return secondItem as! CRView? }
-  public var ra: NSLayoutAttribute { return secondAttribute }
+  public var ra: NSLayoutConstraint.Attribute { return secondAttribute }
 
-  convenience init(rel: NSLayoutRelation, l: QKLayoutOperand, r: QKLayoutOperand?, m: CGPoint, c: CGPoint, p: LOP, useLX: Bool) {
+  convenience init(rel: NSLayoutConstraint.Relation, l: QKLayoutOperand, r: QKLayoutOperand?, m: CGPoint, c: CGPoint, p: LOP, useLX: Bool) {
     // convenience constructor for QKLayoutRel; create a constraint from either ax or ay of left side.
     let la = (useLX ? l.ax : l.ay)
     assert(la != .notAnAttribute)
     var rv: CRView? = nil
-    var ra = NSLayoutAttribute.notAnAttribute
+    var ra = NSLayoutConstraint.Attribute.notAnAttribute
     let sm = useLX ? m.x : m.y
     let sc = useLX ? c.x : c.y
     if let r = r {
@@ -127,7 +127,7 @@ extension NSLayoutConstraint: QKLayoutConstraining {
     priority = p
   }
 
-  public func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutFormatOptions) -> [NSLayoutConstraint] {
+  public func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutConstraint.FormatOptions) -> [NSLayoutConstraint] {
     // this is only useful for passing a manually constructed constraint as an argument to constrain().
     return [self] // ignore all the format-related arguments.
   }
@@ -137,14 +137,14 @@ extension NSLayoutConstraint: QKLayoutConstraining {
     // however, in the case where we want a handle on a particlur constraint for subsequent modification (e.g. for animation),
     // then use this function to construct exactly one constraint.
     assert(l.componentCount == 1)
-    return NSLayoutConstraint(rel: NSLayoutRelation.equal, l: l, r: r, m: CGPoint(m, m), c: CGPoint(c, c), p: p, useLX: l.ax.isSome)
+    return NSLayoutConstraint(rel: NSLayoutConstraint.Relation.equal, l: l, r: r, m: CGPoint(m, m), c: CGPoint(c, c), p: p, useLX: l.ax.isSome)
   }
 }
 
 
 extension String: QKLayoutConstraining {
 
-  public func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutFormatOptions) -> [NSLayoutConstraint] {
+  public func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutConstraint.FormatOptions) -> [NSLayoutConstraint] {
     let viewDict = views.mapToDict { ($0.name, $0) }
     #if DEBUG && false // only use the wrapper method for debug.
       // TODO: constraintsAndCatchWithVisualFormat has yet to be ported,
@@ -168,14 +168,14 @@ public struct QKLayoutRel: QKLayoutConstraining {
   // this is partly a stylistic choice; although the linear relations are themselves commutative,
   // we consider it good style to put a dependent operand on the left hand side;
   // in the case where an XY pair of attributes are related to a single X or Y, the pair must be dependent on the single.
-  public let rel: NSLayoutRelation
+  public let rel: NSLayoutConstraint.Relation
   public let l: QKLayoutOperand
   public let r: QKLayoutOperand?
   public let m: CGPoint
   public let c: CGPoint
   public let p: LOP
 
-  public func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutFormatOptions) -> [NSLayoutConstraint] {
+  public func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutConstraint.FormatOptions) -> [NSLayoutConstraint] {
     // ignores all the format-related arguments and constructs one or two constraints from the operands.
     //var leftCount = 0
     //var rightCount = 0
@@ -214,7 +214,7 @@ public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, c: Flt, p: L
 
 // MARK: constrain variants
 
-public func constrain(_ views: [CRView], metrics: [String: NSNumber] = [:], opts: NSLayoutFormatOptions = NSLayoutFormatOptions(rawValue: 0), constraints: [QKLayoutConstraining]) {
+public func constrain(_ views: [CRView], metrics: [String: NSNumber] = [:], opts: NSLayoutConstraint.FormatOptions = NSLayoutConstraint.FormatOptions(rawValue: 0), constraints: [QKLayoutConstraining]) {
   // main variant.
   for v in views {
     v.c_usesARMask = false
@@ -230,7 +230,7 @@ public func constrain(_ views: [CRView], metrics: [String: NSNumber] = [:], opts
   #endif
 }
 
-public func constrain(_ views: [CRView], metrics: [String: NSNumber] = [:], opts: NSLayoutFormatOptions = NSLayoutFormatOptions(rawValue: 0), _ constraints: QKLayoutConstraining...) {
+public func constrain(_ views: [CRView], metrics: [String: NSNumber] = [:], opts: NSLayoutConstraint.FormatOptions = NSLayoutConstraint.FormatOptions(rawValue: 0), _ constraints: QKLayoutConstraining...) {
   // variadic variant.
   constrain(views, metrics: metrics, opts: opts, constraints: constraints)
 }

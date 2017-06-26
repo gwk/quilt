@@ -20,7 +20,7 @@ public struct DictOfSet<Key: Hashable, SetElement: Hashable>:
   }
 
   public init(dictionaryLiteral elements: (Key, SetVal)...) {
-    dict = elements.mapToDict { (k, v) in (k, Ref(v)) }
+    dict = elements.mapToDict { ($0.0, Ref($0.1)) }
   }
 
   public var count: Int { return dict.count }
@@ -30,9 +30,9 @@ public struct DictOfSet<Key: Hashable, SetElement: Hashable>:
 
   public var isEmpty: Bool { return dict.isEmpty }
 
-  public var keys: LazyMapCollection<Dict, Key> { return dict.keys }
+  public var keys: Dict.Keys { return dict.keys }
 
-  public var values: LazyMapCollection<Dict, SetRef> { return dict.values }
+  public var values: Dict.Values { return dict.values }
 
   public func makeIterator() -> Iterator { return dict.makeIterator() }
 

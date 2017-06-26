@@ -28,7 +28,7 @@ extension TextInitableIntegerType {
       }
       p = text.index(after: p)
     }
-    let t = text[pos..<p]
+    let t = String(text[pos..<p])
     if let result = Self(t, radix: 10) {
       self = result
     } else {
@@ -54,6 +54,6 @@ extension U64: TextInitableIntegerType, TextInitable {}
 
 extension String: TextInitable {
   public init(text: String, pos: String.CharacterView.Index, end: String.CharacterView.Index, line: Int, col: Int) throws {
-    self = text[pos..<end]
+    self = String(text[pos..<end])
   }
 }

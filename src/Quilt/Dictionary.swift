@@ -2,7 +2,7 @@
 
 
 extension Dictionary {
-  
+
   init<S: Sequence>(elements: S) where S.Iterator.Element == Iterator.Element {
     self = [:]
     for (k, v) in elements {
@@ -78,9 +78,7 @@ extension Dictionary where Key: Comparable {
   }
 
   public var valsSortedByKey: [Value] {
-    return pairsSortedByKey.map() {
-      (_, v) in return v
-    }
+    return pairsSortedByKey.map() { $0.value }
   }
 }
 

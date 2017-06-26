@@ -23,8 +23,9 @@ extension CRFont {
   }
 
   public var fixedAdvance: Flt {
-    if let advanceVal: AnyObject = descriptor.attributes[CRFontAttrFixedAdvance] {
-      return Flt(advanceVal as! NSNumber)
+    if let advanceVal: Any = descriptor.fontAttributes[CRFontDescriptor.AttributeName.fixedAdvance] {
+      let n = advanceVal as! NSNumber
+      return Flt(n.floatValue)
     } else {
       return 0
     }

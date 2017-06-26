@@ -7,7 +7,7 @@
 #endif
 
 
-extension NSLayoutAttribute {
+extension NSLayoutConstraint.Attribute {
 
   public var isSome: Bool { return self != .notAnAttribute }
 }
