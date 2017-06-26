@@ -7,7 +7,7 @@ import simd
 
 public typealias V2S = float2
 
-extension V2S : VecType2, FloatVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
+extension V2S : VecType2, FloatVecType, CustomStringConvertible, JsonArrayInitable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V2S
@@ -87,24 +87,12 @@ extension V2S : VecType2, FloatVecType, Equatable, CustomStringConvertible, Json
 
 }
 
-public func +(a: V2S, b: V2S) -> V2S { return V2S(a.x + b.x, a.y + b.y) }
-public func -(a: V2S, b: V2S) -> V2S { return V2S(a.x - b.x, a.y - b.y) }
-public func *(a: V2S, b: V2S) -> V2S { return V2S(a.x * b.x, a.y * b.y) }
-public func /(a: V2S, b: V2S) -> V2S { return V2S(a.x / b.x, a.y / b.y) }
-public func +(a: V2S, s: F32) -> V2S { return V2S(a.x + s, a.y + s) }
-public func -(a: V2S, s: F32) -> V2S { return V2S(a.x - s, a.y - s) }
-public func *(a: V2S, s: F32) -> V2S { return V2S(a.x * s, a.y * s) }
-public func /(a: V2S, s: F32) -> V2S { return V2S(a.x / s, a.y / s) }
 public prefix func -(a: V2S) -> V2S { return a * -1 }
-
-public func ==(a: V2S, b: V2S) -> Bool {
-  return a.x == b.x && a.y == b.y
-}
 
 
 public typealias V2D = double2
 
-extension V2D : VecType2, FloatVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
+extension V2D : VecType2, FloatVecType, CustomStringConvertible, JsonArrayInitable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V2S
@@ -184,19 +172,7 @@ extension V2D : VecType2, FloatVecType, Equatable, CustomStringConvertible, Json
 
 }
 
-public func +(a: V2D, b: V2D) -> V2D { return V2D(a.x + b.x, a.y + b.y) }
-public func -(a: V2D, b: V2D) -> V2D { return V2D(a.x - b.x, a.y - b.y) }
-public func *(a: V2D, b: V2D) -> V2D { return V2D(a.x * b.x, a.y * b.y) }
-public func /(a: V2D, b: V2D) -> V2D { return V2D(a.x / b.x, a.y / b.y) }
-public func +(a: V2D, s: F64) -> V2D { return V2D(a.x + s, a.y + s) }
-public func -(a: V2D, s: F64) -> V2D { return V2D(a.x - s, a.y - s) }
-public func *(a: V2D, s: F64) -> V2D { return V2D(a.x * s, a.y * s) }
-public func /(a: V2D, s: F64) -> V2D { return V2D(a.x / s, a.y / s) }
 public prefix func -(a: V2D) -> V2D { return a * -1 }
-
-public func ==(a: V2D, b: V2D) -> Bool {
-  return a.x == b.x && a.y == b.y
-}
 
 
 public struct V2I : VecType2, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
@@ -373,7 +349,7 @@ public func ==(a: V2U8, b: V2U8) -> Bool {
 
 public typealias V3S = float3
 
-extension V3S : VecType3, FloatVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
+extension V3S : VecType3, FloatVecType, CustomStringConvertible, JsonArrayInitable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V3S
@@ -455,24 +431,12 @@ extension V3S : VecType3, FloatVecType, Equatable, CustomStringConvertible, Json
 
 }
 
-public func +(a: V3S, b: V3S) -> V3S { return V3S(a.x + b.x, a.y + b.y, a.z + b.z) }
-public func -(a: V3S, b: V3S) -> V3S { return V3S(a.x - b.x, a.y - b.y, a.z - b.z) }
-public func *(a: V3S, b: V3S) -> V3S { return V3S(a.x * b.x, a.y * b.y, a.z * b.z) }
-public func /(a: V3S, b: V3S) -> V3S { return V3S(a.x / b.x, a.y / b.y, a.z / b.z) }
-public func +(a: V3S, s: F32) -> V3S { return V3S(a.x + s, a.y + s, a.z + s) }
-public func -(a: V3S, s: F32) -> V3S { return V3S(a.x - s, a.y - s, a.z - s) }
-public func *(a: V3S, s: F32) -> V3S { return V3S(a.x * s, a.y * s, a.z * s) }
-public func /(a: V3S, s: F32) -> V3S { return V3S(a.x / s, a.y / s, a.z / s) }
 public prefix func -(a: V3S) -> V3S { return a * -1 }
-
-public func ==(a: V3S, b: V3S) -> Bool {
-  return a.x == b.x && a.y == b.y && a.z == b.z
-}
 
 
 public typealias V3D = double3
 
-extension V3D : VecType3, FloatVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
+extension V3D : VecType3, FloatVecType, CustomStringConvertible, JsonArrayInitable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V3S
@@ -554,19 +518,7 @@ extension V3D : VecType3, FloatVecType, Equatable, CustomStringConvertible, Json
 
 }
 
-public func +(a: V3D, b: V3D) -> V3D { return V3D(a.x + b.x, a.y + b.y, a.z + b.z) }
-public func -(a: V3D, b: V3D) -> V3D { return V3D(a.x - b.x, a.y - b.y, a.z - b.z) }
-public func *(a: V3D, b: V3D) -> V3D { return V3D(a.x * b.x, a.y * b.y, a.z * b.z) }
-public func /(a: V3D, b: V3D) -> V3D { return V3D(a.x / b.x, a.y / b.y, a.z / b.z) }
-public func +(a: V3D, s: F64) -> V3D { return V3D(a.x + s, a.y + s, a.z + s) }
-public func -(a: V3D, s: F64) -> V3D { return V3D(a.x - s, a.y - s, a.z - s) }
-public func *(a: V3D, s: F64) -> V3D { return V3D(a.x * s, a.y * s, a.z * s) }
-public func /(a: V3D, s: F64) -> V3D { return V3D(a.x / s, a.y / s, a.z / s) }
 public prefix func -(a: V3D) -> V3D { return a * -1 }
-
-public func ==(a: V3D, b: V3D) -> Bool {
-  return a.x == b.x && a.y == b.y && a.z == b.z
-}
 
 
 public struct V3I : VecType3, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
@@ -739,7 +691,7 @@ public func ==(a: V3U8, b: V3U8) -> Bool {
 
 public typealias V4S = float4
 
-extension V4S : VecType4, FloatVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
+extension V4S : VecType4, FloatVecType, CustomStringConvertible, JsonArrayInitable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V4S
@@ -815,24 +767,12 @@ extension V4S : VecType4, FloatVecType, Equatable, CustomStringConvertible, Json
 
 }
 
-public func +(a: V4S, b: V4S) -> V4S { return V4S(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) }
-public func -(a: V4S, b: V4S) -> V4S { return V4S(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w) }
-public func *(a: V4S, b: V4S) -> V4S { return V4S(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w) }
-public func /(a: V4S, b: V4S) -> V4S { return V4S(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w) }
-public func +(a: V4S, s: F32) -> V4S { return V4S(a.x + s, a.y + s, a.z + s, a.w + s) }
-public func -(a: V4S, s: F32) -> V4S { return V4S(a.x - s, a.y - s, a.z - s, a.w - s) }
-public func *(a: V4S, s: F32) -> V4S { return V4S(a.x * s, a.y * s, a.z * s, a.w * s) }
-public func /(a: V4S, s: F32) -> V4S { return V4S(a.x / s, a.y / s, a.z / s, a.w / s) }
 public prefix func -(a: V4S) -> V4S { return a * -1 }
-
-public func ==(a: V4S, b: V4S) -> Bool {
-  return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w
-}
 
 
 public typealias V4D = double4
 
-extension V4D : VecType4, FloatVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
+extension V4D : VecType4, FloatVecType, CustomStringConvertible, JsonArrayInitable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V4S
@@ -908,19 +848,7 @@ extension V4D : VecType4, FloatVecType, Equatable, CustomStringConvertible, Json
 
 }
 
-public func +(a: V4D, b: V4D) -> V4D { return V4D(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) }
-public func -(a: V4D, b: V4D) -> V4D { return V4D(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w) }
-public func *(a: V4D, b: V4D) -> V4D { return V4D(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w) }
-public func /(a: V4D, b: V4D) -> V4D { return V4D(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w) }
-public func +(a: V4D, s: F64) -> V4D { return V4D(a.x + s, a.y + s, a.z + s, a.w + s) }
-public func -(a: V4D, s: F64) -> V4D { return V4D(a.x - s, a.y - s, a.z - s, a.w - s) }
-public func *(a: V4D, s: F64) -> V4D { return V4D(a.x * s, a.y * s, a.z * s, a.w * s) }
-public func /(a: V4D, s: F64) -> V4D { return V4D(a.x / s, a.y / s, a.z / s, a.w / s) }
 public prefix func -(a: V4D) -> V4D { return a * -1 }
-
-public func ==(a: V4D, b: V4D) -> Bool {
-  return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w
-}
 
 
 public struct V4I : VecType4, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable {
