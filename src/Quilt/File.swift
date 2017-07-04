@@ -150,11 +150,12 @@ public class OutFile: File, TextOutputStream {
     self.init(name: path, descriptor: try File.openDescriptor(path: path, mode: O_WRONLY | O_TRUNC, create: create))
   }
 
+  public func write(_ string: String, allowLossy: Bool) {
+    writeBytes(descriptor: descriptor, string: string, allowLossy: allowLossy)
+  }
+
   public func write(_ string: String) {
-    _ = string.utf8CString.withUnsafeBufferPointer {
-      (buffer: UnsafeBufferPointer<CChar>) -> () in
-        _ = Darwin.write(descriptor, buffer.baseAddress, buffer.count - 1) // do not write null terminator.
-    }
+    write(string, allowLossy: false)
   }
 
   public func writeL(_ string: String) {
@@ -173,4 +174,23 @@ public class OutFile: File, TextOutputStream {
 func readBytes(path: String) throws -> [UInt8] {
   let f = try InFile(path: path)
   return try f.readBytes()
+}
+
+
+func writeBytes(descriptor: File.Descriptor, string: String, allowLossy: Bool) {
+  let options = allowLossy ? String.EncodingConversionOptions.allowLossy : []
+  var buffer: [UInt8] = [UInt8](repeating: 0, count: pageSize)
+  // Note: the buffer must be initialized as getBytes will not resize it.
+  // Additionally, as of swift 3.1 if buffer is empty then we will end up writing garbage;
+  // this appears to be a safety bug in getBytes.
+  var usedLength = 0
+  var range: Range<String.Index> = string.startIndex..<string.endIndex
+  while !range.isEmpty {
+    _ = string.getBytes(&buffer, maxLength: 4096, usedLength: &usedLength,
+      encoding: .utf8, options: options, range: range, remaining: &range)
+    let bytesWritten = Darwin.write(descriptor, buffer, usedLength)
+    if bytesWritten != usedLength {
+      fail("write error: \(stringForCurrentError())")
+    }
+  }
 }
