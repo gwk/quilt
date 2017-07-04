@@ -9,6 +9,10 @@ public let symbolTailChars = symbolHeadChars.union("0123456789".characters)
 
 extension String {
 
+  public init?<S : Sequence>(bytes: S) where S.Iterator.Element == UInt8 {
+    self.init(bytes: bytes, encoding: .utf8)
+  }
+
   public init(char: Character, count: Int) {
     self.init(repeating: String(char), count: count)
   }
