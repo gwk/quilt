@@ -14,7 +14,7 @@ public class File: CustomStringConvertible {
   public typealias Stats = Darwin.stat
   public typealias Perms = mode_t
 
-  enum Err: Error {
+  public enum Err: Error {
     case changePerms(path: String, perms: Perms)
     case copy(from: String, to: String)
     case open(path: String, msg: String)
@@ -22,7 +22,7 @@ public class File: CustomStringConvertible {
     case readMalloc(name: String, len: Int)
     case seek(name: String, pos: Int)
     case stat(name: String, msg: String)
-    case utf8Decode(name: String)
+    case decode(name: String, encoding: String.Encoding)
   }
 
   public let name: String
@@ -104,25 +104,35 @@ public class InFile: File {
 
   public func len() throws -> Int { return try Int(stats().st_size) }
 
-  public func readAbs(offset: Int, len: Int, ptr: UnsafeMutableRawPointer) throws -> Int {
-    let len_act = Darwin.pread(Int32(descriptor), ptr, len, off_t(offset))
-    guard len_act >= 0 else { throw Err.read(name: name, offset: offset, len: len) }
-    return len_act
+  public func read(len: Int, ptr: UnsafeMutableRawPointer) throws -> Int {
+    let actualLen = Darwin.read(descriptor, ptr, len)
+    guard actualLen >= 0 else { throw Err.read(name: name, offset: -1, len: len) }
+    return actualLen
   }
 
-  public func readText() throws -> String {
-    let len = try self.len()
-    let bufferLen = len + 1
-    let buffer = malloc(bufferLen)
-    guard buffer != nil else { throw Err.readMalloc(name: name, len: len) }
-    let len_act = try readAbs(offset: 0, len: len, ptr: buffer!)
-    guard len_act == len else { throw Err.read(name: name, offset: 0, len: len) }
-    let charBuffer = unsafeBitCast(buffer, to: UnsafeMutablePointer<CChar>.self)
-    charBuffer[len] = 0 // null terminator.
-    let s = String(validatingUTF8: charBuffer)
-    free(buffer)
-    guard let res = s else { throw Err.utf8Decode(name: name) }
-    return res
+  public func readAbs(offset: Int, len: Int, ptr: UnsafeMutableRawPointer) throws -> Int {
+    let actualLen = Darwin.pread(descriptor, ptr, len, off_t(offset))
+    guard actualLen >= 0 else { throw Err.read(name: name, offset: offset, len: len) }
+    return actualLen
+  }
+
+  public func readBytes() throws -> [UInt8] {
+    var buffer: [UInt8] = [UInt8](repeating: 0, count: pageSize)
+    var result = [UInt8]()
+    while true {
+      let actualLen = try read(len: pageSize, ptr: &buffer)
+      result.append(contentsOf: buffer.prefix(actualLen))
+      if actualLen != pageSize { break }
+    }
+    return result
+  }
+
+  public func readText(encoding: String.Encoding = .utf8) throws -> String {
+    let bytes = try readBytes()
+    guard let s = String(bytes: bytes, encoding: encoding) else {
+      throw Err.decode(name: name, encoding: encoding)
+    }
+    return s
   }
 
   public func copyTo(_ outFile: OutFile) throws {
@@ -157,4 +167,10 @@ public class OutFile: File, TextOutputStream {
       fail("setPerms(\(perms)) failed: \(stringForCurrentError()); '\(name)'")
     }
   }
+}
+
+
+func readBytes(path: String) throws -> [UInt8] {
+  let f = try InFile(path: path)
+  return try f.readBytes()
 }
