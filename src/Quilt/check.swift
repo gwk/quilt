@@ -15,8 +15,9 @@ public func check(_ condition: Bool, file: StaticString = #file, line: UInt = #l
   }
 }
 
-public func fail<T>(_ item: T) -> Never {
-  errL("error: \(item)")
+public func fail<T>(prefix: String = "error: ", _ item: T) -> Never {
+  errZ(prefix)
+  errL(item)
   exit(1)
 }
 
