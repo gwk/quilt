@@ -7,13 +7,14 @@ import Quilt
 extension NSViewController {
 
   public func updateWindowObserver() {
-    noteCenter.removeObserver(self, name: NSNotification.Name.NSWindowDidChangeBackingProperties, object: nil)
+    noteCenter.removeObserver(self, name: NSWindow.didChangeBackingPropertiesNotification, object: nil)
     noteCenter.addObserver(self,
                              selector: #selector(screenDidChange),
-                             name: NSNotification.Name.NSWindowDidChangeBackingProperties,
+                             name: NSWindow.didChangeBackingPropertiesNotification,
                              object: view.window!)
     screenDidChange(nil)
   }
 
+  @objc
   public func screenDidChange(_ note: Notification?) {}
 }

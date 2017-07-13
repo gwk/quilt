@@ -12,8 +12,8 @@ let package = Package(
   targets: [
     .target(name: "Quilt", path: "src/Quilt"),
     .target(name: "QuiltBridge", dependencies: ["Quilt"]),
-    //.target(name: "QuiltMac", dependencies: ["Quilt", "QuiltBridge"]),
-    //.target(name: "QuiltSpriteKit", dependencies: ["Quilt", "QuiltBridge"]),
+    .target(name: "QuiltMac", dependencies: ["Quilt", "QuiltBridge"]),
+    .target(name: "QuiltSpriteKit", dependencies: ["Quilt", "QuiltBridge"]),
   ],
   swiftLanguageVersions: [4]
 )
