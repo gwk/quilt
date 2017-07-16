@@ -71,11 +71,24 @@ public class Random {
     return (F64(u) / F64(endU - 1)) * max // divide by maxU = endU - 1 to get float in range [0, 1].
   }
 
+  public func f32(_ max: F32) -> F32 {
+    let endU: U64 = 1 << 23 // single precision has 24 digits; back off by one just to be safe.
+    let u = raw() % endU // powers of two cannot be biased.
+    return (F32(u) / F32(endU - 1)) * max // divide by maxU = endU - 1 to get float in range [0, 1].
+  }
+
   public func f64(min: F64, max: F64) -> F64 {
     if max <= min {
       return min
     }
     return f64(max - min) + min
+  }
+
+  public func f32(min: F32, max: F32) -> F32 {
+    if max <= min {
+      return min
+    }
+    return f32(max - min) + min
   }
 
   public func bool() -> Bool {
