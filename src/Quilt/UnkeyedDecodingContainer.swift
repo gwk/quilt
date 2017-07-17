@@ -5,6 +5,12 @@ import Foundation
 
 extension UnkeyedDecodingContainer {
 
+
+  @inline(__always)
+  mutating func decode<T>() throws -> T where T: Decodable {
+    return try self.decode(T.self)
+  }
+
   mutating func decodeRemaining<T>() throws -> [T] where T: Decodable {
     var els: [T] = []
     while !isAtEnd {
