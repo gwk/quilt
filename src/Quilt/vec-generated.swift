@@ -7,7 +7,7 @@ import simd
 
 public typealias V2S = float2
 
-extension V2S : VecType2, FloatVecType, CustomStringConvertible, JsonArrayInitable, Decodable {
+extension V2S : VecType2, FloatVecType, CustomStringConvertible, Decodable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V2S
@@ -50,13 +50,6 @@ extension V2S : VecType2, FloatVecType, CustomStringConvertible, JsonArrayInitab
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(F32.self), try c.decode(F32.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 2 {
-      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as F32, try jsonArray.el(1).conv() as F32)
-  }
-
   public static let zero = V2S(0, 0)
   public static let unitX = V2S(1, 0)
   public static let unitY = V2S(0, 1)
@@ -96,7 +89,7 @@ public prefix func -(a: V2S) -> V2S { return a * -1 }
 
 public typealias V2D = double2
 
-extension V2D : VecType2, FloatVecType, CustomStringConvertible, JsonArrayInitable, Decodable {
+extension V2D : VecType2, FloatVecType, CustomStringConvertible, Decodable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V2S
@@ -139,13 +132,6 @@ extension V2D : VecType2, FloatVecType, CustomStringConvertible, JsonArrayInitab
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(F64.self), try c.decode(F64.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 2 {
-      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as F64, try jsonArray.el(1).conv() as F64)
-  }
-
   public static let zero = V2D(0, 0)
   public static let unitX = V2D(1, 0)
   public static let unitY = V2D(0, 1)
@@ -183,7 +169,7 @@ extension V2D : VecType2, FloatVecType, CustomStringConvertible, JsonArrayInitab
 public prefix func -(a: V2D) -> V2D { return a * -1 }
 
 
-public struct V2I : VecType2, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable, Decodable {
+public struct V2I : VecType2, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = Int
   public typealias FloatType = F64
   public typealias VSType = V2S
@@ -233,13 +219,6 @@ public struct V2I : VecType2, IntVecType, Equatable, CustomStringConvertible, Js
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(Int.self), try c.decode(Int.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 2 {
-      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as Int, try jsonArray.el(1).conv() as Int)
-  }
-
   public static let zero = V2I(0, 0)
   public static let unitX = V2I(1, 0)
   public static let unitY = V2I(0, 1)
@@ -273,7 +252,7 @@ public func ==(a: V2I, b: V2I) -> Bool {
 }
 
 
-public struct V2U8 : VecType2, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable, Decodable {
+public struct V2U8 : VecType2, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
   public typealias FloatType = F32
   public typealias VSType = V2S
@@ -323,13 +302,6 @@ public struct V2U8 : VecType2, IntVecType, Equatable, CustomStringConvertible, J
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(U8.self), try c.decode(U8.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 2 {
-      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as U8, try jsonArray.el(1).conv() as U8)
-  }
-
   public static let zero = V2U8(0, 0)
   public static let unitX = V2U8(1, 0)
   public static let unitY = V2U8(0, 1)
@@ -365,7 +337,7 @@ public func ==(a: V2U8, b: V2U8) -> Bool {
 
 public typealias V3S = float3
 
-extension V3S : VecType3, FloatVecType, CustomStringConvertible, JsonArrayInitable, Decodable {
+extension V3S : VecType3, FloatVecType, CustomStringConvertible, Decodable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V3S
@@ -399,13 +371,6 @@ extension V3S : VecType3, FloatVecType, CustomStringConvertible, JsonArrayInitab
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(F32.self), try c.decode(F32.self), try c.decode(F32.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 3 {
-      throw Json.Err.unexpectedCount(expCount: 3, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as F32, try jsonArray.el(1).conv() as F32, try jsonArray.el(2).conv() as F32)
-  }
-
   public static let zero = V3S(0, 0, 0)
   public static let unitX = V3S(1, 0, 0)
   public static let unitY = V3S(0, 1, 0)
@@ -456,7 +421,7 @@ public prefix func -(a: V3S) -> V3S { return a * -1 }
 
 public typealias V3D = double3
 
-extension V3D : VecType3, FloatVecType, CustomStringConvertible, JsonArrayInitable, Decodable {
+extension V3D : VecType3, FloatVecType, CustomStringConvertible, Decodable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V3S
@@ -490,13 +455,6 @@ extension V3D : VecType3, FloatVecType, CustomStringConvertible, JsonArrayInitab
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(F64.self), try c.decode(F64.self), try c.decode(F64.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 3 {
-      throw Json.Err.unexpectedCount(expCount: 3, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as F64, try jsonArray.el(1).conv() as F64, try jsonArray.el(2).conv() as F64)
-  }
-
   public static let zero = V3D(0, 0, 0)
   public static let unitX = V3D(1, 0, 0)
   public static let unitY = V3D(0, 1, 0)
@@ -545,7 +503,7 @@ extension V3D : VecType3, FloatVecType, CustomStringConvertible, JsonArrayInitab
 public prefix func -(a: V3D) -> V3D { return a * -1 }
 
 
-public struct V3I : VecType3, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable, Decodable {
+public struct V3I : VecType3, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = Int
   public typealias FloatType = F64
   public typealias VSType = V3S
@@ -588,13 +546,6 @@ public struct V3I : VecType3, IntVecType, Equatable, CustomStringConvertible, Js
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(Int.self), try c.decode(Int.self), try c.decode(Int.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 3 {
-      throw Json.Err.unexpectedCount(expCount: 3, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as Int, try jsonArray.el(1).conv() as Int, try jsonArray.el(2).conv() as Int)
-  }
-
   public static let zero = V3I(0, 0, 0)
   public static let unitX = V3I(1, 0, 0)
   public static let unitY = V3I(0, 1, 0)
@@ -633,7 +584,7 @@ public func ==(a: V3I, b: V3I) -> Bool {
 }
 
 
-public struct V3U8 : VecType3, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable, Decodable {
+public struct V3U8 : VecType3, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
   public typealias FloatType = F32
   public typealias VSType = V3S
@@ -676,13 +627,6 @@ public struct V3U8 : VecType3, IntVecType, Equatable, CustomStringConvertible, J
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(U8.self), try c.decode(U8.self), try c.decode(U8.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 3 {
-      throw Json.Err.unexpectedCount(expCount: 3, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as U8, try jsonArray.el(1).conv() as U8, try jsonArray.el(2).conv() as U8)
-  }
-
   public static let zero = V3U8(0, 0, 0)
   public static let unitX = V3U8(1, 0, 0)
   public static let unitY = V3U8(0, 1, 0)
@@ -723,7 +667,7 @@ public func ==(a: V3U8, b: V3U8) -> Bool {
 
 public typealias V4S = float4
 
-extension V4S : VecType4, FloatVecType, CustomStringConvertible, JsonArrayInitable, Decodable {
+extension V4S : VecType4, FloatVecType, CustomStringConvertible, Decodable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V4S
@@ -745,13 +689,6 @@ extension V4S : VecType4, FloatVecType, CustomStringConvertible, JsonArrayInitab
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(F32.self), try c.decode(F32.self), try c.decode(F32.self), try c.decode(F32.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 4 {
-      throw Json.Err.unexpectedCount(expCount: 4, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as F32, try jsonArray.el(1).conv() as F32, try jsonArray.el(2).conv() as F32, try jsonArray.el(3).conv() as F32)
-  }
-
   public static let zero = V4S(0, 0, 0, 0)
   public static let unitX = V4S(1, 0, 0, 0)
   public static let unitY = V4S(0, 1, 0, 0)
@@ -808,7 +745,7 @@ public prefix func -(a: V4S) -> V4S { return a * -1 }
 
 public typealias V4D = double4
 
-extension V4D : VecType4, FloatVecType, CustomStringConvertible, JsonArrayInitable, Decodable {
+extension V4D : VecType4, FloatVecType, CustomStringConvertible, Decodable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V4S
@@ -830,13 +767,6 @@ extension V4D : VecType4, FloatVecType, CustomStringConvertible, JsonArrayInitab
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(F64.self), try c.decode(F64.self), try c.decode(F64.self), try c.decode(F64.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 4 {
-      throw Json.Err.unexpectedCount(expCount: 4, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as F64, try jsonArray.el(1).conv() as F64, try jsonArray.el(2).conv() as F64, try jsonArray.el(3).conv() as F64)
-  }
-
   public static let zero = V4D(0, 0, 0, 0)
   public static let unitX = V4D(1, 0, 0, 0)
   public static let unitY = V4D(0, 1, 0, 0)
@@ -891,7 +821,7 @@ extension V4D : VecType4, FloatVecType, CustomStringConvertible, JsonArrayInitab
 public prefix func -(a: V4D) -> V4D { return a * -1 }
 
 
-public struct V4I : VecType4, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable, Decodable {
+public struct V4I : VecType4, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = Int
   public typealias FloatType = F64
   public typealias VSType = V4S
@@ -924,13 +854,6 @@ public struct V4I : VecType4, IntVecType, Equatable, CustomStringConvertible, Js
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(Int.self), try c.decode(Int.self), try c.decode(Int.self), try c.decode(Int.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 4 {
-      throw Json.Err.unexpectedCount(expCount: 4, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as Int, try jsonArray.el(1).conv() as Int, try jsonArray.el(2).conv() as Int, try jsonArray.el(3).conv() as Int)
-  }
-
   public static let zero = V4I(0, 0, 0, 0)
   public static let unitX = V4I(1, 0, 0, 0)
   public static let unitY = V4I(0, 1, 0, 0)
@@ -974,7 +897,7 @@ public func ==(a: V4I, b: V4I) -> Bool {
 }
 
 
-public struct V4U8 : VecType4, IntVecType, Equatable, CustomStringConvertible, JsonArrayInitable, Decodable {
+public struct V4U8 : VecType4, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
   public typealias FloatType = F32
   public typealias VSType = V4S
@@ -1007,13 +930,6 @@ public struct V4U8 : VecType4, IntVecType, Equatable, CustomStringConvertible, J
     var c = try decoder.unkeyedContainer()
     self.init(try c.decode(U8.self), try c.decode(U8.self), try c.decode(U8.self), try c.decode(U8.self))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 4 {
-      throw Json.Err.unexpectedCount(expCount: 4, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as U8, try jsonArray.el(1).conv() as U8, try jsonArray.el(2).conv() as U8, try jsonArray.el(3).conv() as U8)
-  }
-
   public static let zero = V4U8(0, 0, 0, 0)
   public static let unitX = V4U8(1, 0, 0, 0)
   public static let unitY = V4U8(0, 1, 0, 0)

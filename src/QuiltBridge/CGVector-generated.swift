@@ -8,7 +8,7 @@ import CoreGraphics
 
 
 import Quilt
-extension CGVector : VecType2, FloatVecType, CustomStringConvertible, JsonArrayInitable {
+extension CGVector : VecType2, FloatVecType, CustomStringConvertible {
   public typealias Scalar = Flt
   public typealias FloatType = Flt
   public typealias VSType = V2S
@@ -50,13 +50,6 @@ extension CGVector : VecType2, FloatVecType, CustomStringConvertible, JsonArrayI
   public init(_ v: V4U8) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
-  public init(jsonArray: JsonArray) throws {
-    if jsonArray.count != 2 {
-      throw Json.Err.unexpectedCount(expCount: 2, json: jsonArray.raw)
-    }
-    self.init(try jsonArray.el(0).conv() as Flt, try jsonArray.el(1).conv() as Flt)
-  }
-
   public static let unitX = CGVector(1, 0)
   public static let unitY = CGVector(0, 1)
   public var description: String { return "CGVector(\(x), \(y))" }

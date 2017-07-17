@@ -15,20 +15,6 @@ extension Flt: ArithmeticFloat {
   public var round: Flt { return Flt(native.round) }
 }
 
-extension Flt: JsonInitable {
-  public init(json: JsonType) throws {
-    if let n = json as? NSNumber {
-      if let f = n as? Flt {
-        self = f
-      } else { throw Json.Err.conversion(exp: Flt.self, json: json) }
-    } else if let s = json as? NSString {
-      if let n = NativeType(s as String) {
-        self = Flt(n)
-      } else { throw Json.Err.conversion(exp: Flt.self, json: json) }
-    } else { throw Json.Err.unexpectedType(exp: Flt.self, json: json) }
-  }
-}
-
 extension Random {
 
   public func flt(_ max: Flt) -> Flt {

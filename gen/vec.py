@@ -68,7 +68,6 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
     protocols.append('Equatable')
 
   protocols.append('CustomStringConvertible')
-  protocols.append('JsonArrayInitable')
 
   if is_simd or is_novel:
     protocols.append('Decodable')
@@ -113,15 +112,6 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
     outL('    var c = try decoder.unkeyedContainer()')
     outL('    self.init($)', jc(fmt('try c.decode($.self)', s_type) for _ in range(dim)))
     outL('  }')
-
-
-  outL('  public init(jsonArray: JsonArray) throws {')
-  outL('    if jsonArray.count != $ {', dim)
-  outL('      throw Json.Err.unexpectedCount(expCount: $, json: jsonArray.raw)', dim)
-  outL('    }')
-  outL('    self.init($)', jc(fmt('try jsonArray.el($).conv() as $', i, s_type) for i in range(dim)))
-  outL('  }')
-  outL('')
 
   if not v_type.startswith('CG'):
     outL('  public static let zero = $($)', v_type, jc('0' for comp in comps))
