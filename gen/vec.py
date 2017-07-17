@@ -70,6 +70,9 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
   protocols.append('CustomStringConvertible')
   protocols.append('JsonArrayInitable')
 
+  if is_simd or is_novel:
+    protocols.append('Decodable')
+
   if is_simd:
     outL('public typealias $ = $\n', v_type, orig_type)
 
@@ -91,7 +94,7 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
     outL('  public init() { self.init($) }',  jc('0' for c in comps))
 
   for d in range(dim, 5):
-    for st, suffix, fst, f_suffix, simd_type_prefix, is_novel in types:
+    for st, suffix, fst, f_suffix, simd_type_prefix, _ in types:
       if d == dim and st == s_type:
         continue
       vt = fmt('V$$', d, suffix)
@@ -104,6 +107,13 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
     outL('  public init(_ v: $, $: Scalar) {', v_prev, last_comp)
     outL('    self.init($)', jc(fmt('v.$', c) if i < dim - 1 else last_comp for i, c in enumerate(comps)))
     outL('  }')
+
+  if is_simd or is_novel:
+    outL('  public init(from decoder: Decoder) throws {')
+    outL('    var c = try decoder.unkeyedContainer()')
+    outL('    self.init($)', jc(fmt('try c.decode($.self)', s_type) for _ in range(dim)))
+    outL('  }')
+
 
   outL('  public init(jsonArray: JsonArray) throws {')
   outL('    if jsonArray.count != $ {', dim)

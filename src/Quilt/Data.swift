@@ -8,4 +8,8 @@ extension Data {
   init(contentsOfFile path: String, options: Data.ReadingOptions = []) throws {
     self = try Data(contentsOf: URL(fileURLWithPath: path), options: options)
   }
+
+  init(resPath: String, options: Data.ReadingOptions = []) {
+    self = try! Data(contentsOfFile: pathForResource(resPath), options: options)
+  }
 }
