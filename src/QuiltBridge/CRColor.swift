@@ -104,5 +104,4 @@ extension CRColor {
     #endif
     return b
   }
-
 }
