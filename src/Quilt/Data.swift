@@ -12,4 +12,8 @@ extension Data {
   init(resPath: String, options: Data.ReadingOptions = []) {
     self = try! Data(contentsOfFile: pathForResource(resPath), options: options)
   }
+  
+  init(bufferPointer: UnsafeRawBufferPointer) {
+    self = Data(bytes: bufferPointer.baseAddress!, count: bufferPointer.count)
+  }
 }
