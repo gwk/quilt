@@ -9,7 +9,7 @@
 _default: build
 
 build: gen
-	swift build --build-path _build
+	swift build --build-path _build | swift-plumage
 	@echo done.
 
 clean:
@@ -20,9 +20,9 @@ gen: \
 	src/Quilt/mat-generated.swift \
 	src/Quilt/vec-generated.swift \
 	src/QuiltBridge/CGPoint-generated.swift \
-	src/QuiltBridge/CGVector-generated.swift
-#	src/QuiltSceneKit/V3-generated.swift
-#	src/QuiltSceneKit/V4-generated.swift
+	src/QuiltBridge/CGVector-generated.swift \
+	src/QuiltSceneKit/V3-generated.swift \
+	src/QuiltSceneKit/V4-generated.swift
 
 test: build
 	swift test --build-path _build
@@ -37,14 +37,14 @@ src/Quilt/vec-generated.swift: gen/vec.py
 	$^ > $@
 
 src/QuiltBridge/CGPoint-generated.swift: gen/vec.py
-	$^ CGPoint 2 Flt Flt CoreGraphics > $@
+	$^ CGPoint 2 Flt Flt CoreGraphics Quilt > $@
 
 src/QuiltBridge/CGVector-generated.swift: gen/vec.py
-	$^ CGVector 2 Flt Flt CoreGraphics > $@
+	$^ CGVector 2 Flt Flt CoreGraphics Quilt > $@
 
-#src/QuiltSceneKit/V3-generated.swift: gen/vec.py
-#	$^ V3 3 Flt Flt SceneKit > $@
+src/QuiltSceneKit/V3-generated.swift: gen/vec.py
+	$^ V3 3 Flt Flt SceneKit Quilt QuiltBridge > $@
 
-#src/QuiltSceneKit/V4-generated.swift: gen/vec.py
-#	$^ V4 4 Flt Flt SceneKit > $@
+src/QuiltSceneKit/V4-generated.swift: gen/vec.py
+	$^ V4 4 Flt Flt SceneKit Quilt QuiltBridge > $@
 

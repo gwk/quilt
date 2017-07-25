@@ -1,4 +1,4 @@
-// © 2015 George King. Permission to use this file is granted in license-qk.txt.
+// © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 import CoreGraphics
 import Quilt

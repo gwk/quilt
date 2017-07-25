@@ -1,12 +1,12 @@
 // © 2016 George King. Permission to use this file is granted in license-quilt.txt.
 
-import AppKit
+import SceneKit
 
 
-extension NSMenuItem {
+extension SCNNode {
 
-  public convenience init(parent: NSMenu) {
+  convenience init(name: String?) {
     self.init()
-    parent.addItem(self)
+    self.name = name
   }
 }

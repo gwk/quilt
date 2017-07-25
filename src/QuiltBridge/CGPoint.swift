@@ -1,4 +1,4 @@
-// © 2014 George King. Permission to use this file is granted in license-qk.txt.
+// © 2014 George King. Permission to use this file is granted in license-quilt.txt.
 
 import CoreGraphics
 
@@ -6,11 +6,11 @@ import CoreGraphics
 public typealias V2 = CGPoint
 
 extension CGPoint {
-  
+
   public init(_ x: CGFloat, _ y: CGFloat) { self.init(x: x, y: y) }
 
   public init(_ v: CGVector) { self.init(x: v.dx, y: v.dy) }
-  
+
   public init(_ s: CGSize) { self.init(x: s.w, y: s.h) }
 
 }

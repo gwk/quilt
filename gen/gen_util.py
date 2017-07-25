@@ -1,6 +1,6 @@
-# © 2015 George King. Permission to use this file is granted in license-qk.txt.
+# © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
-import sys
+from sys import stderr
 from itertools import zip_longest, product
 
 
@@ -27,7 +27,7 @@ def outL(f, *items):
   print(fmt(f, *items))
 
 def errL(f, *items):
-  print(fmt(f, *items), file=sys.stderr)
+  print(fmt(f, *items), file=stderr)
 
 def je(a): return ''.join(a) # join with empty string.
 def jc(a): return ', '.join(a) # join with comma.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# © 2015 George King. Permission to use this file is granted in license-qk.txt.
+# © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 from gen_util import *
 
@@ -24,7 +24,7 @@ def gen_mat(dim, t, suffix, simd_type):
   els_l = tuple('l.' + c for c in els)
   els_r = tuple('r.' + c for c in els)
   els_lr = tuple(zip(els_l, els_r))
-  
+
   outL('public typealias $ = $$x$', mt, simd_type, dim, dim)
   outL('')
 
