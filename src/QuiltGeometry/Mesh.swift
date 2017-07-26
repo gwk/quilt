@@ -59,9 +59,36 @@ class Mesh {
   }
 
   func addAllPoints() {
-    for i in 0..<positions.count {
-      points.append(i)
-    }
+    points.append(contentsOf: 0..<positions.count)
+  }
+
+  func addPoint(_ i: Int) {
+    points.append(i)
+  }
+
+  func addSeg(_ a: Int, _ b: Int) {
+    segments.append(Seg(a, b))
+  }
+
+  func addSeg(_ a: V3, _ b: V3) { // TODO: rename?
+    let i = positions.count
+    positions.append(a)
+    positions.append(b)
+    addSeg(i, i + 1)
+  }
+
+  func addTri(_ a: Int, _ b: Int, _ c: Int) {
+    triangles.append(Tri(a, b, c))
+  }
+
+  func addQuad(_ a: V3, _ b: V3, _ c: V3, _ d: V3) { // TODO: rename?
+    let i = positions.count
+    positions.append(a)
+    positions.append(b)
+    positions.append(c)
+    positions.append(d)
+    addTri(i, i + 1, i + 2)
+    addTri(i, i + 2, i + 3)
   }
 
   func addAllSegments() {
@@ -72,12 +99,12 @@ class Mesh {
     }
   }
 
-  func addAllSegmentsLessThan(_ len: Flt) {
+  func addAllSegmentsLessThan(length: Flt) {
     for (i, a) in positions.enumerated() {
       for j in (i + 1)..<positions.count {
         let b = positions[j]
         let d = a.dist(b)
-        if d > 0 && d < len {
+        if d > 0 && d < length {
           print(d, a, b)
           segments.append(Seg(i, j))
         }
@@ -93,6 +120,7 @@ class Mesh {
         for k in (j + 1)..<segments.count {
           let u = segments[k]
           assert(t.a < u.a || (t.a == u.a && t.b < u.b))
+          // TODO: skip non-matching s and t here.
           if s.a == t.a && s.b == u.a && t.b == u.b {
             let a = s.a
             let b = s.b
@@ -113,18 +141,6 @@ class Mesh {
         }
       }
     }
-  }
-
-  func addSeg(_ a: V3, _ b: V3) {
-    let i = positions.count
-    positions.append(contentsOf: [a, b])
-    segments.append(Seg(i, i + 1))
-  }
-
-  func addQuad(_ a: V3, _ b: V3, _ c: V3, _ d: V3) {
-    let i = positions.count
-    positions.append(contentsOf: [a, b, c, d])
-    triangles.append(contentsOf: [Tri(i, i + 1, i + 2), Tri(i, i + 2, i + 3)])
   }
 
   func geometry(kind: GeomKind = .tri) -> SCNGeometry {

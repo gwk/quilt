@@ -112,16 +112,16 @@ extension Mesh {
       let nt0 = 11 + i
       let nt1 = 11 + j
       let np = 17 + i
-      mesh.segments.append(Seg(sp, st0)) // south polar face.
-      mesh.segments.append(Seg(sp, st1))
-      mesh.segments.append(Seg(st0, st1))
-      mesh.segments.append(Seg(np, nt0)) // north polar face.
-      mesh.segments.append(Seg(np, nt1))
-      mesh.segments.append(Seg(nt0, nt1))
-      mesh.segments.append(Seg(st0, nt0)) // tropic to tropic.
-      mesh.segments.append(Seg(st1, nt0))
+      mesh.addSeg(sp,   st0) // south polar face.
+      mesh.addSeg(sp,   st1)
+      mesh.addSeg(st0,  st1)
+      mesh.addSeg(np,   nt0) // north polar face.
+      mesh.addSeg(np,   nt1)
+      mesh.addSeg(nt0,  nt1)
+      mesh.addSeg(st0,  nt0) // tropic to tropic.
+      mesh.addSeg(st1,  nt0)
     }
-    mesh.segments.append(Seg(10, 16))
+    mesh.addSeg(10, 16)
     mesh.segments.sort()
     mesh.addTrianglesFromSegments()
     return mesh
