@@ -1,7 +1,21 @@
 {
-  "version": "0.1.0",
-  "command": "make",
-  "isShellCommand": true,
-  "args": [],
-  "showOutput": "always"
+  "version": "2.0.0",
+  "type": "process",
+  "tasks": [
+    { "taskName": "build",
+      "command": "make",
+      "args": ["build"],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$plumage-swift"
+    },
+    { "taskName": "test-current",
+      "command": "make",
+      "args": ["sh/test.sh", "${relativeFile}"],
+      "group": { "kind": "test", "isDefault": true }
+    },
+    { "taskName": "test",
+      "command": "make",
+      "args": ["test"]
+    }
+  ]
 }

@@ -9,7 +9,7 @@
 _default: build
 
 build: gen
-	swift build --build-path _build | swift-plumage
+	swift build --build-path _build 2>&1 | swift-plumage | less
 	@echo done.
 
 clean:
