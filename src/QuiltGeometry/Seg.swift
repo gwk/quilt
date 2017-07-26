@@ -3,10 +3,10 @@
 import Quilt
 
 
-public struct Seg<I: FixedWidthInteger>: CustomStringConvertible, Comparable where I: IntegerInitable {
-  public var a, b: I
+public struct Seg: CustomStringConvertible, Comparable {
+  public var a, b: Int
 
-  public init(_ a: I, _ b: I) {
+  public init(_ a: Int, _ b: Int) {
     assert(a != b)
     if (a < b) {
       self.a = a
@@ -17,17 +17,13 @@ public struct Seg<I: FixedWidthInteger>: CustomStringConvertible, Comparable whe
     }
   }
 
-  public init(_ seg: Seg<Int>) {
-    self.init(I(seg.a), I(seg.b))
-  }
-
   public var description: String { return "Seg(\(a), \(b))" }
 
-  public static func ==<I>(l: Seg<I>, r: Seg<I>) -> Bool {
+  public static func ==(l: Seg, r: Seg) -> Bool {
     return l.a == r.a && l.b == r.b
   }
 
-  public static func <<I>(l: Seg<I>, r: Seg<I>) -> Bool {
+  public static func <(l: Seg, r: Seg) -> Bool {
     if (l.a == r.a) {
       return l.b < r.b
     } else {

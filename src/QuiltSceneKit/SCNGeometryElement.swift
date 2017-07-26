@@ -2,26 +2,20 @@
 
 import Foundation
 import SceneKit
+import Quilt
 
 
 extension SCNGeometryElement {
 
-  public convenience init<I>(points: [I]) where I: FixedWidthInteger {
-    self.init(indices: points, primitiveType: .point)
-  }
-
-  public convenience init<I>(segments: [Seg<I>]) {
-    self.init(data: segments.withUnsafeBytes { Data(bufferPointer: $0) },
-              primitiveType: .line,
-              primitiveCount: segments.count,
-              bytesPerIndex: MemoryLayout<I>.size)
-  }
-
-  public convenience init<I>(triangles: [Tri<I>]) {
-    self.init(data: triangles.withUnsafeBytes { Data(bufferPointer: $0) },
-              primitiveType: .triangles,
-              primitiveCount: triangles.count,
-              bytesPerIndex: MemoryLayout<I>.size)
+  public convenience init<C: Collection>(indices: C, vertexCount: Int, primitiveType: SCNGeometryPrimitiveType) where C.Element == Int {
+    // TODO: make vertexCount optional; if nil, calculate indices.max.
+    if vertexCount <= U16.max {
+      self.init(indices: indices.map { U16($0) }, primitiveType: primitiveType)
+    } else  if vertexCount < U32.max {
+      self.init(indices: indices.map { U32($0) }, primitiveType: primitiveType)
+    } else {
+      fatalError("vertexCount exceeded U32.max: \(vertexCount)")
+    }
   }
 }
 

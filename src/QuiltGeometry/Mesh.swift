@@ -28,8 +28,8 @@ class Mesh {
   #endif
 
   var points: [Int] = []
-  var segments: [Seg<Int>] = []
-  var triangles: [Tri<Int>] = []
+  var segments: [Seg] = []
+  var triangles: [Tri] = []
   var adjacencies: [Adj] = []
 
   init(name: String? = nil) {
@@ -265,22 +265,18 @@ class Mesh {
     }
 
     let element: SCNGeometryElement
-    let isSmall = (positions.count <= Int(U16.max))
     switch kind {
     case .point:
-      element = isSmall
-        ? SCNGeometryElement(points: points.map { U16($0) })
-        : SCNGeometryElement(points: points.map { U32($0) })
+      element = SCNGeometryElement(indices: points, vertexCount: positions.count, primitiveType: .point)
     case .seg:
-      element = isSmall
-        ? SCNGeometryElement(segments: segments.map { Seg<U16>($0) })
-        : SCNGeometryElement(segments: segments.map { Seg<U32>($0) })
+      element = segments.withUnsafeBufferPointerRebound(to: Int.self) {
+        SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .line)
+      }
     case .tri:
-      element = isSmall
-        ? SCNGeometryElement(triangles: triangles.map { Tri<U16>($0) })
-        : SCNGeometryElement(triangles: triangles.map { Tri<U32>($0) })
+      element = triangles.withUnsafeBufferPointerRebound(to: Int.self) {
+        SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .triangles)
+      }
     }
-
     return SCNGeometry(sources: sources, elements: [element])
   }
 
