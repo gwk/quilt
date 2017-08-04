@@ -18,4 +18,11 @@ extension Optional {
       return try alt()
     }
   }
+
+  public var optDesc: String {
+    if let val = self {
+      return String(reflecting: val)
+    }
+    return "nil"
+  }
 }
