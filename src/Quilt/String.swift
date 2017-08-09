@@ -28,7 +28,7 @@ extension String {
 
   public var pathExt: String {
     if let r = pathExtDotRange {
-      return substring(from: r.lowerBound)
+      return String(self[r.lowerBound...])
     } else {
       return ""
     }
@@ -38,7 +38,7 @@ extension String {
     if let r = pathExtDotRange {
       // TODO: check that the range does not span a slash.
       // TODO: allow trailing slash.
-      return substring(to: r.lowerBound)
+      return String(self[..<r.lowerBound])
     } else {
       return self
     }
@@ -56,7 +56,7 @@ extension String {
 
   public var pathDir: String {
     if let r = pathDirSlashRange {
-      return substring(to: r.lowerBound)
+      return String(self[..<r.lowerBound])
     } else {
       return ""
     }
@@ -64,7 +64,7 @@ extension String {
 
   public var withoutPathDir: String {
     if let r = pathDirSlashRange {
-      return substring(from: r.upperBound)
+      return String(self[r.upperBound...])
     } else {
       return self
     }
