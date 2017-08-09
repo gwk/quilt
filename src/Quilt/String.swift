@@ -157,6 +157,12 @@ extension String {
 
   // MARK: lines
 
+  static let utf16Newline = "\n".utf16.first!
+
+  public var containsNewline: Bool {
+    return utf16.contains(String.utf16Newline) // assuming utf16 is the underlying storage, this should be quick.
+  }
+
   public init(lines: [String]) {
     self = lines.joined(separator: "\n")
   }
