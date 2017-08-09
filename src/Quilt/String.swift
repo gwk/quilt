@@ -47,9 +47,9 @@ extension String {
   public func replacePathExt(_ ext: String) -> String {
     var pre: String
     if let r = pathExtDotRange {
-      pre = substring(to: r.upperBound)
+      pre = String(self[..<r.lowerBound])
     } else {
-      pre = self + "."
+      pre = self
     }
     return pre + ext
   }
