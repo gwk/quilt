@@ -22,5 +22,16 @@ public class QView: CRView {
   override public var isFlipped: Bool { return true }
 
   override public var wantsUpdateLayer: Bool { return true }
+
+  public var backgroundColor: CRColor? {
+    get {
+      guard let cgColor = layer?.backgroundColor else { return nil }
+      return CRColor(cgColor: cgColor)
+    }
+    set {
+      layer!.backgroundColor = newValue?.cgColor
+      setNeedsDisplay()
+    }
+  }
   #endif
 }
