@@ -18,6 +18,9 @@ public class QView: CRView {
   }
 
   #if os(OSX)
+
+  override public var isFlipped: Bool { return true }
+
   override public var wantsUpdateLayer: Bool { return true }
   #endif
 }
