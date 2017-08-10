@@ -82,6 +82,7 @@ extension CGRect {
     get { return y + h }
     set { y = newValue - h }
   }
-}
 
-public let frameInit = CGRect(0, 0, 256, 256) // large, weird size to make it obvious when we forget to specify layout constraints.
+  public static let frameInit = CGRect(0, 0, 256, 256) // large, weird size to make it obvious when we forget to specify layout constraints.
+
+}
