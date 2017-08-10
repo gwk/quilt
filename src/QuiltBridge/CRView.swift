@@ -51,25 +51,25 @@ extension CRView {
 
   public convenience init(frame: CGRect, name: String, parent: CRView? = nil, flex: NSView.AutoresizingMask? = nil) {
     self.init(frame: frame)
-    helpInit(name: name, parent: parent, flex: flex)
+    update(name: name, parent: parent, flex: flex)
   }
 
   public convenience init(frame: CGRect, parent: CRView, flex: NSView.AutoresizingMask? = nil) {
     self.init(frame: frame)
-    helpInit(name: nil, parent: parent, flex: flex)
+    update(name: nil, parent: parent, flex: flex)
   }
 
   public convenience init(size: CGSize, name: String? = nil, parent: CRView? = nil, flex: NSView.AutoresizingMask? = nil) {
     self.init(frame: CGRect(size))
-    helpInit(name: name, parent: parent, flex: flex)
+    update(name: name, parent: parent, flex: flex)
   }
 
   public convenience init(name: String, parent: CRView? = nil, flex: NSView.AutoresizingMask? = nil) {
-    self.init(frame: frameInit)
-    helpInit(name: name, parent: parent, flex: flex)
+    self.init(frame: .frameInit)
+    update(name: name, parent: parent, flex: flex)
   }
 
-  public func helpInit(name: String?, parent: CRView?, flex: NSView.AutoresizingMask?) {
+  public func update(name: String?, parent: CRView?, flex: NSView.AutoresizingMask?) {
     if let name = name {
       self.name = name
     }
