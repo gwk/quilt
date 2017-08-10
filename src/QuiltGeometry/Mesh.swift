@@ -281,17 +281,19 @@ class Mesh {
   }
 
   class func triangle() -> Mesh {
-    let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
+    // Triangle with vertex radius of 1.
+    let x: Flt = sqrt(3.0) * 0.5
     let m = Mesh(name: "triangle")
     m.positions = [
-      V3(-r, -r, -r),
-      V3(-r,  r,  r),
-      V3( r,  r, -r),
+      V3(0, -1, 0),
+      V3( x, 0.5, 0),
+      V3(-x, 0.5, 0),
     ]
     m.triangles = [
       Tri(0, 1, 2),
       Tri(0, 2, 1),
     ]
+    m.addNormalsFromOriginToPositions()
     return m
   }
 }
