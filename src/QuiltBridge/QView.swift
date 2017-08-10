@@ -6,12 +6,12 @@ import CoreGraphics
 
 public class QView: CRView {
 
-  public required init?(coder decoder: NSCoder) {
-    super.init(coder: decoder)
+  public required init?(coder: NSCoder) {
+    super.init(coder: coder)
   }
 
-  public override init(frame frameRect: CGRect) {
-    super.init(frame: frameRect)
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
     #if os(OSX)
       self.wantsLayer = true
     #endif
