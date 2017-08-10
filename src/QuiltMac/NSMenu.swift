@@ -5,13 +5,13 @@ import AppKit
 
 extension NSMenu {
 
-  public convenience init(parentItem: NSMenuItem) {
-    self.init()
+  public convenience init(title: String, parentItem: NSMenuItem) {
+    self.init(title: title)
     parentItem.submenu = self
   }
 
-  public convenience init(superMenu: NSMenu) {
-    self.init()
+  public convenience init(title: String, superMenu: NSMenu) {
+    self.init(title: title)
     let parentItem = NSMenuItem(parent: superMenu)
     parentItem.submenu = self
   }
