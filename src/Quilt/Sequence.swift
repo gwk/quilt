@@ -59,13 +59,6 @@ extension Sequence {
     }
     return false
   }
-
-  var first: Iterator.Element? {
-    for first in self {
-      return first
-    }
-    return nil
-  }
 }
 
 
