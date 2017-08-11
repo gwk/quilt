@@ -32,7 +32,7 @@ extension Dictionary {
     return d
   }
 
-  public mutating func getDefault(_ key: Key, dflt: () -> Value) -> Value {
+  public mutating func getOrInsert(_ key: Key, dflt: () -> Value) -> Value {
     if let v = self[key] {
       return v
     } else {
@@ -42,7 +42,7 @@ extension Dictionary {
     }
   }
 
-  public mutating func getDefault(_ key: Key, dflt: Value) -> Value {
+  public mutating func getOrInsert(_ key: Key, dflt: Value) -> Value {
     if let v = self[key] {
       return v
     } else {
@@ -56,7 +56,7 @@ extension Dictionary {
 
 extension Dictionary where Value: DefaultInitializable {
 
-  public mutating func getDefault(_ key: Key) -> Value {
+  public mutating func getOrDefault(_ key: Key) -> Value {
     if let v = self[key] {
       return v
     } else {
