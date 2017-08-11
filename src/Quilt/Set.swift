@@ -35,4 +35,11 @@ extension Set {
     set.insert(replacement)
     return set
   }
+
+  public mutating func containsOrInsert(_ el: Element) -> Bool {
+    // Returns true if the set already contained the element.
+    if contains(el) { return true }
+    insert(el)
+    return false
+  }
 }
