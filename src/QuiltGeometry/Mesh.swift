@@ -161,7 +161,7 @@ class Mesh {
     var obi = 0
     #endif
 
-    var stride = MemoryLayout<V3S>.size
+    var stride = MemoryLayout<V3S>.size // always have positions.
     if !normals.isEmpty {
       assert(normals.count == len)
       on = stride
