@@ -6,7 +6,7 @@ import QuiltSceneKit
 
 
 func gridCage(_ divisions: Int, barRatio: Flt = 1 / 16) -> Mesh {
-  let m = Mesh()
+  let m = Mesh(name: "gridCage")
   let steps = divisions + 1
   let steps_f = Flt(steps)
   for i in 0...steps {

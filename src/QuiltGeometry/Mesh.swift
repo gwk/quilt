@@ -277,7 +277,9 @@ class Mesh {
         SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .triangles)
       }
     }
-    return SCNGeometry(sources: sources, elements: [element])
+    let geometry = SCNGeometry(sources: sources, elements: [element])
+    geometry.name = name
+    return geometry
   }
 
   class func triangle() -> Mesh {
