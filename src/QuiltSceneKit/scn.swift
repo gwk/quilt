@@ -7,16 +7,6 @@ import SceneKit
 public typealias V3 = SCNVector3
 public typealias V4 = SCNVector4
 
-/*
-func getCtx(_ renderer: SCNSceneRenderer) -> CRGLContext {
-  return unsafeBitCast(renderer.context, to: CRGLContext.self)
-}
-
-func enableCtx(_ renderer: SCNSceneRenderer) {
-  glContextEnable(getCtx(renderer))
-}
-*/
-
 
 extension V3: Equatable {
   public static func ==(l: V3, r: V3) -> Bool { return l.x == r.x && l.y == r.y && l.z == r.z }
