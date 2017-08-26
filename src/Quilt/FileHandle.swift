@@ -20,6 +20,9 @@ public var stdErr = FileHandle.standardError
 public func outZ(_ head: Any, _ tail: Any...) { stdOut.write(head: head, tail: tail, sep: "", end: "") }
 public func errZ(_ head: Any, _ tail: Any...) { stdErr.write(head: head, tail: tail, sep: "", end: "") }
 
+public func outN() { stdOut.write("\n") }
+public func errN() { stdErr.write("\n") }
+
 public func outL(_ head: Any, _ tail: Any..., sep: String = "") { stdOut.write(head: head, tail: tail, sep: sep, end: "\n") }
 public func errL(_ head: Any, _ tail: Any..., sep: String = "") { stdErr.write(head: head, tail: tail, sep: sep, end: "\n") }
 
