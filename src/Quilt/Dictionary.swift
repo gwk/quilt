@@ -19,6 +19,23 @@ extension Dictionary {
     self[key] = value
   }
 
+  public mutating func insertNewOrElse(_ key: Key, value: Value, body: ()->()) {
+    if contains(key: key) {
+      body()
+    } else {
+      self[key] = value
+    }
+  }
+
+  public mutating func insertNewOrElse(_ key: Key, value: Value, body: () throws -> Void) rethrows {
+    if contains(key: key) {
+      try body()
+    } else {
+      self[key] = value
+    }
+  }
+
+
   public mutating func updateExisting(_ key: Key, value: Value) {
     assert(contains(key: key), "updateExisting: key not yet inserted: \(key); value: \(value)")
     self[key] = value
