@@ -27,6 +27,12 @@ extension Array: DefaultInitializable {
     }
   }
 
+  public mutating func appendOpt(_ optEl: Element?) {
+    if let el = optEl {
+      append(el)
+    }
+  }
+
   public mutating func put(_ index: Int, el: Element, dflt: Element) {
     if index < count {
       self[index] = el
