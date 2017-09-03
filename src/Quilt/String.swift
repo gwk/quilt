@@ -250,3 +250,7 @@ public func pluralize(_ count: Int, _ word: String) -> String {
   return "\(count) \(word)\(s)"
 }
 
+
+public func typeDescription(_ val: Any) -> String {
+  return String(describing: type(of: val))
+}
