@@ -21,6 +21,24 @@ extension String {
     self.init(char: " ", count: indent * 2)
   }
 
+  var repr: String {
+    var r = "\""
+    for char in unicodeScalars {
+      switch char {
+      case "\\": r.append("\\\\")
+      case "\"": r.append("\\\"")
+      case UnicodeScalar(0x20)...UnicodeScalar(0x7E): r.append(String(char))
+      case "\0": r.append("\\0")
+      case "\t": r.append("\\t")
+      case "\n": r.append("\\n")
+      case "\r": r.append("\\r")
+      default: r.append("\\{\(String(char.value, radix: 16, uppercase: false))}")
+      }
+    }
+    r.append("\"")
+    return r
+  }
+
   // MARK: paths
 
   public var pathExtDotRange: Range<Index>?    { return range(of: ".", options: .backwards) }
