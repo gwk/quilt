@@ -17,7 +17,7 @@ public enum EventKind {
 }
 
 
-class QKResponder: CRResponder {
+class QResponder: CRResponder {
   //var handlers: [EventKind -> (CREvent, CRView) -> ()] = []
 
   #if os(OSX)
