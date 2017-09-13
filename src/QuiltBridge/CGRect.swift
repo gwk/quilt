@@ -83,6 +83,13 @@ extension CGRect {
     set { y = newValue - h }
   }
 
-  public static let frameInit = CGRect(0, 0, 256, 256) // large, weird size to make it obvious when we forget to specify layout constraints.
+  public func insetBy(l: Flt, t: Flt, r: Flt, b: Flt) -> CGRect {
+    return CGRect(x: x + l, y: y + l, width: width - (l + r), height: height - (t + b))
+  }
 
+  public func insetBy(_ insets: CREdgeInsets) -> CGRect {
+    return insetBy(l: insets.l, t: insets.t, r: insets.r, b: insets.b)
+  }
+
+  public static let frameInit = CGRect(0, 0, 256, 256) // large, weird size to make it obvious when we forget to specify layout constraints.
 }

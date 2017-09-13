@@ -2,6 +2,12 @@
 
 import CoreGraphics
 
+#if os(OSX)
+  import AppKit
+#else
+  import UIKit
+#endif
+
 
 extension CGContext {
 
@@ -38,5 +44,11 @@ extension CGContext {
 
   public func createImage() -> CGImage {
     return self.makeImage()!
+  }
+
+  public func withGraphicsContext(flipped: Bool, body: Action) {
+    NSGraphicsContext.current = NSGraphicsContext(cgContext: self, flipped: flipped)
+    body()
+    NSGraphicsContext.current = nil
   }
 }

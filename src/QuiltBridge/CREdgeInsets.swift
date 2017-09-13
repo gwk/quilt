@@ -19,4 +19,8 @@ extension CREdgeInsets {
   public init(l: Flt = 0, t: Flt = 0, r: Flt = 0, b: Flt = 0) {
     self.init(top: t, left: l, bottom: b, right: r)
   }
+
+  public init(x: Flt = 0, y: Flt = 0) {
+    self.init(top: y, left: x, bottom: y, right: x)
+  }
 }

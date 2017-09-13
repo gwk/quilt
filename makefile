@@ -9,7 +9,7 @@
 _default: build
 
 build: gen
-	swift build --build-path _build 2>&1 | swift-plumage | less
+	swift build --build-path=_build -Xswiftc=-target -Xswiftc=x86_64-apple-macosx10.11 2>&1 | swift-plumage | less
 	@echo done.
 
 clean:

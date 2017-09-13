@@ -17,33 +17,26 @@ public class QLabel: QView {
   }
 
   public override func makeBackingLayer() -> CALayer {
-    return CATextLayer()
+    return QTextLayer()
   }
 
-  var text: String = "" {
-    didSet {
-      textLayer.string = text as NSString
-    }
+  
+  // MARK: QLabel
+
+  public var textLayer: QTextLayer { return layer as! QTextLayer }
+
+  public var text: String {
+    get { return textLayer.text }
+    set { textLayer.text = newValue }
   }
 
-  var font: CRFont {
-    get { return textLayer.font as! CRFont }
-    set {
-      textLayer.font = newValue
-      textLayer.fontSize = newValue.pointSize
-    }
+  public var font: CRFont {
+    get { return textLayer.font }
+    set { textLayer.font = newValue }
   }
-
 
   public var textColor: CRColor {
-    get {
-      return CRColor(cgColor: textLayer.foregroundColor ?? .white)!
-    }
-    set {
-      textLayer.foregroundColor = newValue.cgColor
-      setNeedsDisplay()
-    }
+    get { return textLayer.textColor }
+    set { textLayer.textColor = newValue }
   }
-
-  var textLayer: CATextLayer { return layer as! CATextLayer }
 }
