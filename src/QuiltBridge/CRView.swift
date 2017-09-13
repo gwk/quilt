@@ -62,16 +62,16 @@ extension CRView {
     }
   }
 
-  public var name: String {
+  public var name: String? {
     get {
       #if os(OSX)
         return accessibilityIdentifier()
         #else
-        return accessibilityIdentifier!
+        return accessibilityIdentifier
       #endif
     }
     set {
-      assert(newValue.isSym)
+      if let n = newValue { assert(n.isSym) }
       #if os(OSX)
         setAccessibilityIdentifier(newValue)
         #else

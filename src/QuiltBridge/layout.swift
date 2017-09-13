@@ -145,13 +145,13 @@ extension NSLayoutConstraint: QKLayoutConstraining {
 extension String: QKLayoutConstraining {
 
   public func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutConstraint.FormatOptions) -> [NSLayoutConstraint] {
-    let viewDict = views.mapToDict { ($0.name, $0) }
+    let viewDict = views.mapToDict { ($0.name!, $0) }
     #if DEBUG && false // only use the wrapper method for debug.
       // TODO: constraintsAndCatchWithVisualFormat has yet to be ported,
       // because swift package manager requires that .m files live in separate modules,
       // and swift code cannot catch NSException natively.
       let m = NSLayoutConstraint.constraintsAndCatchWithVisualFormat
-      #else
+    #else
       let m = NSLayoutConstraint.constraints(withVisualFormat:options:metrics:views:)
     #endif
     return m(self, opts, metrics, viewDict) as [NSLayoutConstraint]
