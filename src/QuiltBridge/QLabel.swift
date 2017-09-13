@@ -13,11 +13,7 @@ public class QLabel: QView {
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    textLayer.allowsFontSubpixelQuantization = true
-    textLayer.contentsScale = 2 // hack.
-    // Correctly setting the scale on macOS is complex;
-    // windows can transition between screens with different scale factors,
-    // and screens can be added or removed while the application is running.
+    //textLayer.allowsFontSubpixelQuantization = true
   }
 
   public override func makeBackingLayer() -> CALayer {

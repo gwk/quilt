@@ -33,5 +33,12 @@ public class QView: CRView {
       setNeedsDisplay()
     }
   }
+
+  override public func viewDidChangeBackingProperties() {
+    if let layer = layer, let window = window {
+      layer.contentsScale = window.backingScaleFactor
+    }
+  }
+
   #endif
 }
