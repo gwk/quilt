@@ -37,6 +37,7 @@ class QTableView: NSScrollView {
     let width: Flt = docView.w
     while true {
       if let (rowView, rowHeight) = delegate.row(index: index, width: width) {
+        rowView.flex = .w
         rowView.y += height
         docView.add(viewOrLayer: rowView)
         index += 1
