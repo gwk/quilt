@@ -20,7 +20,7 @@ class QTableView: NSScrollView {
     self.delegate = delegate
     super.init(frame: frame)
     documentView = QView(frame: frame)
-    docView.flex = [.width]
+    docView.flex = [.w]
     backgroundColor = .darkGray
     hasVerticalScroller = true
     contentView.postsBoundsChangedNotifications = true
@@ -38,7 +38,7 @@ class QTableView: NSScrollView {
     while true {
       if let (rowView, rowHeight) = delegate.row(index: index, width: width) {
         rowView.y += height
-        docView.addSubview(rowView)
+        docView.add(viewOrLayer: rowView)
         index += 1
         height += rowHeight
       } else {
@@ -61,7 +61,7 @@ protocol QTableSource: class {
   func approximateHeightForRow(index: Int) -> Flt?
 
   // A return value of nil indicates that the index is at the end of the row sequence.
-  func row(index: Int, width: Flt) -> (view: NSView, rowHeight: Flt)?
+  func row(index: Int, width: Flt) -> (CRViewOrLayer, rowHeight: Flt)?
 
   var tailHeight: Flt { get }
 }
