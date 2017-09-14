@@ -31,62 +31,82 @@ public class QTextLayer: CALayer {
     didSet { setNeedsDisplay() }
   }
 
-  public var alignment: NSTextAlignment {
-    get { return _paragraphStyle.alignment }
-    set {
-      _paragraphStyle.alignment = newValue
-      setNeedsDisplay()
-    }
+  public var alignment: NSTextAlignment = .left {
+    didSet { setNeedsDisplay() }
   }
 
-  public var lineBreakMode: NSParagraphStyle.LineBreakMode {
-    get { return _paragraphStyle.lineBreakMode }
-    set {
-      _paragraphStyle.lineBreakMode = newValue
-      setNeedsDisplay()
-    }
+  public var lineBreakMode: NSParagraphStyle.LineBreakMode = .byWordWrapping {
+    didSet { setNeedsDisplay() }
   }
 
-  private var _paragraphStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
+  private var _attrString = NSMutableAttributedString()
+  private var _truncationString = NSMutableAttributedString(string: "\u{2026}") // ellipsis.
+  private var _style = NSMutableParagraphStyle()
 
+  private lazy var _framesetter = CTFramesetter.make(attributedString: _attrString)
+  private lazy var _truncationLine = CTLine.make(attrString: _truncationString)
 
   // MARK: CALayer
 
-  override public func draw(in ctx: CGContext) {
-    let textBounds = bounds.insetBy(edgeInsets)
+  public required init?(coder: NSCoder) { fatalError() }
 
-    // TODO: use Core Text.
-    ctx.withGraphicsContext(flipped: true) {
-      text.draw(
-        with: textBounds,
-        options: [.usesLineFragmentOrigin, .truncatesLastVisibleLine],
-        attributes: [
-          //.backgroundColor
-          //.baselineOffset
-          //.cursor
-          //.expansion
-          .font: font,
-          .foregroundColor: textColor,
-          //.kern
-          //.ligature
-          //.link
-          //.markedClauseSegment
-          //.obliqueness
-          .paragraphStyle: _paragraphStyle,
-          //.shadow
-          //.spellingState
-          //.strikethroughColor
-          //.strikethroughStyle
-          //.strokeColor
-          //.strokeWidth
-          //.superscript
-          //.textAlternatives
-          //.textEffect
-          //.toolTip
-          //.underlineColor
-          //.underlineStyle
-        ],
-        context: nil)
-    }
+  public override init() {
+    super.init()
+    needsDisplayOnBoundsChange = true
+  }
+
+  public override init(layer: Any) {
+    super.init(layer: layer)
+    let l = layer as! QTextLayer
+    text = l.text
+    font = l.font
+    textColor = l.textColor
+    edgeInsets = l.edgeInsets
+    alignment = l.alignment
+    lineBreakMode = l.lineBreakMode
+  }
+
+  private func updateAttrs(_ attrString: NSMutableAttributedString) {
+    //.backgroundColor
+    //.baselineOffset
+    //.cursor
+    //.expansion
+    attrString.addAttr(.font, font)
+    attrString.addAttr(.foregroundColor, textColor)
+    //.kern
+    //.ligature
+    //.link
+    //.markedClauseSegment
+    //.obliqueness
+    attrString.addAttr(.paragraphStyle, _style)
+    //.shadow
+    //.spellingState
+    //.strikethroughColor
+    //.strikethroughStyle
+    //.strokeColor
+    //.strokeWidth
+    //.superscript
+    //.textAlternatives
+    //.textEffect
+    //.toolTip
+    //.underlineColor
+    //.underlineStyle
+  }
+
+  override public func draw(in ctx: CGContext) {
+
+    _style.alignment = alignment
+    _style.lineBreakMode = lineBreakMode
+
+    _attrString.replaceContents(with: text)
+    updateAttrs(_attrString)
+    updateAttrs(_truncationString)
+
+    let textBounds = bounds.insetBy(edgeInsets)
+    let frame = _framesetter.createFrame(bounds: textBounds)
+    ctx.textMatrix = .identity
+    ctx.translateBy(x: 0, y: bounds.size.height)
+    ctx.scaleBy(x: 1.0, y: -1.0)
+    frame.draw(ctx: ctx, attrString: _attrString, width:textBounds.width, truncationType: .end, truncationLine: _truncationLine)
   }
 }
