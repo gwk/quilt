@@ -11,11 +11,11 @@ let package = Package(
   ],
   targets: [
     .target(name: "Quilt"),
-    .target(name: "QuiltBridge",    dependencies: ["Quilt"]),
-    .target(name: "QuiltMac",       dependencies: ["Quilt", "QuiltBridge"]),
-    .target(name: "QuiltSceneKit",  dependencies: ["Quilt", "QuiltBridge"]),
-    .target(name: "QuiltSpriteKit", dependencies: ["Quilt", "QuiltBridge"]),
-    .target(name: "QuiltGeometry",  dependencies: ["Quilt", "QuiltBridge", "QuiltSceneKit"]),
+    .target(name: "QuiltUI",    dependencies: ["Quilt"]),
+    .target(name: "QuiltMac",       dependencies: ["Quilt", "QuiltUI"]),
+    .target(name: "QuiltSceneKit",  dependencies: ["Quilt", "QuiltUI"]),
+    .target(name: "QuiltSpriteKit", dependencies: ["Quilt", "QuiltUI"]),
+    .target(name: "QuiltGeometry",  dependencies: ["Quilt", "QuiltUI", "QuiltSceneKit"]),
   ],
   swiftLanguageVersions: [4]
 )

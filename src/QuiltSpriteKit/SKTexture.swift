@@ -2,7 +2,7 @@
 
 import SpriteKit
 import Quilt
-import QuiltBridge
+import QuiltUI
 
 
 let SKTexture_missing: SKTexture = SKTexture(cgImage: CoreGraphics.CGImage.missing) // workaround for 2.1b3.

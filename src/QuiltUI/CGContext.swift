@@ -1,12 +1,13 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 import CoreGraphics
-
 #if os(OSX)
   import AppKit
 #else
   import UIKit
 #endif
+
+import Quilt
 
 
 extension CGContext {

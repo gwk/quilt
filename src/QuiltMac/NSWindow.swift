@@ -2,7 +2,7 @@
 
 import AppKit
 import Quilt
-import QuiltBridge
+import QuiltUI
 
 
 extension NSWindow {

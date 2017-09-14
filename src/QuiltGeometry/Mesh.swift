@@ -2,7 +2,7 @@
 
 import SceneKit
 import Quilt
-import QuiltBridge
+import QuiltUI
 import QuiltSceneKit
 
 

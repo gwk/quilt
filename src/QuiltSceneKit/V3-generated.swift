@@ -5,7 +5,7 @@ import Darwin
 import simd
 import SceneKit
 import Quilt
-import QuiltBridge
+import QuiltUI
 extension V3 : VecType3, FloatVecType, CustomStringConvertible {
   public typealias Scalar = Flt
   public typealias FloatType = Flt
