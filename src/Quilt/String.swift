@@ -218,26 +218,14 @@ extension String {
 
   // MARK: utf8
 
-  public func asUtf8NT<R>(_ body: (UnsafeBufferPointer<Int8>) -> R) -> R {
+  public func asUtf8NT<R>(_ body: (Buffer<Int8>) -> R) -> R {
     return utf8CString.withUnsafeBufferPointer(body)
   }
 
-#if false
-  public func asUtf8NTUns<R>(_ body: (UnsafeBufferPointer<UInt8>) -> R) -> R {
+  public func asUtf8NTRaw<R>(_ body: (RawBuffer) -> R) -> R {
     return utf8CString.withUnsafeBufferPointer {
-      (buffer: UnsafeBufferPointer<CChar>) -> R in
-      return buffer.baseAddress!.withMemoryRebound(to: UInt8.self, capacity: buffer.count) {
-        (reboundPtr: UnsafeMutablePointer<UInt8>) -> R in
-        return body(UnsafeBufferPointer(start: reboundPtr, count: buffer.count))
-      }
-    }
-  }
-#endif
-
-  public func asUtf8NTRaw<R>(_ body: (UnsafeRawBufferPointer) -> R) -> R {
-    return utf8CString.withUnsafeBufferPointer {
-      (buffer: UnsafeBufferPointer<Int8>) -> R in
-      let raw = UnsafeRawBufferPointer(buffer)
+      (buffer: Buffer<Int8>) -> R in
+      let raw = RawBuffer(buffer)
       return body(raw)
     }
   }

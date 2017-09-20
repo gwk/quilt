@@ -4,8 +4,8 @@ import Darwin
 import Darwin.C.stdatomic // swift 3.1 does not expose atomic_fetch_add_explicit, so cannot fix deprecation warning below.
 
 
-public func atmInc(_ ptr: UnsafeMutablePointer<I64>) { OSAtomicIncrement64(ptr) }
-public func atmDec(_ ptr: UnsafeMutablePointer<I64>) { OSAtomicDecrement64(ptr) }
+public func atmInc(_ ptr: MutPtr<I64>) { OSAtomicIncrement64(ptr) }
+public func atmDec(_ ptr: MutPtr<I64>) { OSAtomicDecrement64(ptr) }
 
 
 public class AtmCounters {
@@ -18,11 +18,11 @@ public class AtmCounters {
   public var count: Int { return _counters.count }
   
   public subscript (idx: Int) -> I64 { return _counters[idx] }
-  
-  public func withPtr(_ idx: Int, body: (UnsafeMutablePointer<I64>)->()) {
+
+  public func withPtr(_ idx: Int, body: (MutPtr<I64>)->()) {
     assert(idx < count)
-    self._counters.withUnsafeMutableBufferPointer() {
-      (buffer: inout UnsafeMutableBufferPointer<I64>) -> () in
+    self._counters.withMutBuffer() {
+      (buffer: inout MutBuffer<I64>) -> () in
       body(buffer.baseAddress! + idx)
     }
   }

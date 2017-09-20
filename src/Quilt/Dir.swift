@@ -5,7 +5,7 @@ import Darwin
 
 public class Dir {
 
-  private typealias Handle = UnsafeMutablePointer<Darwin.DIR>
+  private typealias Handle = MutPtr<Darwin.DIR>
 
   public enum Err: Error {
     case path(String)

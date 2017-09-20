@@ -104,13 +104,13 @@ public class InFile: File {
 
   public func len() throws -> Int { return try Int(stats().st_size) }
 
-  public func read(len: Int, ptr: UnsafeMutableRawPointer) throws -> Int {
+  public func read(len: Int, ptr: MutRawPtr) throws -> Int {
     let actualLen = Darwin.read(descriptor, ptr, len)
     guard actualLen >= 0 else { throw Err.read(name: name, offset: -1, len: len) }
     return actualLen
   }
 
-  public func readAbs(offset: Int, len: Int, ptr: UnsafeMutableRawPointer) throws -> Int {
+  public func readAbs(offset: Int, len: Int, ptr: MutRawPtr) throws -> Int {
     let actualLen = Darwin.pread(descriptor, ptr, len, off_t(offset))
     guard actualLen >= 0 else { throw Err.read(name: name, offset: offset, len: len) }
     return actualLen

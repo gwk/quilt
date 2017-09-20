@@ -269,11 +269,11 @@ class Mesh {
     case .point:
       element = SCNGeometryElement(indices: points, vertexCount: positions.count, primitiveType: .point)
     case .seg:
-      element = segments.withUnsafeBufferPointerRebound(to: Int.self) {
+      element = segments.withBufferRebound(to: Int.self) {
         SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .line)
       }
     case .tri:
-      element = triangles.withUnsafeBufferPointerRebound(to: Int.self) {
+      element = triangles.withBufferRebound(to: Int.self) {
         SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .triangles)
       }
     }

@@ -44,7 +44,7 @@ extension CGImage {
     }
   }
 
-  public class func with<T: PixelType>(bufferPointer: UnsafeBufferPointer<T>, size: V2I, colorSpace: CGColorSpace,
+  public class func with<T: PixelType>(bufferPointer: Buffer<T>, size: V2I, colorSpace: CGColorSpace,
     bitmapInfo: CGBitmapInfo, shouldInterpolate: Bool, intent: CGColorRenderingIntent) -> CGImage {
       let bytesPerComponent = MemoryLayout<T.Scalar>.size
       let bytesPerPixel = MemoryLayout<T>.size
@@ -61,7 +61,7 @@ extension CGImage {
 
   public class func with<T: PixelType>(areaBuffer: AreaBuffer<T>, shouldInterpolate: Bool = true,
     intent: CGColorRenderingIntent = .defaultIntent) -> CGImage {
-      return areaBuffer.withUnsafeBufferPointer() {
+      return areaBuffer.withBuffer() {
         typealias Scalar = T.Scalar
         let isRGB = T.numComponents >= 3
         let isFloat = (MemoryLayout<Scalar>.size == 4)

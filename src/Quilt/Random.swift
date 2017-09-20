@@ -17,7 +17,7 @@ public class Random {
   public convenience init(arc4Seeded: Bool) {
     var states: [U64] = [0x123456789ABCDEF, 0x123456789ABCDEF]
     if arc4Seeded {
-      states.withUnsafeMutableBufferPointer { arc4random_buf($0.baseAddress, 16) }
+      states.withMutBuffer { arc4random_buf($0.baseAddress, MemoryLayout<U64>.size * 2) }
     }
     self.init(state0: states[0], state1: states[1])
   }

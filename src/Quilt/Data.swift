@@ -13,7 +13,7 @@ extension Data {
     self = try! Data(contentsOfFile: pathForResource(resPath), options: options)
   }
 
-  public init(bufferPointer: UnsafeRawBufferPointer) {
-    self = Data(bytes: bufferPointer.baseAddress!, count: bufferPointer.count)
+  public init(buffer: RawBuffer) {
+    self = Data(bytes: buffer.baseAddress!, count: buffer.count)
   }
 }

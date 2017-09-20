@@ -56,7 +56,17 @@ extension Array: DefaultInitializable {
     }
   }
 
-  public func withUnsafeBufferPointerRebound<T, Result>(to type: T.Type, _ body: (UnsafeBufferPointer<T>) throws -> Result) rethrows -> Result {
+  @inline(__always)
+  public func withBuffer<R>(_ body: (Buffer<Array.Element>) throws -> R) rethrows -> R {
+    return try withUnsafeBufferPointer(body)
+  }
+
+  @inline(__always)
+  public mutating func withMutBuffer<R>(_ body: (inout MutBuffer<Array.Element>) throws -> R) rethrows -> R {
+    return try withUnsafeMutableBufferPointer(body)
+  }
+
+  public func withBufferRebound<T, Result>(to type: T.Type, _ body: (Buffer<T>) throws -> Result) rethrows -> Result {
     let origSize = MemoryLayout<Element>.size
     let castSize = MemoryLayout<T>.size
     let reboundCount: Int
@@ -69,15 +79,15 @@ extension Array: DefaultInitializable {
     } else {
       reboundCount = count
     }
-    return try self.withUnsafeBufferPointer {
+    return try self.withBuffer {
       (buffer) in
       if let baseAddress = buffer.baseAddress {
         return try baseAddress.withMemoryRebound(to: T.self, capacity: reboundCount) {
           (castPtr) in
-          return try body(UnsafeBufferPointer(start: castPtr, count: reboundCount))
+          return try body(Buffer(start: castPtr, count: reboundCount))
         }
       } else {
-        return try body(UnsafeBufferPointer<T>(start: nil, count: 0))
+        return try body(Buffer<T>(start: nil, count: 0))
       }
     }
   }

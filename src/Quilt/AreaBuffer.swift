@@ -45,9 +45,9 @@ public class AreaBuffer<Element>: Collection {
   public func index(after i: Index) -> Index {
     return array.index(after: i)
   }
-  
-  public func withUnsafeBufferPointer<R>(_ body: (UnsafeBufferPointer<Element>) -> R) -> R {
-    return array.withUnsafeBufferPointer(body)
+
+  public func withBuffer<R>(_ body: (Buffer<Element>) -> R) -> R {
+    return array.withBuffer(body)
   }
 
   public func allCoords(start: V2I, end: V2I, step: V2I = V2I(1, 1)) -> AreaIterator {
