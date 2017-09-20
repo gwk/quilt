@@ -8,9 +8,10 @@
 
 _default: build
 
+triple_args = -target-triple=x86_64-apple-macosx10.11
+
 build: gen
-	swift build --build-path=_build -Xswiftc=-target -Xswiftc=x86_64-apple-macosx10.11 2>&1 | swift-plumage | less
-	@echo done.
+	swift-plumage $(triple_args)
 
 clean:
 	rm -rf _build/*
@@ -24,11 +25,12 @@ gen: \
 	src/QuiltSceneKit/V3-generated.swift \
 	src/QuiltSceneKit/V4-generated.swift
 
-test: build
-	swift test --build-path _build
+test:
+	swift-plumage $(triple_args) -test
 
 xcode:
 	swift package generate-xcodeproj
+
 
 src/Quilt/mat-generated.swift: gen/mat.py
 	$^ > $@
