@@ -73,7 +73,7 @@ public class AreaBuffer<Element>: Collection {
       array.append(val)
     }
   }
-  
+
   public func index(_ coord: V2I) -> Int {
     return size.x * coord.y + coord.x
   }
@@ -112,11 +112,11 @@ public class AreaBuffer<Element>: Collection {
   }
 
   public func el(_ coord: V2I) -> Element { return el(coord.x, coord.y) }
-  
+
   public func setEl(_ i: Int, _ j: Int, _ val: Element) {
     self[size.x * j + i] = val
   }
-  
+
   public func setEl(_ coord: V2I, _ val: Element) { setEl(coord.x, coord.y, val) }
 
   public func map<R>(_ transform: (Element)->R) -> AreaBuffer<R> {
