@@ -21,7 +21,7 @@ private var _appLaunchSysTime: Time = 0
 
 public func initAppLaunchSysTime() {
   if _appLaunchSysTime != 0 {
-    fatalError("recordAppLaunchSysTime(): must be called only once in main().")
+    fatalError("initAppLaunchSysTime(): must be called only once in main().")
   }
   _appLaunchSysTime = sysTime()
   assert(_appLaunchSysTime > 0)
