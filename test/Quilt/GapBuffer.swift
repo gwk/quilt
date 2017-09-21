@@ -1,16 +1,16 @@
 // © 2016 George King. Permission to use this file is granted in license-quilt.txt.
 
-@testable import Quilt
 import QTest
+@testable import Quilt
 
-class Tests: TestCase {
 
-  // functions beginning with 'test' are automatically run by `swift test`.
+class GapBufferTests: TestCase {
+
   func testA() {
-    ufail()
+    var b = GapBuffer<String>()
+    b.append(contentsOf: ["0", "1", "2"])
+    utest(seq: ["0", "1", "2"], b)
   }
   func testB() {}
 }
-
-//public func ufail(_ msg: @autoclosure ()->String="", file: StaticString = #file, line: UInt = #line) {
 
