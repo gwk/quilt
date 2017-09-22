@@ -9,8 +9,6 @@ extension CGRect {
 
   public init(_ x: Flt, _ y: Flt, _ w: Flt, _ h: Flt) { self.init(x: x, y: y, width: w, height: h) }
 
-  public init(x: Flt, y: Flt, r: Flt, b: Flt) { self.init(x, y, r - x, b - y) }
-
   public init(_ w: Flt, _ h: Flt) { self.init(0, 0, w, h) }
 
   public init(_ o: CGPoint, _ s: CGSize) { self.init(o.x, o.y, s.w, s.h) }
@@ -18,6 +16,18 @@ extension CGRect {
   public init(c: CGPoint, s: CGSize) { self.init(c.x - s.w * 0.5, c.y - s.h * 0.5, s.w, s.h) }
 
   public init(_ s: CGSize) { self.init(0, 0, s.w, s.h) }
+
+  public init(l: Flt? = nil, r: Flt? = nil, w: Flt? = nil, t: Flt? = nil, b: Flt? = nil, h: Flt? = nil) {
+   self.init(
+     x: l ?? (r! - w!),
+     y: t ?? (b! - h!),
+     width: w ?? (r! - l!),
+     height: h ?? (b! - t!))
+  }
+
+  public init(x: Flt, y: Flt, w: Flt, b: Flt) { self.init(x, y, w, b-y) }
+
+  public init(x: Flt, y: Flt, r: Flt, h: Flt) { self.init(x, y, r-x, h) }
 
   public init(p0: CGPoint, p1: CGPoint) {
     var x, y, w, h: Flt
@@ -71,6 +81,16 @@ extension CGRect {
   public var h: Flt {
     get { return s.h }
     set { s.h = newValue }
+  }
+
+  public var l: Flt {
+    get { return o.x }
+    set { o.x = newValue }
+  }
+
+  public var t: Flt {
+    get { return o.y }
+    set { o.y = newValue }
   }
 
   public var r: Flt {

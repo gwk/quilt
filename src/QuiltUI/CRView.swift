@@ -25,20 +25,18 @@ extension CRView {
 
   public convenience init(frame: CGRect, parent: CRView, flex: Flex? = nil) {
     self.init(frame: frame)
-    update(name: nil, parent: parent, flex: flex)
+    update(parent: parent, flex: flex)
   }
 
-  public convenience init(size: CGSize, name: String? = nil, parent: CRView? = nil, flex: Flex? = nil) {
+  public convenience init(size: CGSize = CGRect.frameInit.size, name: String? = nil, parent: CRView? = nil, flex: Flex? = nil) {
     self.init(frame: CGRect(size))
     update(name: name, parent: parent, flex: flex)
   }
 
-  public convenience init(name: String, parent: CRView? = nil, flex: Flex? = nil) {
-    self.init(frame: .frameInit)
-    update(name: name, parent: parent, flex: flex)
-  }
-
-  public func update(name: String?, parent: CRView?, flex: Flex?) {
+  public func update(frame: CGRect? = nil, name: String? = nil, parent: CRView? = nil, flex: Flex? = nil) {
+    if let frame = frame {
+      self.frame = frame
+    }
     if let name = name {
       self.name = name
     }

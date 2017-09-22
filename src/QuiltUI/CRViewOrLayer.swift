@@ -57,6 +57,16 @@ extension CRViewOrLayer {
     set { frame.size.height = newValue }
   }
 
+  var l: CGFloat {
+    get { return frame.origin.x }
+    set { frame.origin.x = newValue }
+  }
+
+  var t: CGFloat {
+    get { return frame.origin.y }
+    set { frame.origin.y = newValue }
+  }
+
   var r: CGFloat {
     get { return x + w }
     set { x = newValue - w }
