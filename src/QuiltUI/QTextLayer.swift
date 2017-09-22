@@ -27,7 +27,7 @@ public class QTextLayer: CALayer {
     didSet { setNeedsDisplay() }
   }
 
-  public var edgeInsets: CREdgeInsets = CREdgeInsets(l: 2, t: 2, r: 2, b: 2) {
+  public var edgeInsets: CREdgeInsets = .zero {
     didSet { setNeedsDisplay() }
   }
 
