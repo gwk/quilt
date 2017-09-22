@@ -6,6 +6,8 @@ import Foundation
 public let fileManager = FileManager.default
 
 
+public func currentDir() -> String { return fileManager.currentDirectoryPath }
+
 public func absolutePath(_ path: String) -> String? {
   let cr = fileManager.fileSystemRepresentation(withPath: path)
   let ca = realpath(cr, nil)
