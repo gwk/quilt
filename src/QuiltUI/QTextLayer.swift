@@ -103,6 +103,7 @@ public class QTextLayer: CALayer {
     updateAttrs(_truncationString)
 
     let textBounds = bounds.insetBy(edgeInsets)
+    //let (suggestedSize, _) = _framesetter.suggestFrameSize(constraintSize: CGSize(textBounds.width, .infinity))
     let frame = _framesetter.createFrame(bounds: textBounds)
     ctx.textMatrix = .identity
     ctx.translateBy(x: 0, y: bounds.size.height)
