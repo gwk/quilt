@@ -6,9 +6,7 @@ import CoreGraphics
 
 public class QView: CRView {
 
-  public required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
+  public required init?(coder: NSCoder) { super.init(coder: coder) }
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
