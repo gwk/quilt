@@ -23,4 +23,6 @@ extension CREdgeInsets {
   public init(x: Flt = 0, y: Flt = 0) {
     self.init(top: y, left: x, bottom: y, right: x)
   }
+
+  public static let zero = CREdgeInsets(x: 0, y: 0)
 }
