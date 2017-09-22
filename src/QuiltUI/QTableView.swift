@@ -16,7 +16,7 @@ class QTableView: NSScrollView {
 
   var docView: QView { return documentView as! QView }
 
-  init(frame: CGRect, delegate: QTableSource) {
+  init(frame: CGRect = .frameInit, delegate: QTableSource) {
     self.delegate = delegate
     super.init(frame: frame)
     documentView = QView(frame: frame)
