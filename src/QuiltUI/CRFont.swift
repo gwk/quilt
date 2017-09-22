@@ -14,6 +14,12 @@ extension CRFont {
   public var lineHeight: Flt { return (ascender - descender) + leading }
 #endif
 
+  public func lineHeightForScreen(contentsScale scale: Flt) -> Flt {
+    // The lineHeight property is not appropriate for screen layout,
+    // because measurement occurs from the baseline and so we must pad each input component up to nearest pixel size.
+    return (ceil(ascender * scale) - floor(descender * scale) + leading * scale) / scale
+  }
+
   public var descriptor: CRFontDescriptor {
     #if os(OSX)
       return fontDescriptor
