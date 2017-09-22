@@ -35,7 +35,6 @@ extension CTFrame {
       if i < lastIndex || line.range.upperBound == attrString.length { // note: range and length are both NSString UTF16 indices.
         line.draw(ctx: ctx)
       } else { // last line needs to be truncated.
-        print("TRUNCATE: \(attrString.string)")
         // using the line as is does not work, because it already fits the frame width; instead create a slightly longer one.
         let longString = NSMutableAttributedString(attributedString: attrString.attributedSubstring(from: NSRange(line.range)))
         longString.mutableString.append("\u{2026}") // Append something to make the line too long; use ellipsis for consistency.
