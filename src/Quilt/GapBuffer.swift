@@ -3,7 +3,7 @@
 import Cocoa
 
 
-public struct GapBuffer<Element> : Sequence { // TODO: Collection (xc9.0 bug?)
+public struct GapBuffer<Element> : Collection {
 
   public typealias Index = Int
 
@@ -75,14 +75,6 @@ public struct GapBuffer<Element> : Sequence { // TODO: Collection (xc9.0 bug?)
 
   public func index(after index: Index) -> Index { return index + 1 }
 
-/* xc9.0 bug prevents us from conforming to Collection.
-  public func index(of element: Element) -> Index? {
-    if let idx = fwd.index(of: element) { return idx }
-    if let idx = rev.index(of: element) { return revIdx(idx) }
-    return nil
-  }
-*/
-
   public func index(where predicate: (Element) throws -> Bool) rethrows -> Index? {
     if let idx = try fwd.index(where: predicate) { return idx }
     if let idx = try rev.index(where: predicate) { return revIdx(idx) }
@@ -102,5 +94,15 @@ public struct GapBuffer<Element> : Sequence { // TODO: Collection (xc9.0 bug?)
   mutating public func insert(_ el: Element, at: Int) {
     pos = at
     fwd.append(el)
+  }
+}
+
+
+extension GapBuffer where Element: Equatable {
+
+  public func index(of element: Element) -> Index? {
+    if let idx = fwd.index(of: element) { return idx }
+    if let idx = rev.index(of: element) { return revIdx(idx) }
+    return nil
   }
 }
