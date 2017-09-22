@@ -26,9 +26,9 @@ extension CTFramesetter {
     return createFrame(range: range, path: CGPath(rect: bounds, transform: nil))
   }
 
-  public func suggestFrameSize(range: CountableRange<Int>, constraints: CGSize) -> (CFRange, CGSize) {
+  public func suggestFrameSize(range: CountableRange<Int> = 0..<0, constraintSize: CGSize) -> (CGSize, CountableRange<Int>) {
     var fitRange: CFRange = .zero
-    let fitSize = CTFramesetterSuggestFrameSizeWithConstraints(self, CFRange(range), nil, constraints, &fitRange)
-    return (fitRange, fitSize)
+    let fitSize = CTFramesetterSuggestFrameSizeWithConstraints(self, CFRange(range), nil, constraintSize, &fitRange)
+    return (fitSize, CountableRange(fitRange))
   }
 }
