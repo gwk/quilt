@@ -8,8 +8,9 @@ import QuiltUI
 extension NSWindow {
 
   public convenience init(
-    origin: CGPoint = CGPoint(0, 0),
-    viewSize: CGSize,
+    origin: CGPoint = .zero,
+    viewSize: CGSize = .zero,
+    fillScreen: Bool = false,
     fixedAspect: Bool = false,
     styleMask: NSWindow.StyleMask = [.titled, .closable, .miniaturizable, .resizable],
     deferred: Bool = true,
@@ -30,7 +31,14 @@ extension NSWindow {
     delegate = viewController as? NSWindowDelegate
 
     self.origin = origin
-    setContentSize(viewSize)
+    if viewSize.w > 0 && viewSize.h > 0 {
+      setContentSize(viewSize)
+    }
+    if fillScreen {
+      if let screen = screen ?? NSScreen.main {
+        self.setFrame(screen.visibleFrame, display: false)
+      }
+    }
     if fixedAspect {
       contentAspectRatio = viewSize
     }
