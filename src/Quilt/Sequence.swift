@@ -7,7 +7,7 @@ extension Sequence {
     var d: [K:[Iterator.Element]] = [:]
     for e in self {
       if let k = fn(e) {
-        d.appendToValue(k, e)
+        d[k, default: []].append(e)
       }
     }
     return d

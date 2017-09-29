@@ -41,29 +41,12 @@ extension Dictionary {
     self[key] = value
   }
 
-  public func mapVals<V>(transform: (Value) throws -> V) rethrows -> [Key:V] {
-    var d: [Key:V] = [:]
-    for (k, v) in self {
-      d[k] = try transform(v)
-    }
-    return d
-  }
 
   public mutating func getOrInsert(_ key: Key, dflt: () -> Value) -> Value {
     if let v = self[key] {
       return v
     } else {
       let v = dflt()
-      self[key] = v
-      return v
-    }
-  }
-
-  public mutating func getOrInsert(_ key: Key, dflt: Value) -> Value {
-    if let v = self[key] {
-      return v
-    } else {
-      let v = dflt
       self[key] = v
       return v
     }
@@ -96,30 +79,5 @@ extension Dictionary where Key: Comparable {
 
   public var valsSortedByKey: [Value] {
     return pairsSortedByKey.map() { $0.value }
-  }
-}
-
-
-// TODO: remove in favor of ArrayDict public class?
-
-public protocol AppendableValueType {
-  associatedtype Element
-  mutating func append(_ element: Element)
-}
-
-
-extension Array: AppendableValueType {}
-
-extension Dictionary where Value: AppendableValueType, Value: DefaultInitializable {
-
-  public mutating func appendToValue(_ key: Key, _ el: Value.Element) {
-    var v: Value
-    if let ov = removeValue(forKey: key) {
-      v = ov
-    } else {
-      v = Value()
-    }
-    v.append(el)
-    self[key] = v
   }
 }
