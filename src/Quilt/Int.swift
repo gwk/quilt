@@ -5,7 +5,7 @@ public let digitChars = [Character]("0123456789abcdef".characters)
 
 extension Int {
 
-  public func repr(_ base: Int = 10, pad: Character = " ", width: Int = 0) -> String {
+  public func repr(radix: Int = 10, pad: Character = " ", width: Int = 0) -> String {
     if self == 0 {
       let count = Swift.max(0, width - 1)
       return String(char: pad, count: count) + "0"
@@ -14,9 +14,9 @@ extension Int {
     let neg = (self < 0)
     var i = neg ? -self : self
     while i != 0 {
-      let d = i % base
+      let d = i % radix
       a.append(digitChars[d])
-      i /= base
+      i /= radix
     }
     var pad_len = width - (a.count + (neg ? 1 : 0))
     if neg {
@@ -29,11 +29,11 @@ extension Int {
     return String(Array(a.reversed()))
   }
 
-  public func dec(width: Int) -> String { return self.repr(10, width: width) }
+  public func dec(width: Int) -> String { return self.repr(radix: 10, width: width) }
 
-  public func hex(width: Int) -> String { return self.repr(16, width: width) }
+  public func hex(width: Int) -> String { return self.repr(radix: 16, width: width) }
 
-  public func dec0(width: Int) -> String { return self.repr(10, pad: "0", width: width) }
+  public func dec0(width: Int) -> String { return self.repr(radix: 10, pad: "0", width: width) }
 
-  public func hex0(width: Int) -> String { return self.repr(16, pad: "0", width: width) }
+  public func hex0(width: Int) -> String { return self.repr(radix: 16, pad: "0", width: width) }
 }
