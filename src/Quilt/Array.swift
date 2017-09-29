@@ -57,6 +57,9 @@ extension Array: DefaultInitializable {
   }
 
   @inline(__always)
+  public mutating func pop() -> Element { return removeLast() }
+
+  @inline(__always)
   public func withBuffer<R>(_ body: (Buffer<Array.Element>) throws -> R) rethrows -> R {
     return try withUnsafeBufferPointer(body)
   }
