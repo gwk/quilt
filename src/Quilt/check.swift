@@ -3,21 +3,17 @@
 import Darwin
 
 
-public func check(_ condition: Bool, _ message: @autoclosure () -> String) {
+public func check<T>(_ condition: Bool, label: String = "error", _ messageItem: @autoclosure ()->T) {
   if !condition {
-    fail(message())
+    if !label.isEmpty { errZ("\(label): ") }
+    errL(messageItem())
+    exit(1)
   }
 }
 
-public func check(_ condition: Bool, file: StaticString = #file, line: UInt = #line) {
-  if !condition {
-    fatalError("check failure", file: file, line: line)
-  }
-}
-
-public func fail<T>(prefix: String = "error: ", _ item: T) -> Never {
-  errZ(prefix)
-  errL(item)
+public func fail<T>(label: String = "error", _ messageItem: T) -> Never {
+  if !label.isEmpty { errZ("\(label): ") }
+  errL(messageItem)
   exit(1)
 }
 
@@ -25,7 +21,8 @@ public func guarded<R>(label: String = "error", _ fn: () throws -> R) -> R {
   do {
     return try fn()
   } catch let e {
-    errL("\(label): \(e)")
+    if !label.isEmpty { errZ("\(label): ") }
+    errL(e)
     exit(1)
   }
 }
