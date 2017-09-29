@@ -6,7 +6,7 @@ public typealias TestCase = XCTestCase
 
 // TODO: #column, #function?
 
-public func utest<T: Comparable>(exp: T, _ actClosure: @autoclosure () throws -> T,
+public func utest<T: Equatable>(exp: T, _ actClosure: @autoclosure () throws -> T,
  _ msg: @autoclosure ()->String = "", file: StaticString = #file, line: UInt = #line) {
   do {
     let act = try actClosure()
