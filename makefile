@@ -11,7 +11,7 @@ _default: build
 triple_args = -target-triple=x86_64-apple-macosx10.11
 
 build: gen
-	swift-plumage $(triple_args)
+	craft-swift $(triple_args)
 
 clean:
 	rm -rf _build/*
@@ -26,10 +26,7 @@ gen: \
 	src/QuiltSceneKit/V4-generated.swift
 
 test:
-	swift-plumage $(triple_args) -test
-
-xcode:
-	swift package generate-xcodeproj
+	craft-swift $(triple_args) -test
 
 
 src/Quilt/mat-generated.swift: gen/mat.py
