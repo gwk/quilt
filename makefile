@@ -8,10 +8,8 @@
 
 _default: build
 
-triple_args = -target-triple=x86_64-apple-macosx10.11
-
 build: gen
-	craft-swift $(triple_args)
+	craft-swift
 
 clean:
 	rm -rf _build/*
@@ -25,8 +23,8 @@ gen: \
 	src/QuiltSceneKit/V3-generated.swift \
 	src/QuiltSceneKit/V4-generated.swift
 
-test:
-	craft-swift $(triple_args) -test
+test: gen
+	craft-swift-utest test
 
 
 src/Quilt/mat-generated.swift: gen/mat.py
