@@ -36,9 +36,9 @@ public func utest<S1: Sequence, S2: Sequence>(seq: S1, _ actClosure: @autoclosur
 
 
 public func ufail(_ msg: String = "failure.", file: StaticString = #file, line: UInt = #line, col: UInt = #column) {
-  let currentDir = Array(FileManager.default.currentDirectoryPath.characters) + "/"
+  let currentDir = Array(FileManager.default.currentDirectoryPath) + "/"
   let absPath = String(describing: file)
-  let absChars = Array(absPath.characters)
+  let absChars = Array(absPath)
   let path = absChars.starts(with: currentDir) ? String(absChars[currentDir.count...]) : absPath
   let msg = "\(path):\(line):\(col): \(msg)\n"
   FileHandle.standardError.write(Data(msg.utf8))

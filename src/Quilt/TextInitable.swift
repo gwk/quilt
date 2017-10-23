@@ -1,10 +1,10 @@
 // © 2016 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public let textOctChars = Set("01234567".characters)
-public let textDecChars = Set("0123456789".characters)
-public let textHexChars = Set("0123456789ABCDEFabcdef".characters)
-public let textSymHeadChars = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".characters)
+public let textOctChars = Set("01234567")
+public let textDecChars = Set("0123456789")
+public let textHexChars = Set("0123456789ABCDEFabcdef")
+public let textSymHeadChars = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 public let textSymTailChars = textSymHeadChars.union(textDecChars).union(["_"])
 public let textFloatChars = textDecChars.union(["."])
 
@@ -20,7 +20,7 @@ public protocol TextInitableIntegerType {
 }
 
 extension TextInitableIntegerType {
-  public init(text: String, pos: String.CharacterView.Index, end: String.CharacterView.Index, line: Int, col: Int) throws {
+  public init(text: String, pos: String.Index, end: String.Index, line: Int, col: Int) throws {
     var p = pos
     while p != end {
       if !textDecChars.contains(text[p]) {
@@ -38,7 +38,7 @@ extension TextInitableIntegerType {
 }
 
 public protocol TextInitable {
-  init(text: String, pos: String.CharacterView.Index, end: String.CharacterView.Index, line: Int, col: Int) throws
+  init(text: String, pos: String.Index, end: String.Index, line: Int, col: Int) throws
 }
 
 extension Int: TextInitableIntegerType, TextInitable {}
@@ -53,7 +53,7 @@ extension I64: TextInitableIntegerType, TextInitable {}
 extension U64: TextInitableIntegerType, TextInitable {}
 
 extension String: TextInitable {
-  public init(text: String, pos: String.CharacterView.Index, end: String.CharacterView.Index, line: Int, col: Int) throws {
+  public init(text: String, pos: String.Index, end: String.Index, line: Int, col: Int) throws {
     self = String(text[pos..<end])
   }
 }

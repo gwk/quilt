@@ -3,8 +3,8 @@
 import Foundation
 
 
-public let symbolHeadChars = Set<Character>("_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".characters)
-public let symbolTailChars = symbolHeadChars.union("0123456789".characters)
+public let symbolHeadChars = Set<Character>("_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+public let symbolTailChars = symbolHeadChars.union("0123456789")
 
 
 extension String {
@@ -101,16 +101,16 @@ extension String {
   // MARK: utilities
 
   public func contains(_ c: Character) -> Bool {
-    return self.characters.contains(c)
+    return self.contains(c)
   }
 
   public func contains(string: String, atIndex: Index) -> Bool {
-    return characters.contains(sequence: string.characters, atIndex: atIndex)
+    return contains(sequence: string, atIndex: atIndex)
   }
 
   public func beforeSuffix(_ suffix: String) -> String? {
     if hasSuffix(suffix) {
-      return String(self.characters.dropLast(suffix.characters.count))
+      return String(self.dropLast(suffix.count))
     } else {
       return nil
     }
@@ -118,7 +118,7 @@ extension String {
 
   public func mapChars(_ transform: (Character) -> Character) -> String {
     var s = ""
-    for c in self.characters {
+    for c in self {
       s.append(transform(c))
     }
     return s
@@ -126,24 +126,24 @@ extension String {
 
   public func mapChars(_ transform: (Character) -> String) -> String {
     var s = ""
-    for c in self.characters {
+    for c in self {
       s.append(transform(c))
     }
     return s
   }
 
   public func replace(_ query: Character, with: Character) -> String {
-    return String(characters.replace(query, with: with))
+    return String(replace(query, with: with))
   }
 
-  public func replace(_ query: String, with: String) -> String {
-    return String(characters.replace(query.characters, with: with.characters))
+  public func replace(_ query: String, with replacement: String) -> String {
+    return String(replace(query, with: replacement))
   }
 
   // MARK: symbols
 
   public var asSym: String { // TODO: decide if this should be strict; currently quite lax.
-    for c0 in self.characters { // do not actually iterate; just get first element.
+    for c0 in self { // do not actually iterate; just get first element.
       if c0.isDigit {
         return "_" + mapChars() { symbolTailChars.contains($0) ? $0 : "_" }
       } else {
@@ -158,7 +158,7 @@ extension String {
       return false
     }
     var first = true
-    for c in self.characters {
+    for c in self {
       if first {
         first = false
         if !symbolHeadChars.contains(c) {
@@ -191,7 +191,7 @@ extension String {
 
   public var lineCount: Int {
     var count = 0
-    for c in self.characters {
+    for c in self {
       if c == "\n" {
         count += 1
       }
@@ -200,7 +200,7 @@ extension String {
   }
 
   public var lines: [String] {
-    let charLines = self.characters.split(separator: "\n", omittingEmptySubsequences: false)
+    let charLines = self.split(separator: "\n", omittingEmptySubsequences: false)
     return charLines.map { String($0) }
   }
 
@@ -233,19 +233,19 @@ extension String {
   // MARK: partition
 
   public func part(_ sep: String) -> (String, String)? {
-    if let (a, b) = characters.part(sep.characters) {
+    if let (a, b) = part(sep) {
       return (String(a), String(b))
     }
     return nil
   }
 
   public func split(_ separator: Character) -> [String] {
-    return characters.split(separator: separator).map() { String($0) }
+    return split(separator: separator).map() { String($0) }
   }
 
   /* TODO
   public func split(sub: String) -> [String] {
-    return characters.split(separator: sub.characters).map() { String($0) }
+    return split(separator: sub).map() { String($0) }
   }
  */
 }

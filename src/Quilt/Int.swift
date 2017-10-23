@@ -1,7 +1,7 @@
 // © 2014 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public let digitChars = [Character]("0123456789abcdef".characters)
+public let digitChars = [Character]("0123456789abcdef")
 
 extension Int {
 
