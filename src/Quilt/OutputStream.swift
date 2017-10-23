@@ -6,8 +6,7 @@ import Foundation
 extension OutputStream: TextOutputStream {
 
   public func write(_ string: String) {
-    let pageSize = 1 << 12
-    let bufferLength = min(string.utf16.count * 2, pageSize)
+    let bufferLength = min(string.utf16.count * 2, sysPageSize)
       // guess a reasonable buffer size to avoid allocating a full page for tiny strings.
     var buffer = [UInt8](repeating: 0, count: bufferLength)
     var range = string.startIndex..<string.endIndex

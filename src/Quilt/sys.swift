@@ -3,7 +3,7 @@
 import Darwin
 
 
-let pageSize = Int(Darwin.getpagesize())
+let sysPageSize = Int(Darwin.getpagesize())
 // TODO: decide if this optimizes out sufficiently or if OPT mode should hardcode per OS (usually 0x1000).
 
 let sysPathSep: String = "/"

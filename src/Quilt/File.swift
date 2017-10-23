@@ -117,12 +117,12 @@ public class InFile: File {
   }
 
   public func readBytes() throws -> [UInt8] {
-    var buffer: [UInt8] = [UInt8](repeating: 0, count: pageSize)
+    var buffer: [UInt8] = [UInt8](repeating: 0, count: sysPageSize)
     var result = [UInt8]()
     while true {
-      let actualLen = try read(len: pageSize, ptr: &buffer)
+      let actualLen = try read(len: sysPageSize, ptr: &buffer)
       result.append(contentsOf: buffer.prefix(actualLen))
-      if actualLen != pageSize { break }
+      if actualLen != sysPageSize { break }
     }
     return result
   }
@@ -179,7 +179,7 @@ func readBytes(path: String) throws -> [UInt8] {
 
 func writeBytes(descriptor: File.Descriptor, string: String, allowLossy: Bool) {
   let options = allowLossy ? String.EncodingConversionOptions.allowLossy : []
-  var buffer: [UInt8] = [UInt8](repeating: 0, count: pageSize)
+  var buffer: [UInt8] = [UInt8](repeating: 0, count: sysPageSize)
   // Note: the buffer must be initialized as getBytes will not resize it.
   // Additionally, as of swift 3.1 if buffer is empty then we will end up writing garbage;
   // this appears to be a safety bug in getBytes.
