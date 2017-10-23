@@ -4,8 +4,8 @@ import Darwin
 import Darwin.C.stdatomic // swift 3.1 does not expose atomic_fetch_add_explicit, so cannot fix deprecation warning below.
 
 
-public func atmInc(_ ptr: MutPtr<I64>) { OSAtomicIncrement64(ptr) }
-public func atmDec(_ ptr: MutPtr<I64>) { OSAtomicDecrement64(ptr) }
+public func atmInc(_ ptr: MutPtr<I64>) { fatalError("OSAtomicIncrement64(ptr) is deprecated") }
+public func atmDec(_ ptr: MutPtr<I64>) { fatalError("OSAtomicDecrement64(ptr) is deprecated") }
 
 
 public class AtmCounters {
