@@ -3,8 +3,8 @@
 
 extension Sequence {
 
-  public func group<K>(_ fn: (Iterator.Element) -> K?) -> [K:[Iterator.Element]] {
-    var d: [K:[Iterator.Element]] = [:]
+  public func group<K>(_ fn: (Element) -> K?) -> [K:[Element]] {
+    var d: [K:[Element]] = [:]
     for e in self {
       if let k = fn(e) {
         d[k, default: []].append(e)
@@ -13,7 +13,7 @@ extension Sequence {
     return d
   }
 
-  public func filterMap<E>(transform: (Iterator.Element) throws -> E?) rethrows -> [E] {
+  public func filterMap<E>(transform: (Element) throws -> E?) rethrows -> [E] {
     var a: [E] = []
     for e in self {
       if let t = try transform(e) {
@@ -23,7 +23,7 @@ extension Sequence {
     return a
   }
 
-  public func mapToDict<K, V>(_ transform: (Iterator.Element) -> (K, V)) -> [K:V] {
+  public func mapToDict<K, V>(_ transform: (Element) -> (K, V)) -> [K:V] {
     var d: [K:V] = [:]
     for e in self {
       let (k, v) = transform(e)
@@ -32,7 +32,7 @@ extension Sequence {
     return d
   }
 
-  public func mapUniquesToDict<K, V>(_ transform: (Iterator.Element) -> (K, V)) throws -> [K:V] {
+  public func mapUniquesToDict<K, V>(_ transform: (Element) -> (K, V)) throws -> [K:V] {
     var d: [K:V] = [:]
     for e in self {
       let (k, v) = transform(e)
@@ -42,7 +42,7 @@ extension Sequence {
     return d
   }
 
-  public func all(_ predicate: (Iterator.Element) -> Bool) -> Bool {
+  public func all(_ predicate: (Element) -> Bool) -> Bool {
     for e in self {
       if !predicate(e) {
         return false
@@ -51,7 +51,7 @@ extension Sequence {
     return true
   }
 
-  public func any(_ predicate: (Iterator.Element) -> Bool) -> Bool {
+  public func any(_ predicate: (Element) -> Bool) -> Bool {
     for e in self {
       if predicate(e) {
         return true
@@ -62,10 +62,10 @@ extension Sequence {
 }
 
 
-extension Sequence where Iterator.Element: Equatable {
+extension Sequence where Element: Equatable {
 
-  public func replace(_ query: Iterator.Element, with: Iterator.Element) -> [Iterator.Element] {
-    var result: [Iterator.Element] = []
+  public func replace(_ query: Element, with: Element) -> [Element] {
+    var result: [Element] = []
     for e in self {
       if e == query {
         result.append(with)
@@ -76,13 +76,13 @@ extension Sequence where Iterator.Element: Equatable {
     return result
   }
 
-  public func replace<Q: Collection, W: Collection>(_ query: Q, with: W) -> [Iterator.Element]
-    where Q.Iterator.Element == Iterator.Element, W.Iterator.Element == Iterator.Element {
+  public func replace<Q: Collection, W: Collection>(_ query: Q, with: W) -> [Element]
+    where Q.Element == Element, W.Element == Element {
     if query.isEmpty {
       return Array(self)
     }
-    var buffer: [Iterator.Element] = []
-    var result: [Iterator.Element] = []
+    var buffer: [Element] = []
+    var result: [Element] = []
     var i = query.startIndex
     for e in self {
       if e == query[i] {
@@ -104,13 +104,13 @@ extension Sequence where Iterator.Element: Equatable {
     return result
   }
 
-  public func countOccurrencesOf(_ el: Iterator.Element) -> Int {
+  public func countOccurrencesOf(_ el: Element) -> Int {
     return reduce(0) { $1 == el ? $0 + 1 : $0 }
   }
 }
 
 
-extension Sequence where Iterator.Element == Bool {
+extension Sequence where Element == Bool {
 
   public func all() -> Bool {
     for e in self {
@@ -132,7 +132,7 @@ extension Sequence where Iterator.Element == Bool {
 }
 
 
-public func allZip<S1: Sequence, S2: Sequence>(_ seq1: S1, _ seq2: S2, predicate: (S1.Iterator.Element, S2.Iterator.Element) -> Bool) -> Bool {
+public func allZip<S1: Sequence, S2: Sequence>(_ seq1: S1, _ seq2: S2, predicate: (S1.Element, S2.Element) -> Bool) -> Bool {
   var g2 = seq2.makeIterator()
   for e1 in seq1 {
     guard let e2 = g2.next() else { return false }

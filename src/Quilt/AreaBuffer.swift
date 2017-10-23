@@ -12,7 +12,7 @@ public class AreaBuffer<Element>: Collection {
 
   public init() {}
 
-  public convenience init<S: Sequence>(size: V2I, seq: S) where S.Iterator.Element == Element {
+  public convenience init<S: Sequence>(size: V2I, seq: S) where S.Element == Element {
     self.init()
     self.size = size
     self.array = Array(seq)

@@ -54,14 +54,14 @@ public func sign<T: ArithmeticProtocol>(_ x: T) -> T {
 }
 
 
-extension Sequence where Iterator.Element: ArithmeticProtocol {
+extension Sequence where Element: ArithmeticProtocol {
 
-  public func sum() -> Iterator.Element {
-    return reduce(0) { (accum: Iterator.Element, item: Iterator.Element) in return accum + item }
+  public func sum() -> Element {
+    return reduce(0) { (accum: Element, item: Element) in return accum + item }
   }
 
-  public func prod() -> Iterator.Element {
-    return reduce(1) { (accum: Iterator.Element, item: Iterator.Element) in return accum * item }
+  public func prod() -> Element {
+    return reduce(1) { (accum: Element, item: Element) in return accum * item }
   }
 }
 

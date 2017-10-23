@@ -9,7 +9,7 @@ public let symbolTailChars = symbolHeadChars.union("0123456789")
 
 extension String {
 
-  public init?<S : Sequence>(bytes: S) where S.Iterator.Element == UInt8 {
+  public init?<S : Sequence>(bytes: S) where S.Element == UInt8 {
     self.init(bytes: bytes, encoding: .utf8)
   }
 

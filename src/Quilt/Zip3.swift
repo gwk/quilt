@@ -83,7 +83,7 @@ public struct Zip21Iterator <I01: IteratorProtocol, I2: IteratorProtocol, E0, E1
 }
 
 
-public struct Zip21Sequence <S01: Sequence, S2: Sequence, E0, E1>: Sequence where S01.Iterator.Element == (E0, E1) {
+public struct Zip21Sequence <S01: Sequence, S2: Sequence, E0, E1>: Sequence where S01.Element == (E0, E1) {
 
   public typealias Iterator = Zip21Iterator<S01.Iterator, S2.Iterator, E0, E1>
 

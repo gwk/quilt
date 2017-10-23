@@ -3,7 +3,7 @@
 
 extension Dictionary {
 
-  init<S: Sequence>(elements: S) where S.Iterator.Element == Iterator.Element {
+  init<S: Sequence>(elements: S) where S.Element == Element {
     self = [:]
     for (k, v) in elements {
       self[k] = v

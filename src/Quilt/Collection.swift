@@ -1,19 +1,19 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-extension Collection where Iterator.Element : Equatable {
+extension Collection where Element : Equatable {
 
   public var range: Range<Index> { return startIndex..<endIndex }
 
-  public func contains(_ element: Iterator.Element) -> Bool {
+  public func contains(_ element: Element) -> Bool {
     return index(of: element) != nil
   }
 
-  public func contains<S: Sequence>(sequence: S, atIndex: Index) -> Bool where S.Iterator.Element == Iterator.Element {
+  public func contains<S: Sequence>(sequence: S, atIndex: Index) -> Bool where S.Element == Element {
     return indexAfter(sequence: sequence, atIndex: atIndex) != nil
   }
 
-  public func indexAfter<S: Sequence>(sequence: S, atIndex: Index) -> Index? where S.Iterator.Element == Iterator.Element {
+  public func indexAfter<S: Sequence>(sequence: S, atIndex: Index) -> Index? where S.Element == Element {
     var i = atIndex
     for e in sequence {
       if i == endIndex || e != self[i] {
@@ -38,7 +38,7 @@ extension Collection where Iterator.Element : Equatable {
   }
 
   public func rangeOf<C: Collection>(_ query: C, start: Index? = nil, end: Index? = nil) -> Range<Index>?
-   where C.Iterator.Element == Iterator.Element {
+   where C.Element == Element {
     var i = start ?? startIndex
     let e = end ?? endIndex
     while i != e {
@@ -63,7 +63,7 @@ extension Collection where Iterator.Element : Equatable {
   }
 
   public func split<C: Collection>(sub: C, maxSplit: Int = Int.max, allowEmptySlices: Bool = false) -> [Self.SubSequence]
-   where C.Iterator.Element == Iterator.Element {
+   where C.Element == Element {
     var result: [Self.SubSequence] = []
     var prev = startIndex
     var range = rangeOf(sub)
@@ -85,10 +85,10 @@ extension Collection where Iterator.Element : Equatable {
 }
 
 
-extension Collection where Iterator.Element: Comparable {
+extension Collection where Element: Comparable {
 
   public var isSorted: Bool {
-    var prev: Iterator.Element? = nil
+    var prev: Element? = nil
     for el in self {
       if let prev = prev {
         if !(prev < el) {
