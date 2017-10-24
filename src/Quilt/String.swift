@@ -9,12 +9,33 @@ public let symbolTailChars = symbolHeadChars.union("0123456789")
 
 extension String {
 
-  public init?<S : Sequence>(bytes: S) where S.Element == UInt8 {
+  public init?<S: Sequence>(bytes: S) where S.Element == UInt8 {
     self.init(bytes: bytes, encoding: .utf8)
   }
 
+  public init<S: Sequence>(utf16: S) where S.Element == UInt16 {
+    // TODO: file bug. There should be a constructor that does not require the intermediate copy.
+    let a = [UInt16](utf16)
+    self.init(utf16CodeUnits: a, count: a.count)
+  }
+
   public init(char: Character, count: Int) {
-    self.init(repeating: String(char), count: count)
+    self.init(repeating: char, count: count)
+  }
+
+  public init?(unicodePoint: UInt8) {
+    guard let c = Character(unicodePoint: unicodePoint) else { return nil }
+    self.init(c)
+  }
+
+  public init?(unicodePoint: UInt16) {
+    guard let c = Character(unicodePoint: unicodePoint) else { return nil }
+    self.init(c)
+  }
+
+  public init?(unicodePoint: UInt32) {
+    guard let c = Character(unicodePoint: unicodePoint) else { return nil }
+    self.init(c)
   }
 
   public init(indent: Int) {
@@ -39,7 +60,12 @@ extension String {
     return r
   }
 
-  // MARK: paths
+  // Append variants.
+
+  public mutating func append(_ substring: Substring) { append(contentsOf: substring) }
+
+
+  // MARK: paths. TODO: move to Path.
 
   public var pathExtDotRange: Range<Index>?    { return range(of: ".", options: .backwards) }
   public var pathDirSlashRange: Range<Index>?  { return range(of: "/", options: .backwards) }
