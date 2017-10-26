@@ -19,6 +19,20 @@ public func utest<T: Equatable>(exp: T, _ actClosure: @autoclosure () throws -> 
 }
 
 
+public func utest_nil<T: Equatable>(_ actClosure: @autoclosure () throws -> T?,
+ _ msg: @autoclosure ()->String = "test failure.", file: StaticString = #file, line: UInt = #line, col: UInt = #column) {
+  do {
+    let act = try actClosure()
+    if act != nil {
+      ufail("\(msg())\n  expected nil\n  actual: \(act!)", file: file, line: line, col: col)
+    }
+  } catch let e {
+     ufail("\(msg())\n  expected nil\n  caught: \(e)", file: file, line: line, col: col)
+     return
+   }
+}
+
+
 public func utest<S1: Sequence, S2: Sequence>(seq: S1, _ actClosure: @autoclosure () throws -> S2,
  _ msg: @autoclosure ()->String = "sequence test failure.", file: StaticString = #file, line: UInt = #line, col: UInt = #column)
  where S1.Element == S2.Element, S1.Element: Comparable {
