@@ -1,11 +1,21 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-extension Collection where Element : Equatable {
+extension Collection {
 
   public var range: Range<Index> { return startIndex..<endIndex }
 
-  public func contains(_ element: Element) -> Bool {
+  public func part(_ range: Range<Index>) -> (SubSequence, SubSequence) {
+    let ra = startIndex..<range.lowerBound
+    let rb = range.upperBound..<endIndex
+    return (self[ra], self[rb])
+  }
+}
+
+
+extension Collection where Iterator.Element : Equatable {
+
+  public func contains(_ element: Iterator.Element) -> Bool {
     return index(of: element) != nil
   }
 
@@ -24,10 +34,8 @@ extension Collection where Element : Equatable {
     return i
   }
 
-  public func part(_ range: Range<Index>) -> (SubSequence, SubSequence) {
-    let ra = startIndex..<range.lowerBound
-    let rb = range.upperBound..<endIndex
-    return (self[ra], self[rb])
+  public func indexAfter<S: Sequence>(prefix: S) -> Index? where S.Element == Element {
+    return indexAfter(sequence: prefix, atIndex: startIndex)
   }
 
   public func part(_ separator: Self, start: Index? = nil, end: Index? = nil) -> (SubSequence, SubSequence)? {
