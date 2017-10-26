@@ -7,7 +7,7 @@ extension File {
 
   public func createDispatchSource(_ modes: DispatchSource.FileSystemEvent, queue: DispatchQueue = DispatchQueue.main,
     registerFn: Action? = nil, cancelFn: Action? = nil, eventFn: @escaping Action) -> DispatchSource {
-      let source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: _dispatchSourceHandle, eventMask: modes, queue: queue)
+      let source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: descriptor, eventMask: modes, queue: queue)
       if let rf = registerFn {
         source.setRegistrationHandler(handler: rf)
       }

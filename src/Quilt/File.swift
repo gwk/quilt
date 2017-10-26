@@ -3,74 +3,156 @@
 import Darwin
 
 
-public class File: CustomStringConvertible {
+public class File: CustomStringConvertible, TextOutputStream {
   // the File public classs encapsulates a system file descriptor.
-  // the design is intended to:
-  // prevent misuse of the file descriptor that could lead to problems like file descriptor leaks.
-  // for example, calling close on a raw file descriptor could allow that descriptor to be reassigned to a new file;
-  // aliases of that descriptor will then misuse the new file.
 
   public typealias Descriptor = Int32
   public typealias Stats = Darwin.stat
   public typealias Perms = mode_t
 
+
   public enum Err: Error {
-    case changePerms(path: String, perms: Perms)
-    case copy(from: String, to: String)
-    case open(path: String, msg: String)
-    case read(name: String, offset: Int, len: Int)
-    case readMalloc(name: String, len: Int)
-    case seek(name: String, pos: Int)
-    case stat(name: String, msg: String)
-    case decode(name: String, encoding: String.Encoding)
+    case changePerms(path: Path, perms: Perms)
+    case copy(from: Path, to: Path)
+    case open(path: Path, msg: String)
+    case read(path: Path, offset: Int, len: Int)
+    case readMalloc(path: Path, len: Int)
+    case seek(path: Path, pos: Int)
+    case stat(path: Path, msg: String)
+    case decode(path: Path, encoding: String.Encoding)
   }
 
-  public let name: String
-  fileprivate let descriptor: Descriptor
+
+  public enum Mode {
+
+    case append
+    case eventNotification
+    case read
+    case update
+    // case updateAppend? Does this work / make sense?
+    case updateNoTruncate
+    case write
+    case writeNoTruncate
+
+    var flags: I32 {
+      switch self {
+      case .append: return O_WRONLY | O_APPEND
+      case .eventNotification: return O_EVTONLY
+      case .read: return O_RDONLY
+      case .update: return O_RDWR | O_TRUNC
+      case .updateNoTruncate: return O_RDWR
+      case .write: return O_WRONLY | O_TRUNC
+      case .writeNoTruncate: return O_WRONLY
+      }
+    }
+
+    public var isReadable: Bool {
+      switch self {
+      case .read, .update, .updateNoTruncate: return true
+      default: return false
+      }
+    }
+
+    public var isWritable: Bool {
+      switch self {
+      case .update, .updateNoTruncate, .write, .writeNoTruncate: return true
+      default: return false
+      }
+    }
+
+    public var isUpdatable: Bool {
+      switch self {
+      case .update, .updateNoTruncate: return true
+      default: return false
+      }
+    }
+  }
+
+
+  public struct Options: OptionSet {
+
+    public let rawValue: I32
+
+    public init(rawValue: I32) { self.rawValue = rawValue }
+
+    public static let exclusiveCreate = O_EXCL // error if O_CREAT and the file exists. TODO: move to Mode?
+    public static let nonblocking = O_NONBLOCK
+    public static let sharedLock = O_SHLOCK
+    public static let exclusiveLock = O_EXLOCK
+    public static let doNotFollowSymlinks = O_NOFOLLOW
+    public static let openSymlinks = O_SYMLINK
+    public static let closeOnExec = O_CLOEXEC
+  }
+
+
+  public let path: Path
+  public let descriptor: Descriptor // note: misuse of the descriptor can cause leaks and other errors.
+  public let mode: Mode
+  public let options: Options
+  public let shouldClose: Bool
 
   deinit {
-    if Darwin.close(descriptor) != 0 { errL("WARNING: File.close failed: \(self); \(stringForCurrentError())") }
+    if shouldClose {
+      if Darwin.close(descriptor) != 0 { errL("WARNING: File.close failed: \(self); \(stringForCurrentError())") }
+    }
   }
 
-  public init(name: String, descriptor: Descriptor) {
-    guard descriptor >= 0 else { fatalError("bad file descriptor for File named: \(name)") }
-    self.name = name
+
+  public init(path: Path, descriptor: Descriptor, mode: Mode, options: Options = [], shouldClose: Bool) {
+    guard descriptor >= 0 else { fatalError("bad file descriptor for File named: \(path)") }
+    self.path = path
     self.descriptor = descriptor
+    self.mode = mode
+    self.options = options
+    self.shouldClose = shouldClose
   }
 
-  public class func openDescriptor(path: String, mode: CInt, create: Perms? = nil) throws -> Descriptor {
-    var descriptor: Descriptor
+
+  public convenience init(path: Path, expandUserToOpen: Bool = true, mode: Mode = .read, options: Options = [], shouldClose: Bool = true,
+   create: Perms? = nil) throws {
+    self.init(
+      path: path,
+      descriptor: try File.openDescriptor(path: path, expandUserToOpen: expandUserToOpen, mode: mode, options: options, create: create),
+      mode: mode,
+      options: options,
+      shouldClose: shouldClose)
+  }
+
+
+  public class func openDescriptor(path: Path, expandUserToOpen: Bool = true, mode: Mode = .read, options: Options = [], create: Perms? = nil) throws -> Descriptor {
+    let expandedPath = (expandUserToOpen && path.isUserAbs) ? expandUser(path) : path
+    let descriptor: Descriptor
     if let perms = create {
-      descriptor = Darwin.open(path, mode | O_CREAT, perms)
+      descriptor = Darwin.open(expandedPath.string, mode.flags | options.rawValue | O_CREAT, perms)
     } else {
-      descriptor = Darwin.open(path, mode)
+      descriptor = Darwin.open(expandedPath.string, mode.flags | options.rawValue)
     }
     guard descriptor >= 0 else { throw Err.open(path: path, msg: stringForCurrentError()) }
     return descriptor
   }
 
-  public convenience init(path: String, mode: CInt, create: Perms? = nil) throws {
-    self.init(name: path, descriptor: try File.openDescriptor(path: path, mode: mode, create: create))
-  }
+
+  public var isReadable: Bool { return mode.isReadable }
+
+  public var isWritable: Bool { return mode.isWritable }
+
+  public var isUpdatable: Bool { return mode.isUpdatable }
+
 
   public var description: String {
-    return "\(type(of: self))(name:'\(name)', descriptor: \(descriptor))"
+    return "\(type(of: self))(path:'\(path)', descriptor: \(descriptor))"
   }
 
-  internal var _dispatchSourceHandle: Descriptor {
-    // note: this is a purposeful leak of the private descriptor so that File+Dispatch can be defined as an extension.
-    return descriptor
-  }
 
   public func stats() throws -> Stats {
     var stats = Darwin.stat()
     let res = Darwin.fstat(descriptor, &stats)
-    guard res == 0 else { throw Err.stat(name: name, msg: stringForCurrentError()) }
+    guard res == 0 else { throw Err.stat(path: path, msg: stringForCurrentError()) }
     return stats
   }
 
   public func seekAbs(_ pos: Int) throws {
-    guard Darwin.lseek(descriptor, off_t(pos), SEEK_SET) == 0 else { throw Err.seek(name: name, pos: pos) }
+    guard Darwin.lseek(descriptor, off_t(pos), SEEK_SET) == 0 else { throw Err.seek(path: path, pos: pos) }
   }
 
   public func rewind() throws {
@@ -86,37 +168,27 @@ public class File: CustomStringConvertible {
     return true
   }
 
-  public static func changePerms(path: String, _ perms: Perms) throws {
-    guard Darwin.chmod(path, perms) == 0 else { throw Err.changePerms(path: path, perms: perms) }
-  }
-
-  public func copy(fromPath: String, toPath: String, create: Perms? = nil) throws {
-    try InFile(path: fromPath).copyTo(OutFile(path: toPath, create: create))
-  }
-}
-
-
-public class InFile: File {
-
-  public convenience init(path: String, create: Perms? = nil) throws {
-    self.init(name: path, descriptor: try File.openDescriptor(path: path, mode: O_RDONLY, create: create))
-  }
-
   public func len() throws -> Int { return try Int(stats().st_size) }
 
+
   public func read(len: Int, ptr: MutRawPtr) throws -> Int {
+    assert(isReadable)
     let actualLen = Darwin.read(descriptor, ptr, len)
-    guard actualLen >= 0 else { throw Err.read(name: name, offset: -1, len: len) }
+    guard actualLen >= 0 else { throw Err.read(path: path, offset: -1, len: len) }
     return actualLen
   }
+
 
   public func readAbs(offset: Int, len: Int, ptr: MutRawPtr) throws -> Int {
+    assert(isReadable)
     let actualLen = Darwin.pread(descriptor, ptr, len, off_t(offset))
-    guard actualLen >= 0 else { throw Err.read(name: name, offset: offset, len: len) }
+    guard actualLen >= 0 else { throw Err.read(path: path, offset: offset, len: len) }
     return actualLen
   }
 
+
   public func readBytes() throws -> [UInt8] {
+    assert(isReadable)
     var buffer: [UInt8] = [UInt8](repeating: 0, count: sysPageSize)
     var result = [UInt8]()
     while true {
@@ -127,70 +199,79 @@ public class InFile: File {
     return result
   }
 
+
   public func readText(encoding: String.Encoding = .utf8) throws -> String {
+    assert(isReadable)
     let bytes = try readBytes()
     guard let s = String(bytes: bytes, encoding: encoding) else {
-      throw Err.decode(name: name, encoding: encoding)
+      throw Err.decode(path: path, encoding: encoding)
     }
     return s
   }
 
-  public func copyTo(_ outFile: OutFile) throws {
+
+  public func copy(to dstFile: File) throws {
+    assert(isReadable)
+    assert(dstFile.isWritable)
     let attrs: Int32 = COPYFILE_ACL|COPYFILE_STAT|COPYFILE_XATTR|COPYFILE_DATA
-    guard Darwin.fcopyfile(self.descriptor, outFile.descriptor, nil, copyfile_flags_t(attrs)) == 0 else {
-      throw Err.copy(from: name, to: outFile.name)
+    guard Darwin.fcopyfile(self.descriptor, dstFile.descriptor, nil, copyfile_flags_t(attrs)) == 0 else {
+      throw Err.copy(from: path, to: dstFile.path)
     }
   }
-}
 
 
-public class OutFile: File, TextOutputStream {
-
-  public convenience init(path: String, create: Perms? = nil) throws {
-    self.init(name: path, descriptor: try File.openDescriptor(path: path, mode: O_WRONLY | O_TRUNC, create: create))
+  public func changePerms(_ perms: Perms) throws {
+    guard Darwin.fchmod(descriptor, perms) == 0 else { throw Err.changePerms(path: path, perms: perms) } // TODO: stringForCurrentError?
   }
+
 
   public func write(_ string: String, allowLossy: Bool) {
-    writeBytes(descriptor: descriptor, string: string, allowLossy: allowLossy)
+    File.writeBytes(descriptor: descriptor, string: string, allowLossy: allowLossy)
   }
+
 
   public func write(_ string: String) {
     write(string, allowLossy: false)
   }
+
 
   public func writeL(_ string: String) {
     write(string)
     write("\n")
   }
 
-  public func setPerms(_ perms: Perms) {
-    if Darwin.fchmod(descriptor, perms) != 0 {
-      fail("setPerms(\(perms)) failed: \(stringForCurrentError()); '\(name)'")
-    }
+
+  public static func copy(from fromPath: Path, to toPath: Path, create: Perms? = nil) throws {
+    try File(path: fromPath).copy(to: File(path: toPath, mode: .write, create: create))
   }
-}
 
 
-func readBytes(path: String) throws -> [UInt8] {
-  let f = try InFile(path: path)
-  return try f.readBytes()
-}
+  public static func changePerms(path: Path, perms: Perms) throws {
+    guard Darwin.chmod(path.string, perms) == 0 else { throw Err.changePerms(path: path, perms: perms) }
+  }
 
 
-func writeBytes(descriptor: File.Descriptor, string: String, allowLossy: Bool) {
-  let options = allowLossy ? String.EncodingConversionOptions.allowLossy : []
-  var buffer: [UInt8] = [UInt8](repeating: 0, count: sysPageSize)
-  // Note: the buffer must be initialized as getBytes will not resize it.
-  // Additionally, as of swift 3.1 if buffer is empty then we will end up writing garbage;
-  // this appears to be a safety bug in getBytes.
-  var usedLength = 0
-  var range: Range<String.Index> = string.startIndex..<string.endIndex
-  while !range.isEmpty {
-    _ = string.getBytes(&buffer, maxLength: 4096, usedLength: &usedLength,
-      encoding: .utf8, options: options, range: range, remaining: &range)
-    let bytesWritten = Darwin.write(descriptor, buffer, usedLength)
-    if bytesWritten != usedLength {
-      fail("write error: \(stringForCurrentError())")
+  public static func readBytes(path: Path) throws -> [UInt8] {
+    let f = try File(path: path)
+    return try f.readBytes()
+  }
+
+
+  public static func writeBytes(descriptor: File.Descriptor, string: String, allowLossy: Bool) {
+    let options = allowLossy ? String.EncodingConversionOptions.allowLossy : []
+    var buffer: [UInt8] = [UInt8](repeating: 0, count: sysPageSize)
+    // Note: the buffer must be initialized as getBytes will not resize it.
+    // Additionally, as of swift 3.1 if buffer is empty then we will end up writing garbage;
+    // this appears to be a safety bug in getBytes.
+    var usedLength = 0
+    var range: Range<String.Index> = string.startIndex..<string.endIndex
+    while !range.isEmpty {
+      _ = string.getBytes(&buffer, maxLength: 4096, usedLength: &usedLength,
+        encoding: .utf8, options: options, range: range, remaining: &range)
+      let bytesWritten = Darwin.write(descriptor, buffer, usedLength)
+      if bytesWritten != usedLength {
+        fail("write error: \(stringForCurrentError())")
+      }
     }
   }
 }

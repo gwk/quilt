@@ -8,15 +8,15 @@ public class Dir {
   private typealias Handle = MutPtr<Darwin.DIR>
 
   public enum Err: Error {
-    case path(String)
+    case path(Path)
   }
 
-  public let path: String
+  public let path: Path
   private let handle: Handle?
 
-  public init(_ path: String) throws {
+  public init(_ path: Path) throws {
     self.path = path
-    self.handle = opendir(path)
+    self.handle = opendir(path.string)
     if self.handle == nil {
       throw Err.path(path)
     }

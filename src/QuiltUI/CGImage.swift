@@ -8,10 +8,10 @@ import Quilt
 extension CGImage {
 
   public enum Err: Error {
-    case jpeg(path: String)
-    case path(path: String)
-    case pathExtension(path: String)
-    case png(path: String)
+    case jpeg(path: Path)
+    case path(path: Path)
+    case pathExtension(path: Path)
+    case png(path: Path)
   }
 
   public static let missing: CGImage = CGImage.with(
@@ -27,13 +27,13 @@ extension CGImage {
       ]),
     shouldInterpolate: false)
 
-  public class func from(path: String,
+  public class func from(path: Path,
              shouldInterpolate: Bool = true,
              intent: CGColorRenderingIntent = .defaultIntent) throws -> CGImage {
-    guard let provider = CGDataProvider(filename: path) else {
+    guard let provider = CGDataProvider(filename: path.string) else {
       throw Err.path(path: path)
     }
-    switch path.pathExt {
+    switch path.ext {
     case ".jpg": if let i = CGImage(jpegDataProviderSource: provider, decode: nil, shouldInterpolate: shouldInterpolate, intent: intent) {
       return i
     } else { throw Err.jpeg(path: path) }

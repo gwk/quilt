@@ -65,65 +65,6 @@ extension String {
   public mutating func append(_ substring: Substring) { append(contentsOf: substring) }
 
 
-  // MARK: paths. TODO: move to Path.
-
-  public var pathExtDotRange: Range<Index>?    { return range(of: ".", options: .backwards) }
-  public var pathDirSlashRange: Range<Index>?  { return range(of: "/", options: .backwards) }
-
-  public var pathExt: String {
-    if let r = pathExtDotRange {
-      return String(self[r.lowerBound...])
-    } else {
-      return ""
-    }
-  }
-
-  public var withoutPathExt: String {
-    if let r = pathExtDotRange {
-      // TODO: check that the range does not span a slash.
-      // TODO: allow trailing slash.
-      return String(self[..<r.lowerBound])
-    } else {
-      return self
-    }
-  }
-
-  public func replacePathExt(_ ext: String) -> String {
-    var pre: String
-    if let r = pathExtDotRange {
-      pre = String(self[..<r.lowerBound])
-    } else {
-      pre = self
-    }
-    return pre + ext
-  }
-
-  public var pathDir: String {
-    if let r = pathDirSlashRange {
-      return String(self[..<r.lowerBound])
-    } else {
-      return ""
-    }
-  }
-
-  public var withoutPathDir: String {
-    if let r = pathDirSlashRange {
-      return String(self[r.upperBound...])
-    } else {
-      return self
-    }
-  }
-
-  public var pathNameStem: String {
-    return withoutPathDir.withoutPathExt
-  }
-
-  // MARK: urls
-
-  public var fileUrl: URL? { return URL(fileURLWithPath: self, isDirectory: false) }
-
-  public var dirUrl: URL? { return URL(fileURLWithPath: self, isDirectory: true) }
-
   // MARK: utilities
 
   public func contains(_ c: Character) -> Bool {

@@ -12,7 +12,7 @@ extension SKTexture {
 
   public static var missing: SKTexture { return SKTexture_missing }
 
-  public convenience init(path: String, filteringMode: SKTextureFilteringMode = .linear) {
+  public convenience init(path: Path, filteringMode: SKTextureFilteringMode = .linear) {
     let image: CGImage
     do {
       image = try CGImage.from(path: path)

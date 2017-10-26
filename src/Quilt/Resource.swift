@@ -5,23 +5,7 @@ import Foundation
 
 public protocol Reloadable {
   init()
-  mutating func reload(_ file: InFile) -> Bool
-}
-
-
-public let resourceRootDir: String = {
-  // TODO: if in release mode or flag not present, return bundle resource directory.
-  let key = "RALLY_RESOURCE_DIR"
-  if let path = processEnvironment[key] {
-    errL("resourceRootDir: using environment \(key): \(path)")
-    return path
-  }
-  return Bundle.main.path(forResource: "res", ofType: nil)!
-}()
-
-
-public func pathForResource(_ resPath: String) -> String {
-  return "\(resourceRootDir)/\(resPath)"
+  mutating func reload(_ file: File) -> Bool
 }
 
 
@@ -31,20 +15,19 @@ public class Resource<T: Reloadable> {
   // It is intended as a means of speeding up the development cycle.
   // Note that this mechanism requires some sort of mutation of the object.
 
-  public let resPath: String
-  public let path: String
+  public let resPath: Path
+  public let path: Path
   public private(set) var obj: T
-  private var file: InFile? = nil
+  private var file: File? = nil
   private var source: DispatchSource? = nil
 
   deinit {
     cancelSource()
   }
 
-  public init(resPath: String) {
-    let path = pathForResource(resPath)
+  public init(resPath: Path) {
     self.resPath = resPath
-    self.path = path
+    self.path = pathForResource(resPath)
     self.obj = T()
     retry()
   }
@@ -62,7 +45,7 @@ public class Resource<T: Reloadable> {
 
   public func retry() {
     do {
-      file = try InFile(path: path)
+      file = try File(path: path)
       errL("resource file opened: \(resPath)")
       reload()
       enqueue()

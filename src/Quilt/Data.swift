@@ -5,12 +5,12 @@ import Foundation
 
 extension Data {
 
-  public init(contentsOfFile path: String, options: Data.ReadingOptions = []) throws {
-    self = try Data(contentsOf: URL(fileURLWithPath: path), options: options)
+  public init(path: Path, options: Data.ReadingOptions = []) throws {
+    self = try Data(contentsOf: path.url, options: options)
   }
 
-  public init(resPath: String, options: Data.ReadingOptions = []) {
-    self = try! Data(contentsOfFile: pathForResource(resPath), options: options)
+  public init(resPath: Path, options: Data.ReadingOptions = []) {
+    self = try! Data(contentsOf: pathForResource(resPath).url, options: options)
   }
 
   public init(buffer: RawBuffer) {
