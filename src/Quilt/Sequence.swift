@@ -108,38 +108,3 @@ extension Sequence where Element: Equatable {
     return reduce(0) { $1 == el ? $0 + 1 : $0 }
   }
 }
-
-
-extension Sequence where Element == Bool {
-
-  public func all() -> Bool {
-    for e in self {
-      if !e {
-        return false
-      }
-    }
-    return true
-  }
-
-  public func any() -> Bool {
-    for e in self {
-      if e {
-        return true
-      }
-    }
-    return false
-  }
-}
-
-
-public func allZip<S1: Sequence, S2: Sequence>(_ seq1: S1, _ seq2: S2, predicate: (S1.Element, S2.Element) -> Bool) -> Bool {
-  var g2 = seq2.makeIterator()
-  for e1 in seq1 {
-    guard let e2 = g2.next() else { return false }
-    if !predicate(e1, e2) {
-      return false
-    }
-  }
-  return g2.next() == nil
-}
-
