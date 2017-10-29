@@ -6,8 +6,8 @@ public func zip3<S0, S1, S2>(_ seq0: S0, _ seq1: S1, _ seq2: S2) -> Zip3Sequence
 }
 
 
-public func zip3<S01, S2, E0, E1>(_ seq01: S01, _ seq2: S2) -> Zip21Sequence<S01, S2, E0, E1> {
-  return Zip21Sequence(seq01, seq2)
+public func zip3<S0_1, S2, E0, E1>(_ seq0_1: S0_1, _ seq2: S2) -> Zip2And1Sequence<S0_1, S2, E0, E1> {
+  return Zip2And1Sequence(seq0_1, seq2)
 }
 
 
@@ -60,7 +60,7 @@ public struct Zip3Sequence <S0: Sequence, S1: Sequence, S2: Sequence>: Sequence 
 }
 
 
-public struct Zip21Iterator <I01: IteratorProtocol, I2: IteratorProtocol, E0, E1> : IteratorProtocol where I01.Element == (E0, E1) {
+public struct Zip2And1Iterator <I01: IteratorProtocol, I2: IteratorProtocol, E0, E1> : IteratorProtocol where I01.Element == (E0, E1) {
 
   public typealias E2 = I2.Element
   public typealias Element = (E0, E1, E2)
@@ -83,9 +83,9 @@ public struct Zip21Iterator <I01: IteratorProtocol, I2: IteratorProtocol, E0, E1
 }
 
 
-public struct Zip21Sequence <S01: Sequence, S2: Sequence, E0, E1>: Sequence where S01.Element == (E0, E1) {
+public struct Zip2And1Sequence <S01: Sequence, S2: Sequence, E0, E1>: Sequence where S01.Element == (E0, E1) {
 
-  public typealias Iterator = Zip21Iterator<S01.Iterator, S2.Iterator, E0, E1>
+  public typealias Iterator = Zip2And1Iterator<S01.Iterator, S2.Iterator, E0, E1>
 
   private let seq01: S01
   private let seq2: S2
