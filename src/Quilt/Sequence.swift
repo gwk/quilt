@@ -5,9 +5,9 @@ extension Sequence {
 
   public func group<K>(_ fn: (Element) -> K?) -> [K:[Element]] {
     var d: [K:[Element]] = [:]
-    for e in self {
-      if let k = fn(e) {
-        d[k, default: []].append(e)
+    for el in self {
+      if let k = fn(el) {
+        d.appendToValue(k, el)
       }
     }
     return d

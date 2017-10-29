@@ -51,6 +51,16 @@ extension Dictionary {
       return v
     }
   }
+
+
+  public mutating func getOrInsert(_ key: Key, dflt: Value) -> Value {
+    if let v = self[key] {
+      return v
+    } else {
+      self[key] = dflt
+      return dflt
+    }
+  }
 }
 
 
