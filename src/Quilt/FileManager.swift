@@ -22,24 +22,24 @@ public func absPath(_ string: String) -> Path { return absPath(Path(string)) }
 
 
 public func isPathFileOrDir(_ path: Path) -> Bool {
-  return fileManager.fileExists(atPath: path.string)
+  return fileManager.fileExists(atPath: path.expandUser)
 }
 
 public func isPathFile(_ path: Path) -> Bool {
   var isDir: ObjCBool = false
-  let exists = fileManager.fileExists(atPath: path.string, isDirectory: &isDir)
+  let exists = fileManager.fileExists(atPath: path.expandUser, isDirectory: &isDir)
   return exists && !isDir.boolValue
 }
 
 public func isPathDir(_ path: Path) -> Bool {
   var isDir: ObjCBool = false
-  let exists = fileManager.fileExists(atPath: path.string, isDirectory: &isDir)
+  let exists = fileManager.fileExists(atPath: path.expandUser, isDirectory: &isDir)
   return exists && isDir.boolValue
 }
 
 public func isPathLink(_ path: Path) -> Bool {
   do {
-    let attrs = try fileManager.attributesOfItem(atPath: path.string)
+    let attrs = try fileManager.attributesOfItem(atPath: path.expandUser)
     return (attrs[FileAttributeKey.type]! as! FileAttributeType) == FileAttributeType.typeSymbolicLink
   } catch {
     return false
@@ -47,21 +47,21 @@ public func isPathLink(_ path: Path) -> Bool {
 }
 
 public func resolveLink(_ path: Path) throws -> Path {
-  return try Path(fileManager.destinationOfSymbolicLink(atPath: path.string))
+  return try Path(fileManager.destinationOfSymbolicLink(atPath: path.expandUser))
 }
 
 public func removeFileOrDir(_ path: Path) throws {
-  try fileManager.removeItem(atPath: path.string)
+  try fileManager.removeItem(atPath: path.expandUser)
 }
 
 public func createDir(_ path: Path, intermediates: Bool = false) throws {
-  try fileManager.createDirectory(atPath: path.string,
+  try fileManager.createDirectory(atPath: path.expandUser,
     withIntermediateDirectories: intermediates,
     attributes: nil)
 }
 
 public func listDir(_ path: Path) throws -> [Path] {
-  return try fileManager.contentsOfDirectory(atPath: path.string).map { Path($0) }
+  return try fileManager.contentsOfDirectory(atPath: path.expandUser).map { Path($0) }
 }
 
 public func walkPaths(root: Path) throws -> [Path] {
@@ -72,7 +72,7 @@ public func walkPaths(root: Path) throws -> [Path] {
     return [root]
   }
   var paths: [Path] = []
-  for subpath in try fileManager.subpathsOfDirectory(atPath: root.string).map({Path($0)}) {
+  for subpath in try fileManager.subpathsOfDirectory(atPath: root.expandUser).map({Path($0)}) {
     let path = root.cat(subpath)
     if isPathLink(path) {
       paths.append(contentsOf: try walkPaths(root: resolveLink(path)))

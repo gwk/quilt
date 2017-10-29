@@ -16,7 +16,7 @@ public class Dir {
 
   public init(_ path: Path) throws {
     self.path = path
-    self.handle = opendir(path.string)
+    self.handle = opendir(path.expandUser)
     if self.handle == nil {
       throw Err.path(path)
     }

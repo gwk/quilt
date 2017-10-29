@@ -6,13 +6,14 @@ import Foundation
 extension Bundle {
 
   public class func resPath(_ path: Path) -> Path {
+    precondition(path.isRel)
     return Path(main.path(forResource: path.string, ofType: nil)!)
   }
 
   public class func textNamed(_ path: Path) throws -> String {
     let p = resPath(path)
     do {
-      return try String(contentsOfFile: p.string, encoding: String.Encoding.utf8)
+      return try File(path: p).readText()
     } catch let e {
       print("could not read resource text: \(path) error: \(e)")
       throw e

@@ -13,13 +13,28 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
     self.string = Path.normalize(string: string)
   }
 
+  public init?(_ string: String?) {
+    guard let string = string else { return nil }
+    self.init(string)
+  }
+
   public init(_ substring: Substring) {
     self.string = Path.normalize(string: String(substring))
+  }
+
+  public init?(_ substring: Substring?) {
+    guard let substring = substring else { return nil }
+    self.init(substring)
   }
 
   public init(_ url: URL) {
     precondition(url.isFileURL)
     self = Path(url.path)
+  }
+
+  public init?( _ url: URL?) {
+    guard let url = url else { return nil }
+    self.init(url)
   }
 
   public init(stringLiteral: StringLiteralType) {
@@ -30,7 +45,7 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
     self.string = Path.normalize(string: parts.joined(char: sysPathSepChar))
   }
 
-  public var description: String { return "Path(\(string))" }
+  public var description: String { return string }
 
   public var url: URL { return URL(fileURLWithPath: string) }
 

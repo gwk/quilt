@@ -99,7 +99,7 @@ public class File: CustomStringConvertible, TextOutputStream {
 
 
   public init(path: Path, descriptor: Descriptor, mode: Mode, options: Options = [], shouldClose: Bool) {
-    guard descriptor >= 0 else { fatalError("bad file descriptor for File named: \(path)") }
+    guard descriptor >= 0 else { fatalError("bad file descriptor (\(descriptor)) for File named: \(path)") }
     self.path = path
     self.descriptor = descriptor
     self.mode = mode
@@ -108,19 +108,19 @@ public class File: CustomStringConvertible, TextOutputStream {
   }
 
 
-  public convenience init(path: Path, expandUserToOpen: Bool = true, mode: Mode = .read, options: Options = [], shouldClose: Bool = true,
+  public convenience init(path: Path, mode: Mode = .read, options: Options = [], shouldClose: Bool = true,
    create: Perms? = nil) throws {
     self.init(
       path: path,
-      descriptor: try File.openDescriptor(path: path, expandUserToOpen: expandUserToOpen, mode: mode, options: options, create: create),
+      descriptor: try File.openDescriptor(path: path, mode: mode, options: options, create: create),
       mode: mode,
       options: options,
       shouldClose: shouldClose)
   }
 
 
-  public class func openDescriptor(path: Path, expandUserToOpen: Bool = true, mode: Mode = .read, options: Options = [], create: Perms? = nil) throws -> Descriptor {
-    let pathString = (expandUserToOpen && path.isUserAbs) ? Path.expandUser(string: path.string) : path.string
+  public class func openDescriptor(path: Path, mode: Mode = .read, options: Options = [], create: Perms? = nil) throws -> Descriptor {
+    let pathString = path.expandUser
     let descriptor: Descriptor
     if let perms = create {
       descriptor = Darwin.open(pathString, mode.flags | options.rawValue | O_CREAT, perms)
@@ -226,7 +226,7 @@ public class File: CustomStringConvertible, TextOutputStream {
 
 
   public func write(_ string: String, allowLossy: Bool) {
-    File.writeBytes(descriptor: descriptor, string: string, allowLossy: allowLossy)
+    File.writeBytes(name: path.string, descriptor: descriptor, string: string, allowLossy: allowLossy)
   }
 
 
@@ -247,17 +247,11 @@ public class File: CustomStringConvertible, TextOutputStream {
 
 
   public static func changePerms(path: Path, perms: Perms) throws {
-    guard Darwin.chmod(path.string, perms) == 0 else { throw Err.changePerms(path: path, perms: perms) }
+    guard Darwin.chmod(path.expandUser, perms) == 0 else { throw Err.changePerms(path: path, perms: perms) }
   }
 
 
-  public static func readBytes(path: Path) throws -> [UInt8] {
-    let f = try File(path: path)
-    return try f.readBytes()
-  }
-
-
-  public static func writeBytes(descriptor: File.Descriptor, string: String, allowLossy: Bool) {
+  public static func writeBytes(name: String, descriptor: File.Descriptor, string: String, allowLossy: Bool) {
     let options = allowLossy ? String.EncodingConversionOptions.allowLossy : []
     var buffer: [UInt8] = [UInt8](repeating: 0, count: sysPageSize)
     // Note: the buffer must be initialized as getBytes will not resize it.
@@ -270,7 +264,7 @@ public class File: CustomStringConvertible, TextOutputStream {
         encoding: .utf8, options: options, range: range, remaining: &range)
       let bytesWritten = Darwin.write(descriptor, buffer, usedLength)
       if bytesWritten != usedLength {
-        fail("write error: \(stringForCurrentError())")
+        fail(label: name, "system write error: \(stringForCurrentError())")
       }
     }
   }

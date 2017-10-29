@@ -3,8 +3,8 @@
 import Darwin
 
 
-public func renameFileAtPath(_ fromPath: String, toPath: String) {
-  if Darwin.rename(fromPath, toPath) != 0 {
-    fail("rename(\(fromPath), \(toPath)) failed: \(stringForCurrentError())") // TODO: throw. 
+public func renameFile(from fromPath: Path, to toPath: Path) {
+  if Darwin.rename(fromPath.expandUser, toPath.expandUser) != 0 {
+    fail("renameFile(from: \(fromPath), to: \(toPath)) failed: \(stringForCurrentError())") // TODO: throw.
   }
 }

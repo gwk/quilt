@@ -6,7 +6,7 @@ import Foundation
 extension FileHandle: TextOutputStream {
 
   public func write(_ string: String, allowLossy: Bool) {
-    File.writeBytes(descriptor: fileDescriptor, string: string, allowLossy: allowLossy)
+    File.writeBytes(name: "FileHandle", descriptor: fileDescriptor, string: string, allowLossy: allowLossy)
   }
 
   public func write(_ string: String) { write(string, allowLossy: false) }
