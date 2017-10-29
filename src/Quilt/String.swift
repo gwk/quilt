@@ -166,9 +166,20 @@ extension String {
     return count
   }
 
-  public var lines: [String] {
-    let charLines = self.split(separator: "\n", omittingEmptySubsequences: false)
-    return charLines.map { String($0) }
+  public var lines: [Substring] {
+    var lines: [Substring] = []
+    var lineStart = startIndex
+    for idx in indices {
+      if self[idx] == "\n" {
+        let nextStart = index(after: idx)
+        lines.append(self[lineStart..<nextStart])
+        lineStart = nextStart
+      }
+    }
+    if lineStart < endIndex {
+      lines.append(self[lineStart..<endIndex])
+    }
+    return lines
   }
 
   public func numberedLinesFrom(_ from: Int) -> [String] {
