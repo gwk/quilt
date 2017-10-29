@@ -53,6 +53,7 @@ public class QTextLayer: CALayer {
   public override init() {
     super.init()
     needsDisplayOnBoundsChange = true
+    isOpaque = true
   }
 
   public override init(layer: Any) {
@@ -108,6 +109,16 @@ public class QTextLayer: CALayer {
     ctx.textMatrix = .identity
     ctx.translateBy(x: 0, y: bounds.size.height)
     ctx.scaleBy(x: 1.0, y: -1.0)
+    if isOpaque, let backgroundColor = backgroundColor {
+      ctx.setFillColor(backgroundColor)
+      ctx.fill(bounds)
+      ctx.setAllowsFontSmoothing(true)
+      ctx.setAllowsFontSubpixelPositioning(true)
+      ctx.setAllowsFontSubpixelQuantization(true)
+      ctx.setShouldSmoothFonts(true)
+      ctx.setShouldSubpixelPositionFonts(true)
+      ctx.setShouldSubpixelQuantizeFonts(true)
+    }
     frame.draw(ctx: ctx, attrString: _attrString, width:textBounds.width, truncationType: .end, truncationLine: _truncationLine)
   }
 }
