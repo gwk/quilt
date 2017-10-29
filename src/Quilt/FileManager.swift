@@ -5,31 +5,21 @@ import Foundation
 
 public let fileManager = FileManager.default
 
+public let usersDir = Path(sysHomeDirString)
 
-public func currentDir() -> Path { return Path(fileManager.currentDirectoryPath) }
+public let userHomeDirString = NSHomeDirectory() + "/"
 
-public func userHomeDir() -> Path { return Path(fileManager.homeDirectoryForCurrentUser) }
+public func currentDir() -> Path { return Path(fileManager.currentDirectoryPath + "/") }
 
-public func userTempDir() -> Path { return Path(fileManager.temporaryDirectory) }
-
-public func expandUser(_ path: Path) -> Path { return Path((path.string as NSString).expandingTildeInPath) }
+public func userTempDir() -> Path { return Path(fileManager.temporaryDirectory.path + "/") }
 
 
-public func absPath(_ path: Path) -> Path? {
-  if path.isAbs { return path }
-  if path.isUserAbs {
-    if path.string == sysHomePrefix { return userHomeDir() }
-    fatalError("absPath: UNIMPLEMENTED")
-  }
-  let cr = fileManager.fileSystemRepresentation(withPath: path.string)
-  let ca = realpath(cr, nil)
-  if ca == nil {
-    return nil
-  }
-  let a = fileManager.string(withFileSystemRepresentation: ca!, length: Int(strlen(ca)))
-  free(ca)
-  return Path(a)
+public func absPath(_ path: Path) -> Path {
+  return path.isRel ? currentDir().cat(path) : path
 }
+
+public func absPath(_ string: String) -> Path { return absPath(Path(string)) }
+
 
 public func isPathFileOrDir(_ path: Path) -> Bool {
   return fileManager.fileExists(atPath: path.string)

@@ -3,8 +3,6 @@
 import Foundation
 
 
-// TODO: #column, #function?
-
 public func utest<T: Equatable>(exp: T, _ actClosure: @autoclosure () throws -> T,
  _ msg: @autoclosure ()->String = "test failure.", file: StaticString = #file, line: UInt = #line, col: UInt = #column) {
   do {
@@ -19,15 +17,16 @@ public func utest<T: Equatable>(exp: T, _ actClosure: @autoclosure () throws -> 
 }
 
 
-public func utest_nil<T: Equatable>(_ actClosure: @autoclosure () throws -> T?,
+public func utest<T: Equatable>(opt exp: T?, _ actClosure: @autoclosure () throws -> T?,
  _ msg: @autoclosure ()->String = "test failure.", file: StaticString = #file, line: UInt = #line, col: UInt = #column) {
   do {
     let act = try actClosure()
-    if act != nil {
-      ufail("\(msg())\n  expected nil\n  actual: \(act!)", file: file, line: line, col: col)
+    if act != exp {
+      ufail("\(msg())\n  expected \(exp==nil ? "nil" : String(reflecting: exp!))\n  actual: \(act==nil ? "nil" : String(reflecting: act!))",
+        file: file, line: line, col: col)
     }
   } catch let e {
-     ufail("\(msg())\n  expected nil\n  caught: \(e)", file: file, line: line, col: col)
+     ufail("\(msg())\n  expected \(exp==nil ? "nil" : String(reflecting: exp!))\n  caught: \(e)", file: file, line: line, col: col)
      return
    }
 }

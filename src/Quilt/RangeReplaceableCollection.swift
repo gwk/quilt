@@ -15,4 +15,7 @@ extension RangeReplaceableCollection where Element: Equatable {
     return false
   }
 
+  public mutating func truncate(_ index: Index) {
+    removeSubrange(index..<endIndex)
+  }
 }

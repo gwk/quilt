@@ -26,6 +26,10 @@ public struct Path: Equatable, ExpressibleByStringLiteral {
     self = Path(stringLiteral)
   }
 
+  public init(parts: [String]) {
+    self.string = Path.normalize(string: parts.joined(char: sysPathSepChar))
+  }
+
   public var description: String { return string }
 
   public var url: URL { return URL(fileURLWithPath: string) }
@@ -39,6 +43,8 @@ public struct Path: Equatable, ExpressibleByStringLiteral {
   public var isRel: Bool { return !isAbs }
 
   public var hasDirSuffix: Bool { return string.last == sysPathSepChar }
+
+  public var apparentDir: Path { return hasDirSuffix ? self : cat("..") }
 
   public var stem: Path {
     // The "stem" is the portion of the path up to the '.ext' extension.
@@ -85,6 +91,16 @@ public struct Path: Equatable, ExpressibleByStringLiteral {
     }
   }
 
+  public var parts: [String] {
+    return string.split(separator: sysPathSepChar, omittingEmptySubsequences: false).map {
+      $0.isEmpty ? "/" : String($0)
+    }
+  }
+
+
+  public var expandUser: String { return Path.expandUser(string: string) }
+
+
   public func append(_ suffix: String) -> Path {
     return Path(string + suffix)
   }
@@ -118,31 +134,69 @@ public struct Path: Equatable, ExpressibleByStringLiteral {
   public static func ==(l: Path, r: Path) -> Bool { return l.string == r.string }
 
 
-  public static func normalize(string: String) -> String {
-    var comps: [Substring] = []
-    for comp in string.split(separator: sysPathSepChar, omittingEmptySubsequences: true) {
-      switch comp {
-      case ".": continue
-      case "..":
-        if comps.isEmpty {
-          comps.append(comp)
-        } else if let l = comps.last, l == ".." {
-          comps.append(comp)
-        } else {
-          _ = comps.pop()
+  public static func commonParent<S: Sequence>(_ paths: S) -> Path? where S.Element == Path {
+    let commonParts = paths.reduce(intoFirst: { $0?.parts ?? [] }) {
+      (commonParts, path) in
+      let pathParts = path.parts
+      for (i, a, b) in enumZip(commonParts, pathParts) {
+        if a != b {
+          commonParts.truncate(i)
+          break
         }
-      default: comps.append(comp)
+      }
+      if commonParts.count > pathParts.count {
+        commonParts.truncate(pathParts.count)
       }
     }
-    let isRootAbs = string.hasPrefix(sysPathSep)
-    let isDir = string.hasSuffix(sysPathSep)
-    if comps.isEmpty {
-      if isRootAbs { return "/" }
-      if isDir { return "./" }
-      return "."
+    return commonParts.isEmpty ? nil : Path(parts: commonParts)
+  }
+
+
+  public static func commonParent(_ paths: Path...) -> Path? { return commonParent(paths) }
+
+
+  public static func expandUser(string: String) -> String {
+    if string.first != sysHomePrefixChar { return string }
+    var s = string
+    let slashIndex = s.index(of: sysPathSepChar) ?? s.endIndex
+    let secondIndex = s.index(after: s.startIndex)
+    if slashIndex == secondIndex { // bare "~" or "~/…".
+      s.replaceSubrange(..<secondIndex, with: userHomeDirNoSlash)
+    } else { // "~username" -> "/Users/username".
+      s.replaceSubrange(..<secondIndex, with: sysHomeDirString)
     }
-    if isRootAbs { comps.prepend("") }
-    if string.hasSuffix(sysPathSep) { comps.append("") }
-    return comps.joined(separator: String(sysPathSep))
+    return s
+  }
+
+  private static let userHomeDirNoSlash = NSHomeDirectory()
+
+  public static func normalize(string: String) -> String {
+    let string = expandUser(string: string)
+    var parts: [Substring] = []
+    if string.first == "/" { parts.append("") } // Note: must be careful never to pop this leading empty part.
+    for part in string.split(separator: sysPathSepChar, omittingEmptySubsequences: true) {
+      switch part {
+      case ".": continue
+      case "..":
+        if parts.isEmpty || parts.last == ".." || parts == [""] {
+          parts.append(part)
+        } else {
+          _ = parts.pop()
+        }
+      default: parts.append(part)
+      }
+    }
+    let isDir = string.hasSuffix(sysPathSep) || parts.last == ".."
+    if parts.isEmpty { return isDir ? "./" : "." } // Must be relative, because root-absolute paths have leading empty part.
+    if parts == [""] { return "/" } // Need this special case or else end up with double slash.
+    // Retain a leading dot in two cases: local executable, or local file with a leading tilde in first part.
+    if string.hasPrefix("./") && ((parts.count==1 && !isDir) || parts.first!.hasPrefix("~")) {
+      parts.prepend(".")
+    }
+    if isDir { parts.append("") }
+    var s = parts.joined(separator: sysPathSep)
+    _ = s.replace(prefix: sysHomeDirString, with: "~")
+    _ = s.replace(prefix: "~" + NSUserName(), with: "~")
+    return s
   }
 }

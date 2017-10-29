@@ -59,6 +59,18 @@ extension Sequence {
     }
     return false
   }
+
+  public func reduce<Result>(first: (Element?) throws -> Result, _ nextPartialResult: (Result, Self.Element) throws -> Result) rethrows -> Result {
+    var iter = makeIterator()
+    let initialResult = try first(iter.next())
+    return try IteratorSequence(iter).reduce(initialResult, nextPartialResult)
+  }
+
+  public func reduce<Result>(intoFirst: (Element?) throws -> Result, _ updateAccumulatingResult: (inout Result, Self.Element) throws -> ()) rethrows -> Result {
+    var iter = makeIterator()
+    let initialResult = try intoFirst(iter.next())
+    return try IteratorSequence(iter).reduce(into: initialResult, updateAccumulatingResult)
+  }
 }
 
 

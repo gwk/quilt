@@ -120,12 +120,12 @@ public class File: CustomStringConvertible, TextOutputStream {
 
 
   public class func openDescriptor(path: Path, expandUserToOpen: Bool = true, mode: Mode = .read, options: Options = [], create: Perms? = nil) throws -> Descriptor {
-    let expandedPath = (expandUserToOpen && path.isUserAbs) ? expandUser(path) : path
+    let pathString = (expandUserToOpen && path.isUserAbs) ? Path.expandUser(string: path.string) : path.string
     let descriptor: Descriptor
     if let perms = create {
-      descriptor = Darwin.open(expandedPath.string, mode.flags | options.rawValue | O_CREAT, perms)
+      descriptor = Darwin.open(pathString, mode.flags | options.rawValue | O_CREAT, perms)
     } else {
-      descriptor = Darwin.open(expandedPath.string, mode.flags | options.rawValue)
+      descriptor = Darwin.open(pathString, mode.flags | options.rawValue)
     }
     guard descriptor >= 0 else { throw Err.open(path: path, msg: stringForCurrentError()) }
     return descriptor

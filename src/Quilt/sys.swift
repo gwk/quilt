@@ -12,3 +12,8 @@ let sysPathSepScalar: UnicodeScalar = "/"
 
 let sysHomePrefix = "~"
 let sysHomePrefixChar: Character = "~"
+
+#if os(OSX) || os(iOS)
+let sysHomeDirString = "/Users/"
+let sysHomeDirStringNoSlash = "/Users"
+#endif
