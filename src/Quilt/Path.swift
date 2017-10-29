@@ -3,7 +3,7 @@
 import Foundation
 
 
-public struct Path: Equatable, ExpressibleByStringLiteral {
+public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertible {
 
   public typealias StringLiteralType = String
 
@@ -30,7 +30,7 @@ public struct Path: Equatable, ExpressibleByStringLiteral {
     self.string = Path.normalize(string: parts.joined(char: sysPathSepChar))
   }
 
-  public var description: String { return string }
+  public var description: String { return "Path(\(string))" }
 
   public var url: URL { return URL(fileURLWithPath: string) }
 
