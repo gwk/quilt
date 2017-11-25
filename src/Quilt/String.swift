@@ -7,6 +7,8 @@ public let symbolHeadChars = Set<Character>("_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
 public let symbolTailChars = symbolHeadChars.union("0123456789")
 
 
+extension String: Error {}
+
 extension String {
 
   public init?<S: Sequence>(bytes: S) where S.Element == UInt8 {
