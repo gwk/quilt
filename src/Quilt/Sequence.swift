@@ -3,6 +3,8 @@
 
 extension Sequence {
 
+  var descriptions: LazyMapSequence<Self, String> { return lazy.map { String(describing: $0) } }
+
   public func group<K>(_ fn: (Element) -> K?) -> [K:[Element]] {
     var d: [K:[Element]] = [:]
     for el in self {
