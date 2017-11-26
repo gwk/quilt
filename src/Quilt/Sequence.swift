@@ -25,6 +25,12 @@ extension Sequence {
     return a
   }
 
+  public func sortedMap<E: Comparable>(transform: (Element) throws -> E) rethrows -> [E] {
+    var s = try map(transform)
+    s.sort()
+    return s
+  }
+
   public func mapToDict<K, V>(_ transform: (Element) -> (K, V)) -> [K:V] {
     var d: [K:V] = [:]
     for e in self {
