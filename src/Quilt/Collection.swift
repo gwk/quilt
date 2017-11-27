@@ -111,7 +111,7 @@ extension Collection where Element: Comparable {
 
 
 public func zipExact<C0: Collection, C1: Collection>(_ c0: C0, _ c1: C1) -> Zip2Sequence<C0, C1>
-  where C0.IndexDistance == C1.IndexDistance {
-  assert(c0.count == c1.count)
+ where C0.IndexDistance == C1.IndexDistance {
+  precondition(c0.count == c1.count)
   return zip(c0, c1)
 }
