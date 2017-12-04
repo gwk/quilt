@@ -7,7 +7,7 @@ extension MutPtr {
 
   init(copy: Pointee, count: Int = 1) {
     self = MutPtr.allocate(capacity: count)
-    initialize(to: copy, count: count)
+    initialize(repeating: copy, count: count)
   }
 
   init<C: Collection>(copy collection: C) where C.Element == Pointee {

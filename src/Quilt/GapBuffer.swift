@@ -9,7 +9,7 @@ public struct GapBuffer<Element> : Collection {
 
   public struct Iterator : IteratorProtocol {
     var fwdIt: Array<Element>.Iterator
-    var revIt: ReversedRandomAccessCollection<[Element]>.Iterator
+    var revIt: ReversedCollection<[Element]>.Iterator
 
     public init(_ gapBuffer: GapBuffer) {
       fwdIt = gapBuffer.fwd.makeIterator()

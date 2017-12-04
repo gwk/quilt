@@ -119,7 +119,7 @@ public class AreaBuffer<Element>: Collection {
 
   public func setEl(_ coord: V2I, _ val: Element) { setEl(coord.x, coord.y, val) }
 
-  public func map<R>(_ transform: (Element)->R) -> AreaBuffer<R> {
+  public func mapToArea<R>(_ transform: (Element)->R) -> AreaBuffer<R> {
     return AreaBuffer<R>(size: size, seq: array.map(transform))
   }
 }
