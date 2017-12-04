@@ -42,4 +42,8 @@ extension Set {
     insert(el)
     return false
   }
+
+  public mutating func insert<S: Sequence>(contentsOf sequence: S) where S.Element == Element {
+    for el in sequence { insert(el) }
+  }
 }
