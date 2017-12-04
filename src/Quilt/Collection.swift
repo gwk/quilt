@@ -93,23 +93,6 @@ extension Collection where Iterator.Element : Equatable {
 }
 
 
-extension Collection where Element: Comparable {
-
-  public var isSorted: Bool {
-    var prev: Element? = nil
-    for el in self {
-      if let prev = prev {
-        if !(prev < el) {
-          return false
-        }
-      }
-      prev = el
-    }
-    return true
-  }
-}
-
-
 public func zipExact<C0: Collection, C1: Collection>(_ c0: C0, _ c1: C1) -> Zip2Sequence<C0, C1>
  where C0.IndexDistance == C1.IndexDistance {
   precondition(c0.count == c1.count)
