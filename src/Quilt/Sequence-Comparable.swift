@@ -12,4 +12,14 @@ extension Sequence where Element: Comparable {
     }
     return true
   }
+
+  public var isSortedStrict: Bool {
+    var iter = makeIterator()
+    guard var prev = iter.next() else { return true }
+    while let el = iter.next() {
+      if el <= prev { return false }
+      prev = el
+    }
+    return true
+  }
 }
