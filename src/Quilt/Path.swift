@@ -47,7 +47,7 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
 
   public var description: String { return string }
 
-  public var url: URL { return URL(fileURLWithPath: string) }
+  public var url: URL { return URL(fileURLWithPath: expandUser) }
 
   public var isRootAbs: Bool { return string.first == sysPathSepChar }
 

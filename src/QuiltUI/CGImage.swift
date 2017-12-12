@@ -30,7 +30,7 @@ extension CGImage {
   public class func from(path: Path,
              shouldInterpolate: Bool = true,
              intent: CGColorRenderingIntent = .defaultIntent) throws -> CGImage {
-    guard let provider = CGDataProvider(filename: path.string) else {
+    guard let provider = CGDataProvider(filename: path.expandUser) else {
       throw Err.path(path: path)
     }
     switch path.ext {
