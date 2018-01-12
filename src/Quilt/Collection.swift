@@ -93,8 +93,7 @@ extension Collection where Iterator.Element : Equatable {
 }
 
 
-public func zipExact<C0: Collection, C1: Collection>(_ c0: C0, _ c1: C1) -> Zip2Sequence<C0, C1>
- where C0.IndexDistance == C1.IndexDistance {
+public func zipExact<C0: Collection, C1: Collection>(_ c0: C0, _ c1: C1) -> Zip2Sequence<C0, C1> {
   precondition(c0.count == c1.count)
   return zip(c0, c1)
 }
