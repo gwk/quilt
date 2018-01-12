@@ -12,7 +12,6 @@ let package = Package(
     .library(name: "QuiltMac",        targets: ["QuiltMac"]),
     .library(name: "QuiltSceneKit",   targets: ["QuiltSceneKit"]),
     .library(name: "QuiltSpriteKit",  targets: ["QuiltSpriteKit"]),
-    .library(name: "QuiltSpriteKit",  targets: ["QuiltSpriteKit"]),
     .library(name: "QuiltUI",         targets: ["QuiltUI"]),
     .library(name: "UTest",           targets: ["UTest"]),
 
