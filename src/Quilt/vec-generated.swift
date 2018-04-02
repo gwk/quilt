@@ -6,7 +6,7 @@ import simd
 
 public typealias V2S = float2
 
-extension V2S : VecType2, FloatVecType, CustomStringConvertible, Decodable {
+extension V2S : VecType2, FloatVecType, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V2S
@@ -83,12 +83,17 @@ extension V2S : VecType2, FloatVecType, CustomStringConvertible, Decodable {
 
 }
 
+public func <(a: V2S, b: V2S) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  return a.y < b.y
+}
+
 public prefix func -(a: V2S) -> V2S { return a * -1 }
 
 
 public typealias V2D = double2
 
-extension V2D : VecType2, FloatVecType, CustomStringConvertible, Decodable {
+extension V2D : VecType2, FloatVecType, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V2S
@@ -165,10 +170,15 @@ extension V2D : VecType2, FloatVecType, CustomStringConvertible, Decodable {
 
 }
 
+public func <(a: V2D, b: V2D) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  return a.y < b.y
+}
+
 public prefix func -(a: V2D) -> V2D { return a * -1 }
 
 
-public struct V2I : VecType2, IntVecType, Equatable, CustomStringConvertible, Decodable {
+public struct V2I : VecType2, IntVecType, Equatable, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = Int
   public typealias FloatType = F64
   public typealias VSType = V2S
@@ -236,6 +246,11 @@ public struct V2I : VecType2, IntVecType, Equatable, CustomStringConvertible, De
   }
 }
 
+public func <(a: V2I, b: V2I) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  return a.y < b.y
+}
+
 public func +(a: V2I, b: V2I) -> V2I { return V2I(a.x + b.x, a.y + b.y) }
 public func -(a: V2I, b: V2I) -> V2I { return V2I(a.x - b.x, a.y - b.y) }
 public func *(a: V2I, b: V2I) -> V2I { return V2I(a.x * b.x, a.y * b.y) }
@@ -247,7 +262,7 @@ public func /(a: V2I, s: Int) -> V2I { return V2I(a.x / s, a.y / s) }
 public prefix func -(a: V2I) -> V2I { return a * -1 }
 
 
-public struct V2U8 : VecType2, IntVecType, Equatable, CustomStringConvertible, Decodable {
+public struct V2U8 : VecType2, IntVecType, Equatable, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
   public typealias FloatType = F32
   public typealias VSType = V2S
@@ -316,6 +331,11 @@ public struct V2U8 : VecType2, IntVecType, Equatable, CustomStringConvertible, D
   public var toSPixel: VSType { return VSType(F32(x) / F32(0xFF), F32(y) / F32(0xFF)) }
 }
 
+public func <(a: V2U8, b: V2U8) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  return a.y < b.y
+}
+
 public func +(a: V2U8, b: V2U8) -> V2U8 { return V2U8(a.x + b.x, a.y + b.y) }
 public func -(a: V2U8, b: V2U8) -> V2U8 { return V2U8(a.x - b.x, a.y - b.y) }
 public func *(a: V2U8, b: V2U8) -> V2U8 { return V2U8(a.x * b.x, a.y * b.y) }
@@ -328,7 +348,7 @@ public func /(a: V2U8, s: U8) -> V2U8 { return V2U8(a.x / s, a.y / s) }
 
 public typealias V3S = float3
 
-extension V3S : VecType3, FloatVecType, CustomStringConvertible, Decodable {
+extension V3S : VecType3, FloatVecType, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V3S
@@ -407,12 +427,18 @@ extension V3S : VecType3, FloatVecType, CustomStringConvertible, Decodable {
 
 }
 
+public func <(a: V3S, b: V3S) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  return a.z < b.z
+}
+
 public prefix func -(a: V3S) -> V3S { return a * -1 }
 
 
 public typealias V3D = double3
 
-extension V3D : VecType3, FloatVecType, CustomStringConvertible, Decodable {
+extension V3D : VecType3, FloatVecType, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V3S
@@ -491,10 +517,16 @@ extension V3D : VecType3, FloatVecType, CustomStringConvertible, Decodable {
 
 }
 
+public func <(a: V3D, b: V3D) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  return a.z < b.z
+}
+
 public prefix func -(a: V3D) -> V3D { return a * -1 }
 
 
-public struct V3I : VecType3, IntVecType, Equatable, CustomStringConvertible, Decodable {
+public struct V3I : VecType3, IntVecType, Equatable, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = Int
   public typealias FloatType = F64
   public typealias VSType = V3S
@@ -560,6 +592,12 @@ public struct V3I : VecType3, IntVecType, Equatable, CustomStringConvertible, De
   }
 }
 
+public func <(a: V3I, b: V3I) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  return a.z < b.z
+}
+
 public func +(a: V3I, b: V3I) -> V3I { return V3I(a.x + b.x, a.y + b.y, a.z + b.z) }
 public func -(a: V3I, b: V3I) -> V3I { return V3I(a.x - b.x, a.y - b.y, a.z - b.z) }
 public func *(a: V3I, b: V3I) -> V3I { return V3I(a.x * b.x, a.y * b.y, a.z * b.z) }
@@ -571,7 +609,7 @@ public func /(a: V3I, s: Int) -> V3I { return V3I(a.x / s, a.y / s, a.z / s) }
 public prefix func -(a: V3I) -> V3I { return a * -1 }
 
 
-public struct V3U8 : VecType3, IntVecType, Equatable, CustomStringConvertible, Decodable {
+public struct V3U8 : VecType3, IntVecType, Equatable, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
   public typealias FloatType = F32
   public typealias VSType = V3S
@@ -638,6 +676,12 @@ public struct V3U8 : VecType3, IntVecType, Equatable, CustomStringConvertible, D
   public var toSPixel: VSType { return VSType(F32(x) / F32(0xFF), F32(y) / F32(0xFF), F32(z) / F32(0xFF)) }
 }
 
+public func <(a: V3U8, b: V3U8) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  return a.z < b.z
+}
+
 public func +(a: V3U8, b: V3U8) -> V3U8 { return V3U8(a.x + b.x, a.y + b.y, a.z + b.z) }
 public func -(a: V3U8, b: V3U8) -> V3U8 { return V3U8(a.x - b.x, a.y - b.y, a.z - b.z) }
 public func *(a: V3U8, b: V3U8) -> V3U8 { return V3U8(a.x * b.x, a.y * b.y, a.z * b.z) }
@@ -650,7 +694,7 @@ public func /(a: V3U8, s: U8) -> V3U8 { return V3U8(a.x / s, a.y / s, a.z / s) }
 
 public typealias V4S = float4
 
-extension V4S : VecType4, FloatVecType, CustomStringConvertible, Decodable {
+extension V4S : VecType4, FloatVecType, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = F32
   public typealias FloatType = F32
   public typealias VSType = V4S
@@ -723,12 +767,19 @@ extension V4S : VecType4, FloatVecType, CustomStringConvertible, Decodable {
 
 }
 
+public func <(a: V4S, b: V4S) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  if a.z != b.z { return a.z < b.z }
+  return a.w < b.w
+}
+
 public prefix func -(a: V4S) -> V4S { return a * -1 }
 
 
 public typealias V4D = double4
 
-extension V4D : VecType4, FloatVecType, CustomStringConvertible, Decodable {
+extension V4D : VecType4, FloatVecType, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = F64
   public typealias FloatType = F64
   public typealias VSType = V4S
@@ -801,10 +852,17 @@ extension V4D : VecType4, FloatVecType, CustomStringConvertible, Decodable {
 
 }
 
+public func <(a: V4D, b: V4D) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  if a.z != b.z { return a.z < b.z }
+  return a.w < b.w
+}
+
 public prefix func -(a: V4D) -> V4D { return a * -1 }
 
 
-public struct V4I : VecType4, IntVecType, Equatable, CustomStringConvertible, Decodable {
+public struct V4I : VecType4, IntVecType, Equatable, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = Int
   public typealias FloatType = F64
   public typealias VSType = V4S
@@ -865,6 +923,13 @@ public struct V4I : VecType4, IntVecType, Equatable, CustomStringConvertible, De
   }
 }
 
+public func <(a: V4I, b: V4I) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  if a.z != b.z { return a.z < b.z }
+  return a.w < b.w
+}
+
 public func +(a: V4I, b: V4I) -> V4I { return V4I(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) }
 public func -(a: V4I, b: V4I) -> V4I { return V4I(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w) }
 public func *(a: V4I, b: V4I) -> V4I { return V4I(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w) }
@@ -876,7 +941,7 @@ public func /(a: V4I, s: Int) -> V4I { return V4I(a.x / s, a.y / s, a.z / s, a.w
 public prefix func -(a: V4I) -> V4I { return a * -1 }
 
 
-public struct V4U8 : VecType4, IntVecType, Equatable, CustomStringConvertible, Decodable {
+public struct V4U8 : VecType4, IntVecType, Equatable, Comparable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
   public typealias FloatType = F32
   public typealias VSType = V4S
@@ -936,6 +1001,13 @@ public struct V4U8 : VecType4, IntVecType, Equatable, CustomStringConvertible, D
     set { w = newValue }
   }
   public var toSPixel: VSType { return VSType(F32(x) / F32(0xFF), F32(y) / F32(0xFF), F32(z) / F32(0xFF), F32(w) / F32(0xFF)) }
+}
+
+public func <(a: V4U8, b: V4U8) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  if a.z != b.z { return a.z < b.z }
+  return a.w < b.w
 }
 
 public func +(a: V4U8, b: V4U8) -> V4U8 { return V4U8(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) }

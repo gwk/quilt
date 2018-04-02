@@ -6,7 +6,7 @@ import simd
 import SceneKit
 import Quilt
 import QuiltUI
-extension V3 : VecType3, FloatVecType, CustomStringConvertible {
+extension V3 : VecType3, FloatVecType, Comparable, CustomStringConvertible {
   public typealias Scalar = Flt
   public typealias FloatType = Flt
   public typealias VSType = V3S
@@ -82,6 +82,12 @@ extension V3 : VecType3, FloatVecType, CustomStringConvertible {
   x * b.y - y * b.x
 )}
 
+}
+
+public func <(a: V3, b: V3) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  if a.y != b.y { return a.y < b.y }
+  return a.z < b.z
 }
 
 public func +(a: V3, b: V3) -> V3 { return V3(a.x + b.x, a.y + b.y, a.z + b.z) }

@@ -72,6 +72,7 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
   if needs_eq:
     protocols.append('Equatable')
 
+  protocols.append('Comparable')
   protocols.append('CustomStringConvertible')
 
   if is_simd or is_novel:
@@ -179,6 +180,14 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
 
     outL('')
 
+  outL('}\n')
+
+  outL('public func <(a: $, b: $) -> Bool {', v_type, v_type)
+  for i, c in enumerate(comps, 1):
+    if i < len(comps):
+      outL('  if a.$ != b.$ { return a.$ < b.$ }', c, c, c, c)
+    else:
+      outL('  return a.$ < b.$', c, c)
   outL('}\n')
 
   if not is_simd:

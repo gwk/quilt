@@ -5,7 +5,7 @@ import Darwin
 import simd
 import CoreGraphics
 import Quilt
-extension CGVector : VecType2, FloatVecType, CustomStringConvertible {
+extension CGVector : VecType2, FloatVecType, Comparable, CustomStringConvertible {
   public typealias Scalar = Flt
   public typealias FloatType = Flt
   public typealias VSType = V2S
@@ -78,6 +78,11 @@ extension CGVector : VecType2, FloatVecType, CustomStringConvertible {
   public func angle(_ b: CGVector) -> Scalar { return acos(self.dot(b) / (self.len * b.len)) }
   public func lerp(_ b: CGVector, _ t: Scalar) -> CGVector { return self * (1 - t) + b * t }
 
+}
+
+public func <(a: CGVector, b: CGVector) -> Bool {
+  if a.x != b.x { return a.x < b.x }
+  return a.y < b.y
 }
 
 public func +(a: CGVector, b: CGVector) -> CGVector { return CGVector(a.x + b.x, a.y + b.y) }
