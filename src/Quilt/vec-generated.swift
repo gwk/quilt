@@ -246,10 +246,6 @@ public func *(a: V2I, s: Int) -> V2I { return V2I(a.x * s, a.y * s) }
 public func /(a: V2I, s: Int) -> V2I { return V2I(a.x / s, a.y / s) }
 public prefix func -(a: V2I) -> V2I { return a * -1 }
 
-public func ==(a: V2I, b: V2I) -> Bool {
-  return a.x == b.x && a.y == b.y
-}
-
 
 public struct V2U8 : VecType2, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
@@ -328,10 +324,6 @@ public func +(a: V2U8, s: U8) -> V2U8 { return V2U8(a.x + s, a.y + s) }
 public func -(a: V2U8, s: U8) -> V2U8 { return V2U8(a.x - s, a.y - s) }
 public func *(a: V2U8, s: U8) -> V2U8 { return V2U8(a.x * s, a.y * s) }
 public func /(a: V2U8, s: U8) -> V2U8 { return V2U8(a.x / s, a.y / s) }
-
-public func ==(a: V2U8, b: V2U8) -> Bool {
-  return a.x == b.x && a.y == b.y
-}
 
 
 public typealias V3S = float3
@@ -578,10 +570,6 @@ public func *(a: V3I, s: Int) -> V3I { return V3I(a.x * s, a.y * s, a.z * s) }
 public func /(a: V3I, s: Int) -> V3I { return V3I(a.x / s, a.y / s, a.z / s) }
 public prefix func -(a: V3I) -> V3I { return a * -1 }
 
-public func ==(a: V3I, b: V3I) -> Bool {
-  return a.x == b.x && a.y == b.y && a.z == b.z
-}
-
 
 public struct V3U8 : VecType3, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
@@ -658,10 +646,6 @@ public func +(a: V3U8, s: U8) -> V3U8 { return V3U8(a.x + s, a.y + s, a.z + s) }
 public func -(a: V3U8, s: U8) -> V3U8 { return V3U8(a.x - s, a.y - s, a.z - s) }
 public func *(a: V3U8, s: U8) -> V3U8 { return V3U8(a.x * s, a.y * s, a.z * s) }
 public func /(a: V3U8, s: U8) -> V3U8 { return V3U8(a.x / s, a.y / s, a.z / s) }
-
-public func ==(a: V3U8, b: V3U8) -> Bool {
-  return a.x == b.x && a.y == b.y && a.z == b.z
-}
 
 
 public typealias V4S = float4
@@ -891,10 +875,6 @@ public func *(a: V4I, s: Int) -> V4I { return V4I(a.x * s, a.y * s, a.z * s, a.w
 public func /(a: V4I, s: Int) -> V4I { return V4I(a.x / s, a.y / s, a.z / s, a.w / s) }
 public prefix func -(a: V4I) -> V4I { return a * -1 }
 
-public func ==(a: V4I, b: V4I) -> Bool {
-  return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w
-}
-
 
 public struct V4U8 : VecType4, IntVecType, Equatable, CustomStringConvertible, Decodable {
   public typealias Scalar = U8
@@ -966,8 +946,4 @@ public func +(a: V4U8, s: U8) -> V4U8 { return V4U8(a.x + s, a.y + s, a.z + s, a
 public func -(a: V4U8, s: U8) -> V4U8 { return V4U8(a.x - s, a.y - s, a.z - s, a.w - s) }
 public func *(a: V4U8, s: U8) -> V4U8 { return V4U8(a.x * s, a.y * s, a.z * s, a.w * s) }
 public func /(a: V4U8, s: U8) -> V4U8 { return V4U8(a.x / s, a.y / s, a.z / s, a.w / s) }
-
-public func ==(a: V4U8, b: V4U8) -> Bool {
-  return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w
-}
 

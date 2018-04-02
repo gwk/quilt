@@ -19,10 +19,6 @@ public struct Seg: CustomStringConvertible, Comparable {
 
   public var description: String { return "Seg(\(a), \(b))" }
 
-  public static func ==(l: Seg, r: Seg) -> Bool {
-    return l.a == r.a && l.b == r.b
-  }
-
   public static func <(l: Seg, r: Seg) -> Bool {
     if (l.a == r.a) {
       return l.b < r.b

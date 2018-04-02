@@ -194,10 +194,5 @@ def gen_vec(orig_type, dim, s_type, fs_type, v_type, v_prev, is_simd, is_novel):
 
   outL('')
 
-  if needs_eq:
-    outL('public func ==(a: $, b: $) -> Bool {', v_type, v_type)
-    outL('  return $', ' && '.join(fmt('a.$ == b.$', c, c) for c in comps))
-    outL('}\n')
-
 
 if __name__ == '__main__': main()
