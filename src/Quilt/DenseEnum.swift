@@ -19,7 +19,7 @@ public struct EnumSetU32<Element: DenseEnum>: ExpressibleByArrayLiteral {
   public init() {
     self.rawValue = 0
   }
-  
+
   public init(_ element: Element) {
     self.rawValue = 1 << U32(element.rawValue)
   }
