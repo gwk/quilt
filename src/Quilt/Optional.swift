@@ -3,15 +3,7 @@
 
 extension Optional {
 
-  public func and<T>(_ body: (Wrapped) throws -> T) rethrows -> T? {
-    if let val = self {
-      return try body(val)
-    } else {
-      return nil
-    }
-  }
-
-  public func and<T>(_ body: (Wrapped) throws -> T, or alt: @autoclosure () throws -> T) rethrows -> T {
+  public func map<T>(_ body: (Wrapped) throws -> T, or alt: @autoclosure () throws -> T) rethrows -> T {
     if let val = self {
       return try body(val)
     } else {
