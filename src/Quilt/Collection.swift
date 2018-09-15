@@ -5,7 +5,7 @@ extension Collection {
 
   public var range: Range<Index> { return startIndex..<endIndex }
 
-  public func part(_ range: Range<Index>) -> (SubSequence, SubSequence) {
+  public func part(range: Range<Index>) -> (SubSequence, SubSequence) {
     let ra = startIndex..<range.lowerBound
     let rb = range.upperBound..<endIndex
     return (self[ra], self[rb])
@@ -38,9 +38,10 @@ extension Collection where Iterator.Element : Equatable {
     return indexAfter(sequence: prefix, atIndex: startIndex)
   }
 
-  public func part(_ separator: Self, start: Index? = nil, end: Index? = nil) -> (SubSequence, SubSequence)? {
-    if let range = rangeOf(separator, start: start, end: end) {
-      return part(range)
+  public func part<C: Collection>(_ sep: C, start: Index? = nil, end: Index? = nil) -> (SubSequence, SubSequence)?
+   where C.Element == Element {
+    if let range = rangeOf(sep, start: start, end: end) {
+      return part(range: range)
     }
     return nil
   }

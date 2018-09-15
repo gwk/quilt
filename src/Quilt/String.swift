@@ -69,10 +69,6 @@ extension String {
 
   // MARK: utilities
 
-  public func contains(_ c: Character) -> Bool {
-    return self.contains(c)
-  }
-
   public func contains(string: String, atIndex: Index) -> Bool {
     return contains(sequence: string, atIndex: atIndex)
   }
@@ -99,14 +95,6 @@ extension String {
       s.append(transform(c))
     }
     return s
-  }
-
-  public func replace(_ query: Character, with: Character) -> String {
-    return String(replace(query, with: with))
-  }
-
-  public func replace(_ query: String, with replacement: String) -> String {
-    return String(replace(query, with: replacement))
   }
 
   // MARK: symbols
@@ -211,13 +199,6 @@ extension String {
   }
 
   // MARK: partition
-
-  public func part(_ sep: String) -> (String, String)? {
-    if let (a, b) = part(sep) {
-      return (String(a), String(b))
-    }
-    return nil
-  }
 
   public func split(_ separator: Character) -> [String] {
     return split(separator: separator).map() { String($0) }
