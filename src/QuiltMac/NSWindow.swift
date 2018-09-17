@@ -15,11 +15,11 @@ extension NSWindow {
     styleMask: NSWindow.StyleMask = [.titled, .closable, .miniaturizable, .resizable],
     deferred: Bool = true,
     screen: NSScreen? = nil,
-    dissolveOnClose: Bool, // nullifies delegate/contentViewController.
+    dissolveOnClose: Bool, // Nullify delegate/contentViewController.
     viewController: NSViewController) {
 
     self.init(
-      contentRect: CGRect.zero, // gets clobbered by controller view initial size.
+      contentRect: CGRect.zero, // Gets clobbered by controller view initial size.
       styleMask: styleMask,
       backing: NSWindow.BackingStoreType.buffered, // the only modern mode.
       defer: deferred,
