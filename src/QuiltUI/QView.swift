@@ -33,8 +33,8 @@ public class QView: CRView {
   }
 
   override public func viewDidChangeBackingProperties() {
-    if let layer = layer, let window = window {
-      layer.contentsScale = window.backingScaleFactor
+    if let window = window {
+      updateContentsScale(window.backingScaleFactor)
     }
   }
 

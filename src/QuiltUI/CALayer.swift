@@ -10,6 +10,15 @@
 
 extension CALayer {
 
+  public func updateContentsScale(_ contentsScale: CGFloat) {
+    self.contentsScale = contentsScale
+    if let sublayers = sublayers {
+      for sublayer in sublayers {
+          sublayer.updateContentsScale(contentsScale)
+      }
+    }
+  }
+
   public func addSublayers(_ sublayers: CALayer...) {
     for layer in sublayers {
       addSublayer(layer)
