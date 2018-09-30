@@ -171,5 +171,19 @@ extension CRView {
   #if os(OSX)
     func setNeedsDisplay() { needsDisplay = true }
   #endif
+
+
+  public var contentsScale: CGFloat {
+    return (layer?.contentsScale) ?? (window?.backingScaleFactor) ?? 1
+  }
+
+  public func updateContentsScale(_ contentsScale: CGFloat) {
+    if let layer = layer {
+      layer.updateContentsScale(contentsScale)
+    }
+    for subview in subviews {
+      subview.updateContentsScale(contentsScale)
+    }
+  }
 }
 

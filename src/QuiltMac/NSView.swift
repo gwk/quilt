@@ -1,22 +1,9 @@
-
+// © 2017 George King. Permission to use this file is granted in license-quilt.txt.
 
 import AppKit
 
 
 extension NSView {
-
-  public var contentsScale: CGFloat {
-    return (layer?.contentsScale) ?? (window?.backingScaleFactor) ?? 1
-  }
-
-  public func updateContentsScale(_ contentsScale: CGFloat) {
-    if let layer = layer {
-      layer.updateContentsScale(contentsScale)
-    }
-    for subview in subviews {
-      subview.updateContentsScale(contentsScale)
-    }
-  }
 
   #if(false)
   // currently disabled (implemented in QView instead) because it causes crashes for view subclasses that also implement the property, e.g. SCNView.
