@@ -7,40 +7,16 @@ public typealias F32 = Float
 public typealias F64 = Double
 
 
-public protocol ArithmeticFloat: ArithmeticProtocol, FloatingPoint {
-  var sqr: Self { get }
-  var sqrt: Self { get }
-  var ceil: Self { get }
-  var floor: Self { get }
-  var round: Self { get }
+extension BinaryFloatingPoint {
+  public var sqr: Self { return self * self }
+  public var sqrt: Self { return self.squareRoot() }
+  public var ceil: Self { return Darwin.ceil(self) }
+  public var floor: Self { return Darwin.floor(self) }
+  public var rnd: Self { return self.rounded() }
 }
 
 
-// wrappers around float/double math functions so that we can use overloading properly.
-public func sqrt_f(_ f: Float) -> Float { return sqrtf(f) }
-public func ceil_f(_ f: Float) -> Float { return ceilf(f) }
-public func floor_f(_ f: Float) -> Float { return floorf(f) }
-public func round_f(_ f: Float) -> Float { return roundf(f) }
+public protocol ArithmeticFloat: ArithmeticProtocol, BinaryFloatingPoint {}
 
-public func sqrt_f(_ d: Double) -> Double { return sqrt(d) }
-public func ceil_f(_ d: Double) -> Double { return ceil(d) }
-public func floor_f(_ d: Double) -> Double { return floor(d) }
-public func round_f(_ d: Double) -> Double { return round(d) }
-
-extension Float: ArithmeticFloat {
-  public var sqr: Float { return self * self }
-  public var sqrt: Float { return sqrt_f(self) }
-  public var ceil: Float { return ceil_f(self) }
-  public var floor: Float { return floor_f(self) }
-  public var round: Float { return round_f(self) }
-}
-
-extension Double: ArithmeticFloat {
-  public var sqr: Double { return self * self }
-  public var sqrt: Double { return sqrt_f(self) }
-  public var ceil: Double { return ceil_f(self) }
-  public var floor: Double { return floor_f(self) }
-  public var round: Double { return round_f(self) }
-}
-
-
+extension F32: ArithmeticFloat {}
+extension F64: ArithmeticFloat {}

@@ -4,14 +4,14 @@
 from gen_util import *
 
 
-def gen_mat(dim, t, suffix, simd_type):
+def gen_mat(dim, t):
   def isLast(i): return i == dim - 1
   def areLast(i, j): return isLast(i) and isLast(j)
   def commaUnlessIsLast(i): return '' if isLast(i) else ','
   def commaUnlessAreLast(i, j): return '' if areLast(i, j) else ','
 
-  vt = fmt('V$$', dim, suffix)
-  mt = fmt('M$$', dim, suffix)
+  vt = fmt('V$$', dim, t.suffix)
+  mt = fmt('M$$', dim, t.suffix)
   rng = range(dim)
   rng_sqr = tuple(product(rng, rng))
 
@@ -25,7 +25,10 @@ def gen_mat(dim, t, suffix, simd_type):
   els_r = tuple('r.' + c for c in els)
   els_lr = tuple(zip(els_l, els_r))
 
-  outL('public typealias $ = $$x$', mt, simd_type, dim, dim)
+  if   t.scalar == 'F32': simd = 'float'
+  elif t.scalar == 'F64': simd = 'double'
+  else: raise NotImplementedError
+  outL('public typealias $ = $$x$', mt, simd, dim, dim)
   outL('')
 
   outL('extension $ {', mt)
@@ -38,13 +41,13 @@ def gen_mat(dim, t, suffix, simd_type):
   outL('  public static let zero = $(0)', mt)
   outL('  public static let ident = $(1)', mt)
 
-  scale_pars = jc(fmt('$: $', c, t) for c in v_comps)
+  scale_pars = jc(fmt('$: $', c, t.scalar) for c in v_comps)
   scale_args = jc(c for c in v_comps)
   outL('  public static func scale($) -> $ { return $(diagonal: $($)) }\n', scale_pars, mt, mt, vt, scale_args)
 
   if dim >= 3:
     for k, ck in enumerate(v_comps[:3]): # k is index of rotation axis.
-      outL('  public static func rot$(_ theta: $) -> $ { return $([', ck.upper(), t, mt, mt)
+      outL('  public static func rot$(_ theta: $) -> $ { return $([', ck.upper(), t.scalar, mt, mt)
       for j, cj in enumerate(v_comps):
         def rot_comp(i, ci):
           if i == k or j == k or i == 3 or j == 3:
@@ -64,7 +67,7 @@ def gen_mat(dim, t, suffix, simd_type):
           ',' if j < dim - 1 else '')
       outL('  ])}\n')
 
-    outL('  public static func rot(theta: $, norm: $) -> $ {', t, vt, mt)
+    outL('  public static func rot(theta: $, norm: $) -> $ {', t.scalar, vt, mt)
     outL('    if !theta.isNormal { return ident }')
     outL('    let _cos = cos(theta)')
     outL('    let _cosp = 1 - _cos')
@@ -95,7 +98,7 @@ def gen_mat(dim, t, suffix, simd_type):
     outL('  ])}\n')
 
     outL('  public static func rot(a: $, _ b: $) -> $ {', vt, vt, mt)
-    outL('    return rot(theta: a.angle(b), norm: a.cross(b).norm)')
+    outL('    return rot(theta: $(a.angle(b)), norm: a.cross(b).norm)', t.scalar)
     outL('  }\n')
 
   outL('}\n')
@@ -113,7 +116,7 @@ import simd.matrix
 ''')
 
   for d in dims:
-    for s_type, suffix, fs_type, f_suffix, simd_type, is_novel in types:
-      if not simd_type: continue
-      gen_mat(d, s_type, suffix, simd_type)
+    for t in types:
+      if not t.simd: continue
+      gen_mat(d, t)
 

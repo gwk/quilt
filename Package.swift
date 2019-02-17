@@ -1,4 +1,4 @@
-// swift-tools-version:4.1
+// swift-tools-version:4.2
 // © 2016 George King. Permission to use this file is granted in license-quilt.txt.
 
 
@@ -28,5 +28,5 @@ let package = Package(
 
     .target(name: "QuiltTest", dependencies: ["Quilt", "UTest"], path: "test/Quilt"),
   ],
-  swiftLanguageVersions: [4]
+  swiftLanguageVersions: [.version("5")]
 )

@@ -3,8 +3,6 @@
 import CoreGraphics
 
 
-public typealias V2 = CGPoint
-
 extension CGPoint {
 
   public init(_ x: CGFloat, _ y: CGFloat) { self.init(x: x, y: y) }
@@ -13,7 +11,6 @@ extension CGPoint {
 
   public init(_ s: CGSize) { self.init(x: s.w, y: s.h) }
 
+  public static func -(a: CGPoint, b: CGSize) -> CGPoint { return CGPoint(a.x - b.w, a.y - b.h) }
+  public static func +(a: CGPoint, b: CGSize) -> CGPoint { return CGPoint(a.x + b.w, a.y + b.h) }
 }
-
-public func +(a: CGPoint, b: CGSize) -> CGPoint { return CGPoint(a.x + b.w, a.y + b.h) }
-public func -(a: CGPoint, b: CGSize) -> CGPoint { return CGPoint(a.x - b.w, a.y - b.h) }

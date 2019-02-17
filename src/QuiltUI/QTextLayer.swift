@@ -35,7 +35,7 @@ public class QTextLayer: CALayer {
     didSet { setNeedsDisplay() }
   }
 
-  public var lineBreakMode: NSParagraphStyle.LineBreakMode = .byWordWrapping {
+  public var lineBreakMode: NSLineBreakMode = .byWordWrapping {
     didSet { setNeedsDisplay() }
   }
 

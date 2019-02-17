@@ -104,7 +104,7 @@ class Mesh {
       for j in (i + 1)..<positions.count {
         let b = positions[j]
         let d = a.dist(b)
-        if d > 0 && d < length {
+        if d > 0 && d < F64(length) {
           print(d, a, b)
           segments.append(Seg(i, j))
         }

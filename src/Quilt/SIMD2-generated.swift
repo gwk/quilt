@@ -3,11 +3,8 @@
 
 import Darwin
 import simd
-import CoreGraphics
-import Quilt
 
-extension CGVector: VecType, VecType2 {
-  public typealias Scalar = Flt
+extension SIMD2: VecType, VecType2 where Scalar: ArithmeticFloat {
   public typealias VSType = V2S
   public typealias VDType = V2D
   public typealias VU8Type = V2U8
@@ -48,8 +45,8 @@ extension CGVector: VecType, VecType2 {
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public static var scalarCount: Int { return 2 }
-  public static var unitX: CGVector { return CGVector(1, 0) }
-  public static var unitY: CGVector { return CGVector(0, 1) }
+  public static var unitX: SIMD2<Scalar> { return SIMD2(1, 0) }
+  public static var unitY: SIMD2<Scalar> { return SIMD2(0, 1) }
   public var vs: V2S { return V2S(F32(x), F32(y)) }
   public var vd: V2D { return V2D(F64(x), F64(y)) }
   public var sqrLen: F64 {
@@ -65,19 +62,10 @@ extension CGVector: VecType, VecType2 {
     get { return y }
     set { y = newValue }
   }
-  public func dot(_ b: CGVector) -> F64 {
+  public func dot(_ b: SIMD2<Scalar>) -> F64 {
     var s = F64(x * b.x)
     s += F64(y * b.y)
     return s }
-public static func +(a: CGVector, b: CGVector) -> CGVector { return CGVector(a.x + b.x, a.y + b.y) }
-public static func -(a: CGVector, b: CGVector) -> CGVector { return CGVector(a.x - b.x, a.y - b.y) }
-public static func *(a: CGVector, b: CGVector) -> CGVector { return CGVector(a.x * b.x, a.y * b.y) }
-public static func /(a: CGVector, b: CGVector) -> CGVector { return CGVector(a.x / b.x, a.y / b.y) }
-public static func +(a: CGVector, s: Flt) -> CGVector { return CGVector(a.x + s, a.y + s) }
-public static func -(a: CGVector, s: Flt) -> CGVector { return CGVector(a.x - s, a.y - s) }
-public static func *(a: CGVector, s: Flt) -> CGVector { return CGVector(a.x * s, a.y * s) }
-public static func /(a: CGVector, s: Flt) -> CGVector { return CGVector(a.x / s, a.y / s) }
-public static prefix func -(a: CGVector) -> CGVector { return a * -1 }
 
   public var allNormal: Bool { return x.isNormal && (y.isNormal) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite) }
@@ -85,11 +73,7 @@ public static prefix func -(a: CGVector) -> CGVector { return a * -1 }
   public var anySubnormal: Bool { return x.isSubnormal || (y.isSubnormal)}
   public var anyInfite: Bool { return x.isInfinite || (y.isInfinite)}
   public var anyNaN: Bool { return x.isNaN || (y.isNaN)}
-  public var clampToUnit: CGVector { return CGVector(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1)) }
+  public var clampToUnit: SIMD2 { return SIMD2(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1)) }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
-}
-
-extension CGVector: CustomStringConvertible {
-  public var description: String { return "CGVector(\(x), \(y))" }
 }
 

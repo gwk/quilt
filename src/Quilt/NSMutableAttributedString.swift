@@ -11,7 +11,7 @@ extension NSMutableAttributedString {
     replaceCharacters(in: range, with: string)
   }
 
-  public func addAttr(_ key: NSAttributedStringKey, _ value: Any) {
+  public func addAttr(_ key: NSAttributedString.Key, _ value: Any) {
     addAttribute(key, value: value, range: range)
   }
 }

@@ -16,7 +16,7 @@ extension Collection {
 extension Collection where Iterator.Element : Equatable {
 
   public func contains(_ element: Iterator.Element) -> Bool {
-    return index(of: element) != nil
+    return firstIndex(of: element) != nil
   }
 
   public func contains<S: Sequence>(sequence: S, atIndex: Index) -> Bool where S.Element == Element {

@@ -74,7 +74,7 @@ extension M3S {
   ])}
 
   public static func rot(a: V3S, _ b: V3S) -> M3S {
-    return rot(theta: a.angle(b), norm: a.cross(b).norm)
+    return rot(theta: F32(a.angle(b)), norm: a.cross(b).norm)
   }
 
 }
@@ -122,7 +122,7 @@ extension M3D {
   ])}
 
   public static func rot(a: V3D, _ b: V3D) -> M3D {
-    return rot(theta: a.angle(b), norm: a.cross(b).norm)
+    return rot(theta: F64(a.angle(b)), norm: a.cross(b).norm)
   }
 
 }
@@ -176,7 +176,7 @@ extension M4S {
   ])}
 
   public static func rot(a: V4S, _ b: V4S) -> M4S {
-    return rot(theta: a.angle(b), norm: a.cross(b).norm)
+    return rot(theta: F32(a.angle(b)), norm: a.cross(b).norm)
   }
 
 }
@@ -230,7 +230,7 @@ extension M4D {
   ])}
 
   public static func rot(a: V4D, _ b: V4D) -> M4D {
-    return rot(theta: a.angle(b), norm: a.cross(b).norm)
+    return rot(theta: F64(a.angle(b)), norm: a.cross(b).norm)
   }
 
 }

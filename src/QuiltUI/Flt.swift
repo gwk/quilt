@@ -7,13 +7,8 @@ import Quilt
 
 public typealias Flt = CGFloat
 
-extension Flt: ArithmeticFloat {
-  public var sqr: Flt { return self * self }
-  public var sqrt: Flt { return Flt(native.sqrt) }
-  public var ceil: Flt { return Flt(native.ceil) }
-  public var floor: Flt { return Flt(native.floor) }
-  public var round: Flt { return Flt(native.round) }
-}
+extension Flt: ArithmeticFloat {}
+
 
 extension Random {
 

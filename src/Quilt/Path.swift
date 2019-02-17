@@ -173,7 +173,7 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
   public static func expandUser(string: String) -> String {
     if string.first != sysHomePrefixChar { return string }
     var s = string
-    let slashIndex = s.index(of: sysPathSepChar) ?? s.endIndex
+    let slashIndex = s.firstIndex(of: sysPathSepChar) ?? s.endIndex
     let secondIndex = s.index(after: s.startIndex)
     if slashIndex == secondIndex { // bare "~" or "~/…".
       s.replaceSubrange(..<secondIndex, with: userHomeDirNoSlash)

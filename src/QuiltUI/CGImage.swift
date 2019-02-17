@@ -62,13 +62,12 @@ extension CGImage {
   public class func with<T: PixelType>(areaBuffer: AreaBuffer<T>, shouldInterpolate: Bool = true,
     intent: CGColorRenderingIntent = .defaultIntent) -> CGImage {
       return areaBuffer.withBuffer() {
-        typealias Scalar = T.Scalar
-        let isRGB = T.numComponents >= 3
-        let isFloat = (MemoryLayout<Scalar>.size == 4)
-        let hasAlpha = (T.numComponents % 2 == 0)
+        let isRGB = T.scalarCount >= 3
+        let isFloat = (MemoryLayout<T.Scalar>.size == 4)
+        let hasAlpha = (T.scalarCount % 2 == 0)
         let colorSpace = isRGB ? CGColorSpaceCreateDeviceRGB() : CGColorSpaceCreateDeviceGray()
         let byteOrder: CGBitmapInfo
-        switch MemoryLayout<Scalar>.size {
+        switch MemoryLayout<T.Scalar>.size {
         case 1: byteOrder = CGBitmapInfo()
         case 2: byteOrder = .byteOrder16Little
         case 4: byteOrder = .byteOrder32Little

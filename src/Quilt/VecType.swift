@@ -1,28 +1,41 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
+import Darwin
+
 
 public protocol VecType: Equatable, CustomStringConvertible {
-  associatedtype Scalar: ArithmeticProtocol
-  associatedtype FloatType: ArithmeticFloat
-  associatedtype VSType
-  associatedtype VDType
-  
+  associatedtype Scalar: BinaryFloatingPoint
+  associatedtype VSType: VecType
+  associatedtype VDType: VecType
+
+  static var scalarCount: Int { get }
+
   var x: Scalar { get }
   var y: Scalar { get }
   var vs: VSType { get }
   var vd: VDType { get }
-  var sqrLen: FloatType { get }
-  var len: FloatType { get }
+  var sqrLen: F64 { get }
+
+  var clampToUnit: Self { get }
 
   static func +(l: Self, r: Self) -> Self
   static func -(l: Self, r: Self) -> Self
   static func *(l: Self, r: Scalar) -> Self
   static func /(l: Self, r: Scalar) -> Self
+
+  func dot(_ b: Self) -> F64
 }
 
+
 extension VecType {
-  public var len: FloatType { return sqrLen.sqrt }
-  public func dist(_ b: Self) -> FloatType { return (b - self).len }
+
+  public var len: F64 { return sqrLen.sqrt }
+  public var heading: F64 { return atan2(F64(y), F64(x)) }
+  public var norm: Self { return self / Scalar(self.len) }
+
+  public func angle(_ b: Self) -> F64 { return acos(self.dot(b) / (self.len * b.len)) }
+  public func dist(_ b: Self) -> F64 { return (b - self).len }
+  public func lerp(_ b: Self, _ t: Scalar) -> Self { return self * (1 - t) + b * t }
 }
 
 public protocol VecType2: VecType {
@@ -45,16 +58,3 @@ public protocol VecType4: VecType {
   var z: Scalar { get }
   var w: Scalar { get }
 }
-
-public protocol FloatVecType: VecType {
-  var norm: Self { get }
-  var clampToUnit: Self { get }
-  func dist(_ b: Self) -> Scalar
-  func dot(_ b: Self) -> Scalar
-  func angle(_ b: Self) -> Scalar
-}
-
-public protocol IntVecType: VecType {
-
-}
-

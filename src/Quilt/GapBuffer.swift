@@ -76,8 +76,8 @@ public struct GapBuffer<Element> : Collection {
   public func index(after index: Index) -> Index { return index + 1 }
 
   public func index(where predicate: (Element) throws -> Bool) rethrows -> Index? {
-    if let idx = try fwd.index(where: predicate) { return idx }
-    if let idx = try rev.index(where: predicate) { return revIdx(idx) }
+    if let idx = try fwd.firstIndex(where: predicate) { return idx }
+    if let idx = try rev.firstIndex(where: predicate) { return revIdx(idx) }
     return nil
   }
 
@@ -101,8 +101,8 @@ public struct GapBuffer<Element> : Collection {
 extension GapBuffer where Element: Equatable {
 
   public func index(of element: Element) -> Index? {
-    if let idx = fwd.index(of: element) { return idx }
-    if let idx = rev.index(of: element) { return revIdx(idx) }
+    if let idx = fwd.firstIndex(of: element) { return idx }
+    if let idx = rev.firstIndex(of: element) { return revIdx(idx) }
     return nil
   }
 }
