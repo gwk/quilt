@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 // © 2016 George King. Permission to use this file is granted in license-quilt.txt.
 
 
@@ -6,7 +6,8 @@ import PackageDescription
 
 let package = Package(
   name: "Quilt",
-  products: [
+    platforms: [.macOS(.v10_14)],
+    products: [
     .library(name: "Quilt",           targets: ["Quilt"]),
     .library(name: "QuiltGeometry",   targets: ["QuiltGeometry"]),
     .library(name: "QuiltMac",        targets: ["QuiltMac"]),
@@ -28,5 +29,5 @@ let package = Package(
 
     .target(name: "QuiltTest", dependencies: ["Quilt", "UTest"], path: "test/Quilt"),
   ],
-  swiftLanguageVersions: [.version("5")]
+  swiftLanguageVersions: [.v5]
 )
