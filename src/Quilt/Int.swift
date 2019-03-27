@@ -29,11 +29,11 @@ extension Int {
     return String(Array(a.reversed()))
   }
 
-  public func dec(width: Int) -> String { return self.repr(radix: 10, width: width) }
+  public func decimal(width: Int = 0) -> String { return self.repr(radix: 10, width: width) }
 
-  public func hex(width: Int) -> String { return self.repr(radix: 16, width: width) }
+  public func hex(width: Int = 0) -> String { return self.repr(radix: 16, width: width) }
 
-  public func dec0(width: Int) -> String { return self.repr(radix: 10, pad: "0", width: width) }
+  public func decimal0(width: Int = 0) -> String { return self.repr(radix: 10, pad: "0", width: width) }
 
-  public func hex0(width: Int) -> String { return self.repr(radix: 16, pad: "0", width: width) }
+  public func hex0(width: Int = 0) -> String { return self.repr(radix: 16, pad: "0", width: width) }
 }
