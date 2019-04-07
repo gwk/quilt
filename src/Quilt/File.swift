@@ -1,6 +1,7 @@
 // Copyright © 2015 George King. Permission to use this file is granted in ploy/license.txt.
 
 import Darwin
+import Foundation
 
 
 public class File: CustomStringConvertible, TextOutputStream {
@@ -238,6 +239,21 @@ public class File: CustomStringConvertible, TextOutputStream {
   public func writeL(_ string: String) {
     write(string)
     write("\n")
+  }
+
+
+  public func write(data: Data) {
+    var buffer: [UInt8] = [UInt8](repeating: 0, count: sysPageSize)
+    var pos = data.startIndex
+    while pos < data.endIndex {
+      let r = pos..<min(pos + sysPageSize, data.endIndex)
+      data.copyBytes(to: &buffer, from: r)
+      let bytesWritten = Darwin.write(descriptor, buffer, r.count)
+      if bytesWritten != r.count {
+        fail(label: self.path.string, "system write error: \(stringForCurrentError())")
+      }
+      pos = r.endIndex
+    }
   }
 
 
