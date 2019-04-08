@@ -15,16 +15,6 @@ extension Sequence {
     return d
   }
 
-  public func filterMap<E>(transform: (Element) throws -> E?) rethrows -> [E] {
-    var a: [E] = []
-    for e in self {
-      if let t = try transform(e) {
-        a.append(t)
-      }
-    }
-    return a
-  }
-
   public func sortedMap<E: Comparable>(transform: (Element) throws -> E) rethrows -> [E] {
     var s = try map(transform)
     s.sort()
