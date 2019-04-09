@@ -209,6 +209,19 @@ extension String {
     return split(separator: sub).map() { String($0) }
   }
  */
+
+  public func strip(char: Character) -> Substring {
+    var r = self.range
+    while !r.isEmpty && self[r.lowerBound] == char {
+      r = index(after: r.lowerBound)..<r.upperBound
+    }
+    while !r.isEmpty {
+      let lastIndex = index(before: r.upperBound)
+      if self[lastIndex] != char { break }
+      r = r.lowerBound..<lastIndex
+    }
+    return self[r]
+  }
 }
 
 
