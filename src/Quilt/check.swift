@@ -23,6 +23,17 @@ public func guarded<R>(label: String = "error", _ fn: () throws -> R) -> R {
   }
 }
 
+
+public func fatal<T>(label: String = "", _ message: T) -> Never {
+  // Wrapper around `fatalError` that takes an optional label, followed by any value to decribe.
+  let l = label.isEmpty ? "" : "\(label): "
+  fatalError("\(l)\(message)")
+}
+
+
+// Assertions.
+
+
 public func assert( _ condition: Bool, file:StaticString=#file, line:UInt=#line) {
   if _isDebugAssertConfiguration() {
     check(condition, label: "", "\(file):\(line): assert failed.")
