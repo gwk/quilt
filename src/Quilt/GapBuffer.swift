@@ -37,10 +37,10 @@ public struct GapBuffer<Element> : Collection {
   public var pos: Int {
     get { return fwd.count }
     set {
-      while pos < fwd.count { // advance.
+      while newValue < fwd.count { // advance.
         fwd.append(rev.removeLast())
       }
-      while pos > fwd.count { // rewind.
+      while newValue > fwd.count { // rewind.
         rev.append(fwd.removeLast())
       }
     }

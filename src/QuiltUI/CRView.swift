@@ -17,7 +17,6 @@ import Quilt
 
 extension CRView {
 
-
   public convenience init(frame: CGRect, name: String, parent: CRView? = nil, flex: Flex? = nil) {
     self.init(frame: frame)
     update(name: name, parent: parent, flex: flex)
@@ -110,9 +109,9 @@ extension CRView {
     }
     set {
       #if os(OSX)
-        return setContentHuggingPriority(huggingH, for: .horizontal)
+        return setContentHuggingPriority(newValue, for: .horizontal)
       #else
-        return setContentHuggingPriority(huggingH, forAxis: .Horizontal)
+        return setContentHuggingPriority(newValue, forAxis: .Horizontal)
       #endif
     }
   }
@@ -127,9 +126,9 @@ extension CRView {
     }
     set {
       #if os(OSX)
-        return setContentHuggingPriority(huggingV, for: .vertical)
+        return setContentHuggingPriority(newValue, for: .vertical)
         #else
-        return setContentHuggingPriority(huggingV, forAxis: .Vertical)
+        return setContentHuggingPriority(newValue, forAxis: .Vertical)
       #endif
     }
   }
@@ -144,9 +143,9 @@ extension CRView {
     }
     set {
       #if os(OSX)
-        return setContentCompressionResistancePriority(compressionH, for: .horizontal)
+        return setContentCompressionResistancePriority(newValue, for: .horizontal)
         #else
-        return setContentCompressionResistancePriority(compressionH, forAxis: .Horizontal)
+        return setContentCompressionResistancePriority(newValue, forAxis: .Horizontal)
       #endif
     }
   }
@@ -161,9 +160,9 @@ extension CRView {
     }
     set {
       #if os(OSX)
-        return setContentCompressionResistancePriority(compressionV, for: .vertical)
+        return setContentCompressionResistancePriority(newValue, for: .vertical)
         #else
-        return setContentCompressionResistancePriority(compressionV, forAxis: .Vertical)
+        return setContentCompressionResistancePriority(newValue, forAxis: .Vertical)
       #endif
     }
   }
