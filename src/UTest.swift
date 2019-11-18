@@ -8,10 +8,10 @@ public func utest<T: Equatable>(exp: T, _ actClosure: @autoclosure () throws -> 
   do {
     let act = try actClosure()
     if act != exp {
-      ufail("\(msg())\n  expected \(exp)\n  actual: \(act)", file: file, line: line, col: col)
+      ufail("\(msg())\n  expected: \(exp)\n    actual: \(act)", file: file, line: line, col: col)
     }
   } catch let e {
-     ufail("\(msg())\n  expected \(exp)\n  caught: \(e)", file: file, line: line, col: col)
+     ufail("\(msg())\n  expected: \(exp)\n  caught: \(e)", file: file, line: line, col: col)
      return
    }
 }
@@ -22,11 +22,11 @@ public func utest<T: Equatable>(opt exp: T?, _ actClosure: @autoclosure () throw
   do {
     let act = try actClosure()
     if act != exp {
-      ufail("\(msg())\n  expected \(exp==nil ? "nil" : String(reflecting: exp!))\n  actual: \(act==nil ? "nil" : String(reflecting: act!))",
+      ufail("\(msg())\n  expected: \(exp==nil ? "nil" : String(reflecting: exp!))\n    actual: \(act==nil ? "nil" : String(reflecting: act!))",
         file: file, line: line, col: col)
     }
   } catch let e {
-     ufail("\(msg())\n  expected \(exp==nil ? "nil" : String(reflecting: exp!))\n  caught: \(e)", file: file, line: line, col: col)
+     ufail("\(msg())\n  expected: \(exp==nil ? "nil" : String(reflecting: exp!))\n  caught: \(e)", file: file, line: line, col: col)
      return
    }
 }
@@ -39,10 +39,10 @@ public func utest<S1: Sequence, S2: Sequence>(seq: S1, _ actClosure: @autoclosur
   do {
     let act = try Array(actClosure())
     if act != exp {
-      ufail("\(msg())\n  expected \(exp)\n  actual: \(act)", file: file, line: line, col: col)
+      ufail("\(msg())\n  expected: \(exp)\n    actual: \(act)", file: file, line: line, col: col)
     }
   } catch let e {
-     ufail("\(msg())\n  expected \(exp)\n  caught: \(e)", file: file, line: line, col: col)
+     ufail("\(msg())\n  expected: \(exp)\n  caught: \(e)", file: file, line: line, col: col)
      return
    }
 }
