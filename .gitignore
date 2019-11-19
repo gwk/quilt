@@ -4,11 +4,6 @@
 # Python.
 __pycache__
 
-# Xcode.
-xcuserdata
-profile
-project.xcworkspace
-
 # Quilt.
 _build
 _misc
