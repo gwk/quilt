@@ -100,9 +100,9 @@ public struct GapBuffer<Element> : Collection {
 
 extension GapBuffer where Element: Equatable {
 
-  public func index(of element: Element) -> Index? {
+  public func firstIndex(of element: Element) -> Index? {
     if let idx = fwd.firstIndex(of: element) { return idx }
-    if let idx = rev.firstIndex(of: element) { return revIdx(idx) }
+    if let idx = rev.lastIndex(of: element) { return revIdx(idx) }
     return nil
   }
 }

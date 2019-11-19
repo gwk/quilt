@@ -7,5 +7,5 @@ import UTest
 func testBidirectionalCollection() {
 
   let s0 = "abc"
-  utest(exp: "b", s0[s0.index(ofLast: "b")!])
+  utest(exp: "b", s0[s0.lastIndex(of: "b")!])
 }

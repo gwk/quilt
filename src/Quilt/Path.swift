@@ -75,7 +75,7 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
   public var nameStem: Path { return stem.name }
 
   public var dirSlashIndex: String.Index? {
-    return string.index(ofLast: "/")
+    return string.lastIndex(of: "/")
   }
 
   public var nameStartIndex: String.Index {
@@ -94,7 +94,7 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
 
   public var extDotIndex: String.Index? {
     let n = nameSubstring
-    guard let i = n.index(ofLast: ".") else { return nil }
+    guard let i = n.lastIndex(of: ".") else { return nil }
     return (i == n.startIndex) ? nil : i
   }
 
