@@ -37,6 +37,7 @@ extension Mesh {
     let tm0 = tn0 * phi
     let t0m = t0n * phi
     let mesh = Mesh(name: "globe")
+
     // swift 4b4 complains that this expression is too long to compile as a single array;
     // xcode 4b4 also chokes on it, presumably due to sourcekit.
     mesh.positions = [
@@ -78,7 +79,7 @@ extension Mesh {
       let h = yp * info.triH
       let t = h * 0.5 // the southern tropic y position; northern is negative.
       let p = h * 1.5 // the south pole y position; northern is negative.
-      mesh.texture0s = [
+      mesh.textures = [[
         V2(w * 0.5,  p), // south pole.
         V2(w * 1.5,  p),
         V2(w * 2.5,  p),
@@ -101,7 +102,7 @@ extension Mesh {
         V2(w * 3.0, -p),
         V2(w * 4.0, -p),
         V2(w * 5.0, -p),
-      ]
+      ]]
     }
     mesh.addNormalsFromOriginToPositions()
     for i in 0..<5 { // do all of the pole edges manually, since there are multiple poles.

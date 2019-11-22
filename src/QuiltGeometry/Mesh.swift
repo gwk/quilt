@@ -17,7 +17,7 @@ class Mesh {
   var positions: [V3] = []
   var normals: [V3] = []
   var colors: [V4] = []
-  var texture0s: [V2] = []
+  var textures: [[V2]] = []
   #if false // TODO: implement creases.
   var vertexCreases: [F32] = []
   var edgeCreases: [F32] = []
@@ -151,7 +151,7 @@ class Mesh {
     let op = 0 // position data is required.
     var on = 0
     var oc = 0
-    var ot0 = 0
+    var ots: [Int] = []
     #if false // TODO: creases.
       var ovc = 0
       var oec = 0
@@ -172,10 +172,12 @@ class Mesh {
       oc = stride
       stride += MemoryLayout<V4S>.size
     }
-    if !texture0s.isEmpty {
-      assert(texture0s.count == len)
-      ot0 = stride
-      stride += MemoryLayout<V2S>.size
+    for texCoords in textures {
+      if !texCoords.isEmpty {
+        assert(texCoords.count == len)
+        ots.append(stride)
+        stride += MemoryLayout<V2S>.size
+      }
     }
     #if false // TODO: creases.
     if !vertexCreases.isEmpty {
@@ -201,13 +203,16 @@ class Mesh {
         stride += MemoryLayout<BoneIndices>.size
       }
     #endif
-    let d = NSMutableData(capacity: len * stride)!
 
+    // Generate interleaved data.
+    let d = NSMutableData(capacity: len * stride)!
     for i in 0..<len {
       d.append(positions[i].vs)
       if !normals.isEmpty         { d.append(normals[i].vs) }
       if !colors.isEmpty          { d.append(colors[i].vs) }
-      if !texture0s.isEmpty       { d.append(texture0s[i].vs) }
+      for texCoords in textures {
+        if !texCoords.isEmpty       { d.append(texCoords[i].vs) }
+      }
       #if false // TODO: creases.
         if !vertexCreases.isEmpty   { d.append(vertexCreases[i]) }
         if !edgeCreases.isEmpty     { d.append(edgeCreases[i]) }
@@ -252,16 +257,18 @@ class Mesh {
         dataOffset: oc,
         dataStride: stride))
     }
-    if !texture0s.isEmpty {
-      sources.append(SCNGeometrySource(
-        data: d as Data,
-        semantic: SCNGeometrySource.Semantic.texcoord,
-        vectorCount: len,
-        usesFloatComponents: true,
-        componentsPerVector: 2,
-        bytesPerComponent: MemoryLayout<F32>.size,
-        dataOffset: ot0,
-        dataStride: stride))
+    for (ot, texCoords) in zip(ots, textures) {
+      if !texCoords.isEmpty {
+        sources.append(SCNGeometrySource(
+          data: d as Data,
+          semantic: SCNGeometrySource.Semantic.texcoord,
+          vectorCount: len,
+          usesFloatComponents: true,
+          componentsPerVector: 2,
+          bytesPerComponent: MemoryLayout<F32>.size,
+          dataOffset: ot,
+          dataStride: stride))
+      }
     }
 
     let element: SCNGeometryElement
