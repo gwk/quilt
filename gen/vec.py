@@ -47,6 +47,7 @@ import simd\
   for import_name in args.imports:
     outL('import $', import_name)
   outL()
+  outL()
 
   if args.alias:
     outL('public typealias $ = $', v_type, args.alias)
@@ -70,6 +71,7 @@ import simd\
   outL('  public typealias VDType = V$D', dim)
   outL('  public typealias VU8Type = V$U8', dim)
 
+  outL()
   for d in range(dim, 5):
     for t in types:
       if d == dim and t.scalar == scalar:
@@ -91,23 +93,29 @@ import simd\
     outL('    self.init($)', jc(fmt('try c.decode($.self)', scalar) for _ in range(dim)))
     outL('  }')
 
+  outL()
   outL('  public static var scalarCount: Int { return $ }', dim)
 
+  outL()
   for c in comps:
     outL('  public static var unit$: $ { return $($) }',
       c.upper(), vi_type, v_type, jc('1' if d == c else '0' for d in comps))
 
+  outL()
   outL('  public var vs: V$S { return V$S($) }', dim, dim, jcf('F32($)', comps))
   outL('  public var vd: V$D { return V$D($) }', dim, dim, jcf('F64($)', comps))
 
+  outL()
   outL('  public var sqrLen: F64 {')
   outL('    var s = F64(x.sqr)')
   for c in comps[1:]:
     outL('    s += F64($.sqr)', c)
   outL('    return s }')
 
+  outL()
   outL('  public var aspect: F64 { return F64(x) / F64(y) }')
 
+  outL()
   for c_col, c in comps_colors:
     outL('  public var $: Scalar {', c_col)
     outL('    get { return $ }', c)

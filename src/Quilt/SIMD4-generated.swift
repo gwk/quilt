@@ -4,10 +4,12 @@
 import Darwin
 import simd
 
+
 extension SIMD4: VecType, VecType4 where Scalar: ArithmeticFloat {
   public typealias VSType = V4S
   public typealias VDType = V4D
   public typealias VU8Type = V4U8
+
   public init(_ v: V4S) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
   }
@@ -23,20 +25,26 @@ extension SIMD4: VecType, VecType4 where Scalar: ArithmeticFloat {
   public init(_ v: SIMD3<Scalar>, w: Scalar) {
     self.init(v.x, v.y, v.z, w)
   }
+
   public static var scalarCount: Int { return 4 }
+
   public static var unitX: SIMD4<Scalar> { return SIMD4(1, 0, 0, 0) }
   public static var unitY: SIMD4<Scalar> { return SIMD4(0, 1, 0, 0) }
   public static var unitZ: SIMD4<Scalar> { return SIMD4(0, 0, 1, 0) }
   public static var unitW: SIMD4<Scalar> { return SIMD4(0, 0, 0, 1) }
+
   public var vs: V4S { return V4S(F32(x), F32(y), F32(z), F32(w)) }
   public var vd: V4D { return V4D(F64(x), F64(y), F64(z), F64(w)) }
+
   public var sqrLen: F64 {
     var s = F64(x.sqr)
     s += F64(y.sqr)
     s += F64(z.sqr)
     s += F64(w.sqr)
     return s }
+
   public var aspect: F64 { return F64(x) / F64(y) }
+
   public var r: Scalar {
     get { return x }
     set { x = newValue }

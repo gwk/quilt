@@ -6,12 +6,14 @@ import simd
 import CoreGraphics
 import Quilt
 
+
 public typealias V2 = CGPoint
 extension V2: VecType, VecType2 {
   public typealias Scalar = Flt
   public typealias VSType = V2S
   public typealias VDType = V2D
   public typealias VU8Type = V2U8
+
   public init(_ v: V2S) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
@@ -48,16 +50,22 @@ extension V2: VecType, VecType2 {
   public init(_ v: V4U8) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
+
   public static var scalarCount: Int { return 2 }
+
   public static var unitX: V2 { return V2(1, 0) }
   public static var unitY: V2 { return V2(0, 1) }
+
   public var vs: V2S { return V2S(F32(x), F32(y)) }
   public var vd: V2D { return V2D(F64(x), F64(y)) }
+
   public var sqrLen: F64 {
     var s = F64(x.sqr)
     s += F64(y.sqr)
     return s }
+
   public var aspect: F64 { return F64(x) / F64(y) }
+
   public var l: Scalar {
     get { return x }
     set { x = newValue }

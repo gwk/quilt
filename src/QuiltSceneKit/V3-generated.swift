@@ -7,12 +7,14 @@ import SceneKit
 import Quilt
 import QuiltUI
 
+
 public typealias V3 = SCNVector3
 extension V3: VecType, VecType3 {
   public typealias Scalar = Flt
   public typealias VSType = V3S
   public typealias VDType = V3D
   public typealias VU8Type = V3U8
+
   public init(_ v: V3S) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z))
   }
@@ -40,18 +42,24 @@ extension V3: VecType, VecType3 {
   public init(_ v: V2, z: Scalar) {
     self.init(v.x, v.y, z)
   }
+
   public static var scalarCount: Int { return 3 }
+
   public static var unitX: V3 { return V3(1, 0, 0) }
   public static var unitY: V3 { return V3(0, 1, 0) }
   public static var unitZ: V3 { return V3(0, 0, 1) }
+
   public var vs: V3S { return V3S(F32(x), F32(y), F32(z)) }
   public var vd: V3D { return V3D(F64(x), F64(y), F64(z)) }
+
   public var sqrLen: F64 {
     var s = F64(x.sqr)
     s += F64(y.sqr)
     s += F64(z.sqr)
     return s }
+
   public var aspect: F64 { return F64(x) / F64(y) }
+
   public var r: Scalar {
     get { return x }
     set { x = newValue }
