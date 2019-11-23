@@ -31,6 +31,7 @@ extension Mesh {
       Adj(1, 3),
       Adj(2, 3),
     ]
+    mesh.addSegmentsFromAdjacencies()
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }
@@ -116,6 +117,7 @@ extension Mesh {
       Adj(5, 7),
       Adj(6, 7),
     ]
+    mesh.addSegmentsFromAdjacencies()
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }
@@ -302,6 +304,7 @@ extension Mesh {
       Adj(17, 19),
       Adj(18, 19),
     ]
+    mesh.addSegmentsFromAdjacencies()
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }

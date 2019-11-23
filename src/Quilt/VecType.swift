@@ -36,6 +36,7 @@ extension VecType {
   public func angle(_ b: Self) -> F64 { return acos(self.dot(b) / (self.len * b.len)) }
   public func dist(_ b: Self) -> F64 { return (b - self).len }
   public func lerp(_ b: Self, _ t: Scalar) -> Self { return self * (1 - t) + b * t }
+  public func mid(_ b: Self) -> Self { return (self + b) / 2 }
 }
 
 public protocol VecType2: VecType {

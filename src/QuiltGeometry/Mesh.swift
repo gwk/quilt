@@ -36,10 +36,23 @@ class Mesh {
     self.name = name
   }
 
-  func printContents() {
-    print("Mesh:")
-    for (i, pos) in positions.enumerated() {
-      print("  p[\(i)] = \(pos)")
+  var vertexCount: Int { return positions.count }
+
+  func validate() {
+    let vc = positions.count
+    precondition(normals.isEmpty || normals.count == vc)
+    precondition(colors.isEmpty || colors.count == vc)
+    for t in textures {
+      precondition(t.isEmpty || t.count == vc)
+    }
+    for s in segments {
+      s.validate(vertexCount: vc)
+    }
+    for t in triangles {
+      t.validate(vertexCount: vc)
+    }
+    for a in adjacencies {
+      a.validate(triangleCount: triangles.count)
     }
   }
 
@@ -91,6 +104,15 @@ class Mesh {
     addTri(i, i + 2, i + 3)
   }
 
+
+  func addSegmentsFromAdjacencies() {
+    for a in adjacencies {
+      let t0 = triangles[a.a]
+      let t1 = triangles[a.b]
+      segments.append(t0.commonEdge(t1))
+    }
+  }
+
   func addAllSegments() {
     for i in 0..<positions.count {
       for j in (i + 1)..<positions.count {
@@ -105,7 +127,6 @@ class Mesh {
         let b = positions[j]
         let d = a.dist(b)
         if d > 0 && d < F64(length) {
-          print(d, a, b)
           segments.append(Seg(i, j))
         }
       }
@@ -289,8 +310,89 @@ class Mesh {
     return geometry
   }
 
+
+  func subdivide() -> Mesh {
+    // Subdivide each triangle face into four subtriangles.
+    // This requires splitting each edge in half.
+    assert(!positions.isEmpty)
+    assert(!triangles.isEmpty)
+    assert(!adjacencies.isEmpty)
+    assert(!segments.isEmpty)
+
+    let s = Mesh()
+    s.positions = positions // Copy existing vertices.
+    s.normals = normals
+    s.triangles = Array(repeating: .invalid, count: triangles.count * 4)
+
+    // For each triangle, begin filling in corner subtriangles and adjacencies.
+    for i in 0..<triangles.count {
+      let t = triangles[i]
+      let sub_ti = i * 4 // Subdivision triangles starting index.
+      let center_ti = sub_ti + 3 // The new center triangle comes last.
+      for q in 0..<3 {
+        let corner_ti = sub_ti + q // Corner triangle index.
+        // For each corner triangle, set the single existing vertex index now.
+        s.triangles[corner_ti][q] = t[q] // Corner sub triangles are indexed 0 to 2.
+        // Create the adjacency between corner and center triangles.
+        s.adjacencies.append(Adj(corner_ti, center_ti))
+      }
+    }
+
+    // All remaining data is filled in by iterating over the original segments.
+    for ei in 0..<segments.count {
+      let e = segments[ei]
+      let a = adjacencies[ei]
+
+      let ti0 = a.a
+      let ti1 = a.b
+      let sti0 = ti0 * 4
+      let sti1 = ti1 * 4
+
+      let t0 = triangles[ti0]
+      let t1 = triangles[ti1]
+
+      let ((t0q, t0r), (t1q, t1r))  = t0.commonEdgeTriangleIndices(t1)
+
+      let vm = positions[e.a].mid(positions[e.b])
+      let vmi = s.positions.count // Midpoint vertex index.
+      s.positions.append(vm)
+      if !normals.isEmpty {
+        let nm = (normals[e.a] + normals[e.b]).norm
+        s.normals.append(nm)
+      }
+
+      // center triangles touching vm.
+      s.triangles[sti0+3][t0q] = vmi
+      s.triangles[sti1+3][t1q] = vmi
+
+      // corner triangles
+      s.triangles[sti0+t0q][t0r] = vmi
+      s.triangles[sti0+t0r][t0q] = vmi
+      s.triangles[sti1+t1q][t1r] = vmi
+      s.triangles[sti1+t1r][t1q] = vmi
+
+      // adjacencies
+      s.adjacencies.append(Adj(sti0 + t0q, sti1 + t1r))
+      s.adjacencies.append(Adj(sti0 + t0r, sti1 + t1q))
+    }
+
+    for i in 0..<s.triangles.count {
+      var t = s.triangles[i]
+      t.fixIndexOrder()
+      s.triangles[i] = t
+    }
+
+    s.addSegmentsFromAdjacencies()
+
+    s.validate()
+    assert(s.positions.count == positions.count + segments.count)
+    assert(s.triangles.count == triangles.count * 4)
+    return s
+  }
+
+
   class func triangle() -> Mesh {
-    // Triangle with vertex radius of 1.
+    // Two-sided triangle in the unit cube, with vertex radius of 1.
     let x: Flt = sqrt(3.0) * 0.5
     let m = Mesh(name: "triangle")
     m.positions = [
@@ -302,8 +404,8 @@ class Mesh {
       Tri(0, 1, 2),
       Tri(0, 2, 1),
     ]
+    // Note: we do not add adjacencies because there should technically be three of them.
     m.addNormalsFromOriginToPositions()
     return m
   }
 }
-

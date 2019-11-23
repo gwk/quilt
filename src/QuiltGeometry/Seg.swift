@@ -2,7 +2,7 @@
 
 
 public struct Seg: CustomStringConvertible, Comparable {
-  public var a, b: Int
+  public let a, b: Int // Not mutable to enforce ordering.
 
   public init(_ a: Int, _ b: Int) {
     assert(a != b)
@@ -16,6 +16,11 @@ public struct Seg: CustomStringConvertible, Comparable {
   }
 
   public var description: String { return "Seg(\(a), \(b))" }
+
+  public func validate(vertexCount: Int) {
+    precondition(a >= 0 && a < vertexCount)
+    precondition(b >= 0 && b < vertexCount)
+  }
 
   public static func <(l: Seg, r: Seg) -> Bool {
     if (l.a == r.a) {
