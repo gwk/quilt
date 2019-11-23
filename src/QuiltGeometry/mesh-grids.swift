@@ -18,65 +18,65 @@ func gridCage(_ divisions: Int, barRatio: Flt = 1 / 16) -> Mesh {
       V3(-1, l, -1),
       V3( 1, l, -1),
       V3( 1, h, -1),
-      V3(-1, h, -1));
+      V3(-1, h, -1))
     m.addQuad( // front x.
       V3(-1, l,  1),
       V3(-1, h,  1),
       V3( 1, h,  1),
-      V3( 1, l,  1));
+      V3( 1, l,  1))
 
     m.addQuad( // bottom x.
       V3(-1, -1,  l),
       V3(-1, -1,  h),
       V3( 1, -1,  h),
-      V3( 1, -1,  l));
+      V3( 1, -1,  l))
     m.addQuad( // top x.
       V3(-1,  1,  l),
       V3( 1,  1,  l),
       V3( 1,  1,  h),
-      V3(-1,  1,  h));
+      V3(-1,  1,  h))
 
     m.addQuad( // back y.
       V3( l, -1, -1),
       V3( h, -1, -1),
       V3( h,  1, -1),
-      V3( l,  1, -1));
+      V3( l,  1, -1))
     m.addQuad( // front y.
       V3( l, -1,  1),
       V3( l,  1,  1),
       V3( h,  1,  1),
-      V3( h, -1,  1));
+      V3( h, -1,  1))
     m.addQuad( // left y.
       V3(-1, -1,  l),
       V3(-1,  1,  l),
       V3(-1,  1,  h),
-      V3(-1, -1,  h));
+      V3(-1, -1,  h))
     m.addQuad( // right y.
       V3( 1, -1,  l),
       V3( 1, -1,  h),
       V3( 1,  1,  h),
-      V3( 1,  1,  l));
+      V3( 1,  1,  l))
 
     m.addQuad( // left z.
       V3(-1, l, -1),
       V3(-1, h, -1),
       V3(-1, h,  1),
-      V3(-1, l,  1));
+      V3(-1, l,  1))
     m.addQuad( // right z.
       V3( 1, l, -1),
       V3( 1, l,  1),
       V3( 1, h,  1),
-      V3( 1, h, -1));
+      V3( 1, h, -1))
     m.addQuad( // bottom z.
       V3( l, -1, -1),
       V3( l, -1,  1),
       V3( h, -1,  1),
-      V3( h, -1, -1));
+      V3( h, -1, -1))
     m.addQuad( // top z.
       V3( l,  1,  -1),
       V3( h,  1,  -1),
       V3( h,  1,  1),
-      V3( l,  1,  1));
+      V3( l,  1,  1))
   }
   return m
 }

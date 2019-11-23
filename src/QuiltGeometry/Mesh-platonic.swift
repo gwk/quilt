@@ -9,7 +9,7 @@ extension Mesh {
 
   class func tetrahedron() -> Mesh {
     // returns a tetrahedron with vertex radius of 1.
-    let r: Flt = sqrt(1.0 / 3.0); // radius of insphere.
+    let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
     let mesh = Mesh(name: "tetrahedron")
     mesh.positions = [
       V3(-r, -r, -r), // cube 0.
@@ -37,7 +37,7 @@ extension Mesh {
 
   class func cube() -> Mesh {
     // returns a cube with vertex radius of 1.
-    let r: Flt = sqrt(1.0 / 3.0); // radius of insphere.
+    let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
     let mesh = Mesh(name: "cube")
     mesh.positions = [
       V3(-r, -r, -r),
