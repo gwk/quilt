@@ -33,10 +33,9 @@ public func fatal<T>(label: String = "", _ message: T) -> Never {
 
 // Assertions.
 
-
-public func assert( _ condition: Bool, file:StaticString=#file, line:UInt=#line) {
+public func assertCond( _ condition: Bool, file:StaticString=#file, line:UInt=#line) {
   if _isDebugAssertConfiguration() {
-    check(condition, label: "", "\(file):\(line): assert failed.")
+    check(condition, label: "", "\(file):\(line): assertCond failed.")
   }
 }
 
