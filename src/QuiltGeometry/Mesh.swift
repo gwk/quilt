@@ -7,7 +7,7 @@ import QuiltSceneKit
 
 
 enum GeomKind {
-  case point
+  case point(size: CGFloat = 1.0, minSSRad: CGFloat = 0.1, maxSSRad: CGFloat = 1000.0)
   case seg
   case tri
 }
@@ -164,7 +164,7 @@ class Mesh {
     }
   }
 
-  func geometry(kind: GeomKind = .tri) -> SCNGeometry {
+  func geometry(kinds: [GeomKind] = [.tri]) -> SCNGeometry {
 
     let len = positions.count
 
@@ -292,20 +292,27 @@ class Mesh {
       }
     }
 
-    let element: SCNGeometryElement
-    switch kind {
-    case .point:
-      element = SCNGeometryElement(indices: points, vertexCount: positions.count, primitiveType: .point)
-    case .seg:
-      element = segments.withBufferRebound(to: Int.self) {
-        SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .line)
+    var elements: [SCNGeometryElement] = []
+    for kind in kinds {
+      let element: SCNGeometryElement
+      switch kind {
+      case .point(let size, let minRad, let maxRad):
+        element = SCNGeometryElement(indices: points, vertexCount: positions.count, primitiveType: .point)
+        element.pointSize = size
+        element.minimumPointScreenSpaceRadius = minRad
+        element.maximumPointScreenSpaceRadius = maxRad
+      case .seg:
+        element = segments.withBufferRebound(to: Int.self) {
+          SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .line)
+        }
+      case .tri:
+        element = triangles.withBufferRebound(to: Int.self) {
+          SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .triangles)
+        }
       }
-    case .tri:
-      element = triangles.withBufferRebound(to: Int.self) {
-        SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .triangles)
-      }
+      elements.append(element)
     }
-    let geometry = SCNGeometry(sources: sources, elements: [element])
+    let geometry = SCNGeometry(sources: sources, elements: elements)
     geometry.name = name
     return geometry
   }
