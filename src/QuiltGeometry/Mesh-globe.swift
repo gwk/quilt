@@ -7,124 +7,88 @@ import QuiltSceneKit
 
 extension Mesh {
 
-  class func globe(texInfo: (triW: Flt, triH: Flt, vSpace: Flt)? = nil) -> Mesh {
-    // returns a globe with vertex radius of 1.
-    // the globe is essentially an icosahedron, but differs from Mesh.icosahedron as follows:
-    // - globe has "polar" vertices that are positioned at the -y and +y axes.
-    // - there are multiple polar vertices at each pole.
-    // - for each ring of "tropical" vertices, there is a single duplicated vertex to allow correct texture wrapping.
+  class func globe() -> Mesh {
+    // Returns a globe with vertex radius of 1.
+    // It is essentially an icosahedron, but differs from Mesh.icosahedron:
+    // * The globe has "polar" vertices that are positioned at the -y and +y axes.
+    // * It consists of five four-triangle strips, from south to north pole.
+    // * Each strip has independent vertices so that they can have different texture coordinates.
 
-    // the texture is split into northern and southern hemispheres,
-    // and wraps vertically so that the equator is both the top and bottom edge;
-    // the southern hemisphere is the top half.
-    // the polar faces intermesh, and each half is given vSpace extra pixels vertically to prevent bleeding between them.
-    // ______________________
-    // |/__\/__\/__\/__\/__\| // southern tropics.
-    // |\  /\  /\  /\  /\  /| // southern poles, with northern polar tips.
-    // |_\/__\/__\/__\/__\/_| // northern poles, with southern polar tips.
-    // |_/\__/\__/\__/\__/\_| // northern tropics.
+    // From a standard icosahedron construction:
+    // Each icosahedron vertex is also the vertex of an axis-aligned golden rectangle.
+    // Compute the golden rectangle hypotenuse use that to normalize major and minor lengths so that we get a unit.
 
     let phi: Flt = (1 + sqrt(5)) * 0.5 // golden ratio.
-    // each icosahedron vertex is also the vertex of an axis-aligned golden rectangle.
-    // compute the radius and normalize major and minor lengths.
-    let r = sqrt(phi * phi + 1)
-    let m = phi / r // major.
-    let n = 1.0 / r // minor.
-    // globe rotates this icosahedron around the z axis to place a polar vertices on the y axis.
-    let t0ny = n / sqrt(1 + phi.sqr) // derived from: x.sqr + y.sqr = n.sqr; x/y = phi.
-    let t0n = V2(-phi * t0ny, t0ny) // transformed (0, n).
-    let tn0 = V2(t0ny, phi * t0ny) // transformed (n, 0).
-    let tm0 = tn0 * phi
-    let t0m = t0n * phi
+    let golden_rect_hyp = sqrt(phi * phi + 1)
+    let m = phi / golden_rect_hyp // Major.
+    let n = 1.0 / golden_rect_hyp // Minor.
+
+    // The globe construction rotates this icosahedron around the z axis to place polar vertices on the y axis.
+    // The first term was originally derived as the y component by rotating (0, n).
+    // x.sqr + y.sqr = n.sqr; x/y = phi.
+    let a3 = n / sqrt(1 + phi.sqr) // 0.276393202250021
+    let y = phi * a3 // 0.4472135954999579
+    let b7 = phi * y // 0.7236067977499789
+    let c9 = 2 * y // 0.8944271909999159
+
     let mesh = Mesh(name: "globe")
+    mesh.textures.append([])
 
-    // swift 4b4 complains that this expression is too long to compile as a single array;
-    // xcode 4b4 also chokes on it, presumably due to sourcekit.
-    mesh.positions = [
-      V3( 0, -1,  0), // south pole.
-      V3( 0, -1,  0),
-      V3( 0, -1,  0),
-      V3( 0, -1,  0),
-      V3( 0, -1,  0),
+    // Right-handed coordinate system. +Z is near (towards camera).
+    // Each ring of five vertices is ordered clockwise.
+    // The vertices with z=0 are labeled "head".
+    let v:[V3] = [
+      V3(  0,  1,  0), // 11. North pole.
+      V3( c9,  y,  0), // 6. North head.
+      V3( a3,  y, -m), // 10. North far arm.
+      V3(-b7,  y, -n), // 9. North far leg.
+      V3(-b7,  y,  n), // 8. North near leg.
+      V3( a3,  y,  m), // 7. North near arm.
+      V3(-c9, -y,  0), // 1. South head.
+      V3(-a3, -y,  m), // 5. South near arm.
+      V3( b7, -y,  n), // 4. South near leg.
+      V3( b7, -y, -n), // 3. South far leg.
+      V3(-a3, -y, -m), // 2. South far arm.
+      V3(  0, -1,  0), // 0. South pole.
     ]
-    mesh.positions.append(contentsOf: [
-      V3((-tm0 + t0n),  z:  0), // southwest.
-      V3(-tn0,          z:  m),
-      V3(      -t0m,    z:  n),
-      V3(      -t0m,    z: -n),
-      V3(-tn0,          z: -m),
-      V3((-tm0 + t0n),  z:  0), // southern duplicate.
-    ])
-    mesh.positions.append(contentsOf: [
-      V3(       t0m,    z:  n), // northern hemisphere.
-      V3( tn0,          z:  m),
-      V3((tm0 - t0n),   z:  0), // northeast.
-      V3( tn0,          z: -m),
-      V3(       t0m,    z: -n),
-      V3(       t0m,    z:  n), // northern duplicate.
-    ])
-    mesh.positions.append(contentsOf: [
-      V3( 0,  1,  0),
-      V3( 0,  1,  0),
-      V3( 0,  1,  0),
-      V3( 0,  1,  0),
-      V3( 0,  1,  0),
-    ])
 
-    if let info = texInfo {
-      // TODO: allow for placing vertices at pixel centers.
-      let xp = 1 / (5 * info.triW) // TODO: account for pixel centering.
-      let yp = 1 / ((info.triH + info.vSpace) * 2) // TODO: account for pixel centering.
-      let w = xp * info.triW
-      let h = yp * info.triH
-      let t = h * 0.5 // the southern tropic y position; northern is negative.
-      let p = h * 1.5 // the south pole y position; northern is negative.
-      mesh.textures = [[
-        V2(w * 0.5,  p), // south pole.
-        V2(w * 1.5,  p),
-        V2(w * 2.5,  p),
-        V2(w * 3.5,  p),
-        V2(w * 4.5,  p),
-        V2(w * 0.0,  t),
-        V2(w * 1.0,  t),
-        V2(w * 2.0,  t),
-        V2(w * 3.0,  t),
-        V2(w * 4.0,  t),
-        V2(w * 5.0,  t), // southern duplicate.
-        V2(w * 0.5, -t),
-        V2(w * 1.5, -t),
-        V2(w * 2.5, -t),
-        V2(w * 3.5, -t),
-        V2(w * 4.5, -t),
-        V2(w * 5.5, -t), // northern duplicate.
-        V2(w * 1.0, -p), // north pole.
-        V2(w * 2.0, -p),
-        V2(w * 3.0, -p),
-        V2(w * 4.0, -p),
-        V2(w * 5.0, -p),
-      ]]
+    let stripIndices = [
+      [0, 2, 1,  9,  8, 11],
+      [0, 3, 2, 10,  9, 11],
+      [0, 4, 3,  6, 10, 11],
+      [0, 5, 4,  7,  6, 11],
+      [0, 1, 5,  8,  7, 11],
+    ]
+
+    for (i, indices) in stripIndices.enumerated() {
+      let vi = mesh.vertexCount
+      //let vo = indices.map({v[$0]}) // TEMP.
+      //let c = (vo[0]+vo[1]+vo[2]+vo[3]+vo[4]+vo[5]).norm * 0.1 // TEMP.
+      let vs = indices.map({v[$0]})
+      mesh.positions.append(contentsOf: vs)
+
+      let uv_fudge_in: Flt = 0.01
+      let u0 = Flt(i) * 0.2 + uv_fudge_in
+      let u1 = u0 + 0.2 - uv_fudge_in
+      let ts = [
+        V2(u0, 0.0), V2(u1, 0.0),
+        V2(u0, 0.5), V2(u1, 0.5),
+        V2(u0, 1.0), V2(u1, 1.0),
+      ]
+      mesh.textures[0].append(contentsOf: ts)
+      let tris = [
+        Tri(vi+0, vi+2, vi+1),
+        Tri(vi+1, vi+2, vi+3),
+        Tri(vi+2, vi+4, vi+3),
+        Tri(vi+3, vi+4, vi+5),
+      ]
+      mesh.triangles.append(contentsOf: tris)
+      print("  \(vs),")
     }
+    //mesh.addAllSegments()
+    //mesh.segments.sort()
+    //mesh.addTrianglesFromSegments()
     mesh.addNormalsFromOriginToPositions()
-    for i in 0..<5 { // do all of the pole edges manually, since there are multiple poles.
-      let j = i + 1
-      let sp = i
-      let st0 = 5 + i
-      let st1 = 5 + j
-      let nt0 = 11 + i
-      let nt1 = 11 + j
-      let np = 17 + i
-      mesh.addSeg(sp,   st0) // south polar face.
-      mesh.addSeg(sp,   st1)
-      mesh.addSeg(st0,  st1)
-      mesh.addSeg(np,   nt0) // north polar face.
-      mesh.addSeg(np,   nt1)
-      mesh.addSeg(nt0,  nt1)
-      mesh.addSeg(st0,  nt0) // tropic to tropic.
-      mesh.addSeg(st1,  nt0)
-    }
-    mesh.addSeg(10, 16)
-    mesh.segments.sort()
-    mesh.addTrianglesFromSegments()
     return mesh
   }
 

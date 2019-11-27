@@ -71,6 +71,14 @@ class Mesh {
     }
   }
 
+  func addColorsFromTextures(channel: Int = 0) {
+    assert(colors.isEmpty)
+    for tex in textures[channel] {
+      colors.append(V4(tex.x, tex.y, 0, 1))
+    }
+  }
+
+
   func addAllPoints() {
     points.append(contentsOf: 0..<positions.count)
   }
@@ -163,6 +171,12 @@ class Mesh {
       }
     }
   }
+
+
+  func faceNormal(tri: Tri) -> V3 {
+    return (positions[tri.a] + positions[tri.b] + positions[tri.c]).norm
+  }
+
 
   func geometry(kinds: [GeomKind] = [.tri]) -> SCNGeometry {
 

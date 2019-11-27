@@ -13,6 +13,13 @@ public struct Tri: CustomStringConvertible {
     self.c = c
   }
 
+  public init(unordered a: Int, _ b: Int, _ c: Int) {
+    self.a = a
+    self.b = b
+    self.c = c
+    self.fixIndexOrder()
+  }
+
   public static var invalid: Tri = Tri(-3, -2, -1)
 
   subscript(index: Int) -> Int {
