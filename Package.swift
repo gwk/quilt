@@ -8,6 +8,7 @@ let package = Package(
   name: "Quilt",
   platforms: [.macOS(.v10_15)],
   products: [
+    .library(name: "Py",              targets: ["Py"]),
     .library(name: "Quilt",           targets: ["Quilt"]),
     .library(name: "QuiltGeometry",   targets: ["QuiltGeometry"]),
     .library(name: "QuiltMac",        targets: ["QuiltMac"]),
@@ -19,6 +20,9 @@ let package = Package(
     .library(name: "QuiltTest", type: .dynamic, targets: ["QuiltTest"])
   ],
   targets: [
+    .target(name: "Py",
+      swiftSettings: [.unsafeFlags(["-enable-library-evolution"])]),
+
     .target(name: "Quilt"),
     .target(name: "QuiltGeometry",  dependencies: ["Quilt", "QuiltUI", "QuiltSceneKit"]),
     .target(name: "QuiltMac",       dependencies: ["Quilt", "QuiltUI"]),

@@ -83,7 +83,6 @@ extension Mesh {
         Tri(vi+3, vi+4, vi+5),
       ]
       mesh.triangles.append(contentsOf: tris)
-      print("  \(vs),")
     }
     //mesh.addAllSegments()
     //mesh.segments.sort()
