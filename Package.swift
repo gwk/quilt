@@ -6,8 +6,8 @@ import PackageDescription
 
 let package = Package(
   name: "Quilt",
-    platforms: [.macOS(.v10_15)],
-    products: [
+  platforms: [.macOS(.v10_15)],
+  products: [
     .library(name: "Quilt",           targets: ["Quilt"]),
     .library(name: "QuiltGeometry",   targets: ["QuiltGeometry"]),
     .library(name: "QuiltMac",        targets: ["QuiltMac"]),
