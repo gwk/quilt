@@ -77,6 +77,7 @@ extension SIMD2: VecType, VecType2 where Scalar: ArithmeticFloat {
   public var anyInfite: Bool { return x.isInfinite || (y.isInfinite)}
   public var anyNaN: Bool { return x.isNaN || (y.isNaN)}
   public var clampToUnit: SIMD2 { return SIMD2(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1)) }
+  public var clampToSignedUnit: SIMD2 { return SIMD2(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
 }
 

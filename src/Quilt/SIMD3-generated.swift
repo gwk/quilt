@@ -71,6 +71,7 @@ extension SIMD3: VecType, VecType3 where Scalar: ArithmeticFloat {
   public var anyInfite: Bool { return x.isInfinite || (y.isInfinite || (z.isInfinite))}
   public var anyNaN: Bool { return x.isNaN || (y.isNaN || (z.isNaN))}
   public var clampToUnit: SIMD3 { return SIMD3(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1), z.clamp(min: 0, max: 1)) }
+  public var clampToSignedUnit: SIMD3 { return SIMD3(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1), z.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255))) }
 
   public func cross(_ b: SIMD3) -> SIMD3 { return SIMD3(

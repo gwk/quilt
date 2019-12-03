@@ -62,6 +62,7 @@ extension SIMD4: VecType, VecType4 where Scalar: ArithmeticFloat {
   public var anyInfite: Bool { return x.isInfinite || (y.isInfinite || (z.isInfinite || (w.isInfinite)))}
   public var anyNaN: Bool { return x.isNaN || (y.isNaN || (z.isNaN || (w.isNaN)))}
   public var clampToUnit: SIMD4 { return SIMD4(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1), z.clamp(min: 0, max: 1), w.clamp(min: 0, max: 1)) }
+  public var clampToSignedUnit: SIMD4 { return SIMD4(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1), z.clamp(min: -1, max: 1), w.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255)), U8((w*255).clamp(min: 0, max: 255))) }
 
   public func cross(_ b: SIMD4) -> SIMD4 { return SIMD4(

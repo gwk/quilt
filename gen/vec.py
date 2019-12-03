@@ -152,6 +152,7 @@ import simd\
   outL('  public var anyInfite: Bool { return $}', jfra(' || ', '$.isInfinite', comps))
   outL('  public var anyNaN: Bool { return $}', jfra(' || ', '$.isNaN', comps))
   outL('  public var clampToUnit: $ { return $($) }', v_type, v_type, jcf('$.clamp(min: 0, max: 1)', comps))
+  outL('  public var clampToSignedUnit: $ { return $($) }', v_type, v_type, jcf('$.clamp(min: -1, max: 1)', comps))
   outL('  public var toU8Pixel: VU8Type { return VU8Type($) }', jcf('U8(($*255).clamp(min: 0, max: 255))', comps))
 
   if dim >= 3:
