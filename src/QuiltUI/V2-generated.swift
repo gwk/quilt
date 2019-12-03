@@ -62,14 +62,17 @@ extension V2: VecType, VecType2 {
   public var sqrLen: F64 {
     var s = F64(x.sqr)
     s += F64(y.sqr)
-    return s }
+    return s
+}
 
   public var aspect: F64 { return F64(x) / F64(y) }
 
   public func dot(_ b: V2) -> F64 {
     var s = F64(x) * F64(b.x)
     s += F64(y) * F64(b.y)
-    return s }
+    return s
+  }
+
 public static func +(a: V2, b: V2) -> V2 { return V2(a.x + b.x, a.y + b.y) }
 public static func -(a: V2, b: V2) -> V2 { return V2(a.x - b.x, a.y - b.y) }
 public static func *(a: V2, b: V2) -> V2 { return V2(a.x * b.x, a.y * b.y) }

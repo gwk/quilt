@@ -56,7 +56,8 @@ extension V3: VecType, VecType3 {
     var s = F64(x.sqr)
     s += F64(y.sqr)
     s += F64(z.sqr)
-    return s }
+    return s
+}
 
   public var aspect: F64 { return F64(x) / F64(y) }
 
@@ -64,7 +65,9 @@ extension V3: VecType, VecType3 {
     var s = F64(x) * F64(b.x)
     s += F64(y) * F64(b.y)
     s += F64(z) * F64(b.z)
-    return s }
+    return s
+  }
+
 public static func +(a: V3, b: V3) -> V3 { return V3(a.x + b.x, a.y + b.y, a.z + b.z) }
 public static func -(a: V3, b: V3) -> V3 { return V3(a.x - b.x, a.y - b.y, a.z - b.z) }
 public static func *(a: V3, b: V3) -> V3 { return V3(a.x * b.x, a.y * b.y, a.z * b.z) }
@@ -85,10 +88,11 @@ public static prefix func -(a: V3) -> V3 { return a * -1 }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255))) }
 
   public func cross(_ b: V3) -> V3 { return V3(
-    y * b.z - z * b.y,
-    z * b.x - x * b.z,
-    x * b.y - y * b.x
-  )}
+      y * b.z - z * b.y,
+      z * b.x - x * b.z,
+      x * b.y - y * b.x
+    )
+  }
 }
 
 extension V3: Equatable, Comparable {

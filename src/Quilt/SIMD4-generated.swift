@@ -41,7 +41,8 @@ extension SIMD4: VecType, VecType4 where Scalar: ArithmeticFloat {
     s += F64(y.sqr)
     s += F64(z.sqr)
     s += F64(w.sqr)
-    return s }
+    return s
+}
 
   public var aspect: F64 { return F64(x) / F64(y) }
 
@@ -50,7 +51,9 @@ extension SIMD4: VecType, VecType4 where Scalar: ArithmeticFloat {
     s += F64(y) * F64(b.y)
     s += F64(z) * F64(b.z)
     s += F64(w) * F64(b.w)
-    return s }
+    return s
+  }
+
 
   public var allNormal: Bool { return x.isNormal && (y.isNormal && (z.isNormal && (w.isNormal))) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite && (z.isFinite && (w.isFinite))) }
@@ -62,10 +65,11 @@ extension SIMD4: VecType, VecType4 where Scalar: ArithmeticFloat {
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255)), U8((w*255).clamp(min: 0, max: 255))) }
 
   public func cross(_ b: SIMD4) -> SIMD4 { return SIMD4(
-    y * b.z - z * b.y,
-    z * b.x - x * b.z,
-    x * b.y - y * b.x,
+      y * b.z - z * b.y,
+      z * b.x - x * b.z,
+      x * b.y - y * b.x,
     0
-  )}
+    )
+  }
 }
 

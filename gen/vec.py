@@ -109,7 +109,8 @@ import simd\
   outL('    var s = F64(x.sqr)')
   for c in comps[1:]:
     outL('    s += F64($.sqr)', c)
-  outL('    return s }')
+  outL('    return s')
+  outL('}')
 
   outL()
   outL('  public var aspect: F64 { return F64(x) / F64(y) }')
@@ -121,7 +122,9 @@ import simd\
   outL('    var s = F64(x) * F64(b.x)')
   for c in comps[1:]:
     outL('    s += F64($) * F64(b.$)', c, c)
-  outL('    return s }')
+  outL('    return s')
+  outL('  }')
+  outL()
 
   if scalar == 'U8':
     outL('  public var toSPixel: VSType { return VSType($) }', jcf('F32($) / F32(0xFF)', comps))
@@ -160,8 +163,9 @@ import simd\
         outL('    0')
       else:
         comma = '' if i == dim - 1 else ','
-        outL('    $ * b.$ - $ * b.$$', a, b, b, a, comma)
-    outL('  )}')
+        outL('      $ * b.$ - $ * b.$$', a, b, b, a, comma)
+    outL('    )')
+    outL('  }')
 
   outL('}\n')
 
