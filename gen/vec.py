@@ -56,7 +56,6 @@ import simd\
   comps_a = ['a.' + c for c in comps]
   comps_b = ['b.' + c for c in comps]
   comps_ab = [p for p in zip(comps_a, comps_b)]
-  comps_colors = list(zip('la' if dim == 2 else 'rgba', comps))
   public = '' if is_simd else 'public '
   is_float = scalar.startswith('F')
   is_signed = not scalar.startswith('U')
@@ -115,15 +114,9 @@ import simd\
   outL()
   outL('  public var aspect: F64 { return F64(x) / F64(y) }')
 
-  outL()
-  for c_col, c in comps_colors:
-    outL('  public var $: Scalar {', c_col)
-    outL('    get { return $ }', c)
-    outL('    set { $ = newValue }', c)
-    outL('  }')
-
   # TODO: swizzles.
 
+  outL()
   outL('  public func dot(_ b: $) -> F64 {', vi_type)
   outL('    var s = F64(x * b.x)')
   for c in comps[1:]:

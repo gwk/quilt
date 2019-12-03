@@ -65,14 +65,6 @@ extension CGVector: VecType, VecType2 {
 
   public var aspect: F64 { return F64(x) / F64(y) }
 
-  public var l: Scalar {
-    get { return x }
-    set { x = newValue }
-  }
-  public var a: Scalar {
-    get { return y }
-    set { y = newValue }
-  }
   public func dot(_ b: CGVector) -> F64 {
     var s = F64(x * b.x)
     s += F64(y * b.y)

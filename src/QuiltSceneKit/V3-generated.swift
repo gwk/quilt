@@ -60,18 +60,6 @@ extension V3: VecType, VecType3 {
 
   public var aspect: F64 { return F64(x) / F64(y) }
 
-  public var r: Scalar {
-    get { return x }
-    set { x = newValue }
-  }
-  public var g: Scalar {
-    get { return y }
-    set { y = newValue }
-  }
-  public var b: Scalar {
-    get { return z }
-    set { z = newValue }
-  }
   public func dot(_ b: V3) -> F64 {
     var s = F64(x * b.x)
     s += F64(y * b.y)
