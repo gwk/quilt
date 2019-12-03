@@ -12,6 +12,14 @@ import Quilt
 
 extension CGContext {
 
+  public static func from(image: CGImage) -> CGContext {
+    let ctx = CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: image.bitsPerComponent,
+      bytesPerRow: image.bytesPerRow, space: image.colorSpace!, bitmapInfo: image.bitmapInfo.rawValue)!
+    ctx.draw(image, in: image.bounds)
+    return ctx
+  }
+
+
   public var w: Int { return self.width }
   public var h: Int { return self.height }
   public var bounds: CGRect { return CGRect(0, 0, Flt(w), Flt(h)) }

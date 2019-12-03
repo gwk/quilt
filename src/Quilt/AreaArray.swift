@@ -1,7 +1,7 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public class AreaBuffer<Element>: Collection {
+public class AreaArray<Element>: Collection {
 
   public typealias Iterator = Array<Element>.Iterator
   public typealias Index = Array<Element>.Index
@@ -16,7 +16,7 @@ public class AreaBuffer<Element>: Collection {
     self.init()
     self.size = size
     self.array = Array(seq)
-    if size.x * size.y != array.count { fatalError("AreaBuffer size \(size) does not match count: \(array.count)") }
+    if size.x * size.y != array.count { fatalError("AreaArray size \(size) does not match count: \(array.count)") }
   }
 
   public convenience init(size: V2I, val: Element) {
@@ -119,13 +119,13 @@ public class AreaBuffer<Element>: Collection {
 
   public func setEl(_ coord: V2I, _ val: Element) { setEl(coord.x, coord.y, val) }
 
-  public func mapToArea<R>(_ transform: (Element)->R) -> AreaBuffer<R> {
-    return AreaBuffer<R>(size: size, seq: array.map(transform))
+  public func mapToArea<R>(_ transform: (Element)->R) -> AreaArray<R> {
+    return AreaArray<R>(size: size, seq: array.map(transform))
   }
 }
 
 
-extension AreaBuffer where Element: ArithmeticProtocol {
+extension AreaArray where Element: ArithmeticProtocol {
 
   public func addEl(_ coord: V2I, _ delta: Element) -> Element {
     var val = el(coord)

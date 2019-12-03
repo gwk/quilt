@@ -15,8 +15,8 @@ extension CGImage {
   }
 
   // Question mark icon.
-  public static let missing: CGImage = CGImage.with(
-    areaBuffer: AreaBuffer<U8>(size: V2I(8, 8), seq: [
+  public static let missing: CGImage = CGImage.with(areaArray:
+    AreaArray<U8>(size: V2I(8, 8), seq: [
       0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40,
       0x40, 0x80, 0xff, 0xff, 0xff, 0xff, 0x80, 0x40,
       0x40, 0xff, 0xff, 0x80, 0x80, 0xff, 0xff, 0x40,
@@ -58,9 +58,9 @@ extension CGImage {
         bitsPerComponent: bitsPerComponent, bitsPerPixel: bitsPerPixel, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo, provider: provider!, decode: decodeArray, shouldInterpolate: shouldInterpolate, intent: intent)!
   }
 
-  public class func with<T: PixelType>(areaBuffer: AreaBuffer<T>, shouldInterpolate: Bool = true,
+  public class func with<T: PixelType>(areaArray: AreaArray<T>, shouldInterpolate: Bool = true,
     intent: CGColorRenderingIntent = .defaultIntent) -> CGImage {
-      return areaBuffer.withBuffer() {
+      return areaArray.withBuffer {
         let isRGB = T.scalarCount >= 3
         let isFloat = (MemoryLayout<T.Scalar>.size == 4)
         let hasAlpha = (T.scalarCount % 2 == 0)
@@ -79,7 +79,7 @@ extension CGImage {
         if hasAlpha {
           bitmapInfo.insert(CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)) // TODO: explore if non-premultiplied is supported.
         }
-        return with(bufferPointer: $0, size: areaBuffer.size, colorSpace: colorSpace, bitmapInfo: bitmapInfo, shouldInterpolate: shouldInterpolate, intent: intent)
+        return with(bufferPointer: $0, size: areaArray.size, colorSpace: colorSpace, bitmapInfo: bitmapInfo, shouldInterpolate: shouldInterpolate, intent: intent)
       }
   }
 
