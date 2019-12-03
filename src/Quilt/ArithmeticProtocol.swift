@@ -8,6 +8,10 @@ public protocol ArithmeticProtocol: Hashable, Numeric, Strideable {
   init?<Source>(exactly value: Source) where Source : BinaryInteger
   init?<Source>(exactly value: Source) where Source : BinaryFloatingPoint
 
+  var asF32: F32 { get }
+  var asF64: F64 { get }
+  var asInt: Int { get }
+
   static func +(l: Self, r: Self) -> Self
   static func -(l: Self, r: Self) -> Self
   static func *(l: Self, r: Self) -> Self

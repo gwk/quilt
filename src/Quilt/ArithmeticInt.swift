@@ -14,6 +14,14 @@ public typealias U32 = UInt32
 public typealias U64 = UInt64
 
 
+extension BinaryInteger {
+
+  public var asF32: F32 { return F32(self) }
+  public var asF64: F64 { return F64(self) }
+  public var asInt: Int { return Int(self) }
+
+}
+
 public protocol ArithmeticInt: ArithmeticProtocol, BinaryInteger {}
 
 extension Int: ArithmeticInt {}
