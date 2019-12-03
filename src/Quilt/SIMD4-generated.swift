@@ -54,6 +54,10 @@ extension SIMD4: VecType, VecType4 where Scalar: ArithmeticFloat {
     return s
   }
 
+}
+
+
+extension SIMD4 where Scalar: ArithmeticFloat {
 
   public var allNormal: Bool { return x.isNormal && (y.isNormal && (z.isNormal && (w.isNormal))) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite && (z.isFinite && (w.isFinite))) }

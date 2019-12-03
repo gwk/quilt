@@ -69,6 +69,10 @@ extension SIMD2: VecType, VecType2 where Scalar: ArithmeticFloat {
     return s
   }
 
+}
+
+
+extension SIMD2 where Scalar: ArithmeticFloat {
 
   public var allNormal: Bool { return x.isNormal && (y.isNormal) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite) }

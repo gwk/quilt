@@ -140,9 +140,9 @@ import simd\
     if is_signed:
       outL('public static prefix func -(a: $) -> $ { return a * -1 }', v_type, v_type)
 
-  #outL('}\n')
-  #float_where_clause = 'where Scalar: ArithmeticFloat ' if is_simd else ''
-  #outL('extension $ ${', v_type, float_where_clause) # TODO: FloatVecType
+  if is_simd:
+    outL('}\n\n')
+    outL('extension $ where Scalar: ArithmeticFloat {', v_type)
 
   outL('')
   outL('  public var allNormal: Bool { return $ }', jfra(' && ', '$.isNormal', comps))
