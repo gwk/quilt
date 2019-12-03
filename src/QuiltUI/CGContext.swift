@@ -12,11 +12,18 @@ import Quilt
 
 extension CGContext {
 
+
   public static func from(image: CGImage) -> CGContext {
     let ctx = CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: image.bitsPerComponent,
       bytesPerRow: image.bytesPerRow, space: image.colorSpace!, bitmapInfo: image.bitmapInfo.rawValue)!
     ctx.draw(image, in: image.bounds)
     return ctx
+  }
+
+
+  public static func makeBGRA8(ptr: UnsafeMutableRawPointer, size: V2I, space: CGColorSpace = .displayP3Space) -> CGContext {
+    let info: CGBitmapInfo = [.byteOrder32Little, .premultipliedFirst]
+    return CGContext(data: ptr, width: size.x, height: size.y, bitsPerComponent: 8, bytesPerRow: size.x * 4, space: space, bitmapInfo: info.rawValue)!
   }
 
 
@@ -61,3 +68,11 @@ extension CGContext {
     NSGraphicsContext.current = nil
   }
 }
+
+
+extension CGBitmapInfo {
+
+  public static var premultipliedFirst: CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
+
+}
+
