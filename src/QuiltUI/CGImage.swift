@@ -1,7 +1,7 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
-import Foundation
 import CoreGraphics
+import Foundation
 import Quilt
 
 
@@ -27,9 +27,7 @@ extension CGImage {
       ]),
     shouldInterpolate: false)
 
-  public class func from(path: Path,
-             shouldInterpolate: Bool = true,
-             intent: CGColorRenderingIntent = .defaultIntent) throws -> CGImage {
+  public class func from(path: Path, shouldInterpolate: Bool = true, intent: CGColorRenderingIntent = .defaultIntent) throws -> CGImage {
     guard let provider = CGDataProvider(filename: path.expandUser) else {
       throw Err.path(path: path)
     }
@@ -99,5 +97,15 @@ extension CGImage {
     ctx.flipCTMHori()
     ctx.draw(image: self)
     return ctx.createImage()
+  }
+
+  public func writePng(path: Path) -> Bool {
+    let dst = CGImageDestinationCreateWithURL(path.url as CFURL, kUTTypePNG, 1, nil)!
+    CGImageDestinationAddImage(dst, self, nil)
+    let res = CGImageDestinationFinalize(dst)
+    if (!res) {
+      warn("failed to write image to path: '\(path)'")
+    }
+    return res
   }
 }
