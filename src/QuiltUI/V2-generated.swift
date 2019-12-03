@@ -56,20 +56,20 @@ extension V2: VecType, VecType2 {
   public static var unitX: V2 { return V2(1, 0) }
   public static var unitY: V2 { return V2(0, 1) }
 
-  public var vs: V2S { return V2S(F32(x), F32(y)) }
-  public var vd: V2D { return V2D(F64(x), F64(y)) }
+  public var vs: V2S { return V2S(x.asF32, y.asF32) }
+  public var vd: V2D { return V2D(x.asF64, y.asF64) }
 
   public var sqrLen: F64 {
-    var s = F64(x.sqr)
-    s += F64(y.sqr)
+    var s = x.asF64.sqr
+    s += y.asF64.sqr
     return s
 }
 
-  public var aspect: F64 { return F64(x) / F64(y) }
+  public var aspect: F64 { return x.asF64 / y.asF64 }
 
   public func dot(_ b: V2) -> F64 {
-    var s = F64(x) * F64(b.x)
-    s += F64(y) * F64(b.y)
+    var s = x.asF64 * b.x.asF64
+    s += y.asF64 * b.y.asF64
     return s
   }
 
@@ -82,6 +82,10 @@ public static func -(a: V2, s: Flt) -> V2 { return V2(a.x - s, a.y - s) }
 public static func *(a: V2, s: Flt) -> V2 { return V2(a.x * s, a.y * s) }
 public static func /(a: V2, s: Flt) -> V2 { return V2(a.x / s, a.y / s) }
 public static prefix func -(a: V2) -> V2 { return a * -1 }
+}
+
+
+extension V2: FloatVecType {
 
   public var allNormal: Bool { return x.isNormal && (y.isNormal) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite) }

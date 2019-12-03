@@ -38,24 +38,24 @@ extension V4: VecType, VecType4 {
   public static var unitZ: V4 { return V4(0, 0, 1, 0) }
   public static var unitW: V4 { return V4(0, 0, 0, 1) }
 
-  public var vs: V4S { return V4S(F32(x), F32(y), F32(z), F32(w)) }
-  public var vd: V4D { return V4D(F64(x), F64(y), F64(z), F64(w)) }
+  public var vs: V4S { return V4S(x.asF32, y.asF32, z.asF32, w.asF32) }
+  public var vd: V4D { return V4D(x.asF64, y.asF64, z.asF64, w.asF64) }
 
   public var sqrLen: F64 {
-    var s = F64(x.sqr)
-    s += F64(y.sqr)
-    s += F64(z.sqr)
-    s += F64(w.sqr)
+    var s = x.asF64.sqr
+    s += y.asF64.sqr
+    s += z.asF64.sqr
+    s += w.asF64.sqr
     return s
 }
 
-  public var aspect: F64 { return F64(x) / F64(y) }
+  public var aspect: F64 { return x.asF64 / y.asF64 }
 
   public func dot(_ b: V4) -> F64 {
-    var s = F64(x) * F64(b.x)
-    s += F64(y) * F64(b.y)
-    s += F64(z) * F64(b.z)
-    s += F64(w) * F64(b.w)
+    var s = x.asF64 * b.x.asF64
+    s += y.asF64 * b.y.asF64
+    s += z.asF64 * b.z.asF64
+    s += w.asF64 * b.w.asF64
     return s
   }
 
@@ -68,6 +68,10 @@ public static func -(a: V4, s: Flt) -> V4 { return V4(a.x - s, a.y - s, a.z - s,
 public static func *(a: V4, s: Flt) -> V4 { return V4(a.x * s, a.y * s, a.z * s, a.w * s) }
 public static func /(a: V4, s: Flt) -> V4 { return V4(a.x / s, a.y / s, a.z / s, a.w / s) }
 public static prefix func -(a: V4) -> V4 { return a * -1 }
+}
+
+
+extension V4: FloatVecType {
 
   public var allNormal: Bool { return x.isNormal && (y.isNormal && (z.isNormal && (w.isNormal))) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite && (z.isFinite && (w.isFinite))) }

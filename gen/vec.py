@@ -60,7 +60,7 @@ import simd\
   is_float = scalar.startswith('F')
   is_signed = not scalar.startswith('U')
 
-  where_clause = 'where Scalar: ArithmeticFloat ' if is_simd else ''
+  where_clause = 'where Scalar: ArithmeticProtocol ' if is_simd else ''
   outL('extension $: VecType, VecType$ ${', v_type, dim, where_clause)
 
   if not is_simd:
@@ -101,33 +101,33 @@ import simd\
       c.upper(), vi_type, v_type, jc('1' if d == c else '0' for d in comps))
 
   outL()
-  outL('  public var vs: V$S { return V$S($) }', dim, dim, jcf('F32($)', comps))
-  outL('  public var vd: V$D { return V$D($) }', dim, dim, jcf('F64($)', comps))
+  outL('  public var vs: V$S { return V$S($) }', dim, dim, jcf('$.asF32', comps))
+  outL('  public var vd: V$D { return V$D($) }', dim, dim, jcf('$.asF64', comps))
 
   outL()
   outL('  public var sqrLen: F64 {')
-  outL('    var s = F64(x.sqr)')
+  outL('    var s = x.asF64.sqr')
   for c in comps[1:]:
-    outL('    s += F64($.sqr)', c)
+    outL('    s += $.asF64.sqr', c)
   outL('    return s')
   outL('}')
 
   outL()
-  outL('  public var aspect: F64 { return F64(x) / F64(y) }')
+  outL('  public var aspect: F64 { return x.asF64 / y.asF64 }')
 
   # TODO: swizzles.
 
   outL()
   outL('  public func dot(_ b: $) -> F64 {', vi_type)
-  outL('    var s = F64(x) * F64(b.x)')
+  outL('    var s = x.asF64 * b.x.asF64')
   for c in comps[1:]:
-    outL('    s += F64($) * F64(b.$)', c, c)
+    outL('    s += $.asF64 * b.$.asF64', c, c)
   outL('    return s')
   outL('  }')
   outL()
 
   if scalar == 'U8':
-    outL('  public var toSPixel: VSType { return VSType($) }', jcf('F32($) / F32(0xFF)', comps))
+    outL('  public var toSPixel: VSType { return VSType($) }', jcf('$.asF32 / F32(0xFF)', comps))
 
   if not is_simd:
     for op in ops:
@@ -140,9 +140,9 @@ import simd\
     if is_signed:
       outL('public static prefix func -(a: $) -> $ { return a * -1 }', v_type, v_type)
 
-  if is_simd:
-    outL('}\n\n')
-    outL('extension $ where Scalar: ArithmeticFloat {', v_type)
+  outL('}\n\n')
+  where_clause = 'where Scalar: ArithmeticFloat ' if is_simd else ''
+  outL('extension $: FloatVecType ${', v_type, where_clause)
 
   outL('')
   outL('  public var allNormal: Bool { return $ }', jfra(' && ', '$.isNormal', comps))

@@ -49,22 +49,22 @@ extension V3: VecType, VecType3 {
   public static var unitY: V3 { return V3(0, 1, 0) }
   public static var unitZ: V3 { return V3(0, 0, 1) }
 
-  public var vs: V3S { return V3S(F32(x), F32(y), F32(z)) }
-  public var vd: V3D { return V3D(F64(x), F64(y), F64(z)) }
+  public var vs: V3S { return V3S(x.asF32, y.asF32, z.asF32) }
+  public var vd: V3D { return V3D(x.asF64, y.asF64, z.asF64) }
 
   public var sqrLen: F64 {
-    var s = F64(x.sqr)
-    s += F64(y.sqr)
-    s += F64(z.sqr)
+    var s = x.asF64.sqr
+    s += y.asF64.sqr
+    s += z.asF64.sqr
     return s
 }
 
-  public var aspect: F64 { return F64(x) / F64(y) }
+  public var aspect: F64 { return x.asF64 / y.asF64 }
 
   public func dot(_ b: V3) -> F64 {
-    var s = F64(x) * F64(b.x)
-    s += F64(y) * F64(b.y)
-    s += F64(z) * F64(b.z)
+    var s = x.asF64 * b.x.asF64
+    s += y.asF64 * b.y.asF64
+    s += z.asF64 * b.z.asF64
     return s
   }
 
@@ -77,6 +77,10 @@ public static func -(a: V3, s: Flt) -> V3 { return V3(a.x - s, a.y - s, a.z - s)
 public static func *(a: V3, s: Flt) -> V3 { return V3(a.x * s, a.y * s, a.z * s) }
 public static func /(a: V3, s: Flt) -> V3 { return V3(a.x / s, a.y / s, a.z / s) }
 public static prefix func -(a: V3) -> V3 { return a * -1 }
+}
+
+
+extension V3: FloatVecType {
 
   public var allNormal: Bool { return x.isNormal && (y.isNormal && (z.isNormal)) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite && (z.isFinite)) }
