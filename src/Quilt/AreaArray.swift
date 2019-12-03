@@ -64,10 +64,7 @@ public class AreaArray<Element>: Collection {
 
   public func resize(_ size: V2I, val: Element) {
     self.size = size
-    array.removeAll(keepingCapacity: true)
-    for _ in 0..<(size.x * size.y) {
-      array.append(val)
-    }
+    self.array = Array(repeating: val, count: size.x * size.y)
   }
 
   public func index(_ coord: V2I) -> Int {
