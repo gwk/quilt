@@ -46,10 +46,6 @@ public class AreaArray<Element>: Collection {
     return array.index(after: i)
   }
 
-  public func withBuffer<R>(_ body: (Buffer<Element>) -> R) -> R {
-    return array.withBuffer(body)
-  }
-
   public func allCoords(start: V2I, end: V2I, step: V2I = V2I(1, 1)) -> AreaIterator {
     return AreaIterator(start: start, end: end, step: step)
   }
@@ -121,6 +117,18 @@ public class AreaArray<Element>: Collection {
 
   public func mapToArea<R>(_ transform: (Element)->R) -> AreaArray<R> {
     return AreaArray<R>(size: size, seq: array.map(transform))
+  }
+
+
+  public func withBuffer<R>(_ body: (Buffer<Element>) -> R) -> R {
+    return array.withBuffer(body)
+  }
+
+
+  public func withMutRawPtr<R>(_ body: (MutRawPtr) -> R) -> R {
+    return array.withUnsafeMutableBytes {
+      return body($0.baseAddress!)
+    }
   }
 }
 
