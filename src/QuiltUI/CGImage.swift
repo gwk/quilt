@@ -14,6 +14,7 @@ extension CGImage {
     case png(path: Path)
   }
 
+  // Question mark icon.
   public static let missing: CGImage = CGImage.with(
     areaBuffer: AreaBuffer<U8>(size: V2I(8, 8), seq: [
       0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40,
