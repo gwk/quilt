@@ -51,10 +51,10 @@ extension V4: VecType, VecType4 {
   public var aspect: F64 { return F64(x) / F64(y) }
 
   public func dot(_ b: V4) -> F64 {
-    var s = F64(x * b.x)
-    s += F64(y * b.y)
-    s += F64(z * b.z)
-    s += F64(w * b.w)
+    var s = F64(x) * F64(b.x)
+    s += F64(y) * F64(b.y)
+    s += F64(z) * F64(b.z)
+    s += F64(w) * F64(b.w)
     return s }
 public static func +(a: V4, b: V4) -> V4 { return V4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) }
 public static func -(a: V4, b: V4) -> V4 { return V4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w) }

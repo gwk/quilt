@@ -61,9 +61,9 @@ extension V3: VecType, VecType3 {
   public var aspect: F64 { return F64(x) / F64(y) }
 
   public func dot(_ b: V3) -> F64 {
-    var s = F64(x * b.x)
-    s += F64(y * b.y)
-    s += F64(z * b.z)
+    var s = F64(x) * F64(b.x)
+    s += F64(y) * F64(b.y)
+    s += F64(z) * F64(b.z)
     return s }
 public static func +(a: V3, b: V3) -> V3 { return V3(a.x + b.x, a.y + b.y, a.z + b.z) }
 public static func -(a: V3, b: V3) -> V3 { return V3(a.x - b.x, a.y - b.y, a.z - b.z) }

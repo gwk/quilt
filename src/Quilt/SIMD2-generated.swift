@@ -63,8 +63,8 @@ extension SIMD2: VecType, VecType2 where Scalar: ArithmeticFloat {
   public var aspect: F64 { return F64(x) / F64(y) }
 
   public func dot(_ b: SIMD2<Scalar>) -> F64 {
-    var s = F64(x * b.x)
-    s += F64(y * b.y)
+    var s = F64(x) * F64(b.x)
+    s += F64(y) * F64(b.y)
     return s }
 
   public var allNormal: Bool { return x.isNormal && (y.isNormal) }

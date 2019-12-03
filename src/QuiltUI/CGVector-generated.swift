@@ -66,8 +66,8 @@ extension CGVector: VecType, VecType2 {
   public var aspect: F64 { return F64(x) / F64(y) }
 
   public func dot(_ b: CGVector) -> F64 {
-    var s = F64(x * b.x)
-    s += F64(y * b.y)
+    var s = F64(x) * F64(b.x)
+    s += F64(y) * F64(b.y)
     return s }
 public static func +(a: CGVector, b: CGVector) -> CGVector { return CGVector(a.x + b.x, a.y + b.y) }
 public static func -(a: CGVector, b: CGVector) -> CGVector { return CGVector(a.x - b.x, a.y - b.y) }

@@ -118,9 +118,9 @@ import simd\
 
   outL()
   outL('  public func dot(_ b: $) -> F64 {', vi_type)
-  outL('    var s = F64(x * b.x)')
+  outL('    var s = F64(x) * F64(b.x)')
   for c in comps[1:]:
-    outL('    s += F64($ * b.$)', c, c)
+    outL('    s += F64($) * F64(b.$)', c, c)
   outL('    return s }')
 
   if scalar == 'U8':
