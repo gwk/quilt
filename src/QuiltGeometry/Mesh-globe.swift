@@ -7,8 +7,8 @@ import QuiltSceneKit
 
 extension Mesh {
 
-  class func globe() -> Mesh {
-    // Returns a globe with vertex radius of 1.
+  public static var globeIcosahedralVertices: [V3] = { () in
+    // Returns 12 icosohedral vertices with radius of 1.
     // It is essentially an icosahedron, but differs from Mesh.icosahedron:
     // * The globe has "polar" vertices that are positioned at the -y and +y axes.
     // * It consists of five four-triangle strips, from south to north pole.
@@ -31,13 +31,10 @@ extension Mesh {
     let b7 = phi * y // 0.7236067977499789
     let c9 = 2 * y // 0.8944271909999159
 
-    let mesh = Mesh(name: "globe")
-    mesh.textures.append([])
-
     // Right-handed coordinate system. +Z is near (towards camera).
     // Each ring of five vertices is ordered clockwise.
     // The vertices with z=0 are labeled "head".
-    let v:[V3] = [
+    return [
       V3(  0,  1,  0), // 11. North pole.
       V3( c9,  y,  0), // 6. North head.
       V3( a3,  y, -m), // 10. North far arm.
@@ -51,23 +48,42 @@ extension Mesh {
       V3(-a3, -y, -m), // 2. South far arm.
       V3(  0, -1,  0), // 0. South pole.
     ]
+  }()
 
-    let stripIndices = [
-      [0, 2, 1,  9,  8, 11],
-      [0, 3, 2, 10,  9, 11],
-      [0, 4, 3,  6, 10, 11],
-      [0, 5, 4,  7,  6, 11],
-      [0, 1, 5,  8,  7, 11],
-    ]
 
-    for (i, indices) in stripIndices.enumerated() {
+  public static var globeStripIndices: [[Int]] = [
+    [0, 2, 1,  9,  8, 11],
+    [0, 3, 2, 10,  9, 11],
+    [0, 4, 3,  6, 10, 11],
+    [0, 5, 4,  7,  6, 11],
+    [0, 1, 5,  8,  7, 11],
+  ]
+
+
+  class func globe() -> Mesh {
+    // Returns a globe with vertex radius of 1.
+    // It is essentially an icosahedron, but differs from Mesh.icosahedron:
+    // * The globe has "polar" vertices that are positioned at the -y and +y axes.
+    // * It consists of five four-triangle strips, from south to north pole.
+    // * Each strip has independent vertices so that they can have different texture coordinates.
+
+    // From a standard icosahedron construction:
+    // Each icosahedron vertex is also the vertex of an axis-aligned golden rectangle.
+    // Compute the golden rectangle hypotenuse use that to normalize major and minor lengths so that we get a unit.
+
+    let mesh = Mesh(name: "globe")
+    mesh.textures.append([])
+
+    let v = Mesh.globeIcosahedralVertices
+
+    for (i, indices) in Mesh.globeStripIndices.enumerated() {
       let vi = mesh.vertexCount
       //let vo = indices.map({v[$0]}) // TEMP.
       //let c = (vo[0]+vo[1]+vo[2]+vo[3]+vo[4]+vo[5]).norm * 0.1 // TEMP.
       let vs = indices.map({v[$0]})
       mesh.positions.append(contentsOf: vs)
 
-      let uv_fudge_in: Flt = 0.01
+      let uv_fudge_in: Flt = 0
       let u0 = Flt(i) * 0.2 + uv_fudge_in
       let u1 = u0 + 0.2 - uv_fudge_in
       let ts = [
@@ -90,5 +106,4 @@ extension Mesh {
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }
-
 }
