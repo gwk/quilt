@@ -77,28 +77,40 @@ extension Mesh {
     let v = Mesh.globeIcosahedralVertices
 
     for (i, indices) in Mesh.globeStripIndices.enumerated() {
-      let vi = mesh.vertexCount
-      //let vo = indices.map({v[$0]}) // TEMP.
-      //let c = (vo[0]+vo[1]+vo[2]+vo[3]+vo[4]+vo[5]).norm * 0.1 // TEMP.
-      let vs = indices.map({v[$0]})
-      mesh.positions.append(contentsOf: vs)
 
+      // Position.
+      let positions = indices.map({v[$0]})
+      let vi = mesh.vertexCount
+      mesh.positions.append(contentsOf: positions)
+
+      // Texture.
       let uv_fudge_in: Flt = 0
       let u0 = Flt(i) * 0.2 + uv_fudge_in
       let u1 = u0 + 0.2 - uv_fudge_in
-      let ts = [
+      let texCoords = [
         V2(u0, 0.0), V2(u1, 0.0),
         V2(u0, 0.5), V2(u1, 0.5),
         V2(u0, 1.0), V2(u1, 1.0),
       ]
-      mesh.textures[0].append(contentsOf: ts)
+      mesh.textures[0].append(contentsOf: texCoords)
+
+      // Triangle.
       let tris = [
         Tri(vi+0, vi+2, vi+1),
         Tri(vi+1, vi+2, vi+3),
         Tri(vi+2, vi+4, vi+3),
         Tri(vi+3, vi+4, vi+5),
       ]
+      let ti = mesh.triangles.count
       mesh.triangles.append(contentsOf: tris)
+
+      // Adjacency.
+      let adjs = [
+        Adj(ti+0, ti+1),
+        Adj(ti+1, ti+2),
+        Adj(ti+2, ti+3),
+
+      ]
     }
     //mesh.addAllSegments()
     //mesh.segments.sort()

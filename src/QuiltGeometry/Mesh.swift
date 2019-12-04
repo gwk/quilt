@@ -412,6 +412,79 @@ class Mesh {
   }
 
 
+  func fillVerticalTextureStrip(dst: AreaArray<V4U8>, src: AreaArray<V4U8>, triRange: Range<Int>) {
+    //print(triangles[triRange])
+    let w = dst.size.x.asF64
+    let h = dst.size.y.asF64
+    for tri in triangles[triRange] {
+      // Left/right and bottom/top.
+      typealias PT = (p:V3, t:V2) // Position, Texture0.
+      let a: PT = (positions[tri.a], textures[0][tri.a])
+      let b: PT = (positions[tri.b], textures[0][tri.b])
+      let c: PT = (positions[tri.c], textures[0][tri.c])
+      // For now, assume top-down globe strips.
+      assert(a.p.y >= b.p.y)
+      assert(a.p.y > c.p.y)
+      assert(a.t.y < b.t.y)
+      assert(a.t.y <= c.t.y)
+      let lb: PT
+      let rb: PT
+      let lt: PT
+      let rt: PT
+      if a.t.x == b.t.x {
+        lb = a
+        rb = c
+        lt = b
+        rt = b
+      } else {
+        lb = a
+        rb = a
+        lt = b
+        rt = c
+      }
+      //print(tri)
+      //print(lb, rb)
+      //print(lt, rt)
+      assert(lb.t.x <= rb.t.x)
+      assert(lt.t.x <= rt.t.x)
+      assert(lb.t.y < lt.t.y)
+      assert(rb.t.y < rt.t.y)
+
+      // Iterate over the texture y axis from jl to jh.
+      let jl = lb.t.y.asF64 * h
+      let jh = lt.t.y.asF64 * h
+      let jd = jh - jl // Delta; length over iterated range.
+      for y in Int(round(jl))..<Int(round(jh)) { // Y is position in dst.
+        let t = (y.asF64+0.5 - jl) / jd // Interpolation fraction from jl to jh, for pixel center.
+        // Interpolate across the y axis to get left and right texture coords.
+        let l: PT = (p: lb.p.lerp(lt.p, t), t: lb.t.lerp(lt.t, t))
+        let r: PT = (p: rb.p.lerp(rt.p, t), t: rb.t.lerp(rt.t, t))
+        let il = l.t.x.asF64 * w
+        let ih = r.t.x.asF64 * w
+        let id = ih - il
+        for x in Int(round(il))..<Int(round(ih)) {
+          let s = (x.asF64+0.5 - il) / id // Interpolation fraction from il to ih, for pixel center.
+          let v: PT = (p: l.p.lerp(r.p, s), l.t.lerp(r.t, s))
+          // Convert to lon/lat and sample from the mercator image.
+          let xz = (v.p.x.sqr + v.p.z.sqr).sqrt
+          let lon = atan2(v.p.x, v.p.z)
+          let lat = atan2(v.p.y, xz)
+          let ulon = lon/(2*Flt.pi) + 0.5
+          let ulat = -lat/Flt.pi + 0.5
+          let samplePos = V2I(V2D(F64(ulon), F64(ulat)) * V2D(src.size))
+          let sample = src.el(samplePos)
+          #if false
+          let u8:U8 = v.t.x.clampToUnitAndConvertToU8
+          let v8:U8 = v.t.y.clampToUnitAndConvertToU8
+          let texPix = V4U8(u8, v8, u8, 0xff)
+          #endif
+          dst.setEl(V2I(x, y), sample)
+        }
+      }
+    }
+  }
+
+
   class func triangle() -> Mesh {
     // Two-sided triangle in the unit cube, with vertex radius of 1.
     let x: Flt = sqrt(3.0) * 0.5
