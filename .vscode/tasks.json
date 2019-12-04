@@ -2,21 +2,15 @@
   "version": "2.0.0",
   "type": "process",
   "tasks": [
-    { "taskName": "build",
+    { "label": "build",
+      "group": { "kind": "build", "isDefault": true },
+      "type": "shell",
       "command": "make",
       "args": ["build"],
-      "group": { "kind": "build", "isDefault": true },
-      "problemMatcher": "$craft"
-    },
-    { "taskName": "test-current",
-      "group": { "kind": "test", "isDefault": true },
-      "command": "craft-swift-utest",
-      "args": ["${relativeFile}"]
-    },
-    { "taskName": "test",
-      "command": "make",
-      "args": ["test"],
-      "problemMatcher": "$craft"
+      "problemMatcher": "$crafts",
+      "presentation": {
+        "showReuseMessage": false
+      }
     }
   ]
 }
