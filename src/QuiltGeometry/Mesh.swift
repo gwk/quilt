@@ -425,7 +425,7 @@ class Mesh {
       Tri(0, 1, 2),
       Tri(0, 2, 1),
     ]
-    // Note: we do not add adjacencies because there should technically be three of them.
+    // Note: we cannot add adjacencies because there should be three of them between the front and back faces.
     m.addNormalsFromOriginToPositions()
     return m
   }
