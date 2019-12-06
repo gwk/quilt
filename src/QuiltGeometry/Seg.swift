@@ -1,7 +1,7 @@
 // © 2017 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public struct Seg: CustomStringConvertible, Comparable {
+public struct Seg: CustomStringConvertible, Comparable, Hashable {
   public let a, b: Int // Not mutable to enforce ordering.
 
   public init(_ a: Int, _ b: Int) {
@@ -20,6 +20,7 @@ public struct Seg: CustomStringConvertible, Comparable {
   public func validate(vertexCount: Int) {
     precondition(a >= 0 && a < vertexCount)
     precondition(b >= 0 && b < vertexCount)
+    precondition(a < b)
   }
 
   public static func <(l: Seg, r: Seg) -> Bool {

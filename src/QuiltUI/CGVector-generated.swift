@@ -97,6 +97,13 @@ extension CGVector: FloatVecType {
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
 }
 
+extension CGVector: Comparable {
+  public static func <(a: CGVector, b: CGVector) -> Bool {
+    if a.x != b.x { return a.x < b.x }
+    return a.y < b.y
+  }
+}
+
 extension CGVector: CustomStringConvertible {
   public var description: String { return "CGVector(\(x), \(y))" }
 }

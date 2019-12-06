@@ -78,12 +78,12 @@ extension Mesh {
 
     for (i, indices) in Mesh.globeStripIndices.enumerated() {
 
-      // Position.
+      // Positions.
       let positions = indices.map({v[$0]})
       let vi = mesh.vertexCount
       mesh.positions.append(contentsOf: positions)
 
-      // Texture.
+      // Textures.
       let uv_fudge_in: Flt = 0
       let u0 = Flt(i) * 0.2 + uv_fudge_in
       let u1 = u0 + 0.2 - uv_fudge_in
@@ -94,27 +94,32 @@ extension Mesh {
       ]
       mesh.textures[0].append(contentsOf: texCoords)
 
-      // Triangle.
-      let tris = [
+      // Triangles.
+      let triangles = [
         Tri(vi+0, vi+2, vi+1),
         Tri(vi+1, vi+2, vi+3),
         Tri(vi+2, vi+4, vi+3),
         Tri(vi+3, vi+4, vi+5),
       ]
       let ti = mesh.triangles.count
-      mesh.triangles.append(contentsOf: tris)
+      mesh.triangles.append(contentsOf: triangles)
 
-      // Adjacency.
-      let adjs = [
-        Adj(ti+0, ti+1),
-        Adj(ti+1, ti+2),
-        Adj(ti+2, ti+3),
+      // Edges.
+      let edges = [
+        Edge(va: vi+0, vb: vi+2, tl: ti+0, tr: -1),
+        Edge(va: vi+2, vb: vi+4, tl: ti+2, tr: -1),
+        Edge(va: vi+4, vb: vi+5, tl: ti+3, tr: -1),
+        Edge(va: vi+5, vb: vi+3, tl: ti+3, tr: -1),
+        Edge(va: vi+3, vb: vi+1, tl: ti+1, tr: -1),
+        Edge(va: vi+1, vb: vi+0, tl: ti+0, tr: -1),
 
+        Edge(va: vi+1, vb: vi+2, tl: ti+1, tr: ti+0),
+        Edge(va: vi+2, vb: vi+3, tl: ti+1, tr: ti+2),
+        Edge(va: vi+3, vb: vi+4, tl: ti+3, tr: ti+2),
       ]
+      mesh.edges.append(contentsOf: edges)
     }
-    //mesh.addAllSegments()
-    //mesh.segments.sort()
-    //mesh.addTrianglesFromSegments()
+
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }

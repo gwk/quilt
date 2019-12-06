@@ -1,5 +1,6 @@
 // © 2014 George King. Permission to use this file is granted in license-quilt.txt.
 
+import CoreGraphics
 import SceneKit
 import Quilt
 import QuiltUI
@@ -11,6 +12,7 @@ enum GeomKind {
   case seg
   case tri
 }
+
 
 class Mesh {
   var name: String? = nil
@@ -30,13 +32,14 @@ class Mesh {
   var points: [Int] = []
   var segments: [Seg] = []
   var triangles: [Tri] = []
-  var adjacencies: [Adj] = []
+  var edges: [Edge] = []
 
   init(name: String? = nil) {
     self.name = name
   }
 
   var vertexCount: Int { return positions.count }
+
 
   func validate() {
     let vc = positions.count
@@ -48,13 +51,29 @@ class Mesh {
     for s in segments {
       s.validate(vertexCount: vc)
     }
-    for t in triangles {
+
+    var triHalfEdges = [HalfEdge:Int]()
+    for (ti, t) in triangles.enumerated() {
       t.validate(vertexCount: vc)
+      for he in t.halfEdges {
+        precondition(!triHalfEdges.contains(key: he))
+        triHalfEdges[he] = ti
+      }
     }
-    for a in adjacencies {
-      a.validate(triangleCount: triangles.count)
+    var edgeHalfEdges = [HalfEdge:Int]()
+    for (ei, e) in edges.enumerated() {
+      e.validate(vertexCount: vc, triangleCount: triangles.count)
+      for he in e.halfEdges {
+        precondition(triHalfEdges.contains(key: he))
+        precondition(!edgeHalfEdges.contains(key: he))
+        edgeHalfEdges[he] = ei
+      }
+    }
+    for (he, t) in triHalfEdges {
+      precondition(edgeHalfEdges.contains(key: he), "missing edge for triangle: \(t)")
     }
   }
+
 
   func addNormalsFromOriginToPositions() {
     assert(normals.isEmpty)
@@ -71,10 +90,11 @@ class Mesh {
     }
   }
 
-  func addColorsFromTextures(channel: Int = 0) {
+
+  func addColorsFromTexCoords(channel: Int = 0) {
     assert(colors.isEmpty)
     for tex in textures[channel] {
-      colors.append(V4(tex.x, tex.y, 0, 1))
+      colors.append(V4(tex.x, tex.y, tex.x, 1))
     }
   }
 
@@ -113,13 +133,14 @@ class Mesh {
   }
 
 
-  func addSegmentsFromAdjacencies() {
-    for a in adjacencies {
-      let t0 = triangles[a.a]
-      let t1 = triangles[a.b]
-      segments.append(t0.commonEdge(t1))
+  func addSegmentsFromEdges() {
+    for e in edges {
+      if e.va < e.vb {
+        segments.append(Seg(e.va, e.vb))
+      }
     }
   }
+
 
   func addAllSegments() {
     for i in 0..<positions.count {
@@ -334,117 +355,182 @@ class Mesh {
 
   func subdivide() -> Mesh {
     // Subdivide each triangle face into four subtriangles.
-    // This requires splitting each edge in half.
+    // The original vertices remain at their indices.
+    // For each original edge, a new midpoint vertex is added at vi = (vertexCount + origSegmentIndex).
+    // For each original triangle index ti, the new corner triangles are indexed (ti*4 + 0..<3).
+    // The new center triangle follows at (ti*4 + 3).
+    // Three new edges are added, for each side of the new center triangle, indexed at ti*3 + 0..<2.
+    // Each original edge gets split in two, indexed at tc*3 + ei*2 + 0..<1.
+
     assert(!positions.isEmpty)
     assert(!triangles.isEmpty)
-    assert(!adjacencies.isEmpty)
-    assert(!segments.isEmpty)
+    assert(!edges.isEmpty)
 
-    let s = Mesh()
-    s.positions = positions // Copy existing vertices.
-    s.normals = normals
-    s.triangles = Array(repeating: .invalid, count: triangles.count * 4)
+    let subdiv = Mesh()
+    subdiv.triangles = Array(repeating: .invalid, count: triangles.count * 4)
+    subdiv.positions = positions // Copy existing vertices.
+    subdiv.textures = textures
 
-    // For each triangle, begin filling in corner subtriangles and adjacencies.
-    for i in 0..<triangles.count {
-      let t = triangles[i]
-      let sub_ti = i * 4 // Subdivision triangles starting index.
-      let center_ti = sub_ti + 3 // The new center triangle comes last.
-      for q in 0..<3 {
-        let corner_ti = sub_ti + q // Corner triangle index.
-        // For each corner triangle, set the single existing vertex index now.
-        s.triangles[corner_ti][q] = t[q] // Corner sub triangles are indexed 0 to 2.
-        // Create the adjacency between corner and center triangles.
-        s.adjacencies.append(Adj(corner_ti, center_ti))
+    // Generate new edges for center triangles first.
+    for (ti, _) in triangles.enumerated() {
+      for i in 0..<3 {
+        subdiv.triangles[ti*4+i][i] = triangles[ti][i] // One corner of each corner triangle is the same as original.
+        subdiv.edges.append(Edge(va: -2, vb: -1, tl: ti*4+3, tr: ti*4+i))
+        // Create new edges, indexed around center triangle in order, so that we can fill them later.
+        // At this point they are all the same; order meaning is determined below.
       }
     }
 
-    // All remaining data is filled in by iterating over the original segments.
-    for ei in 0..<segments.count {
-      let e = segments[ei]
-      let a = adjacencies[ei]
+    // Generate new vertices and edges; fill in triangles gradually as we visit the edges.
+    for edge in edges {
+      let iva = edge.va
+      let ivb = edge.vb
+      let itl = edge.tl
+      let itr = edge.tr
+      let va = positions[iva]
+      let vb = positions[ivb]
 
-      let ti0 = a.a
-      let ti1 = a.b
-      let sti0 = ti0 * 4
-      let sti1 = ti1 * 4
+      // Create midpoint vertex.
+      let ivm = subdiv.positions.count
+      subdiv.positions.append(va.mid(vb))
 
-      let t0 = triangles[ti0]
-      let t1 = triangles[ti1]
-
-      let ((t0q, t0r), (t1q, t1r))  = t0.commonEdgeTriangleIndices(t1)
-
-      let vm = positions[e.a].mid(positions[e.b])
-      let vmi = s.positions.count // Midpoint vertex index.
-      s.positions.append(vm)
-      if !normals.isEmpty {
-        let nm = (normals[e.a] + normals[e.b]).norm
-        s.normals.append(nm)
+      // Matching texture coordinates.
+      for channel in 0..<textures.count {
+        let texA = textures[channel][iva]
+        let texB = textures[channel][ivb]
+        subdiv.textures[channel].append(texA.mid(texB))
       }
 
-      // center triangles touching vm.
-      s.triangles[sti0+3][t0q] = vmi
-      s.triangles[sti1+3][t1q] = vmi
+      let tl = triangles[itl]
+      // Intra-triangle vertex indices.
+      let tl_ia: Int = tl.triVertexIndex(meshVertexIndex: iva)
+      let tl_ib = (tl_ia+1) % 3
+      let tl_ic = (tl_ia+2) % 3
+      assert(tl.triVertexIndex(meshVertexIndex: ivb) == tl_ib)
+      // Subdivided triangle indices, which are ordered by original triangle vertex order.
+      let tla = itl*4 + tl_ia
+      let tlb = itl*4 + tl_ib
+      // Center triangle edge indices.
+      let ela = itl*3 + tl_ia
+      let elb = itl*3 + tl_ib
 
-      // corner triangles
-      s.triangles[sti0+t0q][t0r] = vmi
-      s.triangles[sti0+t0r][t0q] = vmi
-      s.triangles[sti1+t1q][t1r] = vmi
-      s.triangles[sti1+t1r][t1q] = vmi
+      // Find right-side indices if `tr` is set on original.
+      let tr_ia, tr_ib, tr_ic, tra, trb, era, erb: Int
+      if itr >= 0 {
+        let tr = triangles[itr]
+        tr_ia = tr.triVertexIndex(meshVertexIndex: iva)
+        tr_ib = (tr_ia+2) % 3 // +2 for reversed winding.
+        tr_ic = (tr_ia+1) % 3 // +1 for reversed winding.
+        assert(tr.triVertexIndex(meshVertexIndex: ivb) == tr_ib)
+        tra = itr*4 + tr_ia
+        trb = itr*4 + tr_ib
+        era = itr*3 + tr_ia
+        erb = itr*3 + tr_ib
+      } else {
+        tr_ia = -1
+        tr_ib = -1
+        tr_ic = -1
+        tra = -1
+        trb = -1
+        era = -1
+        erb = -1
+      }
+      let ea = Edge(va: iva, vb: ivm, tl: tla, tr: tra)
+      let eb = Edge(va: ivm, vb: ivb, tl: tlb, tr: trb)
+      subdiv.edges.append(ea)
+      subdiv.edges.append(eb)
 
-      // adjacencies
-      s.adjacencies.append(Adj(sti0 + t0q, sti1 + t1r))
-      s.adjacencies.append(Adj(sti0 + t0r, sti1 + t1q))
+      // Fill in referenced triangles and edges.
+
+      assertNegOrEq(subdiv.triangles[tla][tl_ia], ea.va)
+      assertNegOrEq(subdiv.triangles[tla][tl_ib], ea.vb)
+      assertNegOrEq(subdiv.triangles[tlb][tl_ia], eb.va)
+      assertNegOrEq(subdiv.triangles[tlb][tl_ib], eb.vb)
+      assert(subdiv.triangles[itl*4 + 3][tl_ic] < 0)
+
+      subdiv.triangles[tla][tl_ia] = ea.va
+      subdiv.triangles[tla][tl_ib] = ea.vb
+      subdiv.triangles[tlb][tl_ia] = eb.va
+      subdiv.triangles[tlb][tl_ib] = eb.vb
+      subdiv.triangles[itl*4 + 3][tl_ic] = ivm
+
+      assert(subdiv.edges[ela].vb == -1, "\(subdiv.edges[ela])")
+      assert(subdiv.edges[elb].va == -2, "\(subdiv.edges[elb])")
+      subdiv.edges[ela].vb = ivm
+      subdiv.edges[elb].va = ivm
+
+      if itr >= 0 {
+        assertNegOrEq(subdiv.triangles[tra][tr_ia], ea.va)
+        assertNegOrEq(subdiv.triangles[tra][tr_ib], ea.vb)
+        assertNegOrEq(subdiv.triangles[trb][tr_ia], eb.va)
+        assertNegOrEq(subdiv.triangles[trb][tr_ib], eb.vb)
+        assert(subdiv.triangles[itr*4 + 3][tr_ic] < 0)
+
+        subdiv.triangles[tra][tr_ia] = ea.va
+        subdiv.triangles[tra][tr_ib] = ea.vb
+        subdiv.triangles[trb][tr_ia] = eb.va
+        subdiv.triangles[trb][tr_ib] = eb.vb
+        subdiv.triangles[itr*4 + 3][tr_ic] = ivm
+
+        assert(subdiv.edges[era].va == -2)
+        assert(subdiv.edges[erb].vb == -1)
+        subdiv.edges[era].va = ivm
+        subdiv.edges[erb].vb = ivm
+      }
     }
 
-    for i in 0..<s.triangles.count {
-      var t = s.triangles[i]
-      t.fixIndexOrder()
-      s.triangles[i] = t
+    for i in 0..<subdiv.triangles.count {
+      subdiv.triangles[i].rotateIndicesToCanonical()
     }
+    subdiv.validate()
+    return subdiv
+  }
 
-    s.addSegmentsFromAdjacencies()
 
-    s.validate()
-    assert(s.positions.count == positions.count + segments.count)
-    assert(s.triangles.count == triangles.count * 4)
-    return s
+  func subdivide(steps: Int) -> Mesh {
+    var m = self
+    for step in 0..<steps {
+      print("SUBDIVISION ROUND", step)
+      m = m.subdivide()
+    }
+    return m
+  }
+
+
+  func subdivideToSphere(steps: Int = 1) -> Mesh {
+    let mesh = subdivide(steps: steps)
+    mesh.positions = mesh.positions.map { $0.norm }
+    if !self.normals.isEmpty && mesh.normals.isEmpty {
+      mesh.addNormalsFromOriginToPositions()
+    }
+    return mesh
   }
 
 
   func fillVerticalTextureStrip(dst: AreaArray<V4U8>, src: AreaArray<V4U8>, triRange: Range<Int>) {
-    //print(triangles[triRange])
+    print("FILL STRIP \(triRange)")
     let w = dst.size.x.asF64
     let h = dst.size.y.asF64
-    for tri in triangles[triRange] {
+    for var tri in triangles[triRange] {
+      tri.rotateIndicesToMinVertex(vertices: textures[0])
       // Left/right and bottom/top.
       typealias PT = (p:V3, t:V2) // Position, Texture0.
       let a: PT = (positions[tri.a], textures[0][tri.a])
       let b: PT = (positions[tri.b], textures[0][tri.b])
       let c: PT = (positions[tri.c], textures[0][tri.c])
       // For now, assume top-down globe strips.
-      assert(a.p.y >= b.p.y)
-      assert(a.p.y > c.p.y)
-      assert(a.t.y < b.t.y)
-      assert(a.t.y <= c.t.y)
-      let lb: PT
-      let rb: PT
-      let lt: PT
-      let rt: PT
+      let lb, rb, lt, rt: PT
       if a.t.x == b.t.x {
         lb = a
         rb = c
         lt = b
         rt = b
       } else {
-        lb = a
-        rb = a
-        lt = b
-        rt = c
+        lb = c
+        rb = c
+        lt = a
+        rt = b
       }
-      //print(tri)
-      //print(lb, rb)
-      //print(lt, rt)
       assert(lb.t.x <= rb.t.x)
       assert(lt.t.x <= rt.t.x)
       assert(lb.t.y < lt.t.y)
@@ -483,23 +569,10 @@ class Mesh {
       }
     }
   }
+}
 
 
-  class func triangle() -> Mesh {
-    // Two-sided triangle in the unit cube, with vertex radius of 1.
-    let x: Flt = sqrt(3.0) * 0.5
-    let m = Mesh(name: "triangle")
-    m.positions = [
-      V3(0, -1, 0),
-      V3( x, 0.5, 0),
-      V3(-x, 0.5, 0),
-    ]
-    m.triangles = [
-      Tri(0, 1, 2),
-      Tri(0, 2, 1),
-    ]
-    // Note: we cannot add adjacencies because there should be three of them between the front and back faces.
-    m.addNormalsFromOriginToPositions()
-    return m
-  }
+
+func assertNegOrEq(_ index: Int, _ expected: Int) {
+  assert(index < 0 || index == expected)
 }

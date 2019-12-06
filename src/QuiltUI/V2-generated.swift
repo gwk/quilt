@@ -98,6 +98,13 @@ extension V2: FloatVecType {
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
 }
 
+extension V2: Comparable {
+  public static func <(a: V2, b: V2) -> Bool {
+    if a.x != b.x { return a.x < b.x }
+    return a.y < b.y
+  }
+}
+
 extension V2: CustomStringConvertible {
   public var description: String { return "V2(\(x), \(y))" }
 }

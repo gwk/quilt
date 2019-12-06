@@ -11,35 +11,38 @@ extension Mesh {
     // returns a tetrahedron with vertex radius of 1.
     let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
     let mesh = Mesh(name: "tetrahedron")
+
     mesh.positions = [
-      V3(-r, -r, -r), // cube 0.
-      V3(-r,  r,  r), // cube 3.
-      V3( r, -r,  r), // cube 5.
-      V3( r,  r, -r), // cube 6.
-    ]
+      V3(-r, -r, -r), // Cube vertex index 0.
+      V3(-r,  r,  r), // Cube vertex index 3.
+      V3( r, -r,  r), // Cube vertex index 5.
+      V3( r,  r, -r)] // Cube vertex index 6.
+
     mesh.triangles = [
       Tri(0, 1, 3),
       Tri(0, 2, 1),
       Tri(0, 3, 2),
-      Tri(1, 2, 3),
-    ]
-    mesh.adjacencies = [
-      Adj(0, 1),
-      Adj(0, 2),
-      Adj(0, 3),
-      Adj(1, 2),
-      Adj(1, 3),
-      Adj(2, 3),
-    ]
-    mesh.addSegmentsFromAdjacencies()
+      Tri(1, 2, 3)]
+
+    mesh.edges = [
+      Edge(va: 0, vb: 1, tl: 0, tr: 1),
+      Edge(va: 0, vb: 2, tl: 1, tr: 2),
+      Edge(va: 0, vb: 3, tl: 2, tr: 0),
+      Edge(va: 1, vb: 2, tl: 3, tr: 1),
+      Edge(va: 1, vb: 3, tl: 0, tr: 3),
+      Edge(va: 2, vb: 3, tl: 3, tr: 2)]
+
+    mesh.addSegmentsFromEdges()
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }
+
 
   class func cube() -> Mesh {
     // returns a cube with vertex radius of 1.
     let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
     let mesh = Mesh(name: "cube")
+
     mesh.positions = [
       V3(-r, -r, -r),
       V3(-r, -r,  r),
@@ -48,8 +51,8 @@ extension Mesh {
       V3( r, -r, -r),
       V3( r, -r,  r),
       V3( r,  r, -r),
-      V3( r,  r,  r),
-    ]
+      V3( r,  r,  r)]
+
     mesh.segments = [
       Seg(0, 1),
       Seg(0, 2),
@@ -62,8 +65,8 @@ extension Mesh {
       Seg(4, 5),
       Seg(4, 6),
       Seg(5, 7),
-      Seg(6, 7),
-    ]
+      Seg(6, 7)]
+
     mesh.triangles = [
       Tri(0, 1, 3),
       Tri(0, 2, 6),
@@ -76,11 +79,32 @@ extension Mesh {
       Tri(2, 3, 7),
       Tri(2, 7, 6),
       Tri(4, 6, 7),
-      Tri(4, 7, 5),
-    ]
+      Tri(4, 7, 5)]
+
+    mesh.edges = [
+      Edge(va: 0, vb: 1, tl: 0, tr: 4),
+      Edge(va: 0, vb: 2, tl: 1, tr: 2),
+      Edge(va: 0, vb: 3, tl: 2, tr: 0),
+      Edge(va: 0, vb: 4, tl: 3, tr: 5),
+      Edge(va: 0, vb: 5, tl: 4, tr: 3),
+      Edge(va: 0, vb: 6, tl: 5, tr: 1),
+      Edge(va: 1, vb: 3, tl: 0, tr: 7),
+      Edge(va: 1, vb: 5, tl: 6, tr: 4),
+      Edge(va: 1, vb: 7, tl: 7, tr: 6),
+      Edge(va: 2, vb: 3, tl: 8, tr: 2),
+      Edge(va: 2, vb: 6, tl: 1, tr: 9),
+      Edge(va: 2, vb: 7, tl: 9, tr: 8),
+      Edge(va: 3, vb: 7, tl: 8, tr: 7),
+      Edge(va: 4, vb: 5, tl: 3, tr: 11),
+      Edge(va: 4, vb: 6, tl: 10, tr: 5),
+      Edge(va: 4, vb: 7, tl: 11, tr: 10),
+      Edge(va: 5, vb: 7, tl: 6, tr: 11),
+      Edge(va: 6, vb: 7, tl: 10, tr: 9)]
+
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }
+
 
   class func octahedron() -> Mesh {
     // returns an octahedron with vertex radius of 1.
@@ -91,8 +115,8 @@ extension Mesh {
       V3( 0,  0, -1),
       V3( 0,  0,  1),
       V3( 0,  1,  0),
-      V3( 1,  0,  0),
-    ]
+      V3( 1,  0,  0)]
+
     mesh.triangles = [
       Tri(0, 1, 3),
       Tri(0, 2, 1),
@@ -101,26 +125,27 @@ extension Mesh {
       Tri(1, 2, 5),
       Tri(1, 5, 3),
       Tri(2, 4, 5),
-      Tri(3, 5, 4),
-    ]
-    mesh.adjacencies = [
-      Adj(0, 1),
-      Adj(0, 2),
-      Adj(0, 5),
-      Adj(1, 3),
-      Adj(1, 4),
-      Adj(2, 3),
-      Adj(2, 7),
-      Adj(3, 6),
-      Adj(4, 5),
-      Adj(4, 6),
-      Adj(5, 7),
-      Adj(6, 7),
-    ]
-    mesh.addSegmentsFromAdjacencies()
+      Tri(3, 5, 4)]
+
+    mesh.edges = [
+      Edge(va: 0, vb: 1, tl: 0, tr: 1),
+      Edge(va: 0, vb: 2, tl: 1, tr: 3),
+      Edge(va: 0, vb: 3, tl: 2, tr: 0),
+      Edge(va: 0, vb: 4, tl: 3, tr: 2),
+      Edge(va: 1, vb: 2, tl: 4, tr: 1),
+      Edge(va: 1, vb: 3, tl: 0, tr: 5),
+      Edge(va: 1, vb: 5, tl: 5, tr: 4),
+      Edge(va: 2, vb: 4, tl: 6, tr: 3),
+      Edge(va: 2, vb: 5, tl: 4, tr: 6),
+      Edge(va: 3, vb: 4, tl: 2, tr: 7),
+      Edge(va: 3, vb: 5, tl: 7, tr: 5),
+      Edge(va: 4, vb: 5, tl: 6, tr: 7)]
+
+    mesh.addSegmentsFromEdges()
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }
+
 
   class func dodecahedron() -> Mesh {
     // returns a dodecahedron with vertex radius of 1.
@@ -131,6 +156,7 @@ extension Mesh {
     let m: Flt = r * phi // major.
     let n: Flt = r / phi // minor.
     let mesh = Mesh(name: "dodecahedron")
+
     mesh.positions = [
       V3(-m, -n,  0),
       V3(-m,  n,  0),
@@ -151,8 +177,8 @@ extension Mesh {
       V3( r,  r, -r),
       V3( r,  r,  r),
       V3( m, -n,  0),
-      V3( m,  n,  0),
-    ]
+      V3( m,  n,  0)]
+
     mesh.segments = [
       Seg(0, 1),
       Seg(0, 2),
@@ -183,8 +209,8 @@ extension Mesh {
       Seg(15, 18),
       Seg(16, 19),
       Seg(17, 19),
-      Seg(18, 19),
-    ]
+      Seg(18, 19)]
+
     mesh.triangles = [
       Tri(0, 1, 4),
       Tri(0, 2, 8),
@@ -221,11 +247,68 @@ extension Mesh {
       Tri(12, 19, 18),
       Tri(13, 15, 18),
       Tri(13, 18, 19),
-      Tri(13, 19, 17),
-    ]
+      Tri(13, 19, 17)]
+
+    mesh.edges = [
+      Edge(va: 0, vb: 1, tl: 0, tr: 4),
+      Edge(va: 0, vb: 2, tl: 1, tr: 5),
+      Edge(va: 0, vb: 3, tl: 2, tr: 8),
+      Edge(va: 0, vb: 4, tl: 3, tr: 0),
+      Edge(va: 0, vb: 5, tl: 4, tr: 6),
+      Edge(va: 0, vb: 6, tl: 5, tr: 3),
+      Edge(va: 0, vb: 7, tl: 6, tr: 2),
+      Edge(va: 0, vb: 8, tl: 7, tr: 1),
+      Edge(va: 0, vb: 9, tl: 8, tr: 7),
+      Edge(va: 1, vb: 4, tl: 0, tr: 10),
+      Edge(va: 1, vb: 5, tl: 9, tr: 4),
+      Edge(va: 1, vb: 10, tl: 10, tr: 11),
+      Edge(va: 1, vb: 11, tl: 11, tr: 9),
+      Edge(va: 2, vb: 6, tl: 12, tr: 5),
+      Edge(va: 2, vb: 8, tl: 1, tr: 14),
+      Edge(va: 2, vb: 12, tl: 13, tr: 12),
+      Edge(va: 2, vb: 14, tl: 14, tr: 13),
+      Edge(va: 3, vb: 7, tl: 2, tr: 16),
+      Edge(va: 3, vb: 9, tl: 15, tr: 8),
+      Edge(va: 3, vb: 13, tl: 16, tr: 17),
+      Edge(va: 3, vb: 15, tl: 17, tr: 15),
+      Edge(va: 4, vb: 6, tl: 3, tr: 19),
+      Edge(va: 4, vb: 10, tl: 18, tr: 10),
+      Edge(va: 4, vb: 12, tl: 19, tr: 20),
+      Edge(va: 4, vb: 16, tl: 20, tr: 18),
+      Edge(va: 5, vb: 7, tl: 21, tr: 6),
+      Edge(va: 5, vb: 11, tl: 9, tr: 23),
+      Edge(va: 5, vb: 13, tl: 22, tr: 21),
+      Edge(va: 5, vb: 17, tl: 23, tr: 22),
+      Edge(va: 6, vb: 12, tl: 12, tr: 19),
+      Edge(va: 7, vb: 13, tl: 21, tr: 16),
+      Edge(va: 8, vb: 9, tl: 7, tr: 25),
+      Edge(va: 8, vb: 14, tl: 24, tr: 14),
+      Edge(va: 8, vb: 15, tl: 25, tr: 26),
+      Edge(va: 8, vb: 18, tl: 26, tr: 24),
+      Edge(va: 9, vb: 15, tl: 15, tr: 25),
+      Edge(va: 10, vb: 11, tl: 27, tr: 11),
+      Edge(va: 10, vb: 16, tl: 18, tr: 29),
+      Edge(va: 10, vb: 17, tl: 28, tr: 27),
+      Edge(va: 10, vb: 19, tl: 29, tr: 28),
+      Edge(va: 11, vb: 17, tl: 27, tr: 23),
+      Edge(va: 12, vb: 14, tl: 13, tr: 31),
+      Edge(va: 12, vb: 16, tl: 30, tr: 20),
+      Edge(va: 12, vb: 18, tl: 31, tr: 32),
+      Edge(va: 12, vb: 19, tl: 32, tr: 30),
+      Edge(va: 13, vb: 15, tl: 33, tr: 17),
+      Edge(va: 13, vb: 17, tl: 22, tr: 35),
+      Edge(va: 13, vb: 18, tl: 34, tr: 33),
+      Edge(va: 13, vb: 19, tl: 35, tr: 34),
+      Edge(va: 14, vb: 18, tl: 24, tr: 31),
+      Edge(va: 15, vb: 18, tl: 33, tr: 26),
+      Edge(va: 16, vb: 19, tl: 30, tr: 29),
+      Edge(va: 17, vb: 19, tl: 28, tr: 35),
+      Edge(va: 18, vb: 19, tl: 34, tr: 32)]
+
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }
+
 
   class func icosahedron() -> Mesh {
     // returns an icosahedron with vertex radius of 1.
@@ -248,63 +331,63 @@ extension Mesh {
       V3( n,  0, -m),
       V3( n,  0,  m),
       V3( m, -n,  0), // northeast.
-      V3( m,  n,  0), // north.
-    ]
+      V3( m,  n,  0)] // north.
+
     mesh.triangles = [
-      Tri(0, 1, 2),
-      Tri(0, 2, 4),
-      Tri(0, 3, 1),
-      Tri(0, 4, 5),
-      Tri(0, 5, 3),
-      Tri(1, 3, 7),
-      Tri(1, 6, 2),
-      Tri(1, 7, 6),
-      Tri(2, 6, 8),
-      Tri(2, 8, 4),
-      Tri(3, 5, 9), // index 10.
-      Tri(3, 9, 7),
-      Tri(4, 8, 10),
-      Tri(4, 10, 5),
-      Tri(5, 10, 9),
-      Tri(6, 7, 11),
-      Tri(6, 11, 8),
-      Tri(7, 9, 11),
+      Tri(0,  1,  2),
+      Tri(0,  2,  4),
+      Tri(0,  3,  1),
+      Tri(0,  4,  5),
+      Tri(0,  5,  3),
+      Tri(1,  3,  7),
+      Tri(1,  6,  2),
+      Tri(1,  7,  6),
+      Tri(2,  6,  8),
+      Tri(2,  8,  4),
+      Tri(3,  5,  9), // index 10.
+      Tri(3,  9,  7),
+      Tri(4,  8, 10),
+      Tri(4, 10,  5),
+      Tri(5, 10,  9),
+      Tri(6,  7, 11),
+      Tri(6, 11,  8),
+      Tri(7,  9, 11),
       Tri(8, 11, 10),
-      Tri(9, 10, 11),
-    ]
-    mesh.adjacencies = [
-      Adj(0, 1),
-      Adj(0, 2),
-      Adj(0, 6),
-      Adj(1, 3),
-      Adj(1, 9),
-      Adj(2, 4),
-      Adj(2, 5),
-      Adj(3, 4),
-      Adj(3, 13),
-      Adj(4, 10),
-      Adj(5, 7),
-      Adj(5, 11),
-      Adj(6, 7),
-      Adj(6, 8),
-      Adj(7, 15),
-      Adj(8, 9),
-      Adj(8, 16),
-      Adj(9, 12),
-      Adj(10, 11),
-      Adj(10, 14),
-      Adj(11, 17),
-      Adj(12, 13),
-      Adj(12, 18),
-      Adj(13, 14),
-      Adj(14, 19),
-      Adj(15, 16),
-      Adj(15, 17),
-      Adj(16, 18),
-      Adj(17, 19),
-      Adj(18, 19),
-    ]
-    mesh.addSegmentsFromAdjacencies()
+      Tri(9, 10, 11)]
+
+    mesh.edges = [
+      Edge(va: 0, vb: 1, tl: 0, tr: 2),
+      Edge(va: 0, vb: 2, tl: 1, tr: 0),
+      Edge(va: 0, vb: 3, tl: 2, tr: 4),
+      Edge(va: 0, vb: 4, tl: 3, tr: 1),
+      Edge(va: 0, vb: 5, tl: 4, tr: 3),
+      Edge(va: 1, vb: 2, tl: 0, tr: 6),
+      Edge(va: 1, vb: 3, tl: 5, tr: 2),
+      Edge(va: 1, vb: 6, tl: 6, tr: 7),
+      Edge(va: 1, vb: 7, tl: 7, tr: 5),
+      Edge(va: 2, vb: 4, tl: 1, tr: 9),
+      Edge(va: 2, vb: 6, tl: 8, tr: 6),
+      Edge(va: 2, vb: 8, tl: 9, tr: 8),
+      Edge(va: 3, vb: 5, tl: 10, tr: 4),
+      Edge(va: 3, vb: 7, tl: 5, tr: 11),
+      Edge(va: 3, vb: 9, tl: 11, tr: 10),
+      Edge(va: 4, vb: 5, tl: 3, tr: 13),
+      Edge(va: 4, vb: 8, tl: 12, tr: 9),
+      Edge(va: 4, vb: 10, tl: 13, tr: 12),
+      Edge(va: 5, vb: 9, tl: 10, tr: 14),
+      Edge(va: 5, vb: 10, tl: 14, tr: 13),
+      Edge(va: 6, vb: 7, tl: 15, tr: 7),
+      Edge(va: 6, vb: 8, tl: 8, tr: 16),
+      Edge(va: 6, vb: 11, tl: 16, tr: 15),
+      Edge(va: 7, vb: 9, tl: 17, tr: 11),
+      Edge(va: 7, vb: 11, tl: 15, tr: 17),
+      Edge(va: 8, vb: 10, tl: 12, tr: 18),
+      Edge(va: 8, vb: 11, tl: 18, tr: 16),
+      Edge(va: 9, vb: 10, tl: 19, tr: 14),
+      Edge(va: 9, vb: 11, tl: 17, tr: 19),
+      Edge(va: 10, vb: 11, tl: 19, tr: 18)]
+
+    mesh.addSegmentsFromEdges()
     mesh.addNormalsFromOriginToPositions()
     return mesh
   }

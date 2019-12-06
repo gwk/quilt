@@ -40,7 +40,8 @@ import simd\
   else: v_prev = f'{v_type[:-1]}{dim-1}'
 
 
-  needs_comparable = args.alias.startswith('SCNVector')
+  needs_equatable = args.alias.startswith('SCNVector')
+  needs_comparable = not is_simd
   needs_convertible = not is_simd
   needs_codable = False # TODO
 
@@ -175,10 +176,8 @@ import simd\
     errFL('TODO: Decodable')
 
 
-  if needs_comparable:
-
-    outL('extension $: Equatable, Comparable {', v_type)
-
+  if needs_equatable:
+    outL('extension $: Equatable {', v_type)
     outL('  public static func ==(a: $, b: $) -> Bool {', v_type, v_type)
     for i, c in enumerate(comps, 1):
       if i < len(comps):
@@ -194,6 +193,12 @@ import simd\
       else:
         outL('    return a.$ != b.$', c, c)
     outL('  }')
+    outL('}\n')
+
+
+  if needs_comparable:
+
+    outL('extension $: Comparable {', v_type)
 
     outL('  public static func <(a: $, b: $) -> Bool {', v_type, v_type)
     for i, c in enumerate(comps, 1):

@@ -92,7 +92,7 @@ extension V4: FloatVecType {
   }
 }
 
-extension V4: Equatable, Comparable {
+extension V4: Equatable {
   public static func ==(a: V4, b: V4) -> Bool {
     if a.x != b.x { return false }
     if a.y != b.y { return false }
@@ -105,6 +105,9 @@ extension V4: Equatable, Comparable {
     if a.z == b.z { return false }
     return a.w != b.w
   }
+}
+
+extension V4: Comparable {
   public static func <(a: V4, b: V4) -> Bool {
     if a.x != b.x { return a.x < b.x }
     if a.y != b.y { return a.y < b.y }
