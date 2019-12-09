@@ -84,9 +84,8 @@ extension Mesh {
       mesh.positions.append(contentsOf: positions)
 
       // Textures.
-      let uv_fudge_in: Flt = 0
-      let u0 = Flt(i) * 0.2 + uv_fudge_in
-      let u1 = u0 + 0.2 - uv_fudge_in
+      let u0 = Flt(i) * 0.2
+      let u1 = u0 + 0.2
       let texCoords = [
         V2(u0, 0.0), V2(u1, 0.0),
         V2(u0, 0.5), V2(u1, 0.5),
