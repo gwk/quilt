@@ -31,6 +31,10 @@ extension BinaryInteger {
     return String(Array(a.reversed()))
   }
 
+  public var sign: FloatingPointSign { return self < 0 ? .minus : .plus }
+
+  public var signedUnit: Self { return self < 0 ? -1 : 1 }
+
   public func decimal(width: Int = 0) -> String { return self.repr(radix: 10, width: width) }
 
   public func hex(width: Int = 0) -> String { return self.repr(radix: 16, width: width) }
