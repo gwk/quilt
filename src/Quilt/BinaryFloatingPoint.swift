@@ -11,6 +11,13 @@ extension BinaryFloatingPoint {
   public var floor: Self { return Darwin.floor(self) }
   public var rnd: Self { return self.rounded() }
 
+  public var asF32: F32 { return F32(self) }
+  public var asF64: F64 { return F64(self) }
+  public var asInt: Int { return Int(self) }
+  public var asRoundedInt: Int { return Int(self.rounded()) }
+
+  public var signedUnit: Self { return self < 0 ? -1 : 1 }
+
   public var clampToUnit: Self {
     if self <= 0 { return 0 }
     if self >= 1 { return 1 }
