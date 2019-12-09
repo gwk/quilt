@@ -27,6 +27,7 @@ extension SIMD4: VecType, VecType4 where Scalar: ArithmeticProtocol {
   }
 
   public static var scalarCount: Int { return 4 }
+  public static var zero: Self { return Self.init() }
 
   public static var unitX: SIMD4<Scalar> { return SIMD4(1, 0, 0, 0) }
   public static var unitY: SIMD4<Scalar> { return SIMD4(0, 1, 0, 0) }

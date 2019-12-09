@@ -48,6 +48,7 @@ extension SIMD2: VecType, VecType2 where Scalar: ArithmeticProtocol {
   }
 
   public static var scalarCount: Int { return 2 }
+  public static var zero: Self { return Self.init() }
 
   public static var unitX: SIMD2<Scalar> { return SIMD2(1, 0) }
   public static var unitY: SIMD2<Scalar> { return SIMD2(0, 1) }

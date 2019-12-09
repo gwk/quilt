@@ -39,6 +39,7 @@ extension SIMD3: VecType, VecType3 where Scalar: ArithmeticProtocol {
   }
 
   public static var scalarCount: Int { return 3 }
+  public static var zero: Self { return Self.init() }
 
   public static var unitX: SIMD3<Scalar> { return SIMD3(1, 0, 0) }
   public static var unitY: SIMD3<Scalar> { return SIMD3(0, 1, 0) }

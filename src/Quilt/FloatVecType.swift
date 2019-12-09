@@ -25,3 +25,17 @@ extension FloatVecType {
 
   public func mid(_ b: Self) -> Self { return (self + b) / 2 }
 }
+
+
+extension Sequence where Element: FloatVecType {
+
+  public func mean() -> Element.VDType {
+    var sum:Element.VDType = .zero
+    var count = 0
+    for el in self {
+      sum = sum + el.vd
+      count += 1
+    }
+    return sum / count.asF64
+  }
+}

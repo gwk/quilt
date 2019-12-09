@@ -26,6 +26,7 @@ import simd\
 
   v_type = args.type
   is_simd = v_type.startswith('SIMD')
+  is_scn = args.alias.startswith('SCNVector')
 
   vi_type = v_type + '<Scalar>' if is_simd else v_type
 
@@ -39,8 +40,8 @@ import simd\
   elif is_simd: v_prev = f'SIMD{dim-1}<Scalar>'
   else: v_prev = f'{v_type[:-1]}{dim-1}'
 
-
-  needs_equatable = args.alias.startswith('SCNVector')
+  needs_zero = is_simd or is_scn
+  needs_equatable = is_scn
   needs_comparable = not is_simd
   needs_convertible = not is_simd
   needs_codable = False # TODO
@@ -95,6 +96,9 @@ import simd\
 
   outL()
   outL('  public static var scalarCount: Int { return $ }', dim)
+
+  if needs_zero:
+    outL('  public static var zero: Self { return Self.init() }')
 
   outL()
   for c in comps:

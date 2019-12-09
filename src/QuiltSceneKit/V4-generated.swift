@@ -32,6 +32,7 @@ extension V4: VecType, VecType4 {
   }
 
   public static var scalarCount: Int { return 4 }
+  public static var zero: Self { return Self.init() }
 
   public static var unitX: V4 { return V4(1, 0, 0, 0) }
   public static var unitY: V4 { return V4(0, 1, 0, 0) }

@@ -44,6 +44,7 @@ extension V3: VecType, VecType3 {
   }
 
   public static var scalarCount: Int { return 3 }
+  public static var zero: Self { return Self.init() }
 
   public static var unitX: V3 { return V3(1, 0, 0) }
   public static var unitY: V3 { return V3(0, 1, 0) }

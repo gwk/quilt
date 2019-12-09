@@ -8,8 +8,11 @@ public protocol VecType: Equatable, CustomStringConvertible {
   associatedtype VSType: FloatVecType where VSType.Scalar == F32
   associatedtype VDType: FloatVecType where VDType.Scalar == F64
 
+  init()
   init(_ v: VSType)
   init(_ v: VDType)
+
+  static var zero: Self { get }
 
   static var scalarCount: Int { get }
 
