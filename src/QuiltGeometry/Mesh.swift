@@ -489,8 +489,7 @@ class Mesh {
 
   func subdivide(steps: Int) -> Mesh {
     var m = self
-    for step in 0..<steps {
-      print("SUBDIVISION ROUND", step)
+    for _ in 0..<steps {
       m = m.subdivide()
     }
     return m
@@ -507,65 +506,112 @@ class Mesh {
   }
 
 
-  func fillVerticalTextureStrip(dst: AreaArray<V4U8>, src: AreaArray<V4U8>, triRange: Range<Int>) {
-    print("FILL STRIP \(triRange)")
-    let w = dst.size.x.asF64
+  func rangesFor(triangleGrid: Range<Int>, texSize: V2I) -> (ClosedRange<Int>, ClosedRange<Int>) {
+
+    func validatedTexCoordRange(indices: Set<Int>, axis: Int, size: Int) -> ClosedRange<Int> {
+      let els = Set(indices.map { self.textures[0][$0][axis] }).sorted()
+      let scale = Flt(size)
+      let intEls = els.map { ($0 * scale).asRoundedInt }
+      let r = intEls.closedRange()!
+      assert(intEls == Array(r))
+      return r
+    }
+
+    let indices = Set(triangleGrid.flatMap { triangles[$0].vertexIndices })
+    let rtx = validatedTexCoordRange(indices: indices, axis: 0, size: texSize.x)
+    let rty = validatedTexCoordRange(indices: indices, axis: 1, size: texSize.y)
+    print(rtx, rty)
+    return (rtx, rty)
+  }
+
+
+  func fillTritexture(triangleGrid: Range<Int>, src: AreaArray<V4U8>, dst: AreaArray<V4U8>) {
+
+    // Convert to lon/lat and sample from the mercator image.
+    func sampleMercator(_ p0: V3, _ p1: V3, _ p2: V3) -> V4U8 {
+      let p = (p0 + p1 + p2) / 3.0 // For now, just sample centroid. We should iterate over all source pixels and average.
+      let xz = (p.x.sqr + p.z.sqr).sqrt
+      let lon = atan2(p.x, p.z)
+      let lat = atan2(p.y, xz)
+      let ulon = lon/(2*Flt.pi) + 0.5
+      let ulat = -lat/Flt.pi + 0.5
+      let samplePos = V2I(V2D(F64(ulon), F64(ulat)) * V2D(src.size))
+      return src.el(samplePos)
+    }
+
+    let tritexDoubleX = 2
+    let w = (dst.size.x / tritexDoubleX).asF64
     let h = dst.size.y.asF64
-    for var tri in triangles[triRange] {
-      tri.rotateIndicesToMinVertex(vertices: textures[0])
-      // Left/right and bottom/top.
+    for var tri in triangles[triangleGrid] {
+      tri.rotateIndicesToMinVertex(vertices: textures[0]) // A becomes the lowest index by texture U,V.
       typealias PT = (p:V3, t:V2) // Position, Texture0.
       let a: PT = (positions[tri.a], textures[0][tri.a])
       let b: PT = (positions[tri.b], textures[0][tri.b])
       let c: PT = (positions[tri.c], textures[0][tri.c])
-      // For now, assume top-down globe strips.
-      let lb, rb, lt, rt: PT
-      if a.t.x == b.t.x {
-        lb = a
-        rb = c
-        lt = b
-        rt = b
-      } else {
-        lb = c
-        rb = c
-        lt = a
-        rt = b
+      // Assuming a top-down texture V axis, and only two right triangle orientations `left` and `right`: slope is always -1.
+      // Left: | a-c | Right: |  /b |
+      //       | b/  |        | a-c |
+      // Call the vertex at the right angle corner `medial`, and the other at the same horizontal V value `distal`. The remaining vertex is `tip`.
+      let isLeft = (a.t.x == b.t.x)
+      let tip, medial, distal: PT // Base vertices.
+      if isLeft { // Top/low/left triangle.
+        assert(a.t.x < c.t.x)
+        assert(a.t.y < b.t.y)
+        tip = b
+        medial = a
+        distal = c
+      } else { // Bottom/high/right triangle.
+        assert(a.t.x < b.t.x)
+        assert(b.t.y > c.t.y)
+        tip = c
+        medial = b
+        distal = a
       }
-      assert(lb.t.x <= rb.t.x)
-      assert(lt.t.x <= rt.t.x)
-      assert(lb.t.y < lt.t.y)
-      assert(rb.t.y < rt.t.y)
+      assert(medial.t.x == tip.t.x)
+      assert(medial.t.y == distal.t.y)
 
-      // Iterate over the texture y axis from jl to jh.
-      let jl = lb.t.y.asF64 * h
-      let jh = lt.t.y.asF64 * h
-      let jd = jh - jl // Delta; length over iterated range.
-      for y in Int(round(jl))..<Int(round(jh)) { // Y is position in dst.
-        let t = (y.asF64+0.5 - jl) / jd // Interpolation fraction from jl to jh, for pixel center.
-        // Interpolate across the y axis to get left and right texture coords.
-        let l: PT = (p: lb.p.lerp(lt.p, t), t: lb.t.lerp(lt.t, t))
-        let r: PT = (p: rb.p.lerp(rt.p, t), t: rb.t.lerp(rt.t, t))
-        let il = l.t.x.asF64 * w
-        let ih = r.t.x.asF64 * w
-        let id = ih - il
-        for x in Int(round(il))..<Int(round(ih)) {
-          let s = (x.asF64+0.5 - il) / id // Interpolation fraction from il to ih, for pixel center.
-          let v: PT = (p: l.p.lerp(r.p, s), l.t.lerp(r.t, s))
-          // Convert to lon/lat and sample from the mercator image.
-          let xz = (v.p.x.sqr + v.p.z.sqr).sqrt
-          let lon = atan2(v.p.x, v.p.z)
-          let lat = atan2(v.p.y, xz)
-          let ulon = lon/(2*Flt.pi) + 0.5
-          let ulat = -lat/Flt.pi + 0.5
-          let samplePos = V2I(V2D(F64(ulon), F64(ulat)) * V2D(src.size))
-          let sample = src.el(samplePos)
-          #if false
-          let u8:U8 = v.t.x.clampToUnitAndConvertToU8
-          let v8:U8 = v.t.y.clampToUnitAndConvertToU8
-          let texPix = V4U8(u8, v8, u8, 0xff)
-          #endif
-          dst.setEl(V2I(x, y), sample)
+      let kl = isLeft ? 0 : 1
+      let kr = isLeft ? 1 : 0
+      // Iterate over the V axis from tip to base, using scaled up tex coords that we can round to int steps.
+      let tipV = tip.t.y.asF64 * h
+      let baseV = medial.t.y.asF64 * h
+      let deltaV = baseV - tipV // Delta. This is negative for left triangles.
+      let dstOffV = (deltaV > 0) ? -1 : 0
+      let nextV = tipV + deltaV.signedUnit // Step towards base.
+      var row0: [V3] = [tip.p]
+
+      for v in signedClosedRange(nextV.asRoundedInt, baseV.asRoundedInt) {
+        let t = (v.asF64 - tipV) / deltaV // Interpolation fraction from tip to base, for pixel `y` top edge.
+        // Interpolate across the V axis to get medial and distal vertices.
+        let row_medial: PT = (p: tip.p.lerp(medial.p, t), t: tip.t.lerp(medial.t, t))
+        let row_distal: PT = (p: tip.p.lerp(distal.p, t), t: tip.t.lerp(distal.t, t))
+        let medialU = row_medial.t.x.asF64 * w
+        let distalU = row_distal.t.x.asF64 * w
+        let deltaU = distalU - medialU
+        let dstOffU = (deltaU > 0) ? -1 : 0
+        let nextU = medialU + deltaU.signedUnit
+        var row1: [V3] = [row_medial.p]
+
+        for (i, u) in signedClosedRange(nextU.asRoundedInt, distalU.asRoundedInt).enumerated() {
+          let dstU = (u+dstOffU) * tritexDoubleX
+          let dstV = v+dstOffV
+          let p0M = row0[i]
+          let p1M = row1.last!
+          let s = (u.asF64 - medialU) / deltaU // Interpolation fraction from medial to distal, for pixel `x` right edge.
+          let p1D = row_medial.p.lerp(row_distal.p, s)
+          row1.append(p1D)
+          let sampleL = sampleMercator(p0M, p1M, p1D)
+          assert(dst.el(V2I(dstU+kl, dstV)).w == 0x00)
+          dst.setEl(V2I(dstU+kl, dstV), sampleL)
+          let j = i + 1
+          if j < row0.count { // Also sample right tritexel.
+            let p0D = row0[j]
+            let sampleR = sampleMercator(p0M, p0D, p1D)
+            assert(dst.el(V2I(dstU+kr, dstV)).w == 0x00)
+            dst.setEl(V2I(dstU+kr, dstV), sampleR)
+          }
         }
+        row0 = row1
       }
     }
   }
