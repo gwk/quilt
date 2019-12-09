@@ -28,15 +28,15 @@ public struct Tri: CustomStringConvertible, Hashable {
         case 0: return a
         case 1: return b
         case 2: return c
-        default: fatalError("Tri index out of range: \(index)")
+        default: fatalError("Tri subscript index out of range: \(index).")
         }
       }
-      set(newValue) {
+      set {
         switch index {
         case 0: a = newValue
         case 1: b = newValue
         case 2: c = newValue
-        default: fatalError("Tri index out of range: \(index)")
+        default: fatalError("Tri subscript index out of range: \(index).")
         }
       }
   }
@@ -44,6 +44,8 @@ public struct Tri: CustomStringConvertible, Hashable {
   public var description: String { return "Tri(\(a), \(b), \(c))" }
 
   public var swizzled: Tri { return Tri(a, c, b) }
+
+  public var vertexIndices: [Int] { return [a, b, c] }
 
 
   public var halfEdges: [HalfEdge] {
@@ -71,7 +73,7 @@ public struct Tri: CustomStringConvertible, Hashable {
     a = d
   }
 
-  
+
   mutating func rotateIndicesRev() {
     let d = a
     a = b
