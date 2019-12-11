@@ -366,7 +366,7 @@ class Mesh {
     assert(!triangles.isEmpty)
     assert(!edges.isEmpty)
 
-    let subdiv = Mesh()
+    let subdiv = Mesh(name: self.name)
     subdiv.triangles = Array(repeating: .invalid, count: triangles.count * 4)
     subdiv.positions = positions // Copy existing vertices.
     subdiv.textures = textures
