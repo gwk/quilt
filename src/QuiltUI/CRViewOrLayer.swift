@@ -27,52 +27,52 @@ public protocol CRViewOrLayer: class {
 
 extension CRViewOrLayer {
 
-  var o: CGPoint {
+  public var o: CGPoint {
     get { return frame.origin }
     set { frame.origin = newValue }
   }
 
-  var s: CGSize {
+  public var s: CGSize {
     get { return frame.size }
     set { frame.size = newValue }
   }
 
-  var x: CGFloat {
+  public var x: CGFloat {
     get { return frame.origin.x }
     set { frame.origin.x = newValue }
   }
 
-  var y: CGFloat {
+  public var y: CGFloat {
     get { return frame.origin.y }
     set { frame.origin.y = newValue }
   }
 
-  var w: CGFloat {
+  public var w: CGFloat {
     get { return frame.size.width }
     set { frame.size.width = newValue }
   }
 
-  var h: CGFloat {
+  public var h: CGFloat {
     get { return frame.size.height }
     set { frame.size.height = newValue }
   }
 
-  var l: CGFloat {
+  public var l: CGFloat {
     get { return frame.origin.x }
     set { frame.origin.x = newValue }
   }
 
-  var t: CGFloat {
+  public var t: CGFloat {
     get { return frame.origin.y }
     set { frame.origin.y = newValue }
   }
 
-  var r: CGFloat {
+  public var r: CGFloat {
     get { return x + w }
     set { x = newValue - w }
   }
 
-  var b: CGFloat {
+  public var b: CGFloat {
     get { return y + h }
     set { y = newValue - h }
   }

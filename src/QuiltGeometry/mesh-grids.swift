@@ -4,7 +4,7 @@ import QuiltUI
 import QuiltSceneKit
 
 
-func gridCage(_ divisions: Int, barRatio: Flt = 1 / 32) -> Mesh {
+public func gridCage(_ divisions: Int, barRatio: Flt = 1 / 32) -> Mesh {
   let m = Mesh(name: "gridCage")
   let steps = divisions + 1
   let steps_f = Flt(steps)

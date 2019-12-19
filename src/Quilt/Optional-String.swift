@@ -3,7 +3,7 @@
 
 extension Optional where Wrapped == String {
 
-  var repr: String {
+  public var repr: String {
     if let val = self {
       return val.repr
     } else {

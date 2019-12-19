@@ -9,7 +9,7 @@ import QuiltSceneKit
 
 extension Mesh {
 
-  class func triangle() -> Mesh {
+  public class func triangle() -> Mesh {
     // One-sided triangle in the XY plane, with vertex radius of 1.
     let x: Flt = sqrt(3.0) * 0.5
     let m = Mesh(name: "triangle")
@@ -35,7 +35,7 @@ extension Mesh {
   }
 
 
-  class func quad() -> Mesh {
+  public class func quad() -> Mesh {
     // Square in the XY plane, with side length 1.
     let m = Mesh(name: "quad")
 

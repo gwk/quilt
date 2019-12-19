@@ -60,7 +60,7 @@ extension Mesh {
   ]
 
 
-  class func globe() -> Mesh {
+  public class func globe() -> Mesh {
     // Returns a globe with vertex radius of 1.
     // It is essentially an icosahedron, but differs from Mesh.icosahedron:
     // * The globe has "polar" vertices that are positioned at the -y and +y axes.

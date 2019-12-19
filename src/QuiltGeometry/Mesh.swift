@@ -7,41 +7,41 @@ import QuiltUI
 import QuiltSceneKit
 
 
-enum GeomKind {
+public enum GeomKind {
   case point(size: CGFloat = 1.0, minSSRad: CGFloat = 0.1, maxSSRad: CGFloat = 1000.0)
   case seg
   case tri
 }
 
 
-class Mesh {
-  var name: String? = nil
-  var positions: [V3] = []
-  var normals: [V3] = []
-  var colors: [V4] = []
-  var textures: [[V2]] = []
+public class Mesh {
+  public var name: String? = nil
+  public var positions: [V3] = []
+  public var normals: [V3] = []
+  public var colors: [V4] = []
+  public var textures: [[V2]] = []
   #if false // TODO: implement creases.
-  var vertexCreases: [F32] = []
-  var edgeCreases: [F32] = []
+  public var vertexCreases: [F32] = []
+  public var edgeCreases: [F32] = []
   #endif
   #if false // TODO: implement BoneIndices.
-  var boneWeights: [V4] = []
-  var boneIndices: [BoneIndices] = []
+  public var boneWeights: [V4] = []
+  public var boneIndices: [BoneIndices] = []
   #endif
 
-  var points: [Int] = []
-  var segments: [Seg] = []
-  var triangles: [Tri] = []
-  var edges: [Edge] = []
+  public var points: [Int] = []
+  public var segments: [Seg] = []
+  public var triangles: [Tri] = []
+  public var edges: [Edge] = []
 
-  init(name: String? = nil) {
+  public init(name: String? = nil) {
     self.name = name
   }
 
   var vertexCount: Int { return positions.count }
 
 
-  func validate() {
+  public func validate() {
     let vc = positions.count
     precondition(normals.isEmpty || normals.count == vc)
     precondition(colors.isEmpty || colors.count == vc)
@@ -75,14 +75,15 @@ class Mesh {
   }
 
 
-  func addNormalsFromOriginToPositions() {
+  public func addNormalsFromOriginToPositions() {
     assert(normals.isEmpty)
     for pos in positions {
       normals.append(pos.norm)
     }
   }
 
-  func addColorsFromPositions() {
+
+  public func addColorsFromPositions() {
     assert(colors.isEmpty)
     for pos in positions {
       let color3 = (pos * 0.5 + 0.5).clampToUnit
@@ -91,7 +92,7 @@ class Mesh {
   }
 
 
-  func addColorsFromTexCoords(channel: Int = 0) {
+  public func addColorsFromTexCoords(channel: Int = 0) {
     assert(colors.isEmpty)
     for tex in textures[channel] {
       colors.append(V4(tex.x, tex.y, tex.x, 1))
@@ -99,30 +100,30 @@ class Mesh {
   }
 
 
-  func addAllPoints() {
+  public func addAllPoints() {
     points.append(contentsOf: 0..<positions.count)
   }
 
-  func addPoint(_ i: Int) {
+  public func addPoint(_ i: Int) {
     points.append(i)
   }
 
-  func addSeg(_ a: Int, _ b: Int) {
+  public func addSeg(_ a: Int, _ b: Int) {
     segments.append(Seg(a, b))
   }
 
-  func addSeg(_ a: V3, _ b: V3) { // TODO: rename?
+  public func addSeg(_ a: V3, _ b: V3) { // TODO: rename?
     let i = positions.count
     positions.append(a)
     positions.append(b)
     addSeg(i, i + 1)
   }
 
-  func addTri(_ a: Int, _ b: Int, _ c: Int) {
+  public func addTri(_ a: Int, _ b: Int, _ c: Int) {
     triangles.append(Tri(a, b, c))
   }
 
-  func addQuad(_ a: V3, _ b: V3, _ c: V3, _ d: V3) { // TODO: rename?
+  public func addQuad(_ a: V3, _ b: V3, _ c: V3, _ d: V3) { // TODO: rename?
     let i = positions.count
     positions.append(a)
     positions.append(b)
@@ -133,7 +134,7 @@ class Mesh {
   }
 
 
-  func addSegmentsFromEdges() {
+  public func addSegmentsFromEdges() {
     for e in edges {
       if e.va < e.vb {
         segments.append(Seg(e.va, e.vb))
@@ -142,7 +143,7 @@ class Mesh {
   }
 
 
-  func addAllSegments() {
+  public func addAllSegments() {
     for i in 0..<positions.count {
       for j in (i + 1)..<positions.count {
         segments.append(Seg(i, j))
@@ -150,7 +151,7 @@ class Mesh {
     }
   }
 
-  func addAllSegmentsLessThan(length: Flt) {
+  public func addAllSegmentsLessThan(length: Flt) {
     for (i, a) in positions.enumerated() {
       for j in (i + 1)..<positions.count {
         let b = positions[j]
@@ -162,7 +163,7 @@ class Mesh {
     }
   }
 
-  func addTrianglesFromSegments() {
+  public func addTrianglesFromSegments() {
     for (i, s) in segments.enumerated() {
       for j in (i + 1)..<segments.count {
         let t = segments[j]
@@ -194,12 +195,12 @@ class Mesh {
   }
 
 
-  func faceNormal(tri: Tri) -> V3 {
+  public func faceNormal(tri: Tri) -> V3 {
     return (positions[tri.a] + positions[tri.b] + positions[tri.c]).norm
   }
 
 
-  func geometry(kinds: [GeomKind] = [.tri]) -> SCNGeometry {
+  public func geometry(kinds: [GeomKind] = [.tri]) -> SCNGeometry {
 
     let len = positions.count
 
@@ -353,7 +354,7 @@ class Mesh {
   }
 
 
-  func subdivide() -> Mesh {
+  public func subdivide() -> Mesh {
     // Subdivide each triangle face into four subtriangles.
     // The original vertices remain at their indices.
     // For each original edge, a new midpoint vertex is added at vi = (vertexCount + origSegmentIndex).
@@ -487,7 +488,7 @@ class Mesh {
   }
 
 
-  func subdivide(steps: Int) -> Mesh {
+  public func subdivide(steps: Int) -> Mesh {
     var m = self
     for _ in 0..<steps {
       m = m.subdivide()
@@ -496,7 +497,7 @@ class Mesh {
   }
 
 
-  func subdivideToSphere(steps: Int = 1) -> Mesh {
+  public func subdivideToSphere(steps: Int = 1) -> Mesh {
     let mesh = subdivide(steps: steps)
     mesh.positions = mesh.positions.map { $0.norm }
     if !self.normals.isEmpty && mesh.normals.isEmpty {
@@ -506,7 +507,7 @@ class Mesh {
   }
 
 
-  func rangesFor(triangleGrid: Range<Int>, texSize: V2I) -> (ClosedRange<Int>, ClosedRange<Int>) {
+  public func rangesFor(triangleGrid: Range<Int>, texSize: V2I) -> (ClosedRange<Int>, ClosedRange<Int>) {
 
     func validatedTexCoordRange(indices: Set<Int>, axis: Int, size: Int) -> ClosedRange<Int> {
       let els = Set(indices.map { self.textures[0][$0][axis] }).sorted()
@@ -525,7 +526,7 @@ class Mesh {
   }
 
 
-  func fillTritexture(triangleGrid: Range<Int>, src: AreaArray<V4U8>, dst: AreaArray<V4U8>) {
+  public func fillTritexture(triangleGrid: Range<Int>, src: AreaArray<V4U8>, dst: AreaArray<V4U8>) {
 
     // Convert to lon/lat and sample from the mercator image.
     func sampleMercator(_ p0: V3, _ p1: V3, _ p2: V3) -> V4U8 {

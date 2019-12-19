@@ -44,7 +44,7 @@ extension String {
     self.init(char: " ", count: indent * 2)
   }
 
-  var repr: String {
+  public var repr: String {
     var r = "\""
     for char in unicodeScalars {
       switch char {

@@ -7,7 +7,7 @@ import QuiltSceneKit
 
 extension Mesh {
 
-  class func tetrahedron() -> Mesh {
+  public class func tetrahedron() -> Mesh {
     // returns a tetrahedron with vertex radius of 1.
     let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
     let mesh = Mesh(name: "tetrahedron")
@@ -38,7 +38,7 @@ extension Mesh {
   }
 
 
-  class func cube() -> Mesh {
+  public class func cube() -> Mesh {
     // returns a cube with vertex radius of 1.
     let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
     let mesh = Mesh(name: "cube")
@@ -106,7 +106,7 @@ extension Mesh {
   }
 
 
-  class func octahedron() -> Mesh {
+  public class func octahedron() -> Mesh {
     // returns an octahedron with vertex radius of 1.
     let mesh = Mesh(name: "octahedron")
     mesh.positions = [
@@ -147,7 +147,7 @@ extension Mesh {
   }
 
 
-  class func dodecahedron() -> Mesh {
+  public class func dodecahedron() -> Mesh {
     // returns a dodecahedron with vertex radius of 1.
     let r: Flt = sqrt(1.0 / 3.0) // radius of cube insphere.
     let phi: Flt = (1 + sqrt(5)) * 0.5 // golden ratio.
@@ -310,7 +310,7 @@ extension Mesh {
   }
 
 
-  class func icosahedron() -> Mesh {
+  public class func icosahedron() -> Mesh {
     // returns an icosahedron with vertex radius of 1.
     let phi: Flt = (1 + sqrt(5)) * 0.5 // golden ratio.
     // each vertex is also the vertex of an axis-aligned golden rectangle.

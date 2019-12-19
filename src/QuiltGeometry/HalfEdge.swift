@@ -2,7 +2,7 @@
 
 
 public struct HalfEdge: Comparable, Hashable {
-  let va, vb: Int
+  public let va, vb: Int
 
   public static func <(l: HalfEdge, r: HalfEdge) -> Bool {
     if (l.va == r.va) {

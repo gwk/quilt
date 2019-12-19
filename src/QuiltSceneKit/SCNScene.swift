@@ -5,7 +5,7 @@ import SceneKit
 
 extension SCNScene {
 
-  func togglePaused() {
+  public func togglePaused() {
     isPaused = !isPaused
   }
 }

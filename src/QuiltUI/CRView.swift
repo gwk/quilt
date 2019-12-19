@@ -168,7 +168,7 @@ extension CRView {
   }
 
   #if os(OSX)
-    func setNeedsDisplay() { needsDisplay = true }
+    public func setNeedsDisplay() { needsDisplay = true }
   #endif
 
 

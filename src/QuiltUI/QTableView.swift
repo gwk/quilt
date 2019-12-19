@@ -4,11 +4,11 @@ import AppKit
 import Quilt
 
 
-class QTableView: NSScrollView {
+open class QTableView: NSScrollView {
 
   override public var isFlipped: Bool { return true }
 
-  required init?(coder: NSCoder) { super.init(coder: coder) }
+  public required init?(coder: NSCoder) { super.init(coder: coder) }
 
   // MARK: QTableView
 
@@ -16,7 +16,7 @@ class QTableView: NSScrollView {
 
   var docView: QView { return documentView as! QView }
 
-  init(frame: CGRect = .frameInit, delegate: QTableSource) {
+  public init(frame: CGRect = .frameInit, delegate: QTableSource) {
     self.delegate = delegate
     super.init(frame: frame)
     documentView = QView(frame: frame)
@@ -30,7 +30,7 @@ class QTableView: NSScrollView {
     }
   }
 
-  func reload() {
+  public func reload() {
     docView.removeAllSubviews()
     var index: Int = 0
     var height: Flt = 0
@@ -51,7 +51,7 @@ class QTableView: NSScrollView {
 }
 
 
-protocol QTableSource: class {
+public protocol QTableSource: class {
 
   var rowCount: Int?  { get } // a value of nil indicates that rows will be produced in a stream until exhausted.
 
@@ -68,7 +68,7 @@ protocol QTableSource: class {
 }
 
 
-extension QTableSource {
+public extension QTableSource {
 
   var rowCount: Int? { return nil }
 
