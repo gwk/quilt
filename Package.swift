@@ -20,8 +20,9 @@ let package = Package(
     .library(name: "QuiltTest", type: .dynamic, targets: ["QuiltTest"])
   ],
   targets: [
-    .target(name: "Py",
-      swiftSettings: [.unsafeFlags(["-enable-library-evolution"])]),
+    .target(name: "Py"
+      //swiftSettings: [.unsafeFlags(["-enable-library-evolution"])]
+    ),
 
     .target(name: "Quilt"),
     .target(name: "QuiltGeometry",  dependencies: ["Quilt", "QuiltUI", "QuiltSceneKit"]),
