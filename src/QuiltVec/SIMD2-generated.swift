@@ -3,6 +3,7 @@
 
 import Darwin
 import simd
+import QuiltArithmetic
 
 
 extension SIMD2: VecType, VecType2 where Scalar: ArithmeticProtocol {

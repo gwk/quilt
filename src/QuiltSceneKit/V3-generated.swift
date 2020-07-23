@@ -3,8 +3,9 @@
 
 import Darwin
 import simd
+import QuiltArithmetic
 import SceneKit
-import Quilt
+import QuiltVec
 import QuiltUI
 
 

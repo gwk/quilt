@@ -5,25 +5,25 @@ import Foundation
 
 public protocol IntegerInitable {
   init(_ v: Int)
-  init(_ v: Uns)
-  init(_ v: I8)
-  init(_ v: U8)
-  init(_ v: I16)
-  init(_ v: U16)
-  init(_ v: I32)
-  init(_ v: U32)
-  init(_ v: I64)
-  init(_ v: U64)
+  init(_ v: UInt)
+  init(_ v: Int8)
+  init(_ v: UInt8)
+  init(_ v: Int16)
+  init(_ v: UInt16)
+  init(_ v: Int32)
+  init(_ v: UInt32)
+  init(_ v: Int64)
+  init(_ v: UInt64)
 }
 
 
 extension Int: IntegerInitable {}
-extension Uns: IntegerInitable {}
-extension I8: IntegerInitable {}
-extension U8: IntegerInitable {}
-extension I16: IntegerInitable {}
-extension U16: IntegerInitable {}
-extension I32: IntegerInitable {}
-extension U32: IntegerInitable {}
-extension I64: IntegerInitable {}
-extension U64: IntegerInitable {}
+extension UInt: IntegerInitable {}
+extension Int8: IntegerInitable {}
+extension UInt8: IntegerInitable {}
+extension Int16: IntegerInitable {}
+extension UInt16: IntegerInitable {}
+extension Int32: IntegerInitable {}
+extension UInt32: IntegerInitable {}
+extension Int64: IntegerInitable {}
+extension UInt64: IntegerInitable {}

@@ -3,6 +3,8 @@
 import CoreGraphics
 import Foundation
 import Quilt
+import QuiltArithmetic
+import QuiltRandom
 
 
 public typealias Flt = CGFloat

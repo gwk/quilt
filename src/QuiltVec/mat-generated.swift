@@ -3,6 +3,7 @@
 
 import simd
 import simd.matrix
+import QuiltArithmetic
 
 
 public typealias M2S = float2x2

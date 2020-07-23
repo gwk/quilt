@@ -3,8 +3,11 @@
 import CoreGraphics
 import SceneKit
 import Quilt
+import QuiltArea
+import QuiltArithmetic
 import QuiltUI
 import QuiltSceneKit
+import QuiltVec
 
 
 public enum GeomKind {

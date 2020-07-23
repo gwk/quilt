@@ -4,6 +4,10 @@
 # Python.
 __pycache__
 
+# Swift.
+.build/
+.swiftpm/
+
 # Quilt.
-_build
-_misc
+_build/
+_misc/

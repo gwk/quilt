@@ -3,8 +3,9 @@
 
 import Darwin
 import simd
+import QuiltArithmetic
 import CoreGraphics
-import Quilt
+import QuiltVec
 
 
 public typealias V2 = CGPoint

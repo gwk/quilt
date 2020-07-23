@@ -1,12 +1,14 @@
 
 import Darwin
+import QuiltArithmetic
+
 
 public class OSNoise2 {
 
   public typealias Flt = Double
 
-  static let stretchFactor: Flt = (1.0 / 3.0.sqrt - 1.0 ) / 2.0
-  static let squishFactor: Flt  = (3.0.sqrt - 1.0) / 2.0
+  static let stretchFactor: Flt = (1.0 / sqrt(3.0) - 1.0 ) / 2.0
+  static let squishFactor: Flt  = (sqrt(3.0) - 1.0) / 2.0
   static let normFactor: Flt = 47.0
 
   // The vector gradients approximate the directions to the vertices of an octagon from the center.

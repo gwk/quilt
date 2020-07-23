@@ -3,6 +3,8 @@
 import Foundation
 
 
+public typealias Action = () -> ()
+
 public let processorCount = sysconf(_SC_NPROCESSORS_CONF)
 
 

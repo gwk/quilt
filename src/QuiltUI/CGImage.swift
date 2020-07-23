@@ -3,6 +3,9 @@
 import CoreGraphics
 import Foundation
 import Quilt
+import QuiltArea
+import QuiltArithmetic
+import QuiltVec
 
 
 extension CGImage {

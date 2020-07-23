@@ -10,7 +10,7 @@ extension BinaryInteger {
     let radix_ = Self(radix)
     if self == 0 {
       let count = Swift.max(0, width - 1)
-      return String(char: pad, count: count) + "0"
+      return String(repeating: pad, count: count) + "0"
     }
     var a = [Character]()
     let isNeg = (self < 0)

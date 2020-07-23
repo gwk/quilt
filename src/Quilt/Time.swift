@@ -3,7 +3,7 @@
 import Foundation
 
 
-public typealias Time = F64
+public typealias Time = Double
 
 extension Time {
  public static var distantFuture: Time {

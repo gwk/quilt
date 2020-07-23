@@ -112,6 +112,7 @@ if __name__ == '__main__':
 
 import simd
 import simd.matrix
+import QuiltArithmetic
 
 ''')
 

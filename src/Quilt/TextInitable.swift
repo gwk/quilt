@@ -42,15 +42,15 @@ public protocol TextInitable {
 }
 
 extension Int: TextInitableIntegerType, TextInitable {}
-extension Uns: TextInitableIntegerType, TextInitable {}
-extension I8: TextInitableIntegerType, TextInitable {}
-extension U8: TextInitableIntegerType, TextInitable {}
-extension I16: TextInitableIntegerType, TextInitable {}
-extension U16: TextInitableIntegerType, TextInitable {}
-extension I32: TextInitableIntegerType, TextInitable {}
-extension U32: TextInitableIntegerType, TextInitable {}
-extension I64: TextInitableIntegerType, TextInitable {}
-extension U64: TextInitableIntegerType, TextInitable {}
+extension UInt: TextInitableIntegerType, TextInitable {}
+extension Int8: TextInitableIntegerType, TextInitable {}
+extension UInt8: TextInitableIntegerType, TextInitable {}
+extension Int16: TextInitableIntegerType, TextInitable {}
+extension UInt16: TextInitableIntegerType, TextInitable {}
+extension Int32: TextInitableIntegerType, TextInitable {}
+extension UInt32: TextInitableIntegerType, TextInitable {}
+extension Int64: TextInitableIntegerType, TextInitable {}
+extension UInt64: TextInitableIntegerType, TextInitable {}
 
 extension String: TextInitable {
   public init(text: String, pos: String.Index, end: String.Index, line: Int, col: Int) throws {

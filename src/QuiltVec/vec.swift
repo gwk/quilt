@@ -3,6 +3,8 @@
 
 import Foundation
 import simd
+import QuiltArithmetic
+
 
 public typealias V2S = SIMD2<F32>
 public typealias V2D = SIMD2<F64>

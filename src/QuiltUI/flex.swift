@@ -9,6 +9,7 @@
 #endif
 
 import Quilt
+import QuiltArithmetic
 
 
 public protocol FlexProtocol: OptionSet where Self.Element == Self {

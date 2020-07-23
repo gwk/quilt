@@ -1,5 +1,7 @@
 // © 2019 George King. Permission to use this file is granted in license-quilt.txt.
 
+import QuiltArithmetic
+
 
 public protocol FloatVecType: VecType where Scalar: ArithmeticFloat {
 

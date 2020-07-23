@@ -2,6 +2,7 @@
 
 import CoreGraphics
 import Quilt
+import QuiltVec
 
 
 extension CGSize {

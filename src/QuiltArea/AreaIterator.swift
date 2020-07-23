@@ -1,5 +1,7 @@
 // © 2015 George King. Permission to use this file is granted in license.txt.
 
+import QuiltVec
+
 
 public struct AreaIterator: Sequence, IteratorProtocol {
   public typealias Element = V2I

@@ -1,5 +1,9 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
+import QuiltArithmetic
+import Quilt
+import QuiltVec
+
 
 public class AreaArray<Element>: Collection {
 

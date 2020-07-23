@@ -9,12 +9,12 @@ extension SCNGeometryElement {
 
   public convenience init<C: Collection>(indices: C, vertexCount: Int, primitiveType: SCNGeometryPrimitiveType) where C.Element == Int {
     // TODO: make vertexCount optional; if nil, calculate indices.max.
-    if vertexCount <= U16.max {
-      self.init(indices: indices.map { U16($0) }, primitiveType: primitiveType)
-    } else  if vertexCount < U32.max {
-      self.init(indices: indices.map { U32($0) }, primitiveType: primitiveType)
+    if vertexCount <= UInt16.max {
+      self.init(indices: indices.map { UInt16($0) }, primitiveType: primitiveType)
+    } else  if vertexCount < UInt32.max {
+      self.init(indices: indices.map { UInt32($0) }, primitiveType: primitiveType)
     } else {
-      fatalError("vertexCount exceeded U32.max: \(vertexCount)")
+      fatalError("vertexCount exceeded UInt32.max: \(vertexCount)")
     }
   }
 }

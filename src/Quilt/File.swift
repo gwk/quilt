@@ -35,7 +35,7 @@ public class File: CustomStringConvertible, TextOutputStream {
     case write
     case writeNoTruncate
 
-    var flags: I32 {
+    var flags: Int32 {
       switch self {
       case .append: return O_WRONLY | O_APPEND
       case .eventNotification: return O_EVTONLY
@@ -72,9 +72,9 @@ public class File: CustomStringConvertible, TextOutputStream {
 
   public struct Options: OptionSet {
 
-    public let rawValue: I32
+    public let rawValue: Int32
 
-    public init(rawValue: I32) { self.rawValue = rawValue }
+    public init(rawValue: Int32) { self.rawValue = rawValue }
 
     public static let exclusiveCreate = O_EXCL // error if O_CREAT and the file exists. TODO: move to Mode?
     public static let nonblocking = O_NONBLOCK

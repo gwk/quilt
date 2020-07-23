@@ -2,9 +2,10 @@
 
 import CoreGraphics
 import Quilt
+import QuiltVec
 
 
 extension V2S {
-  public init(_ p: CGPoint) { self.init(F32(p.x), F32(p.y)) }
-  public init(_ s: CGSize) { self.init(F32(s.width), F32(s.height)) }
+  public init(_ p: CGPoint) { self.init(Float(p.x), Float(p.y)) }
+  public init(_ s: CGSize) { self.init(Float(s.width), Float(s.height)) }
 }

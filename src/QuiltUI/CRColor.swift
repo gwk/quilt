@@ -9,6 +9,8 @@
 #endif
 
 import Quilt
+import QuiltArithmetic
+import QuiltVec
 
 
 extension CRColor {

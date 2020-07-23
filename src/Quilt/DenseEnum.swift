@@ -14,21 +14,21 @@ extension DenseEnum {
 
 
 public struct EnumSetU32<Element: DenseEnum>: ExpressibleByArrayLiteral {
-  public var rawValue: U32
+  public var rawValue: UInt32
 
   public init() {
     self.rawValue = 0
   }
 
   public init(_ element: Element) {
-    self.rawValue = 1 << U32(element.rawValue)
+    self.rawValue = 1 << UInt32(element.rawValue)
   }
 
   public init(arrayLiteral elements: Element...) {
-    self.rawValue = elements.reduce(0) { $0 | 1 << U32($1.rawValue) }
+    self.rawValue = elements.reduce(0) { $0 | 1 << UInt32($1.rawValue) }
   }
 
   public mutating func add(_ element: Element) {
-    rawValue |= U32(1 << element.rawValue)
+    rawValue |= UInt32(1 << element.rawValue)
   }
 }

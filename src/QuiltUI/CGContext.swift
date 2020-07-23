@@ -8,6 +8,7 @@ import CoreGraphics
 #endif
 
 import Quilt
+import QuiltVec
 
 
 extension CGContext {

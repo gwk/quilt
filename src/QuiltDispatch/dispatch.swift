@@ -5,14 +5,14 @@ import Dispatch
 
 // MARK: async
 
-public func async(action: @escaping Action) {
+public func async(action: @escaping () -> Void) {
   DispatchQueue.main.async(execute: action)
 }
 
 
-public func async(after delay: Time, action: @escaping Action) {
+public func async(after delay: Double, action: @escaping () -> Void) {
   let nanoseconds = delay * 1000000000
-  DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(I64(nanoseconds)) / Double(NSEC_PER_SEC), execute: action)
+  DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(nanoseconds)) / Double(NSEC_PER_SEC), execute: action)
 }
 
 
