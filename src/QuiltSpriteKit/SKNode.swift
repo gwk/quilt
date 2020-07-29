@@ -5,7 +5,7 @@ import SpriteKit
 
 extension SKNode {
 
-  public convenience init(name: String) {
+  @objc public convenience init(name: String) {
     self.init()
     self.name = name
   }
