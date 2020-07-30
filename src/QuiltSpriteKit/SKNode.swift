@@ -16,6 +16,7 @@ extension SKNode {
   }
 
 
+  @discardableResult
   public func add<T: SKNode>(_ child: T) -> T {
     addChild(child)
     return child

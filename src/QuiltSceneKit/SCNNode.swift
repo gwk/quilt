@@ -9,4 +9,18 @@ extension SCNNode {
     self.init()
     self.name = name
   }
+
+
+  @discardableResult
+  public func add<T: SCNNode>(_ child: T) -> T {
+    addChildNode(child)
+    return child
+  }
+
+
+  public func addChildren(_ children: [SCNNode]) {
+    for c in children {
+      addChildNode(c)
+    }
+  }
 }
