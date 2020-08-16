@@ -23,4 +23,34 @@ extension SCNNode {
       addChildNode(c)
     }
   }
+
+
+  public var pitch: Float {
+    get { return simdEulerAngles.x }
+    set {
+      var e = simdEulerAngles
+      e.x = newValue
+      simdEulerAngles = e
+    }
+  }
+
+
+  public var yaw: Float {
+    get { return simdEulerAngles.y }
+    set {
+      var e = simdEulerAngles
+      e.y = newValue
+      simdEulerAngles = e
+    }
+  }
+
+  
+  public var roll: Float {
+    get { return simdEulerAngles.z }
+    set {
+      var e = simdEulerAngles
+      e.z = newValue
+      simdEulerAngles = e
+    }
+  }
 }
