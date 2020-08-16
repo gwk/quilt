@@ -3,7 +3,7 @@
 import QuiltArithmetic
 
 
-public protocol IntVecType: VecType where Scalar: ArithmeticInt {
+public protocol IntVecType: VecType where Scalar: SignedArithmeticInt {
 
   static func +(l: Self, r: Self) -> Self
   static func -(l: Self, r: Self) -> Self

@@ -33,11 +33,6 @@ extension ArithmeticProtocol {
 }
 
 
-public func sign<T: ArithmeticProtocol>(_ b: Bool) -> T {
-  return b ? 1 : -1
-}
-
-
 extension Sequence where Element: ArithmeticProtocol {
 
   public func sum() -> Element {

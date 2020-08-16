@@ -22,18 +22,21 @@ extension BinaryInteger {
 
 }
 
-public protocol ArithmeticInt: ArithmeticProtocol, BinaryInteger {}
+public protocol SignedArithmeticInt: SignedArithmeticProtocol, BinaryInteger {}
 
-extension Int: ArithmeticInt {}
-extension I8:  ArithmeticInt {}
-extension I16: ArithmeticInt {}
-extension I32: ArithmeticInt {}
-extension I64: ArithmeticInt {}
+public protocol UnsignedArithmeticInt: ArithmeticProtocol, BinaryInteger {}
 
-extension Uns: ArithmeticInt {}
-extension U8:  ArithmeticInt {}
-extension U16: ArithmeticInt {}
-extension U32: ArithmeticInt {}
-extension U64: ArithmeticInt {}
+
+extension Int: SignedArithmeticInt {}
+extension I8:  SignedArithmeticInt {}
+extension I16: SignedArithmeticInt {}
+extension I32: SignedArithmeticInt {}
+extension I64: SignedArithmeticInt {}
+
+extension Uns: UnsignedArithmeticInt {}
+extension U8:  UnsignedArithmeticInt {}
+extension U16: UnsignedArithmeticInt {}
+extension U32: UnsignedArithmeticInt {}
+extension U64: UnsignedArithmeticInt {}
 
 
