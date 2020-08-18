@@ -1,6 +1,7 @@
 // © 2016 George King. Permission to use this file is granted in license-quilt.txt.
 
 import SceneKit
+import QuiltVec
 
 
 extension SCNNode {
@@ -52,5 +53,22 @@ extension SCNNode {
       e.z = newValue
       simdEulerAngles = e
     }
+  }
+
+
+  public var simdPivotPosition: V3S {
+    get { return V3S(simdPivot[3]) }
+    set {
+      var t = simdPivot[3]
+      t[0] = newValue[0]
+      t[1] = newValue[1]
+      t[2] = newValue[2]
+      simdPivot[3] = t
+    }
+  }
+
+  public var simdPivotZ: Float {
+    get { return simdPivot[3][2] }
+    set { simdPivot[3][2] = newValue }
   }
 }
