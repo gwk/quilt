@@ -87,12 +87,14 @@ public static prefix func -(a: CGVector) -> CGVector { return a * -1 }
 
 extension CGVector: FloatVecType {
 
-  public var allNormal: Bool { return x.isNormal && (y.isNormal) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite) }
   public var allZero: Bool { return x.isZero && (y.isZero) }
+  public var allZeroOrSubnormal: Bool { return x.isZeroOrSubnormal && (y.isZeroOrSubnormal) }
   public var anySubnormal: Bool { return x.isSubnormal || (y.isSubnormal)}
   public var anyInfite: Bool { return x.isInfinite || (y.isInfinite)}
   public var anyNaN: Bool { return x.isNaN || (y.isNaN)}
+  public var anyZero: Bool { return x.isZero && (y.isZero) }
+  public var anyZeroOrSubnormal: Bool { return x.isZeroOrSubnormal || (y.isZeroOrSubnormal) }
   public var clampToUnit: CGVector { return CGVector(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1)) }
   public var clampToSignedUnit: CGVector { return CGVector(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }

@@ -88,12 +88,14 @@ public static prefix func -(a: V2) -> V2 { return a * -1 }
 
 extension V2: FloatVecType {
 
-  public var allNormal: Bool { return x.isNormal && (y.isNormal) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite) }
   public var allZero: Bool { return x.isZero && (y.isZero) }
+  public var allZeroOrSubnormal: Bool { return x.isZeroOrSubnormal && (y.isZeroOrSubnormal) }
   public var anySubnormal: Bool { return x.isSubnormal || (y.isSubnormal)}
   public var anyInfite: Bool { return x.isInfinite || (y.isInfinite)}
   public var anyNaN: Bool { return x.isNaN || (y.isNaN)}
+  public var anyZero: Bool { return x.isZero && (y.isZero) }
+  public var anyZeroOrSubnormal: Bool { return x.isZeroOrSubnormal || (y.isZeroOrSubnormal) }
   public var clampToUnit: V2 { return V2(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1)) }
   public var clampToSignedUnit: V2 { return V2(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }

@@ -84,12 +84,14 @@ public static prefix func -(a: V3) -> V3 { return a * -1 }
 
 extension V3: FloatVecType {
 
-  public var allNormal: Bool { return x.isNormal && (y.isNormal && (z.isNormal)) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite && (z.isFinite)) }
   public var allZero: Bool { return x.isZero && (y.isZero && (z.isZero)) }
+  public var allZeroOrSubnormal: Bool { return x.isZeroOrSubnormal && (y.isZeroOrSubnormal && (z.isZeroOrSubnormal)) }
   public var anySubnormal: Bool { return x.isSubnormal || (y.isSubnormal || (z.isSubnormal))}
   public var anyInfite: Bool { return x.isInfinite || (y.isInfinite || (z.isInfinite))}
   public var anyNaN: Bool { return x.isNaN || (y.isNaN || (z.isNaN))}
+  public var anyZero: Bool { return x.isZero && (y.isZero && (z.isZero)) }
+  public var anyZeroOrSubnormal: Bool { return x.isZeroOrSubnormal || (y.isZeroOrSubnormal || (z.isZeroOrSubnormal)) }
   public var clampToUnit: V3 { return V3(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1), z.clamp(min: 0, max: 1)) }
   public var clampToSignedUnit: V3 { return V3(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1), z.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255))) }

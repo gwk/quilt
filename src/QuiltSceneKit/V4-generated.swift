@@ -75,12 +75,14 @@ public static prefix func -(a: V4) -> V4 { return a * -1 }
 
 extension V4: FloatVecType {
 
-  public var allNormal: Bool { return x.isNormal && (y.isNormal && (z.isNormal && (w.isNormal))) }
   public var allFinite: Bool { return x.isFinite && (y.isFinite && (z.isFinite && (w.isFinite))) }
   public var allZero: Bool { return x.isZero && (y.isZero && (z.isZero && (w.isZero))) }
+  public var allZeroOrSubnormal: Bool { return x.isZeroOrSubnormal && (y.isZeroOrSubnormal && (z.isZeroOrSubnormal && (w.isZeroOrSubnormal))) }
   public var anySubnormal: Bool { return x.isSubnormal || (y.isSubnormal || (z.isSubnormal || (w.isSubnormal)))}
   public var anyInfite: Bool { return x.isInfinite || (y.isInfinite || (z.isInfinite || (w.isInfinite)))}
   public var anyNaN: Bool { return x.isNaN || (y.isNaN || (z.isNaN || (w.isNaN)))}
+  public var anyZero: Bool { return x.isZero && (y.isZero && (z.isZero && (w.isZero))) }
+  public var anyZeroOrSubnormal: Bool { return x.isZeroOrSubnormal || (y.isZeroOrSubnormal || (z.isZeroOrSubnormal || (w.isZeroOrSubnormal))) }
   public var clampToUnit: V4 { return V4(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1), z.clamp(min: 0, max: 1), w.clamp(min: 0, max: 1)) }
   public var clampToSignedUnit: V4 { return V4(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1), z.clamp(min: -1, max: 1), w.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255)), U8((w*255).clamp(min: 0, max: 255))) }

@@ -16,6 +16,8 @@ extension BinaryFloatingPoint {
   public var asInt: Int { return Int(self) }
   public var asRoundedInt: Int { return Int(self.rounded()) }
 
+  public var isZeroOrSubnormal: Bool { return isZero || isSubnormal }
+
   public var signedUnit: Self { return self < 0 ? -1 : 1 }
 
   public var clampToUnit: Self {
