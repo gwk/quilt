@@ -1,25 +1,27 @@
+
 // © 2017 George King. All rights reserved.
 
 import AppKit
 import Quilt
 
 
-open class QTableView: NSScrollView {
+open class QuiltListView: NSScrollView {
 
   override public var isFlipped: Bool { return true }
 
   public required init?(coder: NSCoder) { super.init(coder: coder) }
 
-  // MARK: QTableView
+  // MARK: QuiltListView
 
-  weak var delegate: QTableSource!
+  weak var source: QuiltListSource!
 
-  var docView: QView { return documentView as! QView }
+  var docView: QuiltView { return documentView as! QuiltView }
 
-  public init(frame: CGRect = .frameInit, delegate: QTableSource) {
-    self.delegate = delegate
+  public init(frame: CGRect = .frameInit, name: String? = nil, source: QuiltListSource) {
+    self.source = source
     super.init(frame: frame)
-    documentView = QView(frame: frame)
+    self.name = name
+    documentView = QuiltView(frame: frame)
     docView.flex = [.w]
     backgroundColor = .darkGray
     hasVerticalScroller = true
@@ -36,7 +38,7 @@ open class QTableView: NSScrollView {
     var height: Flt = 0
     let width: Flt = docView.w
     while true {
-      if let (rowView, rowHeight) = delegate.row(index: index, width: width) {
+      if let (rowView, rowHeight) = source.row(index: index, width: width) {
         rowView.flex = .w
         rowView.y += height
         docView.add(viewOrLayer: rowView)
@@ -46,12 +48,12 @@ open class QTableView: NSScrollView {
         break
       }
     }
-    docView.h = height + delegate.tailHeight
+    docView.h = height + source.tailHeight
   }
 }
 
 
-public protocol QTableSource: class {
+public protocol QuiltListSource: class {
 
   var rowCount: Int?  { get } // a value of nil indicates that rows will be produced in a stream until exhausted.
 
@@ -68,7 +70,7 @@ public protocol QTableSource: class {
 }
 
 
-public extension QTableSource {
+public extension QuiltListSource {
 
   var rowCount: Int? { return nil }
 

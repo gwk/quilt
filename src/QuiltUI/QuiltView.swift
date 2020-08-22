@@ -4,7 +4,7 @@ import Foundation
 import CoreGraphics
 
 
-public class QView: CRView {
+public class QuiltView: CRView {
 
   public required init?(coder: NSCoder) { super.init(coder: coder) }
 

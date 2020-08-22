@@ -17,28 +17,28 @@ public enum EventKind {
 }
 
 
-class QResponder: CRResponder {
+class QuiltResponder: CRResponder {
   //var handlers: [EventKind -> (CREvent, CRView) -> ()] = []
 
   #if os(OSX)
   public override func keyDown(with e: CREvent) {
-    print("QKResponder keyDown: \(e)")
+    print("QuiltResponder keyDown: \(e)")
   }
 
   public override func keyUp(with e: CREvent) {
-    print("QKResponder keyUp: \(e)")
+    print("QuiltResponder keyUp: \(e)")
   }
 
   public override func flagsChanged(with e: CREvent) {
-    print("QKResponder flagsChanged: \(e)")
+    print("QuiltResponder flagsChanged: \(e)")
   }
 
   public override func mouseDown(with e: CREvent) {
-    print("QKResponder mouseDown: \(e)")
+    print("QuiltResponder mouseDown: \(e)")
   }
 
   public override func mouseUp(with e: CREvent) {
-    print("QKResponder mouseUp: \(e)")
+    print("QuiltResponder mouseUp: \(e)")
   }
   #endif
 }

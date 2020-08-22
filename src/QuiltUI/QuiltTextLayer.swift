@@ -11,9 +11,9 @@ import Foundation
 
 
 @available(macOS 10.11, *)
-public class QTextLayer: CALayer {
+public class QuiltTextLayer: CALayer {
 
-  // MARK: QTextLayer
+  // MARK: QuiltTextLayer
 
   public var text: String = "" {
     didSet { setNeedsDisplay() }
@@ -58,7 +58,7 @@ public class QTextLayer: CALayer {
 
   public override init(layer: Any) {
     super.init(layer: layer)
-    let l = layer as! QTextLayer
+    let l = layer as! QuiltTextLayer
     text = l.text
     font = l.font
     textColor = l.textColor

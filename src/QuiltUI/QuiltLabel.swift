@@ -5,7 +5,7 @@ import AppKit
 import CoreGraphics
 
 
-public class QLabel: QView {
+public class QuiltLabel: QuiltView {
 
   public required init?(coder: NSCoder) {
     super.init(coder: coder)
@@ -17,13 +17,13 @@ public class QLabel: QView {
   }
 
   public override func makeBackingLayer() -> CALayer {
-    return QTextLayer()
+    return QuiltTextLayer()
   }
 
   
-  // MARK: QLabel
+  // MARK: QuiltLabel
 
-  public var textLayer: QTextLayer { return layer as! QTextLayer }
+  public var textLayer: QuiltTextLayer { return layer as! QuiltTextLayer }
 
   public var text: String {
     get { return textLayer.text }
