@@ -13,9 +13,9 @@ open class QuiltListView: NSScrollView {
 
   // MARK: QuiltListView
 
-  weak var source: QuiltListSource!
+  public weak var source: QuiltListSource!
 
-  var docView: QuiltView { return documentView as! QuiltView }
+  public var docView: QuiltView { return documentView as! QuiltView }
 
   public init(frame: CGRect = .frameInit, name: String? = nil, source: QuiltListSource) {
     self.source = source

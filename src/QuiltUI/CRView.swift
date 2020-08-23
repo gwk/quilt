@@ -82,7 +82,7 @@ extension CRView {
     errL(description)
   }
 
-  var c: CGPoint {
+  public var c: CGPoint {
     get {
       #if os(OSX)
         return CGPoint(x + (0.5 * w), y + (0.5 * h))
@@ -99,7 +99,7 @@ extension CRView {
     }
   }
 
-  var huggingH: CRPriority {
+  public var huggingH: CRPriority {
     get {
       #if os(OSX)
         return contentHuggingPriority(for: .horizontal)
@@ -116,7 +116,7 @@ extension CRView {
     }
   }
 
-  var huggingV: CRPriority {
+  public var huggingV: CRPriority {
     get {
       #if os(OSX)
         return contentHuggingPriority(for: .vertical)
@@ -133,7 +133,7 @@ extension CRView {
     }
   }
 
-  var compressionH: CRPriority {
+  public var compressionH: CRPriority {
     get {
       #if os(OSX)
         return contentCompressionResistancePriority(for: .horizontal)
@@ -150,7 +150,7 @@ extension CRView {
     }
   }
 
-  var compressionV: CRPriority {
+  public var compressionV: CRPriority {
     get {
       #if os(OSX)
         return contentCompressionResistancePriority(for: .vertical)
