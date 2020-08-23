@@ -17,7 +17,8 @@ open class QuiltListView: NSScrollView {
 
   public var docView: QuiltView { return documentView as! QuiltView }
 
-  public init(frame: CGRect = .frameInit, name: String? = nil, source: QuiltListSource) {
+
+  public init(frame: CGRect = .frameInit, name: String? = nil, source: QuiltListSource? = nil) {
     self.source = source
     super.init(frame: frame)
     self.name = name
@@ -31,6 +32,7 @@ open class QuiltListView: NSScrollView {
       //let view = note.object as! NSClipView
     }
   }
+
 
   public func reload() {
     docView.removeAllSubviews()
