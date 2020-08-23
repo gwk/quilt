@@ -17,4 +17,51 @@ extension NSEvent {
     return scalars.first!
   }
 
+
+  public var modifiersAndKey: (NSEvent.ModifierFlags, String) {
+    return (modifierFlags.intersection(.deviceIndependentFlagsMask), charactersIgnoringModifiers ?? "")
+  }
+}
+
+
+extension NSEvent.ModifierFlags: CustomStringConvertible {
+
+  private static var flagDescs: [(NSEvent.ModifierFlags, String)] = [
+    (.command, "⌘"),
+    (.control, "⌃"),
+    (.option, "⌥"),
+    (.shift, "⇧"),
+    (.capsLock, "⇪"),
+    (.numericPad, "numpad"),
+    (.help, "help"),
+    (.function, "fn"),
+  ]
+
+  private static var knownFlags: NSEvent.ModifierFlags = [
+    .command,
+    .control,
+    .option,
+    .shift,
+    .capsLock,
+    .numericPad,
+    .help,
+    .function,
+  ]
+
+  public var description: String {
+    var result = ""
+    for (flag, desc) in NSEvent.ModifierFlags.flagDescs {
+      if self.contains(flag) {
+        if !result.isEmpty && desc.count > 1 {
+          result.append("-")
+        }
+        result.append(desc)
+      }
+    }
+    let otherFlags = self.subtracting(NSEvent.ModifierFlags.knownFlags)
+    if !otherFlags.isEmpty {
+      result.append("+[0x\(otherFlags.rawValue.hex())]")
+    }
+    return result
+  }
 }
