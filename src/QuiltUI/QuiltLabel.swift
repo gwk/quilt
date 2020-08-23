@@ -20,7 +20,7 @@ public class QuiltLabel: QuiltView {
     return QuiltTextLayer()
   }
 
-  
+
   // MARK: QuiltLabel
 
   public var textLayer: QuiltTextLayer { return layer as! QuiltTextLayer }
@@ -38,5 +38,20 @@ public class QuiltLabel: QuiltView {
   public var textColor: CRColor {
     get { return textLayer.textColor }
     set { textLayer.textColor = newValue }
+  }
+
+  public var edgeInsets: CREdgeInsets {
+    get { return textLayer.edgeInsets }
+    set { textLayer.edgeInsets = newValue }
+  }
+
+  public var alignment: NSTextAlignment {
+    get { return textLayer.alignment }
+    set { textLayer.alignment = newValue }
+  }
+
+  public var lineBreakMode: NSLineBreakMode {
+    get { return textLayer.lineBreakMode }
+    set { textLayer.lineBreakMode = newValue }
   }
 }
