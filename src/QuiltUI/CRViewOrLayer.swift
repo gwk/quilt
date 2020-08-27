@@ -94,7 +94,7 @@ extension CRView: CRViewOrLayer {
     removeFromSuperview()
   }
 
-  // MARK: CRView additions.
+  // MARK: CRView additions
 
   public func add(viewOrLayer: CRViewOrLayer) {
     // Wrapper method to invert the inversion required by protocol inheritance.
