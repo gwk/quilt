@@ -10,9 +10,18 @@ extension NSMenu {
     parentItem.submenu = self
   }
 
+
   public convenience init(title: String, superMenu: NSMenu) {
     self.init(title: title)
     let parentItem = NSMenuItem(parent: superMenu)
     parentItem.submenu = self
+  }
+
+
+  @discardableResult
+  public func add(_ title: String, _ action: Selector, key: String = "") -> NSMenuItem {
+    let item = NSMenuItem(title: title, action: action, keyEquivalent: key)
+    addItem(item)
+    return item
   }
 }
