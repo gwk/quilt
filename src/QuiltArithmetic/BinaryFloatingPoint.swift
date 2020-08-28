@@ -39,4 +39,8 @@ extension BinaryFloatingPoint {
   public var clampToSignedUnitAndConvertToU8: U8 {
     return (self*0.5 + 0.5).clampToUnitAndConvertToU8
   }
+
+  public var degToRad: Self {
+    return self * .pi / 180
+  }
 }
