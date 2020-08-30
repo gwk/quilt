@@ -2,60 +2,129 @@
 
 import Foundation
 import Quilt
+//import Carbon.HIToolbox
 
+extension UInt16 {
+  public static var vKeyAnsiA: UInt16              { return  0x00 }
+  public static var vKeyAnsiS: UInt16              { return  0x01 }
+  public static var vKeyAnsiD: UInt16              { return  0x02 }
+  public static var vKeyAnsiF: UInt16              { return  0x03 }
+  public static var vKeyAnsiH: UInt16              { return  0x04 }
+  public static var vKeyAnsiG: UInt16              { return  0x05 }
+  public static var vKeyAnsiZ: UInt16              { return  0x06 }
+  public static var vKeyAnsiX: UInt16              { return  0x07 }
+  public static var vKeyAnsiC: UInt16              { return  0x08 }
+  public static var vKeyAnsiV: UInt16              { return  0x09 }
+  public static var vKeyAnsiB: UInt16              { return  0x0B }
+  public static var vKeyAnsiQ: UInt16              { return  0x0C }
+  public static var vKeyAnsiW: UInt16              { return  0x0D }
+  public static var vKeyAnsiE: UInt16              { return  0x0E }
+  public static var vKeyAnsiR: UInt16              { return  0x0F }
+  public static var vKeyAnsiY: UInt16              { return  0x10 }
+  public static var vKeyAnsiT: UInt16              { return  0x11 }
+  public static var vKeyAnsi1: UInt16              { return  0x12 }
+  public static var vKeyAnsi2: UInt16              { return  0x13 }
+  public static var vKeyAnsi3: UInt16              { return  0x14 }
+  public static var vKeyAnsi4: UInt16              { return  0x15 }
+  public static var vKeyAnsi6: UInt16              { return  0x16 }
+  public static var vKeyAnsi5: UInt16              { return  0x17 }
+  public static var vKeyAnsiEqual: UInt16          { return  0x18 }
+  public static var vKeyAnsi9: UInt16              { return  0x19 }
+  public static var vKeyAnsi7: UInt16              { return  0x1A }
+  public static var vKeyAnsiMinus: UInt16          { return  0x1B }
+  public static var vKeyAnsi8: UInt16              { return  0x1C }
+  public static var vKeyAnsi0: UInt16              { return  0x1D }
+  public static var vKeyAnsiRightBracket: UInt16   { return  0x1E }
+  public static var vKeyAnsiO: UInt16              { return  0x1F }
+  public static var vKeyAnsiU: UInt16              { return  0x20 }
+  public static var vKeyAnsiLeftBracket: UInt16    { return  0x21 }
+  public static var vKeyAnsiI: UInt16              { return  0x22 }
+  public static var vKeyAnsiP: UInt16              { return  0x23 }
+  public static var vKeyAnsiL: UInt16              { return  0x25 }
+  public static var vKeyAnsiJ: UInt16              { return  0x26 }
+  public static var vKeyAnsiQuote: UInt16          { return  0x27 }
+  public static var vKeyAnsiK: UInt16              { return  0x28 }
+  public static var vKeyAnsiSemicolon: UInt16      { return  0x29 }
+  public static var vKeyAnsiBackslash: UInt16      { return  0x2A }
+  public static var vKeyAnsiComma: UInt16          { return  0x2B }
+  public static var vKeyAnsiSlash: UInt16          { return  0x2C }
+  public static var vKeyAnsiN: UInt16              { return  0x2D }
+  public static var vKeyAnsiM: UInt16              { return  0x2E }
+  public static var vKeyAnsiPeriod: UInt16         { return  0x2F }
+  public static var vKeyAnsiGrave: UInt16          { return  0x32 }
+  public static var vKeyAnsiKeypadDecimal: UInt16  { return  0x41 }
+  public static var vKeyAnsiKeypadMultiply: UInt16 { return  0x43 }
+  public static var vKeyAnsiKeypadPlus: UInt16     { return  0x45 }
+  public static var vKeyAnsiKeypadClear: UInt16    { return  0x47 }
+  public static var vKeyAnsiKeypadDivide: UInt16   { return  0x4B }
+  public static var vKeyAnsiKeypadEnter: UInt16    { return  0x4C }
+  public static var vKeyAnsiKeypadMinus: UInt16    { return  0x4E }
+  public static var vKeyAnsiKeypadEquals: UInt16   { return  0x51 }
+  public static var vKeyAnsiKeypad0: UInt16        { return  0x52 }
+  public static var vKeyAnsiKeypad1: UInt16        { return  0x53 }
+  public static var vKeyAnsiKeypad2: UInt16        { return  0x54 }
+  public static var vKeyAnsiKeypad3: UInt16        { return  0x55 }
+  public static var vKeyAnsiKeypad4: UInt16        { return  0x56 }
+  public static var vKeyAnsiKeypad5: UInt16        { return  0x57 }
+  public static var vKeyAnsiKeypad6: UInt16        { return  0x58 }
+  public static var vKeyAnsiKeypad7: UInt16        { return  0x59 }
+  public static var vKeyAnsiKeypad8: UInt16        { return  0x5B }
+  public static var vKeyAnsiKeypad9: UInt16        { return  0x5 }
 
-public let qwertyTilde: UInt16 = 50
-public let qwerty1: UInt16 = 18
-public let qwerty2: UInt16 = 19
-public let qwerty3: UInt16 = 20
-public let qwerty4: UInt16 = 21
-public let qwerty5: UInt16 = 23
-public let qwerty6: UInt16 = 22
-public let qwerty7: UInt16 = 26
-public let qwerty8: UInt16 = 28
-public let qwerty9: UInt16 = 25
-public let qwerty0: UInt16 = 29
-public let qwertyDash: UInt16 = 27
-public let qwertyEquals: UInt16 = 24
-public let qwertyDel: UInt16 = 51
-public let qwertyTab: UInt16 = 48
-public let qwertyQ: UInt16 = 12
-public let qwertyW: UInt16 = 13
-public let qwertyE: UInt16 = 14
-public let qwertyR: UInt16 = 15
-public let qwertyT: UInt16 = 17
-public let qwertyY: UInt16 = 16
-public let qwertyU: UInt16 = 32
-public let qwertyI: UInt16 = 34
-public let qwertyO: UInt16 = 31
-public let qwertyP: UInt16 = 35
-public let qwertyLeftBracket: UInt16 = 33
-public let qwertyRightBracket: UInt16 = 30
-public let qwertyBackslash: UInt16 = 42
-public let qwertyA: UInt16 = 0
-public let qwertyS: UInt16 = 1
-public let qwertyD: UInt16 = 2
-public let qwertyF: UInt16 = 3
-public let qwertyG: UInt16 = 5
-public let qwertyH: UInt16 = 4
-public let qwertyJ: UInt16 = 38
-public let qwertyK: UInt16 = 40
-public let qwertyL: UInt16 = 37
-public let qwertySemicolon: UInt16 = 41
-public let qwertySingleQuote: UInt16 = 39
-public let qwertyReturn: UInt16 = 36
-public let qwertyZ: UInt16 = 6
-public let qwertyX: UInt16 = 7
-public let qwertyC: UInt16 = 8
-public let qwertyV: UInt16 = 9
-public let qwertyB: UInt16 = 11
-public let qwertyN: UInt16 = 45
-public let qwertyM: UInt16 = 46
-public let qwertyComma: UInt16 = 43
-public let qwertyDot: UInt16 = 47
-public let qwertySlash: UInt16 = 44
-public let qwertySpace: UInt16 = 49
-public let qwertyLeft: UInt16 = 123
-public let qwertyRight: UInt16 = 124
-public let qwertyDown: UInt16 = 125
-public let qwertyUp: UInt16 = 126
+  public static var vKeyReturn: UInt16             { return  0x24 }
+  public static var vKeyTab: UInt16                { return  0x30 }
+  public static var vKeySpace: UInt16              { return  0x31 }
+  public static var vKeyDelete: UInt16             { return  0x33 }
+  public static var vKeyEscape: UInt16             { return  0x35 }
+  public static var vKeyCommand: UInt16            { return  0x37 }
+  public static var vKeyShift: UInt16              { return  0x38 }
+  public static var vKeyCapsLock: UInt16           { return  0x39 }
+  public static var vKeyOption: UInt16             { return  0x3A }
+  public static var vKeyControl: UInt16            { return  0x3B }
+  public static var vKeyRightCommand: UInt16       { return  0x36 }
+  public static var vKeyRightShift: UInt16         { return  0x3C }
+  public static var vKeyRightOption: UInt16        { return  0x3D }
+  public static var vKeyRightControl: UInt16       { return  0x3E }
+  public static var vKeyFunction: UInt16           { return  0x3F }
+  public static var vKeyF17: UInt16                { return  0x40 }
+  public static var vKeyVolumeUp: UInt16           { return  0x48 }
+  public static var vKeyVolumeDown: UInt16         { return  0x49 }
+  public static var vKeyMute: UInt16               { return  0x4A }
+  public static var vKeyF18: UInt16                { return  0x4F }
+  public static var vKeyF19: UInt16                { return  0x50 }
+  public static var vKeyF20: UInt16                { return  0x5A }
+  public static var vKeyF5: UInt16                 { return  0x60 }
+  public static var vKeyF6: UInt16                 { return  0x61 }
+  public static var vKeyF7: UInt16                 { return  0x62 }
+  public static var vKeyF3: UInt16                 { return  0x63 }
+  public static var vKeyF8: UInt16                 { return  0x64 }
+  public static var vKeyF9: UInt16                 { return  0x65 }
+  public static var vKeyF11: UInt16                { return  0x67 }
+  public static var vKeyF13: UInt16                { return  0x69 }
+  public static var vKeyF16: UInt16                { return  0x6A }
+  public static var vKeyF14: UInt16                { return  0x6B }
+  public static var vKeyF10: UInt16                { return  0x6D }
+  public static var vKeyF12: UInt16                { return  0x6F }
+  public static var vKeyF15: UInt16                { return  0x71 }
+  public static var vKeyHelp: UInt16               { return  0x72 }
+  public static var vKeyHome: UInt16               { return  0x73 }
+  public static var vKeyPageUp: UInt16             { return  0x74 }
+  public static var vKeyForwardDelete: UInt16      { return  0x75 }
+  public static var vKeyF4: UInt16                 { return  0x76 }
+  public static var vKeyEnd: UInt16                { return  0x77 }
+  public static var vKeyF2: UInt16                 { return  0x78 }
+  public static var vKeyPageDown: UInt16           { return  0x79 }
+  public static var vKeyF1: UInt16                 { return  0x7A }
+  public static var vKeyLeftArrow: UInt16          { return  0x7B }
+  public static var vKeyRightArrow: UInt16         { return  0x7C }
+  public static var vKeyDownArrow: UInt16          { return  0x7D }
+  public static var vKeyUpArrow: UInt16            { return  0x7E }
+
+  public static var vKeyIsoSection: UInt16         { return  0x0A }
+
+  public static var vKeyJisYen: UInt16             { return  0x5D }
+  public static var vKeyJisUnderscore: UInt16      { return  0x5E }
+  public static var vKeyJisKeypadComma: UInt16     { return  0x5F }
+  public static var vKeyJisEisu: UInt16            { return  0x66 }
+  public static var vKeyJisKana: UInt16            { return  0x68 }
+};
