@@ -30,7 +30,7 @@ public class Locked<T: AnyObject> {
   }
 
   public func statsDesc() -> String {
-    return "frac: \(Float(blockedCount) / Float(accessCount)); blocked: \(blockedCount); total: \(accessCount)."
+    "frac: \(Float(blockedCount) / Float(accessCount)); blocked: \(blockedCount); total: \(accessCount)."
   }
 }
 

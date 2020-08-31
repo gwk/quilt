@@ -4,5 +4,5 @@ import Darwin
 
 
 public func stringForCurrentError() -> String {
-  return String(cString: Darwin.strerror(Darwin.errno))
+  String(cString: Darwin.strerror(Darwin.errno))
 }

@@ -70,7 +70,7 @@ extension String {
   // MARK: utilities
 
   public func contains(string: String, atIndex: Index) -> Bool {
-    return contains(sequence: string, atIndex: atIndex)
+    contains(sequence: string, atIndex: atIndex)
   }
 
   public func beforeSuffix(_ suffix: String) -> String? {
@@ -135,7 +135,7 @@ extension String {
   static let utf16Newline = "\n".utf16.first!
 
   public var containsNewline: Bool {
-    return utf16.contains(String.utf16Newline) // assuming utf16 is the underlying storage, this should be quick.
+    utf16.contains(String.utf16Newline) // assuming utf16 is the underlying storage, this should be quick.
   }
 
   public init(lines: [String]) {
@@ -173,21 +173,21 @@ extension String {
   }
 
   public func numberedLinesFrom(_ from: Int) -> [String] {
-    return lines.enumerated().map() { "\($0.offset) \($0.element)" }
+    lines.enumerated().map() { "\($0.offset) \($0.element)" }
   }
 
-  public var numberedLines: [String] { return numberedLinesFrom(1) }
+  public var numberedLines: [String] { numberedLinesFrom(1) }
 
 
   // MARK: unicode
 
-  public var codes: UnicodeScalarView { return unicodeScalars }
+  public var codes: UnicodeScalarView { unicodeScalars }
 
 
   // MARK: utf8
 
   public func asUtf8NT<R>(_ body: (Buffer<Int8>) -> R) -> R {
-    return utf8CString.withUnsafeBufferPointer(body)
+    utf8CString.withUnsafeBufferPointer(body)
   }
 
   public func asUtf8NTRaw<R>(_ body: (RawBuffer) -> R) -> R {
@@ -201,12 +201,12 @@ extension String {
   // MARK: partition
 
   public func split(_ separator: Character) -> [String] {
-    return split(separator: separator).map() { String($0) }
+    split(separator: separator).map() { String($0) }
   }
 
   /* TODO
   public func split(sub: String) -> [String] {
-    return split(separator: sub).map() { String($0) }
+    split(separator: sub).map() { String($0) }
   }
  */
 
@@ -232,5 +232,5 @@ public func pluralize(_ count: Int, _ word: String) -> String {
 
 
 public func typeDescription(_ val: Any) -> String {
-  return String(describing: type(of: val))
+  String(describing: type(of: val))
 }

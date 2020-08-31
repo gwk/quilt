@@ -7,9 +7,12 @@ public protocol DenseEnum {
   static var count: Int { get }
 }
 
+
 extension DenseEnum {
-  public static var range: CountableRange<Int> { return 0..<count }
-  public static var allVariants: [Self] { return range.map { Self(rawValue: $0)! } }
+
+  public static var range: CountableRange<Int> { 0..<count }
+
+  public static var allVariants: [Self] { range.map { Self(rawValue: $0)! } }
 }
 
 

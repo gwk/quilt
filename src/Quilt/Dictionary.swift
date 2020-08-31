@@ -11,7 +11,7 @@ extension Dictionary {
   }
 
   public func contains(key: Key) -> Bool {
-    return self[key] != nil
+    self[key] != nil
   }
 
   public mutating func insertNew(_ key: Key, value: Value) {
@@ -81,13 +81,13 @@ extension Dictionary where Value: DefaultInitializable {
 extension Dictionary where Key: Comparable {
 
   public var pairsSortedByKey: [(key: Key, value: Value)] {
-    return self.sorted() {
+    self.sorted() {
       (a, b) in
-      return a.key < b.key
+      a.key < b.key
     }
   }
 
   public var valsSortedByKey: [Value] {
-    return pairsSortedByKey.map() { $0.value }
+    pairsSortedByKey.map() { $0.value }
   }
 }

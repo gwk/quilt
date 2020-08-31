@@ -5,7 +5,7 @@ import Foundation
 
 extension NSMutableAttributedString {
 
-  public var range: NSRange { return NSRange(location: 0, length: length) }
+  public var range: NSRange { NSRange(location: 0, length: length) }
 
   public func replaceContents(with string: String) {
     replaceCharacters(in: range, with: string)

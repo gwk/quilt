@@ -133,15 +133,15 @@ public class File: CustomStringConvertible, TextOutputStream {
   }
 
 
-  public var isReadable: Bool { return mode.isReadable }
+  public var isReadable: Bool { mode.isReadable }
 
-  public var isWritable: Bool { return mode.isWritable }
+  public var isWritable: Bool { mode.isWritable }
 
-  public var isUpdatable: Bool { return mode.isUpdatable }
+  public var isUpdatable: Bool { mode.isUpdatable }
 
 
   public var description: String {
-    return "\(type(of: self))(path:'\(path)', descriptor: \(descriptor))"
+    "\(type(of: self))(path:'\(path)', descriptor: \(descriptor))"
   }
 
 
@@ -169,7 +169,7 @@ public class File: CustomStringConvertible, TextOutputStream {
     return true
   }
 
-  public func len() throws -> Int { return try Int(stats().st_size) }
+  public func len() throws -> Int { try Int(stats().st_size) }
 
 
   public func read(len: Int, ptr: MutRawPtr) throws -> Int {

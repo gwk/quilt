@@ -17,7 +17,7 @@ public struct GapBuffer<Element> : Collection {
     }
 
     public mutating func next() -> Element? {
-      return fwdIt.next() ?? revIt.next()
+      fwdIt.next() ?? revIt.next()
     }
   }
 
@@ -35,7 +35,7 @@ public struct GapBuffer<Element> : Collection {
   }
 
   public var pos: Int {
-    get { return fwd.count }
+    get { fwd.count }
     set {
       while newValue < fwd.count { // advance.
         fwd.append(rev.removeLast())
@@ -47,20 +47,20 @@ public struct GapBuffer<Element> : Collection {
   }
 
   @inline(__always)
-  private func revIdx(_ idx: Int) -> Int { return count - (idx + 1) }
+  private func revIdx(_ idx: Int) -> Int { count - (idx + 1) }
 
-  public func makeIterator() -> Iterator { return Iterator(self) }
+  public func makeIterator() -> Iterator { Iterator(self) }
 
-  public var isEmpty: Bool { return count == 0 }
+  public var isEmpty: Bool { count == 0 }
 
-  public var count: Int { return fwd.count + rev.count }
+  public var count: Int { fwd.count + rev.count }
 
-  public var startIndex: Int { return 0 }
+  public var startIndex: Int { 0 }
 
-  public var endIndex: Int { return count }
+  public var endIndex: Int { count }
 
-  public var first: Element? { return fwd.first ?? rev.last }
-  public var last: Element? { return rev.first ?? fwd.last }
+  public var first: Element? { fwd.first ?? rev.last }
+  public var last: Element? { rev.first ?? fwd.last }
 
   public subscript(idx: Int) -> Element {
     get {
@@ -73,7 +73,7 @@ public struct GapBuffer<Element> : Collection {
     }
   }
 
-  public func index(after index: Index) -> Index { return index + 1 }
+  public func index(after index: Index) -> Index { index + 1 }
 
   public func index(where predicate: (Element) throws -> Bool) rethrows -> Index? {
     if let idx = try fwd.firstIndex(where: predicate) { return idx }

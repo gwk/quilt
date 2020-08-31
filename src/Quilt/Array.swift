@@ -57,16 +57,16 @@ extension Array: DefaultInitializable {
   }
 
   @inline(__always)
-  public mutating func pop() -> Element { return removeLast() }
+  public mutating func pop() -> Element { removeLast() }
 
   @inline(__always)
   public func withBuffer<R>(_ body: (Buffer<Array.Element>) throws -> R) rethrows -> R {
-    return try withUnsafeBufferPointer(body)
+    try withUnsafeBufferPointer(body)
   }
 
   @inline(__always)
   public mutating func withMutBuffer<R>(_ body: (inout MutBuffer<Array.Element>) throws -> R) rethrows -> R {
-    return try withUnsafeMutableBufferPointer(body)
+    try withUnsafeMutableBufferPointer(body)
   }
 
   public func withBufferRebound<T, Result>(to type: T.Type, _ body: (Buffer<T>) throws -> Result) rethrows -> Result {

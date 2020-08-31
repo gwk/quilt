@@ -6,15 +6,11 @@ import Foundation
 public typealias Time = Double
 
 extension Time {
- public static var distantFuture: Time {
-    return 1e300
-  }
+ public static var distantFuture: Time { 1e300 }
 }
 
 
-public func sysTime() -> Time {
-  return ProcessInfo.processInfo.systemUptime
-}
+public func sysTime() -> Time { ProcessInfo.processInfo.systemUptime }
 
 
 private var _appLaunchSysTime: Time = 0

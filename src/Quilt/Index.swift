@@ -16,9 +16,9 @@ public class Index<T: Hashable> {
     return vals.count
   }
 
-  public func val(_ i: Int) -> T { return vals[i] }
+  public func val(_ i: Int) -> T { vals[i] }
 
-  public func index(_ val: T) -> Int? { return indexes[val] }
+  public func index(_ val: T) -> Int? { indexes[val] }
 
   public func reg(_ val: T) -> Int {
     let oi = indexes[val]

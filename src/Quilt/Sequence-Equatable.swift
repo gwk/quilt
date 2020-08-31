@@ -44,6 +44,6 @@ extension Sequence where Element: Equatable {
   }
 
   public func countOccurrencesOf(_ el: Element) -> Int {
-    return reduce(0) { $1 == el ? $0 + 1 : $0 }
+    reduce(0) { $1 == el ? $0 + 1 : $0 }
   }
 }

@@ -18,9 +18,7 @@ public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLitera
     self.init(elements)
   }
 
-  public func makeIterator() -> Chain {
-    return self
-  }
+  public func makeIterator() -> Chain { self }
 
   public mutating func next() -> Element? {
     switch self {

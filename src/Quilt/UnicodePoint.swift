@@ -7,21 +7,21 @@ public protocol UnicodePoint {
 
 
 extension UnicodeScalar: UnicodePoint {
-  public var unicodeScalar: UnicodeScalar? { return self }
+  public var unicodeScalar: UnicodeScalar? { self }
 }
 
 extension UInt8: UnicodePoint {
-  public var unicodeScalar: UnicodeScalar? { return self < 0x80 ? UnicodeScalar(self) : nil }
+  public var unicodeScalar: UnicodeScalar? { self < 0x80 ? UnicodeScalar(self) : nil }
 }
 
 extension UInt16: UnicodePoint {
-  public var unicodeScalar: UnicodeScalar? { return UnicodeScalar(self) }
+  public var unicodeScalar: UnicodeScalar? { UnicodeScalar(self) }
 }
 
 extension UInt32: UnicodePoint {
-  public var unicodeScalar: UnicodeScalar? { return UnicodeScalar(self) }
+  public var unicodeScalar: UnicodeScalar? { UnicodeScalar(self) }
 }
 
 extension Int: UnicodePoint {
-  public var unicodeScalar: UnicodeScalar? { return UnicodeScalar(self) }
+  public var unicodeScalar: UnicodeScalar? { UnicodeScalar(self) }
 }

@@ -6,7 +6,7 @@ import Foundation
 extension Calendar {
 
   public func dateComponents(_ component: Component, from date: Date) -> DateComponents {
-    return dateComponents([component], from: date)
+    dateComponents([component], from: date)
   }
 }
 
@@ -14,19 +14,19 @@ extension Calendar {
 extension Calendar.Component {
 
   public static var preciseToDay: Set<Calendar.Component> {
-    return [.era, .year, .month, .day]
+    [.era, .year, .month, .day]
   }
 
   public static var precise: Set<Calendar.Component> {
-    return [.era, .year, .month, .day, .hour, .minute, .second, .nanosecond]
+    [.era, .year, .month, .day, .hour, .minute, .second, .nanosecond]
   }
 
   public static var timeOfDay: Set<Calendar.Component> {
-    return [.hour, .minute, .second, .nanosecond]
+    [.hour, .minute, .second, .nanosecond]
   }
 
   public static var dayAndWeekday: Set<Calendar.Component> {
-    return [.day, .weekday]
+    [.day, .weekday]
   }
 }
 

@@ -9,20 +9,20 @@ public let usersDir = Path(sysHomeDirString)
 
 public let userHomeDirString = NSHomeDirectory() + "/"
 
-public func currentDir() -> Path { return Path(fileManager.currentDirectoryPath + "/") }
+public func currentDir() -> Path { Path(fileManager.currentDirectoryPath + "/") }
 
-public func userTempDir() -> Path { return Path(fileManager.temporaryDirectory.path + "/") }
+public func userTempDir() -> Path { Path(fileManager.temporaryDirectory.path + "/") }
 
 
 public func absPath(_ path: Path) -> Path {
-  return path.isRel ? currentDir().cat(path) : path
+  path.isRel ? currentDir().cat(path) : path
 }
 
-public func absPath(_ string: String) -> Path { return absPath(Path(string)) }
+public func absPath(_ string: String) -> Path { absPath(Path(string)) }
 
 
 public func isPathFileOrDir(_ path: Path) -> Bool {
-  return fileManager.fileExists(atPath: path.expandUser)
+  fileManager.fileExists(atPath: path.expandUser)
 }
 
 public func isPathFile(_ path: Path) -> Bool {
@@ -47,7 +47,7 @@ public func isPathLink(_ path: Path) -> Bool {
 }
 
 public func resolveLink(_ path: Path) throws -> Path {
-  return try Path(fileManager.destinationOfSymbolicLink(atPath: path.expandUser))
+  try Path(fileManager.destinationOfSymbolicLink(atPath: path.expandUser))
 }
 
 public func removeFileOrDir(_ path: Path) throws {
@@ -61,7 +61,7 @@ public func createDir(_ path: Path, intermediates: Bool = false) throws {
 }
 
 public func listDir(_ path: Path) throws -> [Path] {
-  return try fileManager.contentsOfDirectory(atPath: path.expandUser).map { Path($0) }
+  try fileManager.contentsOfDirectory(atPath: path.expandUser).map { Path($0) }
 }
 
 public func walkPaths(root: Path) throws -> [Path] {

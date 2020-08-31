@@ -8,5 +8,5 @@ public struct Err<T>: Error, CustomStringConvertible {
     self.val = val
   }
 
-  public var description: String { return "Err(\(val))" }
+  public var description: String { "Err(\(val))" }
 }

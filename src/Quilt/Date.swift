@@ -9,26 +9,26 @@ let secPerDay: Time = secPerHour * 24
 
 
 extension Date {
-  
-  public var refTime: TimeInterval { return timeIntervalSinceReferenceDate }
-  public var unixTime: TimeInterval { return timeIntervalSince1970 }
-  
+
+  public var refTime: TimeInterval { timeIntervalSinceReferenceDate }
+  public var unixTime: TimeInterval { timeIntervalSince1970 }
+
   public init(refTime: TimeInterval) { self.init(timeIntervalSinceReferenceDate: refTime) }
   public init(unixTime: TimeInterval) { self.init(timeIntervalSince1970: unixTime) }
-    
+
   public func isSameDayAs(_ date: Date) -> Bool {
     let components = Calendar.Component.preciseToDay
     let s = Calendar.current.dateComponents(components, from: self)
     let d = Calendar.current.dateComponents(components, from: date)
     return s.day == d.day && s.month == d.month && s.year == d.year && s.era == d.era
   }
-  
-  public var isToday: Bool { return isSameDayAs(Date()) }
-  
+
+  public var isToday: Bool { isSameDayAs(Date()) }
+
   public func plusHours(_ hours: Double) -> Date {
-    return Date(timeIntervalSinceReferenceDate: refTime + hours * 60 * 60)
+    Date(timeIntervalSinceReferenceDate: refTime + hours * 60 * 60)
   }
-  
+
   public var dayDate: Date {
     let cal = Calendar.current
     var c = cal.dateComponents(Calendar.Component.preciseToDay, from: self)
@@ -40,9 +40,9 @@ extension Date {
   }
 
   public var nextDayDate: Date {
-    return plusHours(24).dayDate
+    plusHours(24).dayDate
   }
-  
+
   public func sameTimePlusDays(_ days: Int) -> Date {
     let cal = Calendar.current
     let t = cal.dateComponents(Calendar.Component.timeOfDay, from: self)
@@ -53,17 +53,17 @@ extension Date {
     d.nanosecond = t.nanosecond
     return cal.date(from: d)!
   }
-  
+
   public var weekdayFromSundayAs1: Int { // 1-indexed weekday beginning with sunday.
     let cal = Calendar.current
     let c = cal.dateComponents(Calendar.Component.weekday, from: self)
     return c.weekday!
   }
-  
+
   public var weekday: Int { // 0-indexed weekday beginning with monday.
-    return (weekdayFromSundayAs1 + 5) % 7
+    (weekdayFromSundayAs1 + 5) % 7
   }
-  
+
   public var dayAndWeekday: (Int, Int) {
     let cal = Calendar.current
     let c = cal.dateComponents(Calendar.Component.dayAndWeekday, from: self)

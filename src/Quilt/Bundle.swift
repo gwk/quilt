@@ -34,5 +34,5 @@ public let resourceRootDir: Path = {
 
 
 public func pathForResource(_ resPath: Path) -> Path {
-  return resourceRootDir.cat(resPath)
+  resourceRootDir.cat(resPath)
 }

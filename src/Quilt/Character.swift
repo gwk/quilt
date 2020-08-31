@@ -3,9 +3,9 @@
 
 extension Character {
 
-  public var isDigit: Bool { return "0123456789".contains(self) }
+  public var isDigit: Bool { "0123456789".contains(self) }
 
-  public var asString: String { return String(self) }
+  public var asString: String { String(self) }
 
   // unicode.
 

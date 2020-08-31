@@ -2,17 +2,17 @@
 
 
 public func zip3<S0, S1, S2>(_ seq0: S0, _ seq1: S1, _ seq2: S2) -> Zip3Sequence<S0, S1, S2> {
-  return Zip3Sequence(seq0, seq1, seq2)
+  Zip3Sequence(seq0, seq1, seq2)
 }
 
 
 public func zip3<S0_1, S2, E0, E1>(_ seq0_1: S0_1, _ seq2: S2) -> Zip2And1Sequence<S0_1, S2, E0, E1> {
-  return Zip2And1Sequence(seq0_1, seq2)
+  Zip2And1Sequence(seq0_1, seq2)
 }
 
 
 public func enumZip<S1, S2>(_ seq1: S1, _ seq2: S2) -> Zip3Sequence<CountableClosedRange<Int>, S1, S2> {
-   return Zip3Sequence(0...Int.max, seq1, seq2)
+   Zip3Sequence(0...Int.max, seq1, seq2)
 }
 
 
@@ -55,7 +55,7 @@ public struct Zip3Sequence <S0: Sequence, S1: Sequence, S2: Sequence>: Sequence 
   }
 
   public func makeIterator() -> Iterator {
-    return Iterator(seq0.makeIterator(), seq1.makeIterator(), seq2.makeIterator())
+    Iterator(seq0.makeIterator(), seq1.makeIterator(), seq2.makeIterator())
   }
 }
 
@@ -96,7 +96,7 @@ public struct Zip2And1Sequence <S01: Sequence, S2: Sequence, E0, E1>: Sequence w
   }
 
   public func makeIterator() -> Iterator {
-    return Iterator(seq01.makeIterator(), seq2.makeIterator())
+    Iterator(seq01.makeIterator(), seq2.makeIterator())
   }
 }
 

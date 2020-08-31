@@ -16,11 +16,11 @@ extension Collection {
 extension Collection where Iterator.Element : Equatable {
 
   public func contains(_ element: Iterator.Element) -> Bool {
-    return firstIndex(of: element) != nil
+    firstIndex(of: element) != nil
   }
 
   public func contains<S: Sequence>(sequence: S, atIndex: Index) -> Bool where S.Element == Element {
-    return indexAfter(sequence: sequence, atIndex: atIndex) != nil
+    indexAfter(sequence: sequence, atIndex: atIndex) != nil
   }
 
   public func indexAfter<S: Sequence>(sequence: S, atIndex: Index) -> Index? where S.Element == Element {
@@ -35,7 +35,7 @@ extension Collection where Iterator.Element : Equatable {
   }
 
   public func indexAfter<S: Sequence>(prefix: S) -> Index? where S.Element == Element {
-    return indexAfter(sequence: prefix, atIndex: startIndex)
+    indexAfter(sequence: prefix, atIndex: startIndex)
   }
 
   public func part<C: Collection>(_ sep: C, start: Index? = nil, end: Index? = nil) -> (SubSequence, SubSequence)?

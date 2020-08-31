@@ -8,7 +8,7 @@ public struct Counter<Key: Hashable> {
     self.dict = dict
   }
 
-  public subscript(key: Key) -> Int { return dict[key] ?? 0 }
+  public subscript(key: Key) -> Int { dict[key] ?? 0 }
 
   public mutating func increment(_ key: Key) -> Int {
     let c = self[key]

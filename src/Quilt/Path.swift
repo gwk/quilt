@@ -45,21 +45,21 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
     self.string = Path.normalize(string: parts.joined(char: sysPathSepChar))
   }
 
-  public var description: String { return string }
+  public var description: String { string }
 
-  public var url: URL { return URL(fileURLWithPath: expandUser) }
+  public var url: URL { URL(fileURLWithPath: expandUser) }
 
-  public var isRootAbs: Bool { return string.first == sysPathSepChar }
+  public var isRootAbs: Bool { string.first == sysPathSepChar }
 
-  public var isUserAbs: Bool { return string.first == sysHomePrefixChar }
+  public var isUserAbs: Bool { string.first == sysHomePrefixChar }
 
-  public var isAbs: Bool { return isRootAbs || isUserAbs }
+  public var isAbs: Bool { isRootAbs || isUserAbs }
 
-  public var isRel: Bool { return !isAbs }
+  public var isRel: Bool { !isAbs }
 
-  public var hasDirSuffix: Bool { return string.last == sysPathSepChar }
+  public var hasDirSuffix: Bool { string.last == sysPathSepChar }
 
-  public var apparentDir: Path { return hasDirSuffix ? self : cat("..") }
+  public var apparentDir: Path { hasDirSuffix ? self : cat("..") }
 
   public var stem: Path {
     // The "stem" is the portion of the path up to the '.ext' extension.
@@ -72,10 +72,10 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
     return Path(string[..<string.index(after: i)])
   }
 
-  public var nameStem: Path { return stem.name }
+  public var nameStem: Path { stem.name }
 
   public var dirSlashIndex: String.Index? {
-    return string.lastIndex(of: "/")
+    string.lastIndex(of: "/")
   }
 
   public var nameStartIndex: String.Index {
@@ -86,11 +86,11 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
     }
   }
 
-  public var nameSubstring: Substring { return string[nameStartIndex...] }
+  public var nameSubstring: Substring { string[nameStartIndex...] }
 
-  public var nameString: String { return String(nameSubstring) }
+  public var nameString: String { String(nameSubstring) }
 
-  public var name: Path { return Path(nameString) }
+  public var name: Path { Path(nameString) }
 
   public var extDotIndex: String.Index? {
     let n = nameSubstring
@@ -113,11 +113,11 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
   }
 
 
-  public var expandUser: String { return Path.expandUser(string: string) }
+  public var expandUser: String { Path.expandUser(string: string) }
 
 
   public func append(_ suffix: String) -> Path {
-    return Path(string + suffix)
+    Path(string + suffix)
   }
 
   public func append(parts: String...) -> Path {
@@ -146,7 +146,7 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
   }
 
 
-  public static func ==(l: Path, r: Path) -> Bool { return l.string == r.string }
+  public static func ==(l: Path, r: Path) -> Bool { l.string == r.string }
 
 
   public static func commonParent<S: Sequence>(_ paths: S) -> Path? where S.Element == Path {
@@ -167,7 +167,7 @@ public struct Path: Equatable, ExpressibleByStringLiteral, CustomStringConvertib
   }
 
 
-  public static func commonParent(_ paths: Path...) -> Path? { return commonParent(paths) }
+  public static func commonParent(_ paths: Path...) -> Path? { commonParent(paths) }
 
 
   public static func expandUser(string: String) -> String {
