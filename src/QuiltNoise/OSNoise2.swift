@@ -25,7 +25,7 @@ public class OSNoise2 {
   init(seed: Int = 0x12345678) {
     func next(_ i: Int) -> Int {
       // TODO: find the explanation for these constants.
-      return i &* 6364136223846793005 &+ 1442695040888963407
+      i &* 6364136223846793005 &+ 1442695040888963407
     }
     let size = 256
     var s = seed
