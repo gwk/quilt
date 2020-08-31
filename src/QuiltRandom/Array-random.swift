@@ -26,6 +26,6 @@ extension Array {
   }
 
   public func randomElement(_ random: Random) -> Element {
-    return self[random.int(count)]
+    self[random.int(count)]
   }
 }
