@@ -13,9 +13,9 @@ public struct Edge: CustomStringConvertible, Comparable, Hashable {
     self.tr = tr
   }
 
-  public static var invalid: Edge { return Edge(va: -2, vb: -1, tl: -2, tr: -1) }
+  public static var invalid: Edge { Edge(va: -2, vb: -1, tl: -2, tr: -1) }
 
-  public var description: String { return "Edge(va:\(va), vb:\(vb), tl:\(tl), tr:\(tr))" }
+  public var description: String { "Edge(va:\(va), vb:\(vb), tl:\(tl), tr:\(tr))" }
 
 
   public var halfEdges: [HalfEdge] {

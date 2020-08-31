@@ -2,6 +2,6 @@
 
 
 public func eulerEdgeCount(_ vertexCount: Int, faceCount: Int) -> Int {
-  return vertexCount + faceCount - 2
+  vertexCount + faceCount - 2
 }
 

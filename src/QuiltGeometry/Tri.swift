@@ -41,11 +41,11 @@ public struct Tri: CustomStringConvertible, Hashable {
       }
   }
 
-  public var description: String { return "Tri(\(a), \(b), \(c))" }
+  public var description: String { "Tri(\(a), \(b), \(c))" }
 
-  public var swizzled: Tri { return Tri(a, c, b) }
+  public var swizzled: Tri { Tri(a, c, b) }
 
-  public var vertexIndices: [Int] { return [a, b, c] }
+  public var vertexIndices: [Int] { [a, b, c] }
 
 
   public var halfEdges: [HalfEdge] {

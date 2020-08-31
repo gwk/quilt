@@ -41,7 +41,7 @@ public class Mesh {
     self.name = name
   }
 
-  var vertexCount: Int { return positions.count }
+  var vertexCount: Int { positions.count }
 
 
   public func validate() {
@@ -199,7 +199,7 @@ public class Mesh {
 
 
   public func faceNormal(tri: Tri) -> V3 {
-    return (positions[tri.a] + positions[tri.b] + positions[tri.c]).norm
+    (positions[tri.a] + positions[tri.b] + positions[tri.c]).norm
   }
 
 

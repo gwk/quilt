@@ -15,7 +15,7 @@ public struct Seg: CustomStringConvertible, Comparable, Hashable {
     }
   }
 
-  public var description: String { return "Seg(\(a), \(b))" }
+  public var description: String { "Seg(\(a), \(b))" }
 
   public func validate(vertexCount: Int) {
     precondition(a >= 0 && a < vertexCount)
