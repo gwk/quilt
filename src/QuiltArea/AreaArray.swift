@@ -28,42 +28,42 @@ public class AreaArray<Element>: Collection {
     resize(size, val: val)
   }
 
-  public var count: Int { return array.count }
+  public var count: Int { array.count }
 
-  public func makeIterator() -> Iterator { return array.makeIterator() }
+  public func makeIterator() -> Iterator { array.makeIterator() }
 
-  public var startIndex: Index { return array.startIndex }
+  public var startIndex: Index { array.startIndex }
 
-  public var endIndex: Index { return array.endIndex }
+  public var endIndex: Index { array.endIndex }
 
   public subscript (i: Int) -> Element {
-    get { return array[i] }
+    get { array[i] }
     set { array[i] = newValue }
   }
 
   public subscript (range: Range<Index>) -> ArraySlice<Element> {
-    get { return array[range] }
+    get { array[range] }
     set { array[range] = newValue }
   }
 
   public func index(after i: Index) -> Index {
-    return array.index(after: i)
+    array.index(after: i)
   }
 
   public func allCoords(start: V2I, end: V2I, step: V2I = V2I(1, 1)) -> AreaIterator {
-    return AreaIterator(start: start, end: end, step: step)
+    AreaIterator(start: start, end: end, step: step)
   }
 
   public func allCoords(end: V2I, step: V2I = V2I(1, 1)) -> AreaIterator {
-    return allCoords(start: V2I(), end: end, step: step)
+    allCoords(start: V2I(), end: end, step: step)
   }
 
   public func allCoords(step: V2I = V2I(1, 1)) -> AreaIterator {
-    return allCoords(start: V2I(), end: size, step: step)
+    allCoords(start: V2I(), end: size, step: step)
   }
 
   public func allCoords(inset: Int) -> AreaIterator {
-    return allCoords(start: V2I(inset, inset), end: V2I(size.x - inset, size.y - inset))
+    allCoords(start: V2I(inset, inset), end: V2I(size.x - inset, size.y - inset))
   }
 
   public func resize(_ size: V2I, val: Element) {
@@ -72,31 +72,31 @@ public class AreaArray<Element>: Collection {
   }
 
   public func index(_ coord: V2I) -> Int {
-    return size.x * coord.y + coord.x
+    size.x * coord.y + coord.x
   }
 
   public func coord(_ index: Int) -> V2I {
-    return V2I(index % size.x, index / size.x)
+    V2I(index % size.x, index / size.x)
   }
 
   public func isInBounds(_ coord: V2I) -> Bool {
-    return coord.x >= 0 && coord.x < size.x && coord.y >= 0 && coord.y < size.y
+    coord.x >= 0 && coord.x < size.x && coord.y >= 0 && coord.y < size.y
   }
 
   public func isOnEdge(_ coord: V2I) -> Bool {
-    return coord.x == 0 || coord.x == size.x - 1 || coord.y == 0 || coord.y == size.y - 1
+    coord.x == 0 || coord.x == size.x - 1 || coord.y == 0 || coord.y == size.y - 1
   }
 
   public func isOnHighEdge(_ coord: V2I) -> Bool {
-    return coord.x == size.x - 1 || coord.y == size.y - 1
+    coord.x == size.x - 1 || coord.y == size.y - 1
   }
 
   public func isOnEdge(_ index: Int) -> Bool {
-    return isOnEdge(coord(index))
+    isOnEdge(coord(index))
   }
 
   public func isOnHighEdge(_ index: Int) -> Bool {
-    return isOnHighEdge(coord(index))
+    isOnHighEdge(coord(index))
   }
 
   public func row(_ y: Int) -> Row {
@@ -105,10 +105,10 @@ public class AreaArray<Element>: Collection {
   }
 
   public func el(_ x: Int, _ y: Int) -> Element {
-    return self[size.x * y + x]
+    self[size.x * y + x]
   }
 
-  public func el(_ coord: V2I) -> Element { return el(coord.x, coord.y) }
+  public func el(_ coord: V2I) -> Element { el(coord.x, coord.y) }
 
   public func setEl(_ i: Int, _ j: Int, _ val: Element) {
     self[size.x * j + i] = val
@@ -117,18 +117,18 @@ public class AreaArray<Element>: Collection {
   public func setEl(_ coord: V2I, _ val: Element) { setEl(coord.x, coord.y, val) }
 
   public func mapToArea<R>(_ transform: (Element)->R) -> AreaArray<R> {
-    return AreaArray<R>(size: size, seq: array.map(transform))
+    AreaArray<R>(size: size, seq: array.map(transform))
   }
 
 
   public func withBuffer<R>(_ body: (Buffer<Element>) -> R) -> R {
-    return array.withBuffer(body)
+    array.withBuffer(body)
   }
 
 
   public func withMutRawPtr<R>(_ body: (MutRawPtr) -> R) -> R {
-    return array.withUnsafeMutableBytes {
-      return body($0.baseAddress!)
+    array.withUnsafeMutableBytes {
+      body($0.baseAddress!)
     }
   }
 }
