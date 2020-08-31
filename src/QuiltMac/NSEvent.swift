@@ -19,7 +19,7 @@ extension NSEvent {
 
 
   public var modifiersAndKey: (NSEvent.ModifierFlags, String) {
-    return (modifierFlags.intersection(.deviceIndependentFlagsMask), charactersIgnoringModifiers ?? "")
+    (modifierFlags.intersection(.deviceIndependentFlagsMask), charactersIgnoringModifiers ?? "")
   }
 }
 

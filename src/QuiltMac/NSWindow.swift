@@ -55,7 +55,7 @@ extension NSWindow {
 
   public var viewSize: CGSize {
     get {
-      return contentRect(forFrameRect: frame).size
+      contentRect(forFrameRect: frame).size
     }
     set {
       setContentSize(newValue)
@@ -63,13 +63,13 @@ extension NSWindow {
   }
 
   public func observeCloseOnce(block: @escaping (NSWindow)->Void) -> Observer {
-    return noteCenter.observeOnce(self, name: NSWindow.willCloseNotification) {
+    noteCenter.observeOnce(self, name: NSWindow.willCloseNotification) {
       block($0.object as! NSWindow)
     }
   }
 
   public func observeBackingProperties(block: @escaping (NSWindow, Flt, NSColorSpace)->Void) -> Observer {
-    return noteCenter.addObserver(
+    noteCenter.addObserver(
       forName: NSWindow.didChangeBackingPropertiesNotification,
       object: self,
       queue: .main,
