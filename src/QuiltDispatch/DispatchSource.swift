@@ -5,5 +5,5 @@ import Dispatch
 
 extension DispatchSource {
 
-  public var isCanceled: Bool { return self.isCancelled }
+  public var isCanceled: Bool { self.isCancelled }
 }

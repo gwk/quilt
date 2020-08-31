@@ -6,6 +6,6 @@ import Dispatch
 extension DispatchTime {
 
   public static func fromNow(_ seconds: Double) -> DispatchTime {
-    return now() + seconds
+    now() + seconds
   }
 }
