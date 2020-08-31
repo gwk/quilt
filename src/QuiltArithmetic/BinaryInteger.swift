@@ -31,15 +31,15 @@ extension BinaryInteger {
     return String(Array(a.reversed()))
   }
 
-  public var sign: FloatingPointSign { return self < 0 ? .minus : .plus }
+  public var sign: FloatingPointSign { self < 0 ? .minus : .plus }
 
-  public var signedUnit: Self { return self < 0 ? -1 : 1 }
+  public var signedUnit: Self { self < 0 ? -1 : 1 }
 
-  public func decimal(width: Int = 0) -> String { return self.repr(radix: 10, width: width) }
+  public func decimal(width: Int = 0) -> String { self.repr(radix: 10, width: width) }
 
-  public func hex(width: Int = 0) -> String { return self.repr(radix: 16, width: width) }
+  public func hex(width: Int = 0) -> String { self.repr(radix: 16, width: width) }
 
-  public func decimal0(width: Int = 0) -> String { return self.repr(radix: 10, pad: "0", width: width) }
+  public func decimal0(width: Int = 0) -> String { self.repr(radix: 10, pad: "0", width: width) }
 
-  public func hex0(width: Int = 0) -> String { return self.repr(radix: 16, pad: "0", width: width) }
+  public func hex0(width: Int = 0) -> String { self.repr(radix: 16, pad: "0", width: width) }
 }

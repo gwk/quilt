@@ -36,11 +36,11 @@ extension ArithmeticProtocol {
 extension Sequence where Element: ArithmeticProtocol {
 
   public func sum() -> Element {
-    return reduce(0) { (accum: Element, item: Element) in return accum + item }
+    reduce(0) { (accum: Element, item: Element) in accum + item }
   }
 
   public func prod() -> Element {
-    return reduce(1) { (accum: Element, item: Element) in return accum * item }
+    reduce(1) { (accum: Element, item: Element) in accum * item }
   }
 }
 

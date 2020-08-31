@@ -16,6 +16,6 @@ extension SignedArithmeticProtocol {
 }
 
 public func sign<T: SignedArithmeticProtocol>(_ b: Bool) -> T {
-  return b ? 1 : -1
+  b ? 1 : -1
 }
 
