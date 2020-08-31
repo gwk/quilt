@@ -52,13 +52,13 @@ extension V2: VecType, VecType2 {
     self.init(Scalar(v.x), Scalar(v.y))
   }
 
-  public static var scalarCount: Int { return 2 }
+  public static var scalarCount: Int { 2 }
 
-  public static var unitX: V2 { return V2(1, 0) }
-  public static var unitY: V2 { return V2(0, 1) }
+  public static var unitX: V2 { V2(1, 0) }
+  public static var unitY: V2 { V2(0, 1) }
 
-  public var vs: V2S { return V2S(x.asF32, y.asF32) }
-  public var vd: V2D { return V2D(x.asF64, y.asF64) }
+  public var vs: V2S { V2S(x.asF32, y.asF32) }
+  public var vd: V2D { V2D(x.asF64, y.asF64) }
 
   public var sqrLen: F64 {
     var s = x.asF64.sqr
@@ -66,7 +66,7 @@ extension V2: VecType, VecType2 {
     return s
 }
 
-  public var aspect: F64 { return x.asF64 / y.asF64 }
+  public var aspect: F64 { x.asF64 / y.asF64 }
 
   public func dot(_ b: V2) -> F64 {
     var s = x.asF64 * b.x.asF64
@@ -74,31 +74,31 @@ extension V2: VecType, VecType2 {
     return s
   }
 
-public static func +(a: V2, b: V2) -> V2 { return V2(a.x + b.x, a.y + b.y) }
-public static func -(a: V2, b: V2) -> V2 { return V2(a.x - b.x, a.y - b.y) }
-public static func *(a: V2, b: V2) -> V2 { return V2(a.x * b.x, a.y * b.y) }
-public static func /(a: V2, b: V2) -> V2 { return V2(a.x / b.x, a.y / b.y) }
-public static func +(a: V2, s: Flt) -> V2 { return V2(a.x + s, a.y + s) }
-public static func -(a: V2, s: Flt) -> V2 { return V2(a.x - s, a.y - s) }
-public static func *(a: V2, s: Flt) -> V2 { return V2(a.x * s, a.y * s) }
-public static func /(a: V2, s: Flt) -> V2 { return V2(a.x / s, a.y / s) }
-public static prefix func -(a: V2) -> V2 { return a * -1 }
+public static func +(a: V2, b: V2) -> V2 { V2(a.x + b.x, a.y + b.y) }
+public static func -(a: V2, b: V2) -> V2 { V2(a.x - b.x, a.y - b.y) }
+public static func *(a: V2, b: V2) -> V2 { V2(a.x * b.x, a.y * b.y) }
+public static func /(a: V2, b: V2) -> V2 { V2(a.x / b.x, a.y / b.y) }
+public static func +(a: V2, s: Flt) -> V2 { V2(a.x + s, a.y + s) }
+public static func -(a: V2, s: Flt) -> V2 { V2(a.x - s, a.y - s) }
+public static func *(a: V2, s: Flt) -> V2 { V2(a.x * s, a.y * s) }
+public static func /(a: V2, s: Flt) -> V2 { V2(a.x / s, a.y / s) }
+public static prefix func -(a: V2) -> V2 { a * -1 }
 }
 
 
 extension V2: FloatVecType {
 
-  public var allFinite: Bool { return x.isFinite && (y.isFinite) }
-  public var allZero: Bool { return x.isZero && (y.isZero) }
-  public var allZeroOrSubnormal: Bool { return x.isZeroOrSubnormal && (y.isZeroOrSubnormal) }
-  public var anySubnormal: Bool { return x.isSubnormal || (y.isSubnormal)}
-  public var anyInfite: Bool { return x.isInfinite || (y.isInfinite)}
-  public var anyNaN: Bool { return x.isNaN || (y.isNaN)}
-  public var anyZero: Bool { return x.isZero && (y.isZero) }
-  public var anyZeroOrSubnormal: Bool { return x.isZeroOrSubnormal || (y.isZeroOrSubnormal) }
-  public var clampToUnit: V2 { return V2(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1)) }
-  public var clampToSignedUnit: V2 { return V2(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1)) }
-  public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
+  public var allFinite: Bool { x.isFinite && (y.isFinite) }
+  public var allZero: Bool { x.isZero && (y.isZero) }
+  public var allZeroOrSubnormal: Bool { x.isZeroOrSubnormal && (y.isZeroOrSubnormal) }
+  public var anySubnormal: Bool { x.isSubnormal || (y.isSubnormal)}
+  public var anyInfite: Bool { x.isInfinite || (y.isInfinite)}
+  public var anyNaN: Bool { x.isNaN || (y.isNaN)}
+  public var anyZero: Bool { x.isZero && (y.isZero) }
+  public var anyZeroOrSubnormal: Bool { x.isZeroOrSubnormal || (y.isZeroOrSubnormal) }
+  public var clampToUnit: V2 { V2(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1)) }
+  public var clampToSignedUnit: V2 { V2(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1)) }
+  public var toU8Pixel: VU8Type { VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
 }
 
 extension V2: Comparable {
@@ -109,6 +109,6 @@ extension V2: Comparable {
 }
 
 extension V2: CustomStringConvertible {
-  public var description: String { return "V2(\(x), \(y))" }
+  public var description: String { "V2(\(x), \(y))" }
 }
 

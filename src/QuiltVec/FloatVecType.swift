@@ -15,9 +15,9 @@ public protocol FloatVecType: VecType where Scalar: ArithmeticFloat {
 
 extension FloatVecType {
 
-  public var norm: Self { return self / Scalar(self.len) }
+  public var norm: Self { self / Scalar(self.len) }
 
-  public func dist(_ b: Self) -> F64 { return (b - self).len }
+  public func dist(_ b: Self) -> F64 { (b - self).len }
 
   public func lerp(_ b: Self, _ t: F64) -> Self {
     let ad: VDType = self.vd
@@ -25,7 +25,7 @@ extension FloatVecType {
     return Self.init(ad * (1-t) + bd*t)
   }
 
-  public func mid(_ b: Self) -> Self { return (self + b) / 2 }
+  public func mid(_ b: Self) -> Self { (self + b) / 2 }
 }
 
 

@@ -34,20 +34,20 @@ def gen_mat(dim, t):
   outL('extension $ {', mt)
 
   for i in rng:
-    outL('  public var c$: $ { return self[$] }', i, vt, i)
+    outL('  public var c$: $ { self[$] }', i, vt, i)
   for j in rng:
-    outL('  public var r$: $ { return $($) }', j, vt, vt, jc(fmt('self[$, $]', i, j) for i in rng))
+    outL('  public var r$: $ { $($) }', j, vt, vt, jc(fmt('self[$, $]', i, j) for i in rng))
 
   outL('  public static let zero = $(0)', mt)
   outL('  public static let ident = $(1)', mt)
 
   scale_pars = jc(fmt('$: $', c, t.scalar) for c in v_comps)
   scale_args = jc(c for c in v_comps)
-  outL('  public static func scale($) -> $ { return $(diagonal: $($)) }\n', scale_pars, mt, mt, vt, scale_args)
+  outL('  public static func scale($) -> $ { $(diagonal: $($)) }\n', scale_pars, mt, mt, vt, scale_args)
 
   if dim >= 3:
     for k, ck in enumerate(v_comps[:3]): # k is index of rotation axis.
-      outL('  public static func rot$(_ theta: $) -> $ { return $([', ck.upper(), t.scalar, mt, mt)
+      outL('  public static func rot$(_ theta: $) -> $ { $([', ck.upper(), t.scalar, mt, mt)
       for j, cj in enumerate(v_comps):
         def rot_comp(i, ci):
           if i == k or j == k or i == 3 or j == 3:

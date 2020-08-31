@@ -14,7 +14,7 @@ public protocol IntVecType: VecType where Scalar: SignedArithmeticInt {
 
 extension IntVecType {
 
-  public func dist(_ b: Self) -> F64 { return (b - self).len }
+  public func dist(_ b: Self) -> F64 { (b - self).len }
 
-  public func mid(_ b: Self) -> Self { return (self + b) / 2 }
+  public func mid(_ b: Self) -> Self { (self + b) / 2 }
 }

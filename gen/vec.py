@@ -97,19 +97,19 @@ import QuiltArithmetic\
     outL('  }')
 
   outL()
-  outL('  public static var scalarCount: Int { return $ }', dim)
+  outL('  public static var scalarCount: Int { $ }', dim)
 
   if needs_zero:
-    outL('  public static var zero: Self { return Self.init() }')
+    outL('  public static var zero: Self { Self.init() }')
 
   outL()
   for c in comps:
-    outL('  public static var unit$: $ { return $($) }',
+    outL('  public static var unit$: $ { $($) }',
       c.upper(), vi_type, v_type, jc('1' if d == c else '0' for d in comps))
 
   outL()
-  outL('  public var vs: V$S { return V$S($) }', dim, dim, jcf('$.asF32', comps))
-  outL('  public var vd: V$D { return V$D($) }', dim, dim, jcf('$.asF64', comps))
+  outL('  public var vs: V$S { V$S($) }', dim, dim, jcf('$.asF32', comps))
+  outL('  public var vd: V$D { V$D($) }', dim, dim, jcf('$.asF64', comps))
 
   outL()
   outL('  public var sqrLen: F64 {')
@@ -120,7 +120,7 @@ import QuiltArithmetic\
   outL('}')
 
   outL()
-  outL('  public var aspect: F64 { return x.asF64 / y.asF64 }')
+  outL('  public var aspect: F64 { x.asF64 / y.asF64 }')
 
   # TODO: swizzles.
 
@@ -134,40 +134,40 @@ import QuiltArithmetic\
   outL()
 
   if scalar == 'U8':
-    outL('  public var toSPixel: VSType { return VSType($) }', jcf('$.asF32 / F32(0xFF)', comps))
+    outL('  public var toSPixel: VSType { VSType($) }', jcf('$.asF32 / F32(0xFF)', comps))
 
   if not is_simd:
     for op in ops:
       cons_comps_v = jc(fmt('$ $ $', a, op, b) for a, b in comps_ab) # e.g. 'a.x + b.x'.
-      outL('public static func $(a: $, b: $) -> $ { return $($) }', op, v_type, v_type, v_type, v_type, cons_comps_v)
+      outL('public static func $(a: $, b: $) -> $ { $($) }', op, v_type, v_type, v_type, v_type, cons_comps_v)
     for op in ops:
       cons_comps_s = jc(fmt('$ $ s', a, op) for a in comps_a) # e.g. 'a.x + s'.
-      outL('public static func $(a: $, s: $) -> $ { return $($) }', op, v_type, scalar, v_type, v_type, cons_comps_s)
+      outL('public static func $(a: $, s: $) -> $ { $($) }', op, v_type, scalar, v_type, v_type, cons_comps_s)
 
     if is_signed:
-      outL('public static prefix func -(a: $) -> $ { return a * -1 }', v_type, v_type)
+      outL('public static prefix func -(a: $) -> $ { a * -1 }', v_type, v_type)
 
   outL('}\n\n')
   where_clause = 'where Scalar: ArithmeticFloat ' if is_simd else ''
   outL('extension $: FloatVecType ${', v_type, where_clause)
 
   outL('')
-  outL('  public var allFinite: Bool { return $ }', jfra(' && ', '$.isFinite', comps))
-  outL('  public var allZero: Bool { return $ }', jfra(' && ', '$.isZero', comps))
-  outL('  public var allZeroOrSubnormal: Bool { return $ }', jfra(' && ', '$.isZeroOrSubnormal', comps))
-  outL('  public var anySubnormal: Bool { return $}', jfra(' || ', '$.isSubnormal', comps))
-  outL('  public var anyInfite: Bool { return $}', jfra(' || ', '$.isInfinite', comps))
-  outL('  public var anyNaN: Bool { return $}', jfra(' || ', '$.isNaN', comps))
-  outL('  public var anyZero: Bool { return $ }', jfra(' && ', '$.isZero', comps))
-  outL('  public var anyZeroOrSubnormal: Bool { return $ }', jfra(' || ', '$.isZeroOrSubnormal', comps))
-  outL('  public var clampToUnit: $ { return $($) }', v_type, v_type, jcf('$.clamp(min: 0, max: 1)', comps))
-  outL('  public var clampToSignedUnit: $ { return $($) }', v_type, v_type, jcf('$.clamp(min: -1, max: 1)', comps))
-  outL('  public var toU8Pixel: VU8Type { return VU8Type($) }', jcf('U8(($*255).clamp(min: 0, max: 255))', comps))
+  outL('  public var allFinite: Bool { $ }', jfra(' && ', '$.isFinite', comps))
+  outL('  public var allZero: Bool { $ }', jfra(' && ', '$.isZero', comps))
+  outL('  public var allZeroOrSubnormal: Bool { $ }', jfra(' && ', '$.isZeroOrSubnormal', comps))
+  outL('  public var anySubnormal: Bool { $}', jfra(' || ', '$.isSubnormal', comps))
+  outL('  public var anyInfite: Bool { $}', jfra(' || ', '$.isInfinite', comps))
+  outL('  public var anyNaN: Bool { $}', jfra(' || ', '$.isNaN', comps))
+  outL('  public var anyZero: Bool { $ }', jfra(' && ', '$.isZero', comps))
+  outL('  public var anyZeroOrSubnormal: Bool { $ }', jfra(' || ', '$.isZeroOrSubnormal', comps))
+  outL('  public var clampToUnit: $ { $($) }', v_type, v_type, jcf('$.clamp(min: 0, max: 1)', comps))
+  outL('  public var clampToSignedUnit: $ { $($) }', v_type, v_type, jcf('$.clamp(min: -1, max: 1)', comps))
+  outL('  public var toU8Pixel: VU8Type { VU8Type($) }', jcf('U8(($*255).clamp(min: 0, max: 255))', comps))
 
   if dim >= 3:
     outL('')
     cross_pairs = ['yz', 'zx', 'xy', '__'][:dim]
-    outL('  public func cross(_ b: $) -> $ { return $(', v_type, v_type, v_type)
+    outL('  public func cross(_ b: $) -> $ { $(', v_type, v_type, v_type)
     for i, (a, b) in enumerate(cross_pairs):
       if a == '_':
         outL('    0')
@@ -220,7 +220,7 @@ import QuiltArithmetic\
 
   if needs_convertible:
     outL('extension $: CustomStringConvertible {', v_type)
-    outL('  public var description: String { return "$($)" }', v_type, jcf('\\($)', comps))
+    outL('  public var description: String { "$($)" }', v_type, jcf('\\($)', comps))
     outL('}\n')
 
 

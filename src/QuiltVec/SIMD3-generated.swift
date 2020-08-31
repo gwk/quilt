@@ -39,15 +39,15 @@ extension SIMD3: VecType, VecType3 where Scalar: ArithmeticProtocol {
     self.init(v.x, v.y, z)
   }
 
-  public static var scalarCount: Int { return 3 }
-  public static var zero: Self { return Self.init() }
+  public static var scalarCount: Int { 3 }
+  public static var zero: Self { Self.init() }
 
-  public static var unitX: SIMD3<Scalar> { return SIMD3(1, 0, 0) }
-  public static var unitY: SIMD3<Scalar> { return SIMD3(0, 1, 0) }
-  public static var unitZ: SIMD3<Scalar> { return SIMD3(0, 0, 1) }
+  public static var unitX: SIMD3<Scalar> { SIMD3(1, 0, 0) }
+  public static var unitY: SIMD3<Scalar> { SIMD3(0, 1, 0) }
+  public static var unitZ: SIMD3<Scalar> { SIMD3(0, 0, 1) }
 
-  public var vs: V3S { return V3S(x.asF32, y.asF32, z.asF32) }
-  public var vd: V3D { return V3D(x.asF64, y.asF64, z.asF64) }
+  public var vs: V3S { V3S(x.asF32, y.asF32, z.asF32) }
+  public var vd: V3D { V3D(x.asF64, y.asF64, z.asF64) }
 
   public var sqrLen: F64 {
     var s = x.asF64.sqr
@@ -56,7 +56,7 @@ extension SIMD3: VecType, VecType3 where Scalar: ArithmeticProtocol {
     return s
 }
 
-  public var aspect: F64 { return x.asF64 / y.asF64 }
+  public var aspect: F64 { x.asF64 / y.asF64 }
 
   public func dot(_ b: SIMD3<Scalar>) -> F64 {
     var s = x.asF64 * b.x.asF64
@@ -70,19 +70,19 @@ extension SIMD3: VecType, VecType3 where Scalar: ArithmeticProtocol {
 
 extension SIMD3: FloatVecType where Scalar: ArithmeticFloat {
 
-  public var allFinite: Bool { return x.isFinite && (y.isFinite && (z.isFinite)) }
-  public var allZero: Bool { return x.isZero && (y.isZero && (z.isZero)) }
-  public var allZeroOrSubnormal: Bool { return x.isZeroOrSubnormal && (y.isZeroOrSubnormal && (z.isZeroOrSubnormal)) }
-  public var anySubnormal: Bool { return x.isSubnormal || (y.isSubnormal || (z.isSubnormal))}
-  public var anyInfite: Bool { return x.isInfinite || (y.isInfinite || (z.isInfinite))}
-  public var anyNaN: Bool { return x.isNaN || (y.isNaN || (z.isNaN))}
-  public var anyZero: Bool { return x.isZero && (y.isZero && (z.isZero)) }
-  public var anyZeroOrSubnormal: Bool { return x.isZeroOrSubnormal || (y.isZeroOrSubnormal || (z.isZeroOrSubnormal)) }
-  public var clampToUnit: SIMD3 { return SIMD3(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1), z.clamp(min: 0, max: 1)) }
-  public var clampToSignedUnit: SIMD3 { return SIMD3(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1), z.clamp(min: -1, max: 1)) }
-  public var toU8Pixel: VU8Type { return VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255))) }
+  public var allFinite: Bool { x.isFinite && (y.isFinite && (z.isFinite)) }
+  public var allZero: Bool { x.isZero && (y.isZero && (z.isZero)) }
+  public var allZeroOrSubnormal: Bool { x.isZeroOrSubnormal && (y.isZeroOrSubnormal && (z.isZeroOrSubnormal)) }
+  public var anySubnormal: Bool { x.isSubnormal || (y.isSubnormal || (z.isSubnormal))}
+  public var anyInfite: Bool { x.isInfinite || (y.isInfinite || (z.isInfinite))}
+  public var anyNaN: Bool { x.isNaN || (y.isNaN || (z.isNaN))}
+  public var anyZero: Bool { x.isZero && (y.isZero && (z.isZero)) }
+  public var anyZeroOrSubnormal: Bool { x.isZeroOrSubnormal || (y.isZeroOrSubnormal || (z.isZeroOrSubnormal)) }
+  public var clampToUnit: SIMD3 { SIMD3(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1), z.clamp(min: 0, max: 1)) }
+  public var clampToSignedUnit: SIMD3 { SIMD3(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1), z.clamp(min: -1, max: 1)) }
+  public var toU8Pixel: VU8Type { VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255))) }
 
-  public func cross(_ b: SIMD3) -> SIMD3 { return SIMD3(
+  public func cross(_ b: SIMD3) -> SIMD3 { SIMD3(
       y * b.z - z * b.y,
       z * b.x - x * b.z,
       x * b.y - y * b.x
