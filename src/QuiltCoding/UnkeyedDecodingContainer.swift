@@ -8,7 +8,7 @@ extension UnkeyedDecodingContainer {
 
   @inline(__always)
   mutating func decode<T>() throws -> T where T: Decodable {
-    return try self.decode(T.self)
+    try self.decode(T.self)
   }
 
   mutating func decodeRemaining<T>() throws -> [T] where T: Decodable {

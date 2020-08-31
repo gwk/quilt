@@ -7,11 +7,11 @@ extension KeyedDecodingContainer {
 
   @inline(__always)
   func decode<T>(key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
-    return try self.decode(T.self, forKey: key)
+    try self.decode(T.self, forKey: key)
   }
 
   @inline(__always)
   func decodeOpt<T>(key: KeyedDecodingContainer.Key) throws -> T? where T: Decodable {
-    return try self.decodeIfPresent(T.self, forKey: key)
+    try self.decodeIfPresent(T.self, forKey: key)
   }
 }
