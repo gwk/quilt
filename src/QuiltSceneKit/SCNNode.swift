@@ -27,7 +27,7 @@ extension SCNNode {
 
 
   public var pitch: Float {
-    get { return simdEulerAngles.x }
+    get { simdEulerAngles.x }
     set {
       var e = simdEulerAngles
       e.x = newValue
@@ -37,7 +37,7 @@ extension SCNNode {
 
 
   public var yaw: Float {
-    get { return simdEulerAngles.y }
+    get { simdEulerAngles.y }
     set {
       var e = simdEulerAngles
       e.y = newValue
@@ -45,9 +45,9 @@ extension SCNNode {
     }
   }
 
-  
+
   public var roll: Float {
-    get { return simdEulerAngles.z }
+    get { simdEulerAngles.z }
     set {
       var e = simdEulerAngles
       e.z = newValue
@@ -57,7 +57,7 @@ extension SCNNode {
 
 
   public var simdPivotPosition: V3S {
-    get { return V3S(simdPivot[3]) }
+    get { V3S(simdPivot[3]) }
     set {
       var t = simdPivot[3]
       t[0] = newValue[0]
@@ -68,7 +68,7 @@ extension SCNNode {
   }
 
   public var simdPivotZ: Float {
-    get { return simdPivot[3][2] }
+    get { simdPivot[3][2] }
     set { simdPivot[3][2] = newValue }
   }
 }

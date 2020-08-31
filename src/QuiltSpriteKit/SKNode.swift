@@ -11,7 +11,7 @@ extension SKNode {
   }
 
   public var pos: CGPoint {
-    get { return position }
+    get { position }
     set { position = newValue }
   }
 

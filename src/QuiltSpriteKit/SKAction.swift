@@ -7,7 +7,7 @@ import Quilt
 extension SKAction {
 
   public class func runNodeBlock<Node: SKNode>(_ block: @escaping (Node)->()) -> SKAction {
-    return SKAction.customAction(withDuration: 0) {
+    SKAction.customAction(withDuration: 0) {
       (node: SKNode, elapsedTime: CGFloat) in
       if let node = node as? Node {
         block(node)
@@ -17,11 +17,11 @@ extension SKAction {
     }
   }
 
-  public func delay(_ duration: Time) -> SKAction { return SKAction.sequence([SKAction.wait(forDuration: duration), self]) }
+  public func delay(_ duration: Time) -> SKAction { SKAction.sequence([SKAction.wait(forDuration: duration), self]) }
 
-  public func repeated(_ count: Int) -> SKAction { return SKAction.repeat(self, count: count) }
+  public func repeated(_ count: Int) -> SKAction { SKAction.repeat(self, count: count) }
 
-  public var forever: SKAction { return SKAction.repeatForever(self) }
+  public var forever: SKAction { SKAction.repeatForever(self) }
 
   public class func showTexts(_ texts: [String], durationPerItem: Time) -> SKAction {
     var actions: [SKAction] = [SKAction.unhide()]

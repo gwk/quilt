@@ -10,7 +10,7 @@ let SKTexture_missing: SKTexture = SKTexture(cgImage: CoreGraphics.CGImage.missi
 
 extension SKTexture {
 
-  public static var missing: SKTexture { return SKTexture_missing }
+  public static var missing: SKTexture { SKTexture_missing }
 
   public convenience init(path: Path, filteringMode: SKTextureFilteringMode = .linear) {
     let image: CGImage

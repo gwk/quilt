@@ -6,7 +6,7 @@ import SpriteKit
 extension SKLabelNode {
 
   public var alignmentModes: (SKLabelHorizontalAlignmentMode, SKLabelVerticalAlignmentMode) {
-    get { return (horizontalAlignmentMode, verticalAlignmentMode) }
+    get { (horizontalAlignmentMode, verticalAlignmentMode) }
     set {
       horizontalAlignmentMode = newValue.0
       verticalAlignmentMode = newValue.1

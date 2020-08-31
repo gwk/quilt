@@ -24,18 +24,18 @@ extension SKPhysicsBody {
   #endif
 
   public class func with(polygonPoints: [CGPoint]) -> SKPhysicsBody {
-    return SKPhysicsBody(polygonFrom: CGPath.with(loopPoints: polygonPoints))
+    SKPhysicsBody(polygonFrom: CGPath.with(loopPoints: polygonPoints))
   }
 
   public class func with(edgeLoopPoints: [CGPoint]) -> SKPhysicsBody {
-    return SKPhysicsBody(edgeLoopFrom: CGPath.with(loopPoints: edgeLoopPoints))
+    SKPhysicsBody(edgeLoopFrom: CGPath.with(loopPoints: edgeLoopPoints))
   }
 
   public class func with(size: CGSize, anchor: CGPoint) -> SKPhysicsBody { // workaround for above.
-    return SKPhysicsBody(rectangleOf: size, center: V2(size) * (V2(0.5, 0.5) - anchor))
+    SKPhysicsBody(rectangleOf: size, center: V2(size) * (V2(0.5, 0.5) - anchor))
   }
 
   public class func matching(spriteNode: SKSpriteNode) -> SKPhysicsBody {
-    return SKPhysicsBody.with(size: spriteNode.size, anchor: spriteNode.anchorPoint)
+    SKPhysicsBody.with(size: spriteNode.size, anchor: spriteNode.anchorPoint)
   }
 }
