@@ -28,6 +28,6 @@ extension CGPoint {
     }
   }
 
-  public static func -(a: CGPoint, b: CGSize) -> CGPoint { return CGPoint(a.x - b.w, a.y - b.h) }
-  public static func +(a: CGPoint, b: CGSize) -> CGPoint { return CGPoint(a.x + b.w, a.y + b.h) }
+  public static func -(a: CGPoint, b: CGSize) -> CGPoint { CGPoint(a.x - b.w, a.y - b.h) }
+  public static func +(a: CGPoint, b: CGSize) -> CGPoint { CGPoint(a.x + b.w, a.y + b.h) }
 }

@@ -15,14 +15,14 @@ import QuiltVec
 
 extension CRColor {
 
-  public class var w: CRColor     { return self.white }
-  public class var k: CRColor     { return self.black }
-  public class var r: CRColor     { return self.red }
-  public class var g: CRColor     { return self.green }
-  public class var b: CRColor     { return self.blue }
-  public class var c: CRColor     { return self.cyan }
-  public class var m: CRColor     { return self.magenta }
-  public class var y: CRColor     { return self.yellow }
+  public class var w: CRColor     { self.white }
+  public class var k: CRColor     { self.black }
+  public class var r: CRColor     { self.red }
+  public class var g: CRColor     { self.green }
+  public class var b: CRColor     { self.blue }
+  public class var c: CRColor     { self.cyan }
+  public class var m: CRColor     { self.magenta }
+  public class var y: CRColor     { self.yellow }
 
   public convenience init(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, _ a: CGFloat = 1) {
     self.init(red: r, green: g, blue: b, alpha: a)

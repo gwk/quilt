@@ -12,5 +12,5 @@ import Quilt
 
 
 extension CREvent {
-  public var appTime: TimeInterval { return timestamp - appLaunchSysTime() } // timestamp is relative to systemUptime.
+  public var appTime: TimeInterval { timestamp - appLaunchSysTime() } // timestamp is relative to systemUptime.
 }

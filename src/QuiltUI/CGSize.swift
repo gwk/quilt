@@ -18,22 +18,22 @@ extension CGSize {
   }
 
   public var w: Flt {
-    get { return width }
+    get { width }
     set { width = newValue }
   }
 
   public var h: Flt {
-    get { return height }
+    get { height }
     set { height = newValue }
   }
 
-  public var aspect: Flt { return w / h }
+  public var aspect: Flt { w / h }
 
-  public var isPositive: Bool { return w > 0 && h > 0 }
+  public var isPositive: Bool { w > 0 && h > 0 }
 }
 
-public func *(l: CGSize, r: Flt) -> CGSize { return CGSize(l.w * r, l.h * r) }
-public func /(l: CGSize, r: Flt) -> CGSize { return CGSize(l.w / r, l.h / r) }
+public func *(l: CGSize, r: Flt) -> CGSize { CGSize(l.w * r, l.h * r) }
+public func /(l: CGSize, r: Flt) -> CGSize { CGSize(l.w / r, l.h / r) }
 
-public func *(l: CGSize, r: CGSize) -> CGSize { return CGSize(l.w * r.w, l.h * r.h) }
-public func /(l: CGSize, r: CGSize) -> CGSize { return CGSize(l.w / r.w, l.h / r.h) }
+public func *(l: CGSize, r: CGSize) -> CGSize { CGSize(l.w * r.w, l.h * r.h) }
+public func /(l: CGSize, r: CGSize) -> CGSize { CGSize(l.w / r.w, l.h / r.h) }

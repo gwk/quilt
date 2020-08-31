@@ -9,5 +9,5 @@
 
 extension NSLayoutConstraint.Attribute {
 
-  public var isSome: Bool { return self != .notAnAttribute }
+  public var isSome: Bool { self != .notAnAttribute }
 }

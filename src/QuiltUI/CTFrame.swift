@@ -6,11 +6,11 @@ import CoreText
 
 extension CTFrame {
 
-  public var lines: [CTLine] { return CTFrameGetLines(self) as! [CTLine] }
+  public var lines: [CTLine] { CTFrameGetLines(self) as! [CTLine] }
 
-  public var path: CGPath { return CTFrameGetPath(self) }
+  public var path: CGPath { CTFrameGetPath(self) }
 
-  public var range: CountableRange<Int> { return CountableRange(CTFrameGetStringRange(self)) }
+  public var range: CountableRange<Int> { CountableRange(CTFrameGetStringRange(self)) }
 
   public func getLinesAndOrigins() -> ([CTLine], [CGPoint]) {
     let lines = self.lines

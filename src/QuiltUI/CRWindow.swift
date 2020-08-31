@@ -38,7 +38,7 @@ extension CRWindow {
   }
 
   public var size: CGSize {
-    get { return contentRect(forFrameRect: frame).size }
+    get { contentRect(forFrameRect: frame).size }
     set { setContentSize(newValue) }
   }
   #endif

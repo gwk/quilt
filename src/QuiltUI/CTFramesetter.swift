@@ -7,10 +7,10 @@ import Foundation
 extension CTFramesetter {
 
   public class func make(attributedString: NSAttributedString) -> CTFramesetter {
-    return CTFramesetterCreateWithAttributedString(attributedString as CFAttributedString)
+    CTFramesetterCreateWithAttributedString(attributedString as CFAttributedString)
   }
 
-  public var typesetter: CTTypesetter { return CTFramesetterGetTypesetter(self) }
+  public var typesetter: CTTypesetter { CTFramesetterGetTypesetter(self) }
 
   public func createFrame(range: CountableRange<Int> = 0..<0, path: CGPath) -> CTFrame {
     // TODO: attributes; currently passing nil.
@@ -19,11 +19,11 @@ extension CTFramesetter {
     // kCTFramePathWidthAttributeName //  a CFNumber containing a value specifying the frame width. The default width value is zero.
     // kCTFrameClippingPathsAttributeName // a CFArrayRef containing CFDictionaryRefs. Each dictionary should have a kCTFramePathClippingPathAttributeName key-value pair, and can have a kCTFramePathFillRuleAttributeName key-value pair and kCTFramePathFillRuleAttributeName key-value pair as optional parameters.
     // kCTFramePathClippingPathAttributeName // a CGPathRef specifying a clipping path.
-    return CTFramesetterCreateFrame(self, CFRange(range), path, nil)
+    CTFramesetterCreateFrame(self, CFRange(range), path, nil)
   }
 
   public func createFrame(range: CountableRange<Int> = 0..<0, bounds: CGRect) -> CTFrame {
-    return createFrame(range: range, path: CGPath(rect: bounds, transform: nil))
+    createFrame(range: range, path: CGPath(rect: bounds, transform: nil))
   }
 
   public func suggestFrameSize(range: CountableRange<Int> = 0..<0, constraintSize: CGSize) -> (CGSize, CountableRange<Int>) {

@@ -12,14 +12,14 @@ public protocol PixelType {
 
 extension U8: PixelType {
   public typealias Scalar = U8
-  public var scalarCount: Int { return 1 }
-  public static var scalarCount: Int { return 1 }
+  public var scalarCount: Int { 1 }
+  public static var scalarCount: Int { 1 }
 }
 
 extension F32: PixelType {
   public typealias Scalar = F32
-  public var scalarCount: Int { return 1 }
-  public static var scalarCount: Int { return 1 }
+  public var scalarCount: Int { 1 }
+  public static var scalarCount: Int { 1 }
 }
 
 extension SIMD2: PixelType where Scalar: ArithmeticFloat {}

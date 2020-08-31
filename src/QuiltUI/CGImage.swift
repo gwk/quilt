@@ -87,13 +87,13 @@ extension CGImage {
   }
 
 
-  public var w: Int { return self.width }
-  public var h: Int { return self.height }
-  public var bounds: CGRect { return CGRect(Flt(w), Flt(h)) }
+  public var w: Int { self.width }
+  public var h: Int { self.height }
+  public var bounds: CGRect { CGRect(Flt(w), Flt(h)) }
 
 
   public func makeBitmapContext() -> CGContext {
-    return CGContext(data: nil, width: w, height: h, bitsPerComponent: bitsPerComponent, bytesPerRow: 0, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)!
+    CGContext(data: nil, width: w, height: h, bitsPerComponent: bitsPerComponent, bytesPerRow: 0, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)!
   }
 
   public func flipH() -> CGImage {

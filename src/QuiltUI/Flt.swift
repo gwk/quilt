@@ -15,11 +15,11 @@ extension Flt: ArithmeticFloat {}
 extension Random {
 
   public func flt(_ max: Flt) -> Flt {
-    return Flt(f64(F64(max)))
+    Flt(f64(F64(max)))
   }
 
   public func flt(min: Flt, max: Flt) -> Flt {
-    return Flt(f64(min: F64(min), max: F64(max)))
+    Flt(f64(min: F64(min), max: F64(max)))
   }
 
 }

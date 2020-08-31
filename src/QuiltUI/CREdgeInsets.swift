@@ -11,10 +11,10 @@
 
 extension CREdgeInsets {
 
-  public var l: Flt { return left }
-  public var t: Flt { return top }
-  public var r: Flt { return right }
-  public var b: Flt { return bottom }
+  public var l: Flt { left }
+  public var t: Flt { top }
+  public var r: Flt { right }
+  public var b: Flt { bottom }
 
   public init(l: Flt = 0, t: Flt = 0, r: Flt = 0, b: Flt = 0) {
     self.init(top: t, left: l, bottom: b, right: r)

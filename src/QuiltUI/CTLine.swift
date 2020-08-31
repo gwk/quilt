@@ -7,7 +7,7 @@ import CoreText
 extension CTLine {
 
   public static func make(attrString: NSAttributedString) -> CTLine {
-    return CTLineCreateWithAttributedString(attrString)
+    CTLineCreateWithAttributedString(attrString)
   }
 
   var range: CountableRange<Int> {
@@ -18,6 +18,6 @@ extension CTLine {
   public func draw(ctx: CGContext) { CTLineDraw(self, ctx) }
 
   public func truncate(width: Flt, truncationType: CTLineTruncationType = .end, truncationLine: CTLine) -> CTLine? {
-    return CTLineCreateTruncatedLine(self, Double(width), truncationType, truncationLine)
+    CTLineCreateTruncatedLine(self, Double(width), truncationType, truncationLine)
   }
 }

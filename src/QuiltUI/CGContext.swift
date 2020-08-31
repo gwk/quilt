@@ -28,9 +28,9 @@ extension CGContext {
   }
 
 
-  public var w: Int { return self.width }
-  public var h: Int { return self.height }
-  public var bounds: CGRect { return CGRect(0, 0, Flt(w), Flt(h)) }
+  public var w: Int { self.width }
+  public var h: Int { self.height }
+  public var bounds: CGRect { CGRect(0, 0, Flt(w), Flt(h)) }
 
   public func flipCTMHori() {
     translateBy(x: Flt(w), y: 0)
@@ -59,9 +59,7 @@ extension CGContext {
     self.draw(image, in: rect ?? bounds)
   }
 
-  public func createImage() -> CGImage {
-    return self.makeImage()!
-  }
+  public func createImage() -> CGImage { self.makeImage()! }
 
   public func withGraphicsContext(flipped: Bool, body: Action) {
     NSGraphicsContext.current = NSGraphicsContext(cgContext: self, flipped: flipped)

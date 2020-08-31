@@ -173,7 +173,7 @@ extension CRView {
 
 
   public var contentsScale: CGFloat {
-    return (layer?.contentsScale) ?? (window?.backingScaleFactor) ?? 1
+    (layer?.contentsScale) ?? (window?.backingScaleFactor) ?? 1
   }
 
   public func updateContentsScale(_ contentsScale: CGFloat) {

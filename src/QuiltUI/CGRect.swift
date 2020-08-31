@@ -49,66 +49,66 @@ extension CGRect {
   }
 
   public var o: CGPoint {
-    get { return origin }
+    get { origin }
     set { origin = newValue }
   }
 
   public var s: CGSize {
-    get { return size }
+    get { size }
     set { size = newValue }
   }
 
   public var c: CGPoint {
-    get { return CGPoint(o.x + (0.5 * s.w), o.y + (0.5 * s.h)) }
+    get { CGPoint(o.x + (0.5 * s.w), o.y + (0.5 * s.h)) }
     set { o = CGPoint(newValue.x - (0.5 * s.w), newValue.y - (0.5 * s.h)) }
   }
 
   public var x: Flt {
-    get { return o.x }
+    get { o.x }
     set { o.x = newValue }
   }
 
   public var y: Flt {
-    get { return o.y }
+    get { o.y }
     set { o.y = newValue }
   }
 
   public var w: Flt {
-    get { return s.w }
+    get { s.w }
     set { s.w = newValue }
   }
 
   public var h: Flt {
-    get { return s.h }
+    get { s.h }
     set { s.h = newValue }
   }
 
   public var l: Flt {
-    get { return o.x }
+    get { o.x }
     set { o.x = newValue }
   }
 
   public var t: Flt {
-    get { return o.y }
+    get { o.y }
     set { o.y = newValue }
   }
 
   public var r: Flt {
-    get { return x + w }
+    get { x + w }
     set { x = newValue - w }
   }
 
   public var b: Flt {
-    get { return y + h }
+    get { y + h }
     set { y = newValue - h }
   }
 
   public func insetBy(l: Flt, t: Flt, r: Flt, b: Flt) -> CGRect {
-    return CGRect(x: x + l, y: y + l, width: width - (l + r), height: height - (t + b))
+    CGRect(x: x + l, y: y + l, width: width - (l + r), height: height - (t + b))
   }
 
   public func insetBy(_ insets: CREdgeInsets) -> CGRect {
-    return insetBy(l: insets.l, t: insets.t, r: insets.r, b: insets.b)
+    insetBy(l: insets.l, t: insets.t, r: insets.r, b: insets.b)
   }
 
   public static let frameInit = CGRect(0, 0, 256, 256) // large, weird size to make it obvious when we forget to specify layout constraints.

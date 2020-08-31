@@ -28,52 +28,52 @@ public protocol CRViewOrLayer: class {
 extension CRViewOrLayer {
 
   public var o: CGPoint {
-    get { return frame.origin }
+    get { frame.origin }
     set { frame.origin = newValue }
   }
 
   public var s: CGSize {
-    get { return frame.size }
+    get { frame.size }
     set { frame.size = newValue }
   }
 
   public var x: CGFloat {
-    get { return frame.origin.x }
+    get { frame.origin.x }
     set { frame.origin.x = newValue }
   }
 
   public var y: CGFloat {
-    get { return frame.origin.y }
+    get { frame.origin.y }
     set { frame.origin.y = newValue }
   }
 
   public var w: CGFloat {
-    get { return frame.size.width }
+    get { frame.size.width }
     set { frame.size.width = newValue }
   }
 
   public var h: CGFloat {
-    get { return frame.size.height }
+    get { frame.size.height }
     set { frame.size.height = newValue }
   }
 
   public var l: CGFloat {
-    get { return frame.origin.x }
+    get { frame.origin.x }
     set { frame.origin.x = newValue }
   }
 
   public var t: CGFloat {
-    get { return frame.origin.y }
+    get { frame.origin.y }
     set { frame.origin.y = newValue }
   }
 
   public var r: CGFloat {
-    get { return x + w }
+    get { x + w }
     set { x = newValue - w }
   }
 
   public var b: CGFloat {
-    get { return y + h }
+    get { y + h }
     set { y = newValue - h }
   }
 }
@@ -82,7 +82,7 @@ extension CRViewOrLayer {
 extension CRView: CRViewOrLayer {
 
   public var flex: Flex {
-    get { return Flex(autoresizingMask) }
+    get { Flex(autoresizingMask) }
     set { autoresizingMask = newValue.asCRFlex }
   }
 
@@ -106,7 +106,7 @@ extension CRView: CRViewOrLayer {
 extension CALayer: CRViewOrLayer {
 
   public var flex: Flex {
-    get { return Flex(autoresizingMask) }
+    get { Flex(autoresizingMask) }
     set { autoresizingMask = newValue.asCAFlex }
   }
 

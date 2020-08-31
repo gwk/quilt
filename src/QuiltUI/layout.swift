@@ -29,7 +29,7 @@ public struct QKLayoutOperand {
   public let ax: NSLayoutConstraint.Attribute
   public let ay: NSLayoutConstraint.Attribute
 
-  public var componentCount: Int { return (ax.isSome ? 1 : 0) + (ay.isSome ? 1 : 0) }
+  public var componentCount: Int { (ax.isSome ? 1 : 0) + (ay.isSome ? 1 : 0) }
 }
 
 
@@ -37,36 +37,36 @@ extension CRView {
 
   // layout operand properties.
 
-  public var c_l: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .left, ay: .notAnAttribute) }
-  public var c_r: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .right, ay: .notAnAttribute) }
-  public var c_t: QKLayoutOperand { return QKLayoutOperand(v: self, ax:  .notAnAttribute, ay: .top) }
-  public var c_b: QKLayoutOperand { return QKLayoutOperand(v: self, ax:  .notAnAttribute, ay: .bottom) }
+  public var c_l: QKLayoutOperand { QKLayoutOperand(v: self, ax: .left, ay: .notAnAttribute) }
+  public var c_r: QKLayoutOperand { QKLayoutOperand(v: self, ax: .right, ay: .notAnAttribute) }
+  public var c_t: QKLayoutOperand { QKLayoutOperand(v: self, ax:  .notAnAttribute, ay: .top) }
+  public var c_b: QKLayoutOperand { QKLayoutOperand(v: self, ax:  .notAnAttribute, ay: .bottom) }
 
-  public var c_x: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .centerX, ay: .notAnAttribute) }
-  public var c_y: QKLayoutOperand { return QKLayoutOperand(v: self, ax:  .notAnAttribute, ay: .centerY) }
+  public var c_x: QKLayoutOperand { QKLayoutOperand(v: self, ax: .centerX, ay: .notAnAttribute) }
+  public var c_y: QKLayoutOperand { QKLayoutOperand(v: self, ax:  .notAnAttribute, ay: .centerY) }
 
-  public var c_lt: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .left, ay: .top) }
-  public var c_ly: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .left, ay: .centerY) }
-  public var c_lb: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .left, ay: .bottom) }
-  public var c_xt: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .centerX, ay: .top) }
-  public var c_xy: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .centerX, ay: .centerY) }
-  public var c_xb: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .centerX, ay: .bottom) }
-  public var c_rt: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .right, ay: .top) }
-  public var c_ry: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .right, ay: .centerY) }
-  public var c_rb: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .right, ay: .bottom) }
+  public var c_lt: QKLayoutOperand { QKLayoutOperand(v: self, ax: .left, ay: .top) }
+  public var c_ly: QKLayoutOperand { QKLayoutOperand(v: self, ax: .left, ay: .centerY) }
+  public var c_lb: QKLayoutOperand { QKLayoutOperand(v: self, ax: .left, ay: .bottom) }
+  public var c_xt: QKLayoutOperand { QKLayoutOperand(v: self, ax: .centerX, ay: .top) }
+  public var c_xy: QKLayoutOperand { QKLayoutOperand(v: self, ax: .centerX, ay: .centerY) }
+  public var c_xb: QKLayoutOperand { QKLayoutOperand(v: self, ax: .centerX, ay: .bottom) }
+  public var c_rt: QKLayoutOperand { QKLayoutOperand(v: self, ax: .right, ay: .top) }
+  public var c_ry: QKLayoutOperand { QKLayoutOperand(v: self, ax: .right, ay: .centerY) }
+  public var c_rb: QKLayoutOperand { QKLayoutOperand(v: self, ax: .right, ay: .bottom) }
 
-  public var c_lead: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .leading, ay:  .notAnAttribute) }
-  public var c_trail: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .trailing, ay: .notAnAttribute) }
+  public var c_lead: QKLayoutOperand { QKLayoutOperand(v: self, ax: .leading, ay:  .notAnAttribute) }
+  public var c_trail: QKLayoutOperand { QKLayoutOperand(v: self, ax: .trailing, ay: .notAnAttribute) }
 
-  public var c_w: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .width, ay: .notAnAttribute) }
-  public var c_h: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .notAnAttribute, ay: .height) }
-  public var c_wh: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .width, ay: .height) }
+  public var c_w: QKLayoutOperand { QKLayoutOperand(v: self, ax: .width, ay: .notAnAttribute) }
+  public var c_h: QKLayoutOperand { QKLayoutOperand(v: self, ax: .notAnAttribute, ay: .height) }
+  public var c_wh: QKLayoutOperand { QKLayoutOperand(v: self, ax: .width, ay: .height) }
 
-  public var c_base: QKLayoutOperand { return QKLayoutOperand(v: self, ax: .lastBaseline, ay: .notAnAttribute) }
+  public var c_base: QKLayoutOperand { QKLayoutOperand(v: self, ax: .lastBaseline, ay: .notAnAttribute) }
 
   public var c_usesARMask: Bool {
     // abbreviated, crossplatform property.
-    get { return translatesAutoresizingMaskIntoConstraints }
+    get { translatesAutoresizingMaskIntoConstraints }
     set { translatesAutoresizingMaskIntoConstraints = newValue }
   }
 }
@@ -103,10 +103,10 @@ public protocol QKLayoutConstraining {
 
 extension NSLayoutConstraint: QKLayoutConstraining {
 
-  public var lv: CRView { return firstItem as! CRView }
-  public var la: NSLayoutConstraint.Attribute { return firstAttribute }
-  public var rv: CRView? { return secondItem as! CRView? }
-  public var ra: NSLayoutConstraint.Attribute { return secondAttribute }
+  public var lv: CRView { firstItem as! CRView }
+  public var la: NSLayoutConstraint.Attribute { firstAttribute }
+  public var rv: CRView? { secondItem as! CRView? }
+  public var ra: NSLayoutConstraint.Attribute { secondAttribute }
 
   convenience init(rel: NSLayoutConstraint.Relation, l: QKLayoutOperand, r: QKLayoutOperand?, m: CGPoint, c: CGPoint, p: LOP, useLX: Bool) {
     // convenience constructor for QKLayoutRel; create a constraint from either ax or ay of left side.
@@ -129,7 +129,7 @@ extension NSLayoutConstraint: QKLayoutConstraining {
 
   public func constraintArray(_ views: [CRView], metrics: [String: NSNumber], opts: NSLayoutConstraint.FormatOptions) -> [NSLayoutConstraint] {
     // this is only useful for passing a manually constructed constraint as an argument to constrain().
-    return [self] // ignore all the format-related arguments.
+    [self] // ignore all the format-related arguments.
   }
 
   public class func eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, m: Flt = 1, c: Flt = 0, p: LOP = LOPReq) -> NSLayoutConstraint {
@@ -196,17 +196,17 @@ public struct QKLayoutRel: QKLayoutConstraining {
 
 public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, m: CGPoint = CGPoint(1, 1), c: CGPoint = CGPoint(0, 0), p: LOP = LOPReq) -> QKLayoutRel {
   // construct an equality relation between two operands with vector m and c.
-  return QKLayoutRel(rel: .equal, l: l, r: r, m: m, c: c, p: p)
+  QKLayoutRel(rel: .equal, l: l, r: r, m: m, c: c, p: p)
 }
 
 public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, m: Flt, c: Flt = 0, p: LOP = LOPReq) -> QKLayoutRel {
   // construct an equality relation between two operands with scalar m and optional c; m is required to disambiguate from the vector variant.
-  return c_eq(l, r, m: CGPoint(m, m), c: CGPoint(c, c), p: p)
+  c_eq(l, r, m: CGPoint(m, m), c: CGPoint(c, c), p: p)
 }
 
 public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, c: Flt, p: LOP = LOPReq) -> QKLayoutRel {
   // construct an equality relation between two operands with scalar c; this variant is required to disambiguate from the vector variant.
-  return c_eq(l, r, m: CGPoint(1, 1), c: CGPoint(c, c), p: p)
+  c_eq(l, r, m: CGPoint(1, 1), c: CGPoint(c, c), p: p)
 }
 
 // TODO: lt, gt, le, ge.

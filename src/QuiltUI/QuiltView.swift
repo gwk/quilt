@@ -17,9 +17,9 @@ open class QuiltView: CRView {
 
   #if os(OSX)
 
-  override public var isFlipped: Bool { return true }
+  override public var isFlipped: Bool { true }
 
-  override public var wantsUpdateLayer: Bool { return true }
+  override public var wantsUpdateLayer: Bool { true }
 
   public var backgroundColor: CRColor? {
     get {

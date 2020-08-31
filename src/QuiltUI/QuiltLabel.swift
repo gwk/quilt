@@ -17,41 +17,41 @@ public class QuiltLabel: QuiltView {
   }
 
   public override func makeBackingLayer() -> CALayer {
-    return QuiltTextLayer()
+    QuiltTextLayer()
   }
 
 
   // MARK: QuiltLabel
 
-  public var textLayer: QuiltTextLayer { return layer as! QuiltTextLayer }
+  public var textLayer: QuiltTextLayer { layer as! QuiltTextLayer }
 
   public var text: String {
-    get { return textLayer.text }
+    get { textLayer.text }
     set { textLayer.text = newValue }
   }
 
   public var font: CRFont {
-    get { return textLayer.font }
+    get { textLayer.font }
     set { textLayer.font = newValue }
   }
 
   public var textColor: CRColor {
-    get { return textLayer.textColor }
+    get { textLayer.textColor }
     set { textLayer.textColor = newValue }
   }
 
   public var edgeInsets: CREdgeInsets {
-    get { return textLayer.edgeInsets }
+    get { textLayer.edgeInsets }
     set { textLayer.edgeInsets = newValue }
   }
 
   public var alignment: NSTextAlignment {
-    get { return textLayer.alignment }
+    get { textLayer.alignment }
     set { textLayer.alignment = newValue }
   }
 
   public var lineBreakMode: NSLineBreakMode {
-    get { return textLayer.lineBreakMode }
+    get { textLayer.lineBreakMode }
     set { textLayer.lineBreakMode = newValue }
   }
 }

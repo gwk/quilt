@@ -7,7 +7,7 @@ import Quilt
 
 open class QuiltListView: NSScrollView {
 
-  override public var isFlipped: Bool { return true }
+  override public var isFlipped: Bool { true }
 
   public required init?(coder: NSCoder) { super.init(coder: coder) }
 
@@ -15,7 +15,7 @@ open class QuiltListView: NSScrollView {
 
   public weak var source: QuiltListSource!
 
-  public var docView: QuiltView { return documentView as! QuiltView }
+  public var docView: QuiltView { documentView as! QuiltView }
 
 
   public init(frame: CGRect = .frameInit, name: String? = nil, source: QuiltListSource? = nil) {
@@ -74,11 +74,11 @@ public protocol QuiltListSource: class {
 
 public extension QuiltListSource {
 
-  var rowCount: Int? { return nil }
+  var rowCount: Int? { nil }
 
-  var approximateRowCount: Int { return 0 }
+  var approximateRowCount: Int { 0 }
 
-  func approximateHeightForRow(index: Int) -> Flt? { return nil }
+  func approximateHeightForRow(index: Int) -> Flt? { nil }
 
-  var tailHeight: Flt { return 0 }
+  var tailHeight: Flt { 0 }
 }
