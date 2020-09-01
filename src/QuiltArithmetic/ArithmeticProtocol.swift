@@ -12,14 +12,7 @@ public protocol ArithmeticProtocol: Hashable, Numeric, Strideable {
   var asF64: F64 { get }
   var asInt: Int { get }
 
-  static func +(l: Self, r: Self) -> Self
-  static func -(l: Self, r: Self) -> Self
-  static func *(l: Self, r: Self) -> Self
   static func /(l: Self, r: Self) -> Self
-  static func <(l: Self, r: Self) -> Bool
-  static func >(l: Self, r: Self) -> Bool
-  static func <=(l: Self, r: Self) -> Bool
-  static func >=(l: Self, r: Self) -> Bool
 }
 
 
