@@ -10,7 +10,7 @@ import QuiltUI
 
 
 public typealias V4 = SCNVector4
-extension V4: VecType, VecType4 {
+extension V4: Vec, Vec4 { // Float/Int agnostic.
   public typealias Scalar = Flt
   public typealias VSType = V4S
   public typealias VDType = V4D
@@ -73,7 +73,7 @@ public static prefix func -(a: V4) -> V4 { a * -1 }
 }
 
 
-extension V4: FloatVecType {
+extension V4: FloatVec, FloatVec4 { // Float-specific.
 
   public var allFinite: Bool { x.isFinite && (y.isFinite && (z.isFinite && (w.isFinite))) }
   public var allZero: Bool { x.isZero && (y.isZero && (z.isZero && (w.isZero))) }
@@ -95,6 +95,7 @@ extension V4: FloatVecType {
     )
   }
 }
+
 
 extension V4: Equatable {
   public static func ==(a: V4, b: V4) -> Bool {

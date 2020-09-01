@@ -8,7 +8,7 @@ import CoreGraphics
 import QuiltVec
 
 
-extension CGVector: VecType, VecType2 {
+extension CGVector: Vec, Vec2 { // Float/Int agnostic.
   public typealias Scalar = Flt
   public typealias VSType = V2S
   public typealias VDType = V2D
@@ -85,7 +85,7 @@ public static prefix func -(a: CGVector) -> CGVector { a * -1 }
 }
 
 
-extension CGVector: FloatVecType {
+extension CGVector: FloatVec, FloatVec2 { // Float-specific.
 
   public var allFinite: Bool { x.isFinite && (y.isFinite) }
   public var allZero: Bool { x.isZero && (y.isZero) }
@@ -99,6 +99,7 @@ extension CGVector: FloatVecType {
   public var clampToSignedUnit: CGVector { CGVector(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
 }
+
 
 extension CGVector: Comparable {
   public static func <(a: CGVector, b: CGVector) -> Bool {

@@ -10,7 +10,7 @@ import QuiltUI
 
 
 public typealias V3 = SCNVector3
-extension V3: VecType, VecType3 {
+extension V3: Vec, Vec3 { // Float/Int agnostic.
   public typealias Scalar = Flt
   public typealias VSType = V3S
   public typealias VDType = V3D
@@ -82,7 +82,7 @@ public static prefix func -(a: V3) -> V3 { a * -1 }
 }
 
 
-extension V3: FloatVecType {
+extension V3: FloatVec, FloatVec3 { // Float-specific.
 
   public var allFinite: Bool { x.isFinite && (y.isFinite && (z.isFinite)) }
   public var allZero: Bool { x.isZero && (y.isZero && (z.isZero)) }
@@ -103,6 +103,7 @@ extension V3: FloatVecType {
     )
   }
 }
+
 
 extension V3: Equatable {
   public static func ==(a: V3, b: V3) -> Bool {

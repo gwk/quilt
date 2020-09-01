@@ -3,7 +3,7 @@
 import QuiltArithmetic
 
 
-public protocol FloatVecType: VecType where Scalar: ArithmeticFloat {
+public protocol FloatVec: Vec where Scalar: ArithmeticFloat {
 
   static func +(l: Self, r: Self) -> Self
   static func -(l: Self, r: Self) -> Self
@@ -13,7 +13,7 @@ public protocol FloatVecType: VecType where Scalar: ArithmeticFloat {
 }
 
 
-extension FloatVecType {
+extension FloatVec {
 
   public var norm: Self { self / Scalar(self.len) }
 
@@ -29,7 +29,23 @@ extension FloatVecType {
 }
 
 
-extension Sequence where Element: FloatVecType {
+
+public protocol FloatVec2: FloatVec, Vec2 {}
+
+
+
+public protocol FloatVec3: FloatVec, Vec3 {}
+
+extension FloatVec3 {
+}
+
+
+
+public protocol FloatVec4: FloatVec, Vec4 {}
+
+
+
+extension Sequence where Element: FloatVec {
 
   public func mean() -> Element.VDType {
     var sum:Element.VDType = .zero

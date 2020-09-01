@@ -6,7 +6,7 @@ import simd
 import QuiltArithmetic
 
 
-extension SIMD3: VecType, VecType3 where Scalar: ArithmeticProtocol {
+extension SIMD3: Vec, Vec3 where Scalar: ArithmeticProtocol { // Float/Int agnostic.
   public typealias VSType = V3S
   public typealias VDType = V3D
   public typealias VU8Type = V3U8
@@ -68,7 +68,7 @@ extension SIMD3: VecType, VecType3 where Scalar: ArithmeticProtocol {
 }
 
 
-extension SIMD3: FloatVecType where Scalar: ArithmeticFloat {
+extension SIMD3: FloatVec, FloatVec3 where Scalar: ArithmeticFloat { // Float-specific.
 
   public var allFinite: Bool { x.isFinite && (y.isFinite && (z.isFinite)) }
   public var allZero: Bool { x.isZero && (y.isZero && (z.isZero)) }
@@ -89,4 +89,5 @@ extension SIMD3: FloatVecType where Scalar: ArithmeticFloat {
     )
   }
 }
+
 

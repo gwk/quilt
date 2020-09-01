@@ -67,8 +67,9 @@ import QuiltArithmetic\
   is_float = scalar.startswith('F')
   is_signed = not scalar.startswith('U')
 
-  where_clause = 'where Scalar: ArithmeticProtocol ' if is_simd else ''
-  outL('extension $: VecType, VecType$ ${', v_type, dim, where_clause)
+  ext_where_clause = 'where Scalar: ArithmeticProtocol ' if is_simd else ''
+
+  outL('extension $: Vec, Vec$ ${ // Float/Int agnostic.', v_type, dim, ext_where_clause)
 
   if not is_simd:
     outL('  public typealias Scalar = $', scalar)
@@ -151,8 +152,9 @@ import QuiltArithmetic\
       outL('public static prefix func -(a: $) -> $ { a * -1 }', v_type, v_type)
 
   outL('}\n\n')
-  where_clause = 'where Scalar: ArithmeticFloat ' if is_simd else ''
-  outL('extension $: FloatVecType ${', v_type, where_clause)
+
+  float_ext_where_clause = 'where Scalar: ArithmeticFloat ' if is_simd else ''
+  outL('extension $: FloatVec, FloatVec$ ${ // Float-specific.', v_type, dim, float_ext_where_clause)
 
   outL('')
   outL('  public var allFinite: Bool { $ }', jfra(' && ', '$.isFinite', comps))
@@ -180,8 +182,12 @@ import QuiltArithmetic\
     outL('    )')
     outL('  }')
 
-  outL('}\n')
+  outL('}\n\n')
 
+
+  if is_simd and False:
+    outL('extension $: IntVec, IntVec$ where Scalar: SignedArithmeticInt { // Int-specific.', v_type, dim)
+    outL('}\n\n')
 
   if needs_codable:
     errFL('TODO: Decodable')

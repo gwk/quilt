@@ -9,7 +9,7 @@ import QuiltVec
 
 
 public typealias V2 = CGPoint
-extension V2: VecType, VecType2 {
+extension V2: Vec, Vec2 { // Float/Int agnostic.
   public typealias Scalar = Flt
   public typealias VSType = V2S
   public typealias VDType = V2D
@@ -86,7 +86,7 @@ public static prefix func -(a: V2) -> V2 { a * -1 }
 }
 
 
-extension V2: FloatVecType {
+extension V2: FloatVec, FloatVec2 { // Float-specific.
 
   public var allFinite: Bool { x.isFinite && (y.isFinite) }
   public var allZero: Bool { x.isZero && (y.isZero) }
@@ -100,6 +100,7 @@ extension V2: FloatVecType {
   public var clampToSignedUnit: V2 { V2(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
 }
+
 
 extension V2: Comparable {
   public static func <(a: V2, b: V2) -> Bool {

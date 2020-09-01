@@ -6,7 +6,7 @@ import simd
 import QuiltArithmetic
 
 
-extension SIMD2: VecType, VecType2 where Scalar: ArithmeticProtocol {
+extension SIMD2: Vec, Vec2 where Scalar: ArithmeticProtocol { // Float/Int agnostic.
   public typealias VSType = V2S
   public typealias VDType = V2D
   public typealias VU8Type = V2U8
@@ -74,7 +74,7 @@ extension SIMD2: VecType, VecType2 where Scalar: ArithmeticProtocol {
 }
 
 
-extension SIMD2: FloatVecType where Scalar: ArithmeticFloat {
+extension SIMD2: FloatVec, FloatVec2 where Scalar: ArithmeticFloat { // Float-specific.
 
   public var allFinite: Bool { x.isFinite && (y.isFinite) }
   public var allZero: Bool { x.isZero && (y.isZero) }
@@ -88,4 +88,5 @@ extension SIMD2: FloatVecType where Scalar: ArithmeticFloat {
   public var clampToSignedUnit: SIMD2 { SIMD2(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255))) }
 }
+
 
