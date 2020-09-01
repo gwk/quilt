@@ -6,6 +6,11 @@ public let digitChars = [Character]("0123456789abcdef")
 
 extension BinaryInteger {
 
+  public var asF32: F32 { F32(self) }
+  public var asF64: F64 { F64(self) }
+  public var asInt: Int { Int(self) }
+
+
   public func repr(radix: Int = 10, pad: Character = " ", width: Int = 0) -> String {
     let radix_ = Self(radix)
     if self == 0 {
