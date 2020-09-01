@@ -16,16 +16,6 @@ public protocol ArithmeticProtocol: Hashable, Numeric, Strideable {
 }
 
 
-extension ArithmeticProtocol {
-
-  public func clamp(min: Self, max: Self) -> Self {
-    if self < min { return min }
-    if self > max { return max }
-    return self
-  }
-}
-
-
 extension Sequence where Element: ArithmeticProtocol {
 
   public func sum() -> Element {
