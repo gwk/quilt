@@ -100,6 +100,25 @@ import QuiltArithmetic\
     outL('    self.init($)', jc(fmt('try c.decode($.self)', scalar) for _ in range(dim)))
     outL('  }')
 
+  if not is_simd:
+    outL('''
+  public subscript(index: Int) -> Scalar {
+    get {
+      switch index {''')
+    for i, n in enumerate(comps): outL('      case $: return $', i, n)
+    outL('''\
+      default: fatalError("subscript out of range: \(index)")
+      }
+    }
+    set {
+      switch index {''')
+    for i, n in enumerate(comps): outL('      case $: $ = newValue', i, n)
+    outL('''\
+      default: fatalError("subscript out of range: \(index)")
+      }
+    }
+  }''')
+
   outL()
   outL('  public static var scalarCount: Int { $ }', dim)
 

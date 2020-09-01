@@ -51,6 +51,23 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
     self.init(Scalar(v.x), Scalar(v.y))
   }
 
+  public subscript(index: Int) -> Scalar {
+    get {
+      switch index {
+      case 0: return x
+      case 1: return y
+      default: fatalError("subscript out of range: \(index)")
+      }
+    }
+    set {
+      switch index {
+      case 0: x = newValue
+      case 1: y = newValue
+      default: fatalError("subscript out of range: \(index)")
+      }
+    }
+  }
+
   public static var scalarCount: Int { 2 }
 
   public static var unitX: CGVector { CGVector(1, 0) }

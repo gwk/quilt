@@ -32,6 +32,27 @@ extension V4: Vec, Vec4 { // Float/Int agnostic.
     self.init(v.x, v.y, v.z, w)
   }
 
+  public subscript(index: Int) -> Scalar {
+    get {
+      switch index {
+      case 0: return x
+      case 1: return y
+      case 2: return z
+      case 3: return w
+      default: fatalError("subscript out of range: \(index)")
+      }
+    }
+    set {
+      switch index {
+      case 0: x = newValue
+      case 1: y = newValue
+      case 2: z = newValue
+      case 3: w = newValue
+      default: fatalError("subscript out of range: \(index)")
+      }
+    }
+  }
+
   public static var scalarCount: Int { 4 }
   public static var zero: Self { Self.init() }
 

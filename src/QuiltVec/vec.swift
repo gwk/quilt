@@ -41,6 +41,8 @@ public protocol Vec: Equatable, CustomStringConvertible {
 
   static var scalarCount: Int { get }
 
+  subscript(index: Int) -> Scalar { get set }
+
   var x: Scalar { get }
   var y: Scalar { get }
   var vs: VSType { get }
