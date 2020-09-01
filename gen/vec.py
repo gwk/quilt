@@ -6,14 +6,18 @@ from argparse import ArgumentParser
 from gen_util import *
 from typing import *
 
+'''
+Generate Swift extension code for a single geometric vector type.
+'''
+
 
 def main():
   parser = ArgumentParser()
-  parser.add_argument('type')
-  parser.add_argument('-alias', default='')
-  parser.add_argument('-dim', type=int)
-  parser.add_argument('-scalar')
-  parser.add_argument('-imports', nargs='+', default=[])
+  parser.add_argument('type') # The name of the vector type.
+  parser.add_argument('-alias', default='') # Specify if we are aliasing a type; otherwise using its original name.
+  parser.add_argument('-dim', type=int) # The dimension of the vector (2, 3, or 4).
+  parser.add_argument('-scalar') # The scalar type of the vector.
+  parser.add_argument('-imports', nargs='+', default=[]) # A list of additional imports.
   args = parser.parse_args()
 
   outL('''\
@@ -29,14 +33,14 @@ import QuiltArithmetic\
   is_simd = v_type.startswith('SIMD')
   is_scn = args.alias.startswith('SCNVector')
 
-  vi_type = v_type + '<Scalar>' if is_simd else v_type
+  vi_type = v_type + '<Scalar>' if is_simd else v_type # The vector instance type (for when the Self type is generic). TODO: use Self?
 
   try: dim = int(v_type[-1])
   except ValueError: dim = 2
 
   scalar = args.scalar or 'Scalar'
 
-  # `v_prev` is the lower dimension vector type, e.g. v_type=V3S, v_prev=V2S.
+  # `v_prev` is the lower dimension vector type, e.g. v_type=V3S, v_prev=V2S. TODO: rename v_lower?
   if dim == 2: v_prev = None
   elif is_simd: v_prev = f'SIMD{dim-1}<Scalar>'
   else: v_prev = f'{v_type[:-1]}{dim-1}'
@@ -46,7 +50,6 @@ import QuiltArithmetic\
   needs_comparable = not is_simd
   needs_convertible = not is_simd
   needs_codable = False # TODO
-  needs_quiltvec = not is_simd
 
   for import_name in args.imports:
     outL('import $', import_name)
