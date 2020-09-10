@@ -36,7 +36,7 @@ extension Mesh {
 
 
   public class func quad() -> Mesh {
-    // Square in the XY plane, with side length 1.
+    // Square in the XY plane, with side length 2.
     let m = Mesh(name: "quad")
 
     m.positions = [
