@@ -19,10 +19,10 @@ extension NSEvent {
 
 
   public func location(in view: NSView) -> CGPoint {
-    return view.convert(locationInWindow, to: nil) // Nil indicates that convert should use window coordinates.
+    return view.convert(locationInWindow, from: nil) // Nil indicates that convert should use window coordinates.
   }
 
-  
+
   public var modifiersAndKey: (NSEvent.ModifierFlags, String) {
     (modifierFlags.intersection(.deviceIndependentFlagsMask), charactersIgnoringModifiers ?? "")
   }
