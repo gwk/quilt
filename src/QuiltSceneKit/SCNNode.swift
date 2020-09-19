@@ -56,8 +56,8 @@ extension SCNNode {
   }
 
 
-  public var simdPivotPosition: V3S {
-    get { V3S(simdPivot[3]) }
+  public var simdPivotPosition: V3F {
+    get { V3F(simdPivot[3]) }
     set {
       var t = simdPivot[3]
       t[0] = newValue[0]

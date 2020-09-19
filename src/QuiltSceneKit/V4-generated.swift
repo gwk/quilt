@@ -12,11 +12,11 @@ import QuiltUI
 public typealias V4 = SCNVector4
 extension V4: Vec, Vec4 { // Float/Int agnostic.
   public typealias Scalar = Flt
-  public typealias VSType = V4S
+  public typealias VFType = V4F
   public typealias VDType = V4D
   public typealias VU8Type = V4U8
 
-  public init(_ v: V4S) {
+  public init(_ v: V4F) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
   }
   public init(_ v: V4D) {
@@ -61,7 +61,7 @@ extension V4: Vec, Vec4 { // Float/Int agnostic.
   public static var unitZ: V4 { V4(0, 0, 1, 0) }
   public static var unitW: V4 { V4(0, 0, 0, 1) }
 
-  public var vs: V4S { V4S(x.asF32, y.asF32, z.asF32, w.asF32) }
+  public var vf: V4F { V4F(x.asF32, y.asF32, z.asF32, w.asF32) }
   public var vd: V4D { V4D(x.asF64, y.asF64, z.asF64, w.asF64) }
 
   public var sqrLen: F64 {

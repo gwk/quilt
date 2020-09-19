@@ -6,16 +6,16 @@ import simd.matrix
 import QuiltArithmetic
 
 
-public typealias M2S = float2x2
+public typealias M2F = float2x2
 
-extension M2S {
-  public var c0: V2S { self[0] }
-  public var c1: V2S { self[1] }
-  public var r0: V2S { V2S(self[0, 0], self[1, 0]) }
-  public var r1: V2S { V2S(self[0, 1], self[1, 1]) }
-  public static let zero = M2S(0)
-  public static let ident = M2S(1)
-  public static func scale(x: F32, y: F32) -> M2S { M2S(diagonal: V2S(x, y)) }
+extension M2F {
+  public var c0: V2F { self[0] }
+  public var c1: V2F { self[1] }
+  public var r0: V2F { V2F(self[0, 0], self[1, 0]) }
+  public var r1: V2F { V2F(self[0, 1], self[1, 1]) }
+  public static let zero = M2F(0)
+  public static let ident = M2F(1)
+  public static func scale(x: F32, y: F32) -> M2F { M2F(diagonal: V2F(x, y)) }
 
 }
 
@@ -32,49 +32,49 @@ extension M2D {
 
 }
 
-public typealias M3S = float3x3
+public typealias M3F = float3x3
 
-extension M3S {
-  public var c0: V3S { self[0] }
-  public var c1: V3S { self[1] }
-  public var c2: V3S { self[2] }
-  public var r0: V3S { V3S(self[0, 0], self[1, 0], self[2, 0]) }
-  public var r1: V3S { V3S(self[0, 1], self[1, 1], self[2, 1]) }
-  public var r2: V3S { V3S(self[0, 2], self[1, 2], self[2, 2]) }
-  public static let zero = M3S(0)
-  public static let ident = M3S(1)
-  public static func scale(x: F32, y: F32, z: F32) -> M3S { M3S(diagonal: V3S(x, y, z)) }
+extension M3F {
+  public var c0: V3F { self[0] }
+  public var c1: V3F { self[1] }
+  public var c2: V3F { self[2] }
+  public var r0: V3F { V3F(self[0, 0], self[1, 0], self[2, 0]) }
+  public var r1: V3F { V3F(self[0, 1], self[1, 1], self[2, 1]) }
+  public var r2: V3F { V3F(self[0, 2], self[1, 2], self[2, 2]) }
+  public static let zero = M3F(0)
+  public static let ident = M3F(1)
+  public static func scale(x: F32, y: F32, z: F32) -> M3F { M3F(diagonal: V3F(x, y, z)) }
 
-  public static func rotX(_ theta: F32) -> M3S { M3S([
-    V3S(          1,           0,           0),
-    V3S(          0,  cos(theta),  sin(theta)),
-    V3S(          0, -sin(theta),  cos(theta))
+  public static func rotX(_ theta: F32) -> M3F { M3F([
+    V3F(          1,           0,           0),
+    V3F(          0,  cos(theta),  sin(theta)),
+    V3F(          0, -sin(theta),  cos(theta))
   ])}
 
-  public static func rotY(_ theta: F32) -> M3S { M3S([
-    V3S( cos(theta),           0, -sin(theta)),
-    V3S(          0,           1,           0),
-    V3S( sin(theta),           0,  cos(theta))
+  public static func rotY(_ theta: F32) -> M3F { M3F([
+    V3F( cos(theta),           0, -sin(theta)),
+    V3F(          0,           1,           0),
+    V3F( sin(theta),           0,  cos(theta))
   ])}
 
-  public static func rotZ(_ theta: F32) -> M3S { M3S([
-    V3S( cos(theta),  sin(theta),           0),
-    V3S(-sin(theta),  cos(theta),           0),
-    V3S(          0,           0,           1)
+  public static func rotZ(_ theta: F32) -> M3F { M3F([
+    V3F( cos(theta),  sin(theta),           0),
+    V3F(-sin(theta),  cos(theta),           0),
+    V3F(          0,           0,           1)
   ])}
 
-  public static func rot(theta: F32, norm: V3S) -> M3S {
+  public static func rot(theta: F32, norm: V3F) -> M3F {
     if !theta.isNormal { return ident }
     let _cos = cos(theta)
     let _cosp = 1 - _cos
     let _sin = sin(theta)
-    return M3S([
-      V3S(_cos + _cosp * norm.x * norm.x, _cosp * norm.x * norm.y + norm.z * _sin, _cosp * norm.x * norm.z - norm.y * _sin),
-      V3S(_cosp * norm.x * norm.y - norm.z * _sin, _cos + _cosp * norm.y * norm.y, _cosp * norm.y * norm.z + norm.x * _sin),
-      V3S(_cosp * norm.x * norm.z + norm.y * _sin, _cosp * norm.y * norm.z - norm.x * _sin, _cos + _cosp * norm.z * norm.z)
+    return M3F([
+      V3F(_cos + _cosp * norm.x * norm.x, _cosp * norm.x * norm.y + norm.z * _sin, _cosp * norm.x * norm.z - norm.y * _sin),
+      V3F(_cosp * norm.x * norm.y - norm.z * _sin, _cos + _cosp * norm.y * norm.y, _cosp * norm.y * norm.z + norm.x * _sin),
+      V3F(_cosp * norm.x * norm.z + norm.y * _sin, _cosp * norm.y * norm.z - norm.x * _sin, _cos + _cosp * norm.z * norm.z)
   ])}
 
-  public static func rot(a: V3S, _ b: V3S) -> M3S {
+  public static func rot(a: V3F, _ b: V3F) -> M3F {
     return rot(theta: F32(a.angle(b)), norm: a.cross(b).norm)
   }
 
@@ -128,55 +128,55 @@ extension M3D {
 
 }
 
-public typealias M4S = float4x4
+public typealias M4F = float4x4
 
-extension M4S {
-  public var c0: V4S { self[0] }
-  public var c1: V4S { self[1] }
-  public var c2: V4S { self[2] }
-  public var c3: V4S { self[3] }
-  public var r0: V4S { V4S(self[0, 0], self[1, 0], self[2, 0], self[3, 0]) }
-  public var r1: V4S { V4S(self[0, 1], self[1, 1], self[2, 1], self[3, 1]) }
-  public var r2: V4S { V4S(self[0, 2], self[1, 2], self[2, 2], self[3, 2]) }
-  public var r3: V4S { V4S(self[0, 3], self[1, 3], self[2, 3], self[3, 3]) }
-  public static let zero = M4S(0)
-  public static let ident = M4S(1)
-  public static func scale(x: F32, y: F32, z: F32, w: F32) -> M4S { M4S(diagonal: V4S(x, y, z, w)) }
+extension M4F {
+  public var c0: V4F { self[0] }
+  public var c1: V4F { self[1] }
+  public var c2: V4F { self[2] }
+  public var c3: V4F { self[3] }
+  public var r0: V4F { V4F(self[0, 0], self[1, 0], self[2, 0], self[3, 0]) }
+  public var r1: V4F { V4F(self[0, 1], self[1, 1], self[2, 1], self[3, 1]) }
+  public var r2: V4F { V4F(self[0, 2], self[1, 2], self[2, 2], self[3, 2]) }
+  public var r3: V4F { V4F(self[0, 3], self[1, 3], self[2, 3], self[3, 3]) }
+  public static let zero = M4F(0)
+  public static let ident = M4F(1)
+  public static func scale(x: F32, y: F32, z: F32, w: F32) -> M4F { M4F(diagonal: V4F(x, y, z, w)) }
 
-  public static func rotX(_ theta: F32) -> M4S { M4S([
-    V4S(          1,           0,           0,           0),
-    V4S(          0,  cos(theta),  sin(theta),           0),
-    V4S(          0, -sin(theta),  cos(theta),           0),
-    V4S(          0,           0,           0,           1)
+  public static func rotX(_ theta: F32) -> M4F { M4F([
+    V4F(          1,           0,           0,           0),
+    V4F(          0,  cos(theta),  sin(theta),           0),
+    V4F(          0, -sin(theta),  cos(theta),           0),
+    V4F(          0,           0,           0,           1)
   ])}
 
-  public static func rotY(_ theta: F32) -> M4S { M4S([
-    V4S( cos(theta),           0, -sin(theta),           0),
-    V4S(          0,           1,           0,           0),
-    V4S( sin(theta),           0,  cos(theta),           0),
-    V4S(          0,           0,           0,           1)
+  public static func rotY(_ theta: F32) -> M4F { M4F([
+    V4F( cos(theta),           0, -sin(theta),           0),
+    V4F(          0,           1,           0,           0),
+    V4F( sin(theta),           0,  cos(theta),           0),
+    V4F(          0,           0,           0,           1)
   ])}
 
-  public static func rotZ(_ theta: F32) -> M4S { M4S([
-    V4S( cos(theta),  sin(theta),           0,           0),
-    V4S(-sin(theta),  cos(theta),           0,           0),
-    V4S(          0,           0,           1,           0),
-    V4S(          0,           0,           0,           1)
+  public static func rotZ(_ theta: F32) -> M4F { M4F([
+    V4F( cos(theta),  sin(theta),           0,           0),
+    V4F(-sin(theta),  cos(theta),           0,           0),
+    V4F(          0,           0,           1,           0),
+    V4F(          0,           0,           0,           1)
   ])}
 
-  public static func rot(theta: F32, norm: V4S) -> M4S {
+  public static func rot(theta: F32, norm: V4F) -> M4F {
     if !theta.isNormal { return ident }
     let _cos = cos(theta)
     let _cosp = 1 - _cos
     let _sin = sin(theta)
-    return M4S([
-      V4S(_cos + _cosp * norm.x * norm.x, _cosp * norm.x * norm.y + norm.z * _sin, _cosp * norm.x * norm.z - norm.y * _sin, 0),
-      V4S(_cosp * norm.x * norm.y - norm.z * _sin, _cos + _cosp * norm.y * norm.y, _cosp * norm.y * norm.z + norm.x * _sin, 0),
-      V4S(_cosp * norm.x * norm.z + norm.y * _sin, _cosp * norm.y * norm.z - norm.x * _sin, _cos + _cosp * norm.z * norm.z, 0),
-      V4S(0, 0, 0, 1)
+    return M4F([
+      V4F(_cos + _cosp * norm.x * norm.x, _cosp * norm.x * norm.y + norm.z * _sin, _cosp * norm.x * norm.z - norm.y * _sin, 0),
+      V4F(_cosp * norm.x * norm.y - norm.z * _sin, _cos + _cosp * norm.y * norm.y, _cosp * norm.y * norm.z + norm.x * _sin, 0),
+      V4F(_cosp * norm.x * norm.z + norm.y * _sin, _cosp * norm.y * norm.z - norm.x * _sin, _cos + _cosp * norm.z * norm.z, 0),
+      V4F(0, 0, 0, 1)
   ])}
 
-  public static func rot(a: V4S, _ b: V4S) -> M4S {
+  public static func rot(a: V4F, _ b: V4F) -> M4F {
     return rot(theta: F32(a.angle(b)), norm: a.cross(b).norm)
   }
 

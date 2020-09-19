@@ -6,17 +6,17 @@ import simd
 import QuiltArithmetic
 
 
-public typealias V2S = SIMD2<F32>
+public typealias V2F = SIMD2<F32>
 public typealias V2D = SIMD2<F64>
 public typealias V2I = SIMD2<Int>
 public typealias V2U8 = SIMD2<U8>
 
-public typealias V3S = SIMD3<F32>
+public typealias V3F = SIMD3<F32>
 public typealias V3D = SIMD3<F64>
 public typealias V3I = SIMD3<Int>
 public typealias V3U8 = SIMD3<U8>
 
-public typealias V4S = SIMD4<F32>
+public typealias V4F = SIMD4<F32>
 public typealias V4D = SIMD4<F64>
 public typealias V4I = SIMD4<Int>
 public typealias V4U8 = SIMD4<U8>
@@ -30,11 +30,11 @@ import QuiltArithmetic
 
 public protocol Vec: Equatable, CustomStringConvertible {
   associatedtype Scalar: ArithmeticProtocol
-  associatedtype VSType: FloatVec where VSType.Scalar == F32
+  associatedtype VFType: FloatVec where VFType.Scalar == F32
   associatedtype VDType: FloatVec where VDType.Scalar == F64
 
   init()
-  init(_ v: VSType)
+  init(_ v: VFType)
   init(_ v: VDType)
 
   static var zero: Self { get }
@@ -45,7 +45,7 @@ public protocol Vec: Equatable, CustomStringConvertible {
 
   var x: Scalar { get }
   var y: Scalar { get }
-  var vs: VSType { get }
+  var vf: VFType { get }
   var vd: VDType { get }
   var sqrLen: F64 { get }
 

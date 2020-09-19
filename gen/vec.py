@@ -40,7 +40,7 @@ import QuiltArithmetic\
 
   scalar = args.scalar or 'Scalar'
 
-  # `v_prev` is the lower dimension vector type, e.g. v_type=V3S, v_prev=V2S. TODO: rename v_lower?
+  # `v_prev` is the lower dimension vector type, e.g. v_type=V3F, v_prev=V2F. TODO: rename v_lower?
   if dim == 2: v_prev = None
   elif is_simd: v_prev = f'SIMD{dim-1}<Scalar>'
   else: v_prev = f'{v_type[:-1]}{dim-1}'
@@ -74,7 +74,7 @@ import QuiltArithmetic\
   if not is_simd:
     outL('  public typealias Scalar = $', scalar)
 
-  outL('  public typealias VSType = V$S', dim)
+  outL('  public typealias VFType = V$F', dim)
   outL('  public typealias VDType = V$D', dim)
   outL('  public typealias VU8Type = V$U8', dim)
 
@@ -131,7 +131,7 @@ import QuiltArithmetic\
       c.upper(), vi_type, v_type, jc('1' if d == c else '0' for d in comps))
 
   outL()
-  outL('  public var vs: V$S { V$S($) }', dim, dim, jcf('$.asF32', comps))
+  outL('  public var vf: V$F { V$F($) }', dim, dim, jcf('$.asF32', comps))
   outL('  public var vd: V$D { V$D($) }', dim, dim, jcf('$.asF64', comps))
 
   outL()
@@ -157,7 +157,7 @@ import QuiltArithmetic\
   outL()
 
   if scalar == 'U8':
-    outL('  public var toSPixel: VSType { VSType($) }', jcf('$.asF32 / F32(0xFF)', comps))
+    outL('  public var toFPixel: VFType { VFType($) }', jcf('$.asF32 / F32(0xFF)', comps))
 
   if not is_simd:
     for op in ops:

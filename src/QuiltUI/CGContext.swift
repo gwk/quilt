@@ -42,11 +42,11 @@ extension CGContext {
   }
 
   /*
-  public func setFillColor(_ color: V4S) {
+  public func setFillColor(_ color: V4F) {
     self.setFillColor(red: Flt(color.r), green: Flt(color.g), blue: Flt(color.b), alpha: Flt(color.a))
   }
 
-  public func setFillColor(_ color: V3S) {
+  public func setFillColor(_ color: V3F) {
     self.setFillColor(red: Flt(color.r), green: Flt(color.g), blue: Flt(color.b), alpha: 1)
   }
 */

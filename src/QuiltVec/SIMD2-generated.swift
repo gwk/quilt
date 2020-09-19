@@ -7,11 +7,11 @@ import QuiltArithmetic
 
 
 extension SIMD2: Vec, Vec2 where Scalar: ArithmeticProtocol { // Float/Int agnostic.
-  public typealias VSType = V2S
+  public typealias VFType = V2F
   public typealias VDType = V2D
   public typealias VU8Type = V2U8
 
-  public init(_ v: V2S) {
+  public init(_ v: V2F) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(_ v: V2D) {
@@ -23,7 +23,7 @@ extension SIMD2: Vec, Vec2 where Scalar: ArithmeticProtocol { // Float/Int agnos
   public init(_ v: V2U8) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
-  public init(_ v: V3S) {
+  public init(_ v: V3F) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(_ v: V3D) {
@@ -35,7 +35,7 @@ extension SIMD2: Vec, Vec2 where Scalar: ArithmeticProtocol { // Float/Int agnos
   public init(_ v: V3U8) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
-  public init(_ v: V4S) {
+  public init(_ v: V4F) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(_ v: V4D) {
@@ -54,7 +54,7 @@ extension SIMD2: Vec, Vec2 where Scalar: ArithmeticProtocol { // Float/Int agnos
   public static var unitX: SIMD2<Scalar> { SIMD2(1, 0) }
   public static var unitY: SIMD2<Scalar> { SIMD2(0, 1) }
 
-  public var vs: V2S { V2S(x.asF32, y.asF32) }
+  public var vf: V2F { V2F(x.asF32, y.asF32) }
   public var vd: V2D { V2D(x.asF64, y.asF64) }
 
   public var sqrLen: F64 {

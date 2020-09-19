@@ -3,4 +3,4 @@
 import simd
 
 
-public typealias QS = simd_quatf
+public typealias QF = simd_quatf

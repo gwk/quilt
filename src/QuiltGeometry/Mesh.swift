@@ -221,22 +221,22 @@ public class Mesh {
     var obi = 0
     #endif
 
-    var stride = MemoryLayout<V3S>.size // always have positions.
+    var stride = MemoryLayout<V3F>.size // always have positions.
     if !normals.isEmpty {
       assert(normals.count == len)
       on = stride
-      stride += MemoryLayout<V3S>.size
+      stride += MemoryLayout<V3F>.size
     }
     if !colors.isEmpty {
       assert(colors.count == len)
       oc = stride
-      stride += MemoryLayout<V4S>.size
+      stride += MemoryLayout<V4F>.size
     }
     for texCoords in textures {
       if !texCoords.isEmpty {
         assert(texCoords.count == len)
         ots.append(stride)
-        stride += MemoryLayout<V2S>.size
+        stride += MemoryLayout<V2F>.size
       }
     }
     #if false // TODO: creases.
@@ -267,11 +267,11 @@ public class Mesh {
     // Generate interleaved data.
     let d = NSMutableData(capacity: len * stride)!
     for i in 0..<len {
-      d.append(positions[i].vs)
-      if !normals.isEmpty         { d.append(normals[i].vs) }
-      if !colors.isEmpty          { d.append(colors[i].vs) }
+      d.append(positions[i].vf)
+      if !normals.isEmpty         { d.append(normals[i].vf) }
+      if !colors.isEmpty          { d.append(colors[i].vf) }
       for texCoords in textures {
-        if !texCoords.isEmpty       { d.append(texCoords[i].vs) }
+        if !texCoords.isEmpty       { d.append(texCoords[i].vf) }
       }
       #if false // TODO: creases.
         if !vertexCreases.isEmpty   { d.append(vertexCreases[i]) }

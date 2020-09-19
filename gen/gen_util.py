@@ -19,10 +19,10 @@ class GenType(NamedTuple):
   req_codable:bool
 
 types = [
-  GenType(scalar='F32', suffix='S',  f_suffix='S', simd=True, is_novel=False, req_codable=False),
+  GenType(scalar='F32', suffix='F',  f_suffix='F', simd=True, is_novel=False, req_codable=False),
   GenType(scalar='F64', suffix='D',  f_suffix='D', simd=True, is_novel=False, req_codable=False),
   GenType(scalar='Int', suffix='I',  f_suffix='D', simd=None, is_novel=True,  req_codable=True),
-  GenType(scalar='U8',  suffix='U8', f_suffix='S', simd=None, is_novel=True,  req_codable=True),
+  GenType(scalar='U8',  suffix='U8', f_suffix='F', simd=None, is_novel=True,  req_codable=True),
 ]
 
 

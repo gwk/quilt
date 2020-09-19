@@ -6,9 +6,9 @@ import CoreGraphics
 import QuiltVec
 
 
-extension QS {
+extension QF {
 
-  var scn: SCNQuaternion {
+  var scnq: SCNQuaternion {
     let v = vector
     return SCNQuaternion(x: CGFloat(v.x), y: CGFloat(v.y), z: CGFloat(v.z), w: CGFloat(v.w))
   }
@@ -16,7 +16,7 @@ extension QS {
 
 extension QD {
 
-  var scn: SCNQuaternion {
+  var scnq: SCNQuaternion {
     let v = vector
     return SCNQuaternion(x: CGFloat(v.x), y: CGFloat(v.y), z: CGFloat(v.z), w: CGFloat(v.w))
   }
