@@ -47,7 +47,7 @@ import QuiltArithmetic\
 
   needs_zero = is_simd or is_scn
   needs_equatable = is_scn
-  needs_comparable = not is_simd
+  needs_comparable = True
   needs_convertible = not is_simd
   needs_codable = False # TODO
 
@@ -233,8 +233,8 @@ import QuiltArithmetic\
 
 
   if needs_comparable:
-
-    outL('extension $: Comparable {', v_type)
+    qualification = 'where Scalar: Comparable' if is_simd else ''
+    outL('extension $: Comparable ${', v_type, qualification)
 
     outL('  public static func <(a: $, b: $) -> Bool {', v_type, v_type)
     for i, c in enumerate(comps, 1):

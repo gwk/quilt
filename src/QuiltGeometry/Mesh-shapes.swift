@@ -1,23 +1,21 @@
 // © 2014 George King. Permission to use this file is granted in license-quilt.txt.
 
-import CoreGraphics
-import SceneKit
-import Quilt
-import QuiltUI
-import QuiltSceneKit
+import Foundation
+import QuiltArithmetic
+import QuiltVec
 
 
 extension Mesh {
 
   public class func triangle() -> Mesh {
     // One-sided triangle in the XY plane, with vertex radius of 1.
-    let x: Flt = sqrt(3.0) * 0.5
+    let x: Double = sqrt(3.0) * 0.5
     let m = Mesh(name: "triangle")
 
     m.positions = [
-      V3(0, -1, 0),
-      V3( x, 0.5, 0),
-      V3(-x, 0.5, 0)]
+      V3D(0, -1, 0),
+      V3D( x, 0.5, 0),
+      V3D(-x, 0.5, 0)]
 
     m.triangles = [Tri(0, 1, 2)]
 
@@ -40,10 +38,10 @@ extension Mesh {
     let m = Mesh(name: "quad")
 
     m.positions = [
-      V3(-1, -1, 0),
-      V3(-1,  1, 0),
-      V3( 1, -1, 0),
-      V3( 1,  1, 0)]
+      V3D(-1, -1, 0),
+      V3D(-1,  1, 0),
+      V3D( 1, -1, 0),
+      V3D( 1,  1, 0)]
 
     m.triangles = [
       Tri(0, 2, 1),

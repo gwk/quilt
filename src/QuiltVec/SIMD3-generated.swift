@@ -91,3 +91,11 @@ extension SIMD3: FloatVec, FloatVec3 where Scalar: ArithmeticFloat { // Float-sp
 }
 
 
+extension SIMD3: Comparable where Scalar: Comparable{
+  public static func <(a: SIMD3, b: SIMD3) -> Bool {
+    if a.x != b.x { return a.x < b.x }
+    if a.y != b.y { return a.y < b.y }
+    return a.z < b.z
+  }
+}
+

@@ -83,3 +83,12 @@ extension SIMD4: FloatVec, FloatVec4 where Scalar: ArithmeticFloat { // Float-sp
 }
 
 
+extension SIMD4: Comparable where Scalar: Comparable{
+  public static func <(a: SIMD4, b: SIMD4) -> Bool {
+    if a.x != b.x { return a.x < b.x }
+    if a.y != b.y { return a.y < b.y }
+    if a.z != b.z { return a.z < b.z }
+    return a.w < b.w
+  }
+}
+

@@ -1,22 +1,21 @@
 // © 2014 George King. Permission to use this file is granted in license-quilt.txt.
 
 import Foundation
-import QuiltUI
-import QuiltSceneKit
+import QuiltVec
 
 
 extension Mesh {
 
   public class func tetrahedron() -> Mesh {
     // returns a tetrahedron with vertex radius of 1.
-    let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
+    let r: Double = sqrt(1.0 / 3.0) // radius of insphere.
     let mesh = Mesh(name: "tetrahedron")
 
     mesh.positions = [
-      V3(-r, -r, -r), // Cube vertex index 0.
-      V3(-r,  r,  r), // Cube vertex index 3.
-      V3( r, -r,  r), // Cube vertex index 5.
-      V3( r,  r, -r)] // Cube vertex index 6.
+      V3D(-r, -r, -r), // Cube vertex index 0.
+      V3D(-r,  r,  r), // Cube vertex index 3.
+      V3D( r, -r,  r), // Cube vertex index 5.
+      V3D( r,  r, -r)] // Cube vertex index 6.
 
     mesh.triangles = [
       Tri(0, 1, 3),
@@ -40,18 +39,18 @@ extension Mesh {
 
   public class func cube() -> Mesh {
     // returns a cube with vertex radius of 1.
-    let r: Flt = sqrt(1.0 / 3.0) // radius of insphere.
+    let r: Double = sqrt(1.0 / 3.0) // radius of insphere.
     let mesh = Mesh(name: "cube")
 
     mesh.positions = [
-      V3(-r, -r, -r),
-      V3(-r, -r,  r),
-      V3(-r,  r, -r),
-      V3(-r,  r,  r),
-      V3( r, -r, -r),
-      V3( r, -r,  r),
-      V3( r,  r, -r),
-      V3( r,  r,  r)]
+      V3D(-r, -r, -r),
+      V3D(-r, -r,  r),
+      V3D(-r,  r, -r),
+      V3D(-r,  r,  r),
+      V3D( r, -r, -r),
+      V3D( r, -r,  r),
+      V3D( r,  r, -r),
+      V3D( r,  r,  r)]
 
     mesh.segments = [
       Seg(0, 1),
@@ -110,12 +109,12 @@ extension Mesh {
     // returns an octahedron with vertex radius of 1.
     let mesh = Mesh(name: "octahedron")
     mesh.positions = [
-      V3(-1, -0,  0),
-      V3( 0, -1,  0),
-      V3( 0,  0, -1),
-      V3( 0,  0,  1),
-      V3( 0,  1,  0),
-      V3( 1,  0,  0)]
+      V3D(-1, -0,  0),
+      V3D( 0, -1,  0),
+      V3D( 0,  0, -1),
+      V3D( 0,  0,  1),
+      V3D( 0,  1,  0),
+      V3D( 1,  0,  0)]
 
     mesh.triangles = [
       Tri(0, 1, 3),
@@ -149,35 +148,35 @@ extension Mesh {
 
   public class func dodecahedron() -> Mesh {
     // returns a dodecahedron with vertex radius of 1.
-    let r: Flt = sqrt(1.0 / 3.0) // radius of cube insphere.
-    let phi: Flt = (1 + sqrt(5)) * 0.5 // golden ratio.
+    let r: Double = sqrt(1.0 / 3.0) // radius of cube insphere.
+    let phi: Double = (1 + sqrt(5)) * 0.5 // golden ratio.
     // two types of vertices: cubic and axis-aligned rect.
     // rect major and minor are (phi, 1 / phi) for unit cube; must normalize by x.
-    let m: Flt = r * phi // major.
-    let n: Flt = r / phi // minor.
+    let m: Double = r * phi // major.
+    let n: Double = r / phi // minor.
     let mesh = Mesh(name: "dodecahedron")
 
     mesh.positions = [
-      V3(-m, -n,  0),
-      V3(-m,  n,  0),
-      V3(-r, -r, -r),
-      V3(-r, -r,  r),
-      V3(-r,  r, -r),
-      V3(-r,  r,  r),
-      V3(-n,  0, -m),
-      V3(-n,  0,  m),
-      V3( 0, -m, -n),
-      V3( 0, -m,  n),
-      V3( 0,  m, -n),
-      V3( 0,  m , n),
-      V3( n,  0, -m),
-      V3( n,  0,  m),
-      V3( r, -r, -r),
-      V3( r, -r,  r),
-      V3( r,  r, -r),
-      V3( r,  r,  r),
-      V3( m, -n,  0),
-      V3( m,  n,  0)]
+      V3D(-m, -n,  0),
+      V3D(-m,  n,  0),
+      V3D(-r, -r, -r),
+      V3D(-r, -r,  r),
+      V3D(-r,  r, -r),
+      V3D(-r,  r,  r),
+      V3D(-n,  0, -m),
+      V3D(-n,  0,  m),
+      V3D( 0, -m, -n),
+      V3D( 0, -m,  n),
+      V3D( 0,  m, -n),
+      V3D( 0,  m , n),
+      V3D( n,  0, -m),
+      V3D( n,  0,  m),
+      V3D( r, -r, -r),
+      V3D( r, -r,  r),
+      V3D( r,  r, -r),
+      V3D( r,  r,  r),
+      V3D( m, -n,  0),
+      V3D( m,  n,  0)]
 
     mesh.segments = [
       Seg(0, 1),
@@ -312,7 +311,7 @@ extension Mesh {
 
   public class func icosahedron() -> Mesh {
     // returns an icosahedron with vertex radius of 1.
-    let phi: Flt = (1 + sqrt(5)) * 0.5 // golden ratio.
+    let phi: Double = (1 + sqrt(5)) * 0.5 // golden ratio.
     // each vertex is also the vertex of an axis-aligned golden rectangle.
     // compute the radius and normalize major and minor lengths.
     let r = sqrt(phi * phi + 1)
@@ -320,18 +319,18 @@ extension Mesh {
     let n = 1.0 / r // minor.
     let mesh = Mesh(name: "icosahedron")
     mesh.positions = [
-      V3(-m, -n,  0), // south.
-      V3(-m,  n,  0), // southwest.
-      V3(-n,  0, -m),
-      V3(-n,  0,  m),
-      V3( 0, -m, -n),
-      V3( 0, -m,  n),
-      V3( 0,  m, -n), // northern hemisphere.
-      V3( 0,  m,  n),
-      V3( n,  0, -m),
-      V3( n,  0,  m),
-      V3( m, -n,  0), // northeast.
-      V3( m,  n,  0)] // north.
+      V3D(-m, -n,  0), // south.
+      V3D(-m,  n,  0), // southwest.
+      V3D(-n,  0, -m),
+      V3D(-n,  0,  m),
+      V3D( 0, -m, -n),
+      V3D( 0, -m,  n),
+      V3D( 0,  m, -n), // northern hemisphere.
+      V3D( 0,  m,  n),
+      V3D( n,  0, -m),
+      V3D( n,  0,  m),
+      V3D( m, -n,  0), // northeast.
+      V3D( m,  n,  0)] // north.
 
     mesh.triangles = [
       Tri(0,  1,  2),

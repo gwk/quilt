@@ -90,3 +90,10 @@ extension SIMD2: FloatVec, FloatVec2 where Scalar: ArithmeticFloat { // Float-sp
 }
 
 
+extension SIMD2: Comparable where Scalar: Comparable{
+  public static func <(a: SIMD2, b: SIMD2) -> Bool {
+    if a.x != b.x { return a.x < b.x }
+    return a.y < b.y
+  }
+}
+

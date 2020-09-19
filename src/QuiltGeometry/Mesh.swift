@@ -1,17 +1,14 @@
 // © 2014 George King. Permission to use this file is granted in license-quilt.txt.
 
-import CoreGraphics
-import SceneKit
+import Foundation
 import Quilt
 import QuiltArea
 import QuiltArithmetic
-import QuiltUI
-import QuiltSceneKit
 import QuiltVec
 
 
 public enum GeomKind {
-  case point(size: CGFloat = 1.0, minSSRad: CGFloat = 0.1, maxSSRad: CGFloat = 1000.0)
+  case point(size: Float = 1.0, minSSRad: Float = 0.1, maxSSRad: Float = 1000.0)
   case seg
   case tri
 }
@@ -19,16 +16,16 @@ public enum GeomKind {
 
 public class Mesh {
   public var name: String? = nil
-  public var positions: [V3] = []
-  public var normals: [V3] = []
-  public var colors: [V4] = []
-  public var textures: [[V2]] = []
+  public var positions: [V3D] = []
+  public var normals: [V3F] = []
+  public var colors: [V4F] = []
+  public var textures: [[V2F]] = []
   #if false // TODO: implement creases.
   public var vertexCreases: [F32] = []
   public var edgeCreases: [F32] = []
   #endif
   #if false // TODO: implement BoneIndices.
-  public var boneWeights: [V4] = []
+  public var boneWeights: [V4F] = []
   public var boneIndices: [BoneIndices] = []
   #endif
 
@@ -81,7 +78,7 @@ public class Mesh {
   public func addNormalsFromOriginToPositions() {
     assert(normals.isEmpty)
     for pos in positions {
-      normals.append(pos.norm)
+      normals.append(pos.norm.vf)
     }
   }
 
@@ -89,8 +86,8 @@ public class Mesh {
   public func addColorsFromPositions() {
     assert(colors.isEmpty)
     for pos in positions {
-      let color3 = (pos * 0.5 + 0.5).clampToUnit
-      colors.append(V4(color3, w: 1))
+      let color3 = (pos.vf * 0.5 + 0.5).clampToUnit
+      colors.append(V4F(color3, w: 1))
     }
   }
 
@@ -98,7 +95,7 @@ public class Mesh {
   public func addColorsFromTexCoords(channel: Int = 0) {
     assert(colors.isEmpty)
     for tex in textures[channel] {
-      colors.append(V4(tex.x, tex.y, tex.x, 1))
+      colors.append(V4F(tex.x, tex.y, tex.x, 1))
     }
   }
 
@@ -115,7 +112,7 @@ public class Mesh {
     segments.append(Seg(a, b))
   }
 
-  public func addSeg(_ a: V3, _ b: V3) { // TODO: rename?
+  public func addSeg(_ a: V3D, _ b: V3D) { // TODO: rename?
     let i = positions.count
     positions.append(a)
     positions.append(b)
@@ -126,7 +123,7 @@ public class Mesh {
     triangles.append(Tri(a, b, c))
   }
 
-  public func addQuad(_ a: V3, _ b: V3, _ c: V3, _ d: V3) { // TODO: rename?
+  public func addQuad(_ a: V3D, _ b: V3D, _ c: V3D, _ d: V3D) { // TODO: rename?
     let i = positions.count
     positions.append(a)
     positions.append(b)
@@ -154,7 +151,7 @@ public class Mesh {
     }
   }
 
-  public func addAllSegmentsLessThan(length: Flt) {
+  public func addAllSegmentsLessThan(length: F64) {
     for (i, a) in positions.enumerated() {
       for j in (i + 1)..<positions.count {
         let b = positions[j]
@@ -198,162 +195,8 @@ public class Mesh {
   }
 
 
-  public func faceNormal(tri: Tri) -> V3 {
+  public func faceNormal(tri: Tri) -> V3D {
     (positions[tri.a] + positions[tri.b] + positions[tri.c]).norm
-  }
-
-
-  public func geometry(kinds: [GeomKind] = [.tri]) -> SCNGeometry {
-
-    let len = positions.count
-
-    // data offsets.
-    let op = 0 // position data is required.
-    var on = 0
-    var oc = 0
-    var ots: [Int] = []
-    #if false // TODO: creases.
-      var ovc = 0
-      var oec = 0
-    #endif
-    #if false // TODO: bones.
-      var obw = 0
-    var obi = 0
-    #endif
-
-    var stride = MemoryLayout<V3F>.size // always have positions.
-    if !normals.isEmpty {
-      assert(normals.count == len)
-      on = stride
-      stride += MemoryLayout<V3F>.size
-    }
-    if !colors.isEmpty {
-      assert(colors.count == len)
-      oc = stride
-      stride += MemoryLayout<V4F>.size
-    }
-    for texCoords in textures {
-      if !texCoords.isEmpty {
-        assert(texCoords.count == len)
-        ots.append(stride)
-        stride += MemoryLayout<V2F>.size
-      }
-    }
-    #if false // TODO: creases.
-    if !vertexCreases.isEmpty {
-      assert(vertexCreases.count == len)
-      ovc = stride
-      stride += MemoryLayout<F32>.size
-    }
-    if !edgeCreases.isEmpty {
-      assert(edgeCreases.count == len)
-      oec = stride
-      stride += MemoryLayout<F32>.size
-    }
-    #endif
-    #if false // TODO: bones.
-      if !bw.isEmpty {
-        assert(boneWeights.count == len)
-        obw = stride
-        stride += MemoryLayout<V4>.size
-      }
-      if !bi.isEmpty {
-        assert(boneIndices.count == len)
-        obi = stride
-        stride += MemoryLayout<BoneIndices>.size
-      }
-    #endif
-
-    // Generate interleaved data.
-    let d = NSMutableData(capacity: len * stride)!
-    for i in 0..<len {
-      d.append(positions[i].vf)
-      if !normals.isEmpty         { d.append(normals[i].vf) }
-      if !colors.isEmpty          { d.append(colors[i].vf) }
-      for texCoords in textures {
-        if !texCoords.isEmpty       { d.append(texCoords[i].vf) }
-      }
-      #if false // TODO: creases.
-        if !vertexCreases.isEmpty   { d.append(vertexCreases[i]) }
-        if !edgeCreases.isEmpty     { d.append(edgeCreases[i]) }
-      #endif
-      #if false // TODO: bones.
-        if !bw.isEmpty  { d.append(bw[i]) }
-        if !bi.isEmpty  { d.append(bi[i]) }
-      #endif
-    }
-
-    var sources: [SCNGeometrySource] = []
-
-    sources.append(SCNGeometrySource(
-      data: d as Data,
-      semantic: SCNGeometrySource.Semantic.vertex,
-      vectorCount: len,
-      usesFloatComponents: true,
-      componentsPerVector: 3,
-      bytesPerComponent: MemoryLayout<F32>.size,
-      dataOffset: op,
-      dataStride: stride))
-
-    if !normals.isEmpty {
-      sources.append(SCNGeometrySource(
-        data: d as Data,
-        semantic: SCNGeometrySource.Semantic.normal,
-        vectorCount: len,
-        usesFloatComponents: true,
-        componentsPerVector: 3,
-        bytesPerComponent: MemoryLayout<F32>.size,
-        dataOffset: on,
-        dataStride: stride))
-    }
-    if !colors.isEmpty {
-      sources.append(SCNGeometrySource(
-        data: d as Data,
-        semantic: SCNGeometrySource.Semantic.color,
-        vectorCount: len,
-        usesFloatComponents: true,
-        componentsPerVector: 4,
-        bytesPerComponent: MemoryLayout<F32>.size,
-        dataOffset: oc,
-        dataStride: stride))
-    }
-    for (ot, texCoords) in zip(ots, textures) {
-      if !texCoords.isEmpty {
-        sources.append(SCNGeometrySource(
-          data: d as Data,
-          semantic: SCNGeometrySource.Semantic.texcoord,
-          vectorCount: len,
-          usesFloatComponents: true,
-          componentsPerVector: 2,
-          bytesPerComponent: MemoryLayout<F32>.size,
-          dataOffset: ot,
-          dataStride: stride))
-      }
-    }
-
-    var elements: [SCNGeometryElement] = []
-    for kind in kinds {
-      let element: SCNGeometryElement
-      switch kind {
-      case .point(let size, let minRad, let maxRad):
-        element = SCNGeometryElement(indices: points, vertexCount: positions.count, primitiveType: .point)
-        element.pointSize = size
-        element.minimumPointScreenSpaceRadius = minRad
-        element.maximumPointScreenSpaceRadius = maxRad
-      case .seg:
-        element = segments.withBufferRebound(to: Int.self) {
-          SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .line)
-        }
-      case .tri:
-        element = triangles.withBufferRebound(to: Int.self) {
-          SCNGeometryElement(indices: $0, vertexCount: positions.count, primitiveType: .triangles)
-        }
-      }
-      elements.append(element)
-    }
-    let geometry = SCNGeometry(sources: sources, elements: elements)
-    geometry.name = name
-    return geometry
   }
 
 
@@ -514,7 +357,7 @@ public class Mesh {
 
     func validatedTexCoordRange(indices: Set<Int>, axis: Int, size: Int) -> ClosedRange<Int> {
       let els = Set(indices.map { self.textures[0][$0][axis] }).sorted()
-      let scale = Flt(size)
+      let scale = F32(size)
       let intEls = els.map { ($0 * scale).asRoundedInt }
       let r = intEls.closedRange()!
       assert(intEls == Array(r))
@@ -532,13 +375,13 @@ public class Mesh {
   public func fillTritexture(triangleGrid: Range<Int>, src: AreaArray<V4U8>, dst: AreaArray<V4U8>) {
 
     // Convert to lon/lat and sample from the mercator image.
-    func sampleMercator(_ p0: V3, _ p1: V3, _ p2: V3) -> V4U8 {
+    func sampleMercator(_ p0: V3D, _ p1: V3D, _ p2: V3D) -> V4U8 {
       let p = (p0 + p1 + p2) / 3.0 // For now, just sample centroid. We should iterate over all source pixels and average.
       let xz = (p.x.sqr + p.z.sqr).sqrt
       let lon = atan2(p.x, p.z)
       let lat = atan2(p.y, xz)
-      let ulon = lon/(2*Flt.pi) + 0.5
-      let ulat = -lat/Flt.pi + 0.5
+      let ulon = lon/(2*F64.pi) + 0.5
+      let ulat = -lat/F64.pi + 0.5
       let samplePos = V2I(V2D(F64(ulon), F64(ulat)) * V2D(src.size))
       return src.el(samplePos)
     }
@@ -548,7 +391,7 @@ public class Mesh {
     let h = dst.size.y.asF64
     for var tri in triangles[triangleGrid] {
       tri.rotateIndicesToMinVertex(vertices: textures[0]) // A becomes the lowest index by texture U,V.
-      typealias PT = (p:V3, t:V2) // Position, Texture0.
+      typealias PT = (p:V3D, t:V2F) // Position, Texture0.
       let a: PT = (positions[tri.a], textures[0][tri.a])
       let b: PT = (positions[tri.b], textures[0][tri.b])
       let c: PT = (positions[tri.c], textures[0][tri.c])
@@ -582,7 +425,7 @@ public class Mesh {
       let deltaV = baseV - tipV // Delta. This is negative for left triangles.
       let dstOffV = (deltaV > 0) ? -1 : 0
       let nextV = tipV + deltaV.signedUnit // Step towards base.
-      var row0: [V3] = [tip.p]
+      var row0: [V3D] = [tip.p]
 
       for v in signedClosedRange(nextV.asRoundedInt, baseV.asRoundedInt) {
         let t = (v.asF64 - tipV) / deltaV // Interpolation fraction from tip to base, for pixel `y` top edge.
@@ -594,7 +437,7 @@ public class Mesh {
         let deltaU = distalU - medialU
         let dstOffU = (deltaU > 0) ? -1 : 0
         let nextU = medialU + deltaU.signedUnit
-        var row1: [V3] = [row_medial.p]
+        var row1: [V3D] = [row_medial.p]
 
         for (i, u) in signedClosedRange(nextU.asRoundedInt, distalU.asRoundedInt).enumerated() {
           let dstU = (u+dstOffU) * tritexDoubleX
