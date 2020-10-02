@@ -37,6 +37,30 @@ public protocol FloatVec2: FloatVec, Vec2 {}
 public protocol FloatVec3: FloatVec, Vec3 {}
 
 extension FloatVec3 {
+
+  public func cleanEulerAngles(forIndex index: Int) -> Self {
+    var e = self
+    e.formCleanEulerAngles(forIndex: index)
+    return e
+  }
+
+  public mutating func formCleanEulerAngles(forIndex index: Int) {
+    // TODO: not sure if normalizing to within +-2pi is necessary, or if SceneKit does this for us already.
+    formRemainderTwoPi() // Each angle is now in +-2pi.
+    let s = self[index]
+    if s >= -.pi/2 && s <= .pi/2 { return }
+    // The order of mutations to the axes here does not matter, but SceneKit applies euler angles in zyx order, so we do to.
+    z += (z <= 0 ? .pi : -.pi)
+    y *= -1 // The crucial trick is to reverse any existing rotation of the Y axis, because the z axis was just flipped.
+    y += (y <= 0 ? .pi : -.pi)
+    x += (x <= 0 ? .pi : -.pi) // Since the z and the y both flip before x, x is "reversed twice" and so stays positive.
+  }
+
+  public mutating func formRemainderTwoPi() {
+    x.formRemainder(dividingBy: .pi*2)
+    y.formRemainder(dividingBy: .pi*2)
+    z.formRemainder(dividingBy: .pi*2)
+  }
 }
 
 
