@@ -19,8 +19,8 @@ extension NSMenu {
 
 
   @discardableResult
-  public func add(_ title: String, _ action: Selector, key: String = "") -> NSMenuItem {
-    let item = NSMenuItem(title: title, action: action, keyEquivalent: key)
+  public func add(_ title: String, _ action: Selector, key: String = "") -> QuiltObservingMenuItem {
+    let item = QuiltObservingMenuItem(title: title, action: action, keyEquivalent: key)
     addItem(item)
     return item
   }
