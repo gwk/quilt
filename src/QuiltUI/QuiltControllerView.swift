@@ -7,15 +7,15 @@ import UIKit
 #endif
 
 
-open class QuiltRootView<Controller: CRViewController>: QuiltView {
+open class QuiltControllerView<Controller: CRViewController>: QuiltView {
 
   public weak var controller: Controller!
 
   required public init?(coder: NSCoder) { super.init(coder: coder) }
 
-  public init(controller: Controller? = nil) {
+  public init(name: String, controller: Controller? = nil) {
     super.init(frame: .frameInit)
+    self.name = name
     self.controller = controller
-    self.name = "root"
   }
 }
