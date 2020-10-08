@@ -26,6 +26,7 @@ open class QuiltListView: NSScrollView {
     docView.flex = [.w]
     backgroundColor = .darkGray
     hasVerticalScroller = true
+    autohidesScrollers = true
     contentView.postsBoundsChangedNotifications = true
     _ = noteCenter.observe(contentView, name: NSView.boundsDidChangeNotification) {
       (note) in
