@@ -13,7 +13,7 @@ build: gen
 	craft-swift
 
 clean:
-	rm -rf _build/*
+	rm -rf .build/*
 
 clean-gen:
 	rm src/Quilt{Vec,UI,SceneKit}/*-generated.swift
