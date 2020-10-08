@@ -9,6 +9,14 @@
 
 extension CALayer {
 
+  public var color: CRColor {
+    get {
+      if let cg = backgroundColor { return CRColor(cgColor: cg)! }
+      return .clear
+    }
+    set { backgroundColor = (newValue == .clear ? nil : newValue.cgColor) }
+  }
+
   public func updateContentsScale(_ contentsScale: CGFloat) {
     self.contentsScale = contentsScale
     if let sublayers = sublayers {
