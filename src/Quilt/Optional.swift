@@ -18,3 +18,20 @@ extension Optional {
     return "nil"
   }
 }
+
+
+extension Optional: Comparable where Wrapped: Comparable {
+
+  public static func < (lhs: Self, rhs: Self) -> Bool {
+    // Define nil to be less than any Wrapped value.
+    if let lhs = lhs {
+      if let rhs = rhs {
+        return lhs < rhs
+      } else { // Only RHS is nil.
+        return false
+      }
+    } else { // LHS is nil.
+      return rhs != nil
+    }
+  }
+}
