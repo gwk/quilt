@@ -17,13 +17,13 @@ public class TextView: StyledView {
   }
 
   public override func makeBackingLayer() -> CALayer {
-    QuiltTextLayer()
+    TextLayer()
   }
 
 
   // MARK: TextView
 
-  public var textLayer: QuiltTextLayer { layer as! QuiltTextLayer }
+  public var textLayer: TextLayer { layer as! TextLayer }
 
   public var text: String {
     get { textLayer.text }

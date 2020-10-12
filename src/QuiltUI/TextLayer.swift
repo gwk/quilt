@@ -11,9 +11,9 @@ import Foundation
 
 
 @available(macOS 10.11, *)
-public class QuiltTextLayer: CALayer {
+public class TextLayer: StyledLayer {
 
-  // MARK: QuiltTextLayer
+  // MARK: TextLayer
 
   public var text: String = "" {
     didSet { setNeedsDisplay() }
@@ -58,7 +58,7 @@ public class QuiltTextLayer: CALayer {
 
   public override init(layer: Any) {
     super.init(layer: layer)
-    let l = layer as! QuiltTextLayer
+    let l = layer as! TextLayer
     text = l.text
     font = l.font
     textColor = l.textColor
@@ -106,19 +106,21 @@ public class QuiltTextLayer: CALayer {
     let textBounds = bounds.insetBy(edgeInsets)
     //let (suggestedSize, _) = _framesetter.suggestFrameSize(constraintSize: CGSize(textBounds.width, .infinity))
     let frame = _framesetter.createFrame(bounds: textBounds)
-    ctx.textMatrix = .identity
-    ctx.translateBy(x: 0, y: bounds.size.height)
-    ctx.scaleBy(x: 1.0, y: -1.0)
-    if isOpaque, let backgroundColor = backgroundColor {
+    if let backgroundColor = backgroundColor {
       ctx.setFillColor(backgroundColor)
       ctx.fill(bounds)
+    if isOpaque {
       ctx.setAllowsFontSmoothing(true)
       ctx.setAllowsFontSubpixelPositioning(true)
       ctx.setAllowsFontSubpixelQuantization(true)
       ctx.setShouldSmoothFonts(true)
       ctx.setShouldSubpixelPositionFonts(true)
       ctx.setShouldSubpixelQuantizeFonts(true)
+      }
     }
+    ctx.textMatrix = .identity
+    ctx.translateBy(x: textBounds.origin.x, y: bounds.size.height - textBounds.origin.y)
+    ctx.scaleBy(x: 1.0, y: -1.0)
     frame.draw(ctx: ctx, attrString: _attrString, width:textBounds.width, truncationType: .end, truncationLine: _truncationLine)
   }
 }

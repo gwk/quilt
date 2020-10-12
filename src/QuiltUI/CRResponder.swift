@@ -11,6 +11,16 @@
 
 extension CRResponder {
 
+  public func getResponder<R: CRResponder>(_ type: R.Type) -> R? {
+    var responder = self.nextResponder
+    while let r = responder {
+      if let r = r as? R { return r }
+      responder = r.nextResponder
+    }
+    return nil
+  }
+
+
   #if os(OSX)
   public func insertNextResponder(_ responder: CRResponder) {
     responder.nextResponder = self.nextResponder
