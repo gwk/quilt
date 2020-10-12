@@ -16,5 +16,4 @@ extension SCNView {
       .sortResults: sorted as NSNumber
     ])
   }
-
 }
