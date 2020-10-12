@@ -7,7 +7,7 @@ import UIKit
 #endif
 
 
-open class QuiltControllerView<Controller: CRViewController>: QuiltView {
+open class QuiltControllerView<Controller: CRViewController>: StyledView {
 
   public weak var controller: Controller!
 

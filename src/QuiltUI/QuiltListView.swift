@@ -15,14 +15,14 @@ open class QuiltListView: NSScrollView {
 
   public weak var source: QuiltListSource!
 
-  public var docView: QuiltView { documentView as! QuiltView }
+  public var docView: StyledView { documentView as! StyledView }
 
 
   public init(frame: CGRect = .frameInit, name: String? = nil, source: QuiltListSource? = nil) {
     self.source = source
     super.init(frame: frame)
     self.name = name
-    documentView = QuiltView(frame: frame)
+    documentView = StyledView(frame: frame)
     docView.flex = [.w]
     backgroundColor = .darkGray
     hasVerticalScroller = true

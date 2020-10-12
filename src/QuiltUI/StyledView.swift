@@ -1,10 +1,9 @@
 // © 2017 George King. Permission to use this file is granted in license-quilt.txt.
 
-import Foundation
-import CoreGraphics
+import QuartzCore
 
 
-open class QuiltView: CRView {
+open class StyledView: CRView {
 
   public required init?(coder: NSCoder) { super.init(coder: coder) }
 
@@ -20,6 +19,15 @@ open class QuiltView: CRView {
   override public var isFlipped: Bool { true }
 
   override public var wantsUpdateLayer: Bool { true }
+
+  override public func makeBackingLayer() -> CALayer { StyledLayer() }
+
+  public var styledLayer: StyledLayer { layer as! StyledLayer }
+
+  public var layerStyle: LayerStyle {
+    get { styledLayer.layerStyle }
+    set { styledLayer.layerStyle = newValue }
+  }
 
   public var backgroundColor: CRColor? {
     get {
