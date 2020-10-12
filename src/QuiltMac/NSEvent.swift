@@ -21,22 +21,6 @@ extension NSEvent {
   public var deltaPos: CGVector { return CGVector(deltaX, deltaY) }
 
 
-  public var prevLocationInWindow: CGPoint {
-    let p = locationInWindow
-    return CGPoint(p.x - deltaX, p.y + deltaY) // Note the inverted deltaY; may be related to NSView.isFlipped.
-  }
-
-
-  public func location(in view: NSView) -> CGPoint {
-    return view.convert(locationInWindow, from: nil) // Nil indicates that convert should use window coordinates.
-  }
-
-
-  public func prevLocation(in view: NSView) -> CGPoint {
-    return view.convert(prevLocationInWindow, from: nil) // Nil indicates that convert should use window coordinates.
-  }
-
-
   public var modifiersAndKey: (NSEvent.ModifierFlags, String) {
     (modifierFlags.intersection(.deviceIndependentFlagsMask), charactersIgnoringModifiers ?? "")
   }
