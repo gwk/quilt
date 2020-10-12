@@ -5,7 +5,7 @@ import AppKit
 import CoreGraphics
 
 
-public class QuiltLabel: QuiltView {
+public class TextView: QuiltView {
 
   public required init?(coder: NSCoder) {
     super.init(coder: coder)
@@ -21,7 +21,7 @@ public class QuiltLabel: QuiltView {
   }
 
 
-  // MARK: QuiltLabel
+  // MARK: TextView
 
   public var textLayer: QuiltTextLayer { layer as! QuiltTextLayer }
 
