@@ -6,7 +6,7 @@ import Quilt
 
 extension SCNTransaction {
 
-  public class func animate(_ duration: Double = 0.25, timing: CAMediaTimingFunctionName = .default, body: Action) {
+  public class func animate(_ duration: Double = 0.2, timing: CAMediaTimingFunctionName = .default, body: Action) {
     begin()
     animationDuration = duration
     animationTimingFunction = CAMediaTimingFunction(name: timing)

@@ -67,8 +67,20 @@ extension SCNNode {
     }
   }
 
+
   public var simdPivotZ: Float {
     get { simdPivot[3][2] }
     set { simdPivot[3][2] = newValue }
+  }
+
+
+  public func highlight(color: NSColor, duration: TimeInterval = 0.2) {
+  // Highlight the selected node with an animation.
+  let matEmission = geometry!.firstMaterial!.emission
+  let origContents = matEmission.contents
+  matEmission.contents = color
+    SCNTransaction.animate(duration) {
+      matEmission.contents = origContents
+    }
   }
 }
