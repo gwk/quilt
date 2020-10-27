@@ -83,4 +83,25 @@ extension SCNNode {
       matEmission.contents = origContents
     }
   }
+
+
+  public var motion: RigidMotion {
+    get {
+      RigidMotion(position: self.simdPosition, orientation: self.simdOrientation)
+    }
+    set {
+      self.simdPosition = newValue.position
+      self.simdOrientation = newValue.orientation
+    }
+  }
+
+  public var worldMotion: RigidMotion {
+    get {
+      RigidMotion(position: self.simdWorldPosition, orientation: self.simdWorldOrientation)
+    }
+    set {
+      self.simdWorldPosition = newValue.position
+      self.simdWorldOrientation = newValue.orientation
+    }
+  }
 }
