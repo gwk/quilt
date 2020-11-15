@@ -48,7 +48,7 @@ import QuiltArithmetic\
   needs_zero = is_simd or is_scn
   needs_equatable = is_scn
   needs_comparable = True
-  needs_convertible = not is_simd
+  needs_string_convertible = not is_simd
   needs_codable = False # TODO
 
   for import_name in args.imports:
@@ -211,7 +211,7 @@ import QuiltArithmetic\
     outL('}\n')
 
 
-  if needs_convertible:
+  if needs_string_convertible:
     outL('extension $: CustomStringConvertible {', v_type)
     outL('  public var description: String { "$($)" }', v_type, jcf('\\($)', comps))
     outL('}\n')
