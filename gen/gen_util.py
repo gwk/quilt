@@ -5,7 +5,6 @@ from itertools import zip_longest, product
 from typing import NamedTuple, Optional
 
 
-dims = [2, 3, 4]
 all_v_comps = ['x', 'y', 'z', 'w']
 ops = ['+', '-', '*', '/']
 

@@ -13,15 +13,15 @@ def gen_mat(dim, t):
   vt = fmt('V$$', dim, t.suffix)
   v3t = fmt('V3$', t.suffix)
   mt = fmt('M$$', dim, t.suffix)
-  rng = range(dim)
-  rng_sqr = tuple(product(rng, rng))
+  dim_indices = range(dim)
+  dim_indices_sqr = tuple(product(dim_indices, dim_indices))
 
   v_comps = all_v_comps[:dim]
   v_comps_a = tuple('a.' + c for c in v_comps)
   v_comps_b = tuple('b.' + c for c in v_comps)
   v_comps_ab = tuple(zip(v_comps_a, v_comps_b))
 
-  els = tuple(fmt('self[$, $]', i, j) for i, j in rng_sqr)
+  els = tuple(fmt('self[$, $]', i, j) for i, j in dim_indices_sqr)
   els_l = tuple('l.' + c for c in els)
   els_r = tuple('r.' + c for c in els)
   els_lr = tuple(zip(els_l, els_r))
@@ -34,10 +34,10 @@ def gen_mat(dim, t):
 
   outL('extension $ {', mt)
 
-  for i in rng:
+  for i in dim_indices:
     outL('  public var c$: $ { self[$] }', i, vt, i)
-  for j in rng:
-    outL('  public var r$: $ { $($) }', j, vt, vt, jc(fmt('self[$, $]', i, j) for i in rng))
+  for j in dim_indices:
+    outL('  public var r$: $ { $($) }', j, vt, vt, jc(fmt('self[$, $]', i, j) for i in dim_indices))
 
   outL('  public static let zero = $(0)', mt)
   outL('  public static let ident = $(1)', mt)
@@ -94,8 +94,8 @@ def gen_mat(dim, t):
       ['0', '0', '0', '1']
     ]
 
-    for i in rng:
-      outL('      $($)$', vt, jc(rot_terms[i][j] for j in rng), commaUnlessIsLast(i))
+    for i in dim_indices:
+      outL('      $($)$', vt, jc(rot_terms[i][j] for j in dim_indices), commaUnlessIsLast(i))
     outL('  ])}\n')
 
     outL('  public static func rot(a: $, _ b: $) -> $ {', v3t, v3t, mt)
@@ -117,7 +117,7 @@ import QuiltArithmetic
 
 ''')
 
-  for d in dims:
+  for d in [2, 3, 4]:
     for t in types:
       if not t.simd: continue
       gen_mat(d, t)
