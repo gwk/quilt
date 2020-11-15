@@ -69,6 +69,7 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
   }
 
   public static var scalarCount: Int { 2 }
+  public static var one: Self { Self.init(1, 1) }
 
   public func dot(_ b: CGVector) -> F64 {
     var s = x.asF64 * b.x.asF64

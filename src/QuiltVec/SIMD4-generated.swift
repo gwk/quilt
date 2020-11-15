@@ -29,6 +29,7 @@ extension SIMD4: Vec, Vec4 where Scalar: ArithmeticProtocol { // Float/Int agnos
 
   public static var scalarCount: Int { 4 }
   public static var zero: Self { Self.init() }
+  public static var one: Self { Self.init(1, 1, 1, 1) }
 
   public func dot(_ b: SIMD4<Scalar>) -> F64 {
     var s = x.asF64 * b.x.asF64

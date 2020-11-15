@@ -38,6 +38,8 @@ import QuiltArithmetic\
   try: dim = int(v_type[-1])
   except ValueError: dim = 2
 
+  dim_indices = range(dim)
+
   scalar = args.scalar or 'Scalar'
 
   # `v_prev` is the lower dimension vector type, e.g. v_type=V3F, v_prev=V2F. TODO: rename v_lower?
@@ -124,6 +126,8 @@ import QuiltArithmetic\
 
   if needs_zero:
     outL('  public static var zero: Self { Self.init() }')
+
+  outL('  public static var one: Self { Self.init($) }', jc('1' for _ in dim_indices))
 
   outL()
   outL('  public func dot(_ b: $) -> F64 {', vi_type)

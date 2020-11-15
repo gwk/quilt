@@ -55,6 +55,7 @@ extension V4: Vec, Vec4 { // Float/Int agnostic.
 
   public static var scalarCount: Int { 4 }
   public static var zero: Self { Self.init() }
+  public static var one: Self { Self.init(1, 1, 1, 1) }
 
   public func dot(_ b: V4) -> F64 {
     var s = x.asF64 * b.x.asF64

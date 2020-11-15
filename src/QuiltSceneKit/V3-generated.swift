@@ -65,6 +65,7 @@ extension V3: Vec, Vec3 { // Float/Int agnostic.
 
   public static var scalarCount: Int { 3 }
   public static var zero: Self { Self.init() }
+  public static var one: Self { Self.init(1, 1, 1) }
 
   public func dot(_ b: V3) -> F64 {
     var s = x.asF64 * b.x.asF64

@@ -39,6 +39,7 @@ public protocol Vec: Equatable, CustomStringConvertible {
   init(scalar: Scalar)
 
   static var zero: Self { get }
+  static var one: Self { get }
 
   static var scalarCount: Int { get }
 
@@ -73,6 +74,7 @@ public protocol Vec2: Vec {
 public extension Vec2 {
   init(scalar: Scalar) { self.init(scalar, scalar) }
 
+  static var one: Self { return Self(1, 1) }
   static var unitX: Self { Self(1, 0) }
   static var unitY: Self { Self(0, 1) }
 
@@ -93,6 +95,7 @@ public protocol Vec3: Vec {
 public extension Vec3 {
   init(scalar: Scalar) { self.init(scalar, scalar, scalar) }
 
+  static var one: Self { return Self(1, 1, 1) }
   static var unitX: Self { Self(1, 0, 0) }
   static var unitY: Self { Self(0, 1, 0) }
   static var unitZ: Self { Self(0, 0, 1) }
@@ -115,6 +118,7 @@ public protocol Vec4: Vec {
 public extension Vec4 {
   init(scalar: Scalar) { self.init(scalar, scalar, scalar, scalar) }
 
+  static var one: Self { return Self(1, 1, 1, 1) }
   static var unitX: Self { Self(1, 0, 0, 0) }
   static var unitY: Self { Self(0, 1, 0, 0) }
   static var unitZ: Self { Self(0, 0, 1, 0) }
