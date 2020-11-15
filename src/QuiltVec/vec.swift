@@ -77,6 +77,8 @@ public extension Vec2 {
 
   var vf: V2F { V2F(x.asF32, y.asF32) }
   var vd: V2D { V2D(x.asF64, y.asF64) }
+
+  var sqrLen: F64 { x.asF64.sqr + y.asF64.sqr }
 }
 
 
@@ -96,6 +98,8 @@ public extension Vec3 {
 
   var vf: V3F { V3F(x.asF32, y.asF32, z.asF32) }
   var vd: V3D { V3D(x.asF64, y.asF64, z.asF64) }
+
+  var sqrLen: F64 { x.asF64.sqr + y.asF64.sqr + z.asF64.sqr }
 }
 
 
@@ -117,4 +121,6 @@ public extension Vec4 {
 
   var vf: V4F { V4F(x.asF32, y.asF32, z.asF32, w.asF32) }
   var vd: V4D { V4D(x.asF64, y.asF64, z.asF64, w.asF64) }
+
+  var sqrLen: F64 { x.asF64.sqr + y.asF64.sqr + z.asF64.sqr + w.asF64.sqr }
 }

@@ -126,14 +126,6 @@ import QuiltArithmetic\
     outL('  public static var zero: Self { Self.init() }')
 
   outL()
-  outL('  public var sqrLen: F64 {')
-  outL('    var s = x.asF64.sqr')
-  for c in comps[1:]:
-    outL('    s += $.asF64.sqr', c)
-  outL('    return s')
-  outL('}')
-
-  outL()
   outL('  public var aspect: F64 { x.asF64 / y.asF64 }')
 
   # TODO: swizzles.
