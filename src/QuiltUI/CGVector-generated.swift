@@ -70,9 +70,6 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
 
   public static var scalarCount: Int { 2 }
 
-  public var vf: V2F { V2F(x.asF32, y.asF32) }
-  public var vd: V2D { V2D(x.asF64, y.asF64) }
-
   public var sqrLen: F64 {
     var s = x.asF64.sqr
     s += y.asF64.sqr

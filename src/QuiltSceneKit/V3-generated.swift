@@ -66,9 +66,6 @@ extension V3: Vec, Vec3 { // Float/Int agnostic.
   public static var scalarCount: Int { 3 }
   public static var zero: Self { Self.init() }
 
-  public var vf: V3F { V3F(x.asF32, y.asF32, z.asF32) }
-  public var vd: V3D { V3D(x.asF64, y.asF64, z.asF64) }
-
   public var sqrLen: F64 {
     var s = x.asF64.sqr
     s += y.asF64.sqr

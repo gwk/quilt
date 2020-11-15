@@ -126,10 +126,6 @@ import QuiltArithmetic\
     outL('  public static var zero: Self { Self.init() }')
 
   outL()
-  outL('  public var vf: V$F { V$F($) }', dim, dim, jcf('$.asF32', comps))
-  outL('  public var vd: V$D { V$D($) }', dim, dim, jcf('$.asF64', comps))
-
-  outL()
   outL('  public var sqrLen: F64 {')
   outL('    var s = x.asF64.sqr')
   for c in comps[1:]:
