@@ -36,6 +36,7 @@ public protocol Vec: Equatable, CustomStringConvertible {
   init()
   init(_ v: VFType)
   init(_ v: VDType)
+  init(scalar: Scalar)
 
   static var zero: Self { get }
 
@@ -68,12 +69,27 @@ public protocol Vec2: Vec {
   var y: Scalar { get set }
 }
 
+public extension Vec2 {
+  init(scalar: Scalar) { self.init(scalar, scalar) }
+
+  static var unitX: Self { Self(1, 0) }
+  static var unitY: Self { Self(0, 1) }
+}
+
 
 public protocol Vec3: Vec {
   init(_ x: Scalar, _ y: Scalar, _ z: Scalar)
   var x: Scalar { get set }
   var y: Scalar { get set }
   var z: Scalar { get set }
+}
+
+public extension Vec3 {
+  init(scalar: Scalar) { self.init(scalar, scalar, scalar) }
+
+  static var unitX: Self { Self(1, 0, 0) }
+  static var unitY: Self { Self(0, 1, 0) }
+  static var unitZ: Self { Self(0, 0, 1) }
 }
 
 
@@ -83,4 +99,13 @@ public protocol Vec4: Vec {
   var y: Scalar { get set }
   var z: Scalar { get set }
   var w: Scalar { get set }
+}
+
+public extension Vec4 {
+  init(scalar: Scalar) { self.init(scalar, scalar, scalar, scalar) }
+
+  static var unitX: Self { Self(1, 0, 0, 0) }
+  static var unitY: Self { Self(0, 1, 0, 0) }
+  static var unitZ: Self { Self(0, 0, 1, 0) }
+  static var unitW: Self { Self(0, 0, 0, 1) }
 }

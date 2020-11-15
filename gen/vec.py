@@ -126,11 +126,6 @@ import QuiltArithmetic\
     outL('  public static var zero: Self { Self.init() }')
 
   outL()
-  for c in comps:
-    outL('  public static var unit$: $ { $($) }',
-      c.upper(), vi_type, v_type, jc('1' if d == c else '0' for d in comps))
-
-  outL()
   outL('  public var vf: V$F { V$F($) }', dim, dim, jcf('$.asF32', comps))
   outL('  public var vd: V$D { V$D($) }', dim, dim, jcf('$.asF64', comps))
 

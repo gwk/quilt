@@ -51,9 +51,6 @@ extension SIMD2: Vec, Vec2 where Scalar: ArithmeticProtocol { // Float/Int agnos
   public static var scalarCount: Int { 2 }
   public static var zero: Self { Self.init() }
 
-  public static var unitX: SIMD2<Scalar> { SIMD2(1, 0) }
-  public static var unitY: SIMD2<Scalar> { SIMD2(0, 1) }
-
   public var vf: V2F { V2F(x.asF32, y.asF32) }
   public var vd: V2D { V2D(x.asF64, y.asF64) }
 
