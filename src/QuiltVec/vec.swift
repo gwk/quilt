@@ -57,6 +57,7 @@ public protocol Vec: Equatable, CustomStringConvertible {
 extension Vec {
 
   public var len: F64 { sqrLen.sqrt }
+  public var aspect: F64 { x.asF64 / y.asF64 }
   public var heading: F64 { atan2(y.asF64, x.asF64) }
 
   public func angle(_ b: Self) -> F64 { acos(self.dot(b) / (self.len * b.len)) }

@@ -51,9 +51,6 @@ extension SIMD2: Vec, Vec2 where Scalar: ArithmeticProtocol { // Float/Int agnos
   public static var scalarCount: Int { 2 }
   public static var zero: Self { Self.init() }
 
-
-  public var aspect: F64 { x.asF64 / y.asF64 }
-
   public func dot(_ b: SIMD2<Scalar>) -> F64 {
     var s = x.asF64 * b.x.asF64
     s += y.asF64 * b.y.asF64

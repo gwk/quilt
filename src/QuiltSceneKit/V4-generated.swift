@@ -56,8 +56,6 @@ extension V4: Vec, Vec4 { // Float/Int agnostic.
   public static var scalarCount: Int { 4 }
   public static var zero: Self { Self.init() }
 
-  public var aspect: F64 { x.asF64 / y.asF64 }
-
   public func dot(_ b: V4) -> F64 {
     var s = x.asF64 * b.x.asF64
     s += y.asF64 * b.y.asF64

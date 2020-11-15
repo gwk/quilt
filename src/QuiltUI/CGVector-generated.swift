@@ -70,8 +70,6 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
 
   public static var scalarCount: Int { 2 }
 
-  public var aspect: F64 { x.asF64 / y.asF64 }
-
   public func dot(_ b: CGVector) -> F64 {
     var s = x.asF64 * b.x.asF64
     s += y.asF64 * b.y.asF64
