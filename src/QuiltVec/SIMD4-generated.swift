@@ -54,14 +54,6 @@ extension SIMD4: FloatVec, FloatVec4 where Scalar: ArithmeticFloat { // Float-sp
   public var clampToUnit: SIMD4 { SIMD4(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1), z.clamp(min: 0, max: 1), w.clamp(min: 0, max: 1)) }
   public var clampToSignedUnit: SIMD4 { SIMD4(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1), z.clamp(min: -1, max: 1), w.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255)), U8((w*255).clamp(min: 0, max: 255))) }
-
-  public func cross(_ b: SIMD4) -> SIMD4 { SIMD4(
-      y * b.z - z * b.y,
-      z * b.x - x * b.z,
-      x * b.y - y * b.x,
-    0
-    )
-  }
 }
 
 

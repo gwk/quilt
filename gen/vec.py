@@ -166,19 +166,6 @@ import QuiltArithmetic\
   outL('  public var clampToSignedUnit: $ { $($) }', v_type, v_type, jcf('$.clamp(min: -1, max: 1)', comps))
   outL('  public var toU8Pixel: VU8Type { VU8Type($) }', jcf('U8(($*255).clamp(min: 0, max: 255))', comps))
 
-  if dim >= 3:
-    outL('')
-    cross_pairs = ['yz', 'zx', 'xy', '__'][:dim]
-    outL('  public func cross(_ b: $) -> $ { $(', v_type, v_type, v_type)
-    for i, (a, b) in enumerate(cross_pairs):
-      if a == '_':
-        outL('    0')
-      else:
-        comma = '' if i == dim - 1 else ','
-        outL('      $ * b.$ - $ * b.$$', a, b, b, a, comma)
-    outL('    )')
-    outL('  }')
-
   outL('}\n\n')
 
 

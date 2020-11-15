@@ -38,6 +38,13 @@ public protocol FloatVec3: FloatVec, Vec3 {}
 
 extension FloatVec3 {
 
+  public func cross(_ b: Self) -> Self {
+    Self(
+      y * b.z - z * b.y,
+      z * b.x - x * b.z,
+      x * b.y - y * b.x)
+  }
+
   public func cleanEulerAngles(forIndex index: Int) -> Self {
     var e = self
     e.formCleanEulerAngles(forIndex: index)

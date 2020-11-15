@@ -164,7 +164,7 @@ extension M4F {
     V4F(          0,           0,           0,           1)
   ])}
 
-  public static func rot(theta: F32, norm: V4F) -> M4F {
+  public static func rot(theta: F32, norm: V3F) -> M4F {
     if !theta.isNormal { return ident }
     let _cos = cos(theta)
     let _cosp = 1 - _cos
@@ -176,7 +176,7 @@ extension M4F {
       V4F(0, 0, 0, 1)
   ])}
 
-  public static func rot(a: V4F, _ b: V4F) -> M4F {
+  public static func rot(a: V3F, _ b: V3F) -> M4F {
     return rot(theta: F32(a.angle(b)), norm: a.cross(b).norm)
   }
 
@@ -218,7 +218,7 @@ extension M4D {
     V4D(          0,           0,           0,           1)
   ])}
 
-  public static func rot(theta: F64, norm: V4D) -> M4D {
+  public static func rot(theta: F64, norm: V3D) -> M4D {
     if !theta.isNormal { return ident }
     let _cos = cos(theta)
     let _cosp = 1 - _cos
@@ -230,7 +230,7 @@ extension M4D {
       V4D(0, 0, 0, 1)
   ])}
 
-  public static func rot(a: V4D, _ b: V4D) -> M4D {
+  public static func rot(a: V3D, _ b: V3D) -> M4D {
     return rot(theta: F64(a.angle(b)), norm: a.cross(b).norm)
   }
 

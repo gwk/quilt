@@ -11,6 +11,7 @@ def gen_mat(dim, t):
   def commaUnlessAreLast(i, j): return '' if areLast(i, j) else ','
 
   vt = fmt('V$$', dim, t.suffix)
+  v3t = fmt('V3$', t.suffix)
   mt = fmt('M$$', dim, t.suffix)
   rng = range(dim)
   rng_sqr = tuple(product(rng, rng))
@@ -67,7 +68,7 @@ def gen_mat(dim, t):
           ',' if j < dim - 1 else '')
       outL('  ])}\n')
 
-    outL('  public static func rot(theta: $, norm: $) -> $ {', t.scalar, vt, mt)
+    outL('  public static func rot(theta: $, norm: $) -> $ {', t.scalar, v3t, mt)
     outL('    if !theta.isNormal { return ident }')
     outL('    let _cos = cos(theta)')
     outL('    let _cosp = 1 - _cos')
@@ -97,7 +98,7 @@ def gen_mat(dim, t):
       outL('      $($)$', vt, jc(rot_terms[i][j] for j in rng), commaUnlessIsLast(i))
     outL('  ])}\n')
 
-    outL('  public static func rot(a: $, _ b: $) -> $ {', vt, vt, mt)
+    outL('  public static func rot(a: $, _ b: $) -> $ {', v3t, v3t, mt)
     outL('    return rot(theta: $(a.angle(b)), norm: a.cross(b).norm)', t.scalar)
     outL('  }\n')
 

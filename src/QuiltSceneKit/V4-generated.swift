@@ -89,14 +89,6 @@ extension V4: FloatVec, FloatVec4 { // Float-specific.
   public var clampToUnit: V4 { V4(x.clamp(min: 0, max: 1), y.clamp(min: 0, max: 1), z.clamp(min: 0, max: 1), w.clamp(min: 0, max: 1)) }
   public var clampToSignedUnit: V4 { V4(x.clamp(min: -1, max: 1), y.clamp(min: -1, max: 1), z.clamp(min: -1, max: 1), w.clamp(min: -1, max: 1)) }
   public var toU8Pixel: VU8Type { VU8Type(U8((x*255).clamp(min: 0, max: 255)), U8((y*255).clamp(min: 0, max: 255)), U8((z*255).clamp(min: 0, max: 255)), U8((w*255).clamp(min: 0, max: 255))) }
-
-  public func cross(_ b: V4) -> V4 { V4(
-      y * b.z - z * b.y,
-      z * b.x - x * b.z,
-      x * b.y - y * b.x,
-    0
-    )
-  }
 }
 
 
