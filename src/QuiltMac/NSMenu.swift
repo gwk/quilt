@@ -13,13 +13,14 @@ extension NSMenu {
 
   public convenience init(title: String, superMenu: NSMenu) {
     self.init(title: title)
-    let parentItem = NSMenuItem(parent: superMenu)
+    let parentItem = NSMenuItem(title: title, action: nil, keyEquivalent: "")
     parentItem.submenu = self
+    superMenu.addItem(parentItem)
   }
 
 
   @discardableResult
-  public func add(_ title: String, _ action: Selector, key: String = "") -> QuiltObservingMenuItem {
+  public func add(_ title: String, _ action: Selector?, key: String = "") -> QuiltObservingMenuItem {
     let item = QuiltObservingMenuItem(title: title, action: action, keyEquivalent: key)
     addItem(item)
     return item

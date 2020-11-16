@@ -5,8 +5,4 @@ import AppKit
 
 extension NSMenuItem {
 
-  public convenience init(parent: NSMenu) {
-    self.init()
-    parent.addItem(self)
-  }
 }
