@@ -24,7 +24,9 @@ public class QuiltObservingMenuItem: NSMenuItem {
 
 
   public func observe<Observable: NSObject, Value: Any>(
-    observable: Observable, keyPath: KeyPath<Observable, Value>, options: NSKeyValueObservingOptions = [],
+    observable: Observable,
+    keyPath: KeyPath<Observable, Value>,
+    options: NSKeyValueObservingOptions = [],
     changeHandler: @escaping (QuiltObservingMenuItem, Observable, NSKeyValueObservedChange<Value>) -> Void) {
     // Add an observation, wrapping the normal `observe(keyPath, options, changeHandler)` changeHandler block
     // so that the handler is executed on the main (UI-safe) thread and passes self: NSMenuItem as the first argument.
