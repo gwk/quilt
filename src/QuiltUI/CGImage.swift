@@ -36,12 +36,14 @@ extension CGImage {
       throw Err.path(path: path)
     }
     switch path.ext {
-    case ".jpg": if let i = CGImage(jpegDataProviderSource: provider, decode: nil, shouldInterpolate: shouldInterpolate, intent: intent) {
-      return i
-    } else { throw Err.jpeg(path: path) }
-    case ".png": if let i = CGImage(pngDataProviderSource: provider, decode: nil, shouldInterpolate: shouldInterpolate, intent: intent) {
-      return i
-    } else { throw Err.png(path: path) }
+    case ".jpg":
+      if let i = CGImage(jpegDataProviderSource: provider, decode: nil, shouldInterpolate: shouldInterpolate, intent: intent) {
+        return i
+      } else { throw Err.jpeg(path: path) }
+    case ".png":
+      if let i = CGImage(pngDataProviderSource: provider, decode: nil, shouldInterpolate: shouldInterpolate, intent: intent) {
+        return i
+      } else { throw Err.png(path: path) }
     default: throw Err.pathExtension(path: path)
     }
   }
