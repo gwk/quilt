@@ -59,4 +59,94 @@ extension Mesh {
     m.validate()
     return m
   }
+
+  public class func terrain(width: Double, cells: Int, dir: Int, pos: V3D) -> Mesh {
+    let m = Mesh(name: "terrain")
+    if cells == 0 {
+      return m
+    }
+
+    var tempPos = [[V3D]](repeating: [V3D](repeating: .zero, count: cells + 1), count: cells + 1) // Empty vertex position 2d array.
+
+    let sideLength = width/Double(cells)
+    let halfWidth = width/Double(2)
+
+    // Set positions for the vertices
+    // TODO: Add directionality on the cardinal axes 
+    for j in 0..<tempPos.count {
+      for i in 0..<tempPos[j].count {
+        tempPos[j][i].x = pos.x - halfWidth + (sideLength * Double(i))
+        tempPos[j][i].y = pos.y + Double(Float.random(in: 0..<2)) // Need to generate terain and replace this!!
+        tempPos[j][i].z = pos.z - halfWidth + (sideLength * Double(j))
+        m.positions.append(tempPos[j][i])
+      }
+    }
+
+    for j in 0..<(tempPos.count - 1) {
+      for i in 0..<(tempPos[j].count) - 1 {
+        let v0 = j*(cells + 1) + i
+        let v1 = j*(cells + 1) + i + 1
+        let v2 = (j+1)*(cells + 1) + i
+        let v3 = (j+1)*(cells + 1) + i + 1
+
+        m.triangles.append(Tri(v0, v2, v1))
+        m.triangles.append(Tri(v1, v2, v3))
+      }
+    }
+
+    // Have to do edges after all triagles are put in.
+
+    for j in 0..<tempPos.count - 1 { // ignore bottom edge
+      for i in 0..<tempPos[j].count {
+        print("i, j: " + String(i) + " , " + String(j))
+        if i % cells != 0 || i == 0 { // Ignore right edge
+          let v0 = (j * cells) + i + j
+          let v1 = v0 + 1
+          let v2 = v0 + cells + 1
+          let v3 = v2 + 1
+          let cell = v0 - j
+          let tri0 = cell * 2
+          let tri1 = tri0 + 1
+          m.edges.append(Edge(va: v2, vb: v1, tl: tri0, tr: tri1)) // always with these two triangles independent of surrounding triangles
+          // Left edge : different when on left edge / when the v0 % (cells + 1) == 0
+          if v0 % (cells + 1) == 0 { // On edge
+            m.edges.append(Edge(va: v0, vb: v2, tl: tri0, tr: -1))
+          } else { // Not on edge
+            let tri3 = tri0 - 1
+            m.edges.append(Edge(va: v0, vb: v2, tl: tri0, tr: tri3))
+          }
+          // Bottom edge : different when in last row
+          if j == cells - 1 {
+            m.edges.append(Edge(va: v2, vb: v3, tl: tri1, tr: -1))
+          } else {
+            let tri4 = tri0 + (cells * 2)
+            m.edges.append(Edge(va: v2, vb: v3, tl: tri1, tr: tri4))
+          }
+        }
+      }
+    }
+
+    // Right side:
+    for i in 1...cells {
+      let v0 = i * (cells + 1) - 1
+      let v1 = v0 + cells + 1
+      let tri = (i * (cells * 2)) - 1
+      m.edges.append(Edge(va: v1, vb: v0, tl: tri, tr: -1))
+    }
+
+    // Top
+    var tempCount = 1
+    for i in 0...(cells - 1) {
+      let v0 = i
+      let v1 = v0 + 1
+      let tri = 2 * i
+      tempCount += 1
+      m.edges.append(Edge(va: v1, vb: v0, tl: tri, tr: -1))
+    }
+
+    m.segments = []
+
+    m.validate()
+    return m
+  }
 }
