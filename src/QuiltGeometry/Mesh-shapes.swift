@@ -3,6 +3,7 @@
 import Foundation
 import QuiltArithmetic
 import QuiltVec
+import GameKit
 
 
 extension Mesh {
@@ -60,7 +61,7 @@ extension Mesh {
     return m
   }
 
-  public class func terrain(width: Double, cells: Int, dir: Int, pos: V3D) -> Mesh {
+  public class func terrain(width: Double, cells: Int, dir: Int, pos: V3D, height: Double) -> Mesh {
     let m = Mesh(name: "terrain")
     if cells == 0 {
       return m
@@ -70,13 +71,31 @@ extension Mesh {
 
     let sideLength = width/Double(cells)
     let halfWidth = width/Double(2)
+    let hScale = height/2
 
     // Set positions for the vertices
-    // TODO: Add directionality on the cardinal axes 
+    // TODO: Add directionality on the cardinal axes
+    let source = GKPerlinNoiseSource()
+    source.persistence = 0.9
+    let noise = GKNoise(source)
+    let size = vector2(1.0, 1.0)
+    let origin = vector2(0.0, 0.0)
+    let sampleCount = vector2(Int32(cells + 1), Int32(cells + 1))
+    //source.persistence = 4
+    // source.lacunarity = 0.5
+    // source.octaveCount = 2
+    source.frequency = 10
+
+
+    let noiseMap = GKNoiseMap(noise, size: size, origin: origin, sampleCount: sampleCount, seamless: true)
+
+
     for j in 0..<tempPos.count {
       for i in 0..<tempPos[j].count {
+        let noisePos = vector2(Int32(i), Int32(j))
+        let posVal = Double(noiseMap.value(at: noisePos))
         tempPos[j][i].x = pos.x - halfWidth + (sideLength * Double(i))
-        tempPos[j][i].y = pos.y + Double(Float.random(in: 0..<2)) // Need to generate terain and replace this!!
+        tempPos[j][i].y = F64(pos.y + posVal) * Double(hScale)
         tempPos[j][i].z = pos.z - halfWidth + (sideLength * Double(j))
         m.positions.append(tempPos[j][i])
       }
@@ -98,7 +117,6 @@ extension Mesh {
 
     for j in 0..<tempPos.count - 1 { // ignore bottom edge
       for i in 0..<tempPos[j].count {
-        print("i, j: " + String(i) + " , " + String(j))
         if i % cells != 0 || i == 0 { // Ignore right edge
           let v0 = (j * cells) + i + j
           let v1 = v0 + 1
