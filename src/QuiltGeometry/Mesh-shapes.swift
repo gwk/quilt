@@ -61,7 +61,7 @@ extension Mesh {
     return m
   }
 
-  public class func terrain(width: Double, cells: Int, dir: Int, pos: V3D, height: Double) -> Mesh {
+  public class func terrain(width: Double, cells: Int, dir: Int, origin: V3D, height: Double, noiseMap: GKNoiseMap) -> Mesh {
     let m = Mesh(name: "terrain")
     if cells == 0 {
       return m
@@ -72,62 +72,45 @@ extension Mesh {
     let sideLength = width/Double(cells)
     let halfWidth = width/Double(2)
     let hScale = height/2
-
-    // Set positions for the vertices
-    // TODO: Add directionality on the cardinal axes
-    let source = GKPerlinNoiseSource()
-    source.persistence = 0.9
-    let noise = GKNoise(source)
-    let size = vector2(1.0, 1.0)
-    let origin = vector2(0.0, 0.0)
-    let sampleCount = vector2(Int32(cells + 1), Int32(cells + 1))
-    //source.persistence = 4
-    // source.lacunarity = 0.5
-    // source.octaveCount = 2
-    source.frequency = 10
-
-
-    let noiseMap = GKNoiseMap(noise, size: size, origin: origin, sampleCount: sampleCount, seamless: true)
-
+    let vertexPerSide = cells + 1
 
     for j in 0..<tempPos.count {
       for i in 0..<tempPos[j].count {
         let noisePos = vector2(Int32(i), Int32(j))
-        let posVal = Double(noiseMap.value(at: noisePos))
-        tempPos[j][i].x = pos.x - halfWidth + (sideLength * Double(i))
-        tempPos[j][i].y = F64(pos.y + posVal) * Double(hScale)
-        tempPos[j][i].z = pos.z - halfWidth + (sideLength * Double(j))
+        let sample = Double(noiseMap.value(at: noisePos))
+        tempPos[j][i] = origin + V3D(
+                  -halfWidth + sideLength * Double(i),
+                  sample * hScale,
+                  -halfWidth + sideLength * Double(j))
         m.positions.append(tempPos[j][i])
       }
     }
 
     for j in 0..<(tempPos.count - 1) {
       for i in 0..<(tempPos[j].count) - 1 {
-        let v0 = j*(cells + 1) + i
-        let v1 = j*(cells + 1) + i + 1
-        let v2 = (j+1)*(cells + 1) + i
-        let v3 = (j+1)*(cells + 1) + i + 1
+        let v0 = j*(vertexPerSide) + i
+        let v1 = j*(vertexPerSide) + i + 1
+        let v2 = (j+1)*(vertexPerSide) + i
+        let v3 = (j+1)*(vertexPerSide) + i + 1
 
         m.triangles.append(Tri(v0, v2, v1))
         m.triangles.append(Tri(v1, v2, v3))
       }
     }
 
-    // Have to do edges after all triagles are put in.
-
-    for j in 0..<tempPos.count - 1 { // ignore bottom edge
+    for j in 0..<tempPos.count - 1 {
       for i in 0..<tempPos[j].count {
-        if i % cells != 0 || i == 0 { // Ignore right edge
+        if i % cells != 0 || i == 0 {
           let v0 = (j * cells) + i + j
           let v1 = v0 + 1
-          let v2 = v0 + cells + 1
+          let v2 = v0 + vertexPerSide
           let v3 = v2 + 1
           let cell = v0 - j
           let tri0 = cell * 2
           let tri1 = tri0 + 1
           m.edges.append(Edge(va: v2, vb: v1, tl: tri0, tr: tri1)) // always with these two triangles independent of surrounding triangles
           // Left edge : different when on left edge / when the v0 % (cells + 1) == 0
-          if v0 % (cells + 1) == 0 { // On edge
+          if v0 % (vertexPerSide) == 0 { // On edge
             m.edges.append(Edge(va: v0, vb: v2, tl: tri0, tr: -1))
           } else { // Not on edge
             let tri3 = tri0 - 1
@@ -146,8 +129,8 @@ extension Mesh {
 
     // Right side:
     for i in 1...cells {
-      let v0 = i * (cells + 1) - 1
-      let v1 = v0 + cells + 1
+      let v0 = i * (vertexPerSide) - 1
+      let v1 = v0 + vertexPerSide
       let tri = (i * (cells * 2)) - 1
       m.edges.append(Edge(va: v1, vb: v0, tl: tri, tr: -1))
     }
