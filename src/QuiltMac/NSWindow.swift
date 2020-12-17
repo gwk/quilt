@@ -16,7 +16,7 @@ extension NSWindow {
     deferred: Bool = true,
     screen: NSScreen? = nil,
     dissolveOnClose: Bool, // Nullify delegate/contentViewController.
-    viewController: NSViewController) {
+    viewController: NSViewController? = nil) {
 
     self.init(
       contentRect: CGRect.zero, // Gets clobbered by controller view initial size.
@@ -27,8 +27,10 @@ extension NSWindow {
 
     isReleasedWhenClosed = false
 
-    contentViewController = viewController
-    delegate = viewController as? NSWindowDelegate
+    if let viewController = viewController {
+      contentViewController = viewController
+      delegate = viewController as? NSWindowDelegate
+    }
 
     self.origin = origin
     if viewSize.w > 0 && viewSize.h > 0 {
