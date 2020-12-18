@@ -3,6 +3,7 @@
 import Foundation
 import QuiltArithmetic
 import QuiltVec
+import QuiltArea
 import GameKit
 
 
@@ -66,28 +67,28 @@ extension Mesh {
     if cells == 0 {
       return m
     }
-
-    var tempPos = [[V3D]](repeating: [V3D](repeating: .zero, count: cells + 1), count: cells + 1) // Empty vertex position 2d array.
-
+    
     let sideLength = width/Double(cells)
     let halfWidth = width/Double(2)
     let hScale = height/2
     let vertexPerSide = cells + 1
+    var tempPos = AreaArray<V3D>(size: V2I(vertexPerSide, vertexPerSide), val: .zero)
 
-    for j in 0..<tempPos.count {
-      for i in 0..<tempPos[j].count {
+    for j in 0..<vertexPerSide {
+      for i in 0..<vertexPerSide {
         let noisePos = vector2(Int32(i), Int32(j))
-        let sample = Double(noiseMap.value(at: noisePos))
-        tempPos[j][i] = origin + V3D(
+        let sample = (Double(noiseMap.value(at: noisePos)) + 1)/2
+        tempPos.setEl(V2I(i,j), origin + V3D(
                   -halfWidth + sideLength * Double(i),
                   sample * hScale,
-                  -halfWidth + sideLength * Double(j))
-        m.positions.append(tempPos[j][i])
+                  -halfWidth + sideLength * Double(j)))
+
       }
     }
+    m.positions = tempPos.array
 
-    for j in 0..<(tempPos.count - 1) {
-      for i in 0..<(tempPos[j].count) - 1 {
+    for j in 0..<vertexPerSide - 1 {
+      for i in 0..<vertexPerSide - 1 {
         let v0 = j*(vertexPerSide) + i
         let v1 = j*(vertexPerSide) + i + 1
         let v2 = (j+1)*(vertexPerSide) + i
@@ -98,8 +99,8 @@ extension Mesh {
       }
     }
 
-    for j in 0..<tempPos.count - 1 {
-      for i in 0..<tempPos[j].count {
+    for j in 0..<cells {
+      for i in 0..<vertexPerSide {
         if i % cells != 0 || i == 0 {
           let v0 = (j * cells) + i + j
           let v1 = v0 + 1
