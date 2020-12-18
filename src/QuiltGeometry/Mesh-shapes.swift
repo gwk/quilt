@@ -151,4 +151,109 @@ extension Mesh {
     m.validate()
     return m
   }
+
+
+
+  public class func terrain2(width: Double, cells: Int, dir: Int, origin: V3D, height: Double, noiseMap: GKNoiseMap) -> Mesh {
+    let m = Mesh(name: "terrain")
+    if cells == 0 {
+      return m
+    }
+
+    let sideLength = width/Double(cells)
+    let halfWidth = width/Double(2)
+    let hScale = height/2
+    let vertexPerSide = cells + 1
+    var tempPos = AreaArray<V3D>(size: V2I(vertexPerSide, vertexPerSide), val: .zero)
+
+    for j in 0..<vertexPerSide {
+      for i in 0..<vertexPerSide {
+        let noisePos = vector2(Int32(i), Int32(j))
+        let sample = (Double(noiseMap.value(at: noisePos)) + 1)/2
+        tempPos.setEl(V2I(i,j), origin + V3D(
+                  -halfWidth + sideLength * Double(i),
+                  sample * hScale,
+                  -halfWidth + sideLength * Double(j)))
+
+      }
+    }
+    m.positions = tempPos.array
+    let initialSize = m.positions.count
+
+    for j in 0..<vertexPerSide - 1 {
+      for i in 0..<vertexPerSide - 1 {
+        let v0 = j*(vertexPerSide) + i
+        let v1 = j*(vertexPerSide) + i + 1
+        let v2 = (j+1)*(vertexPerSide) + i
+        let v3 = (j+1)*(vertexPerSide) + i + 1
+        // take the averate of each of these and then generate the resulting
+        let newPos = (m.positions[v0] + m.positions[v1] + m.positions[v2] + m.positions[v3]) / 4
+        m.positions.append(newPos)
+        let v4 = m.positions.count - 1
+
+        m.triangles.append(Tri(v0, v4, v1))
+        m.triangles.append(Tri(v1, v4, v3))
+        m.triangles.append(Tri(v2, v3, v4))
+        m.triangles.append(Tri(v0, v2, v4))
+      }
+    }
+
+    for j in 0..<cells {
+      for i in 0..<vertexPerSide {
+        if i % cells != 0 || i == 0 {
+          let v0 = (j * cells) + i + j
+          let v1 = v0 + 1
+          let v2 = v0 + vertexPerSide
+          let v3 = v2 + 1
+          let cell = v0 - j
+          let v4 = initialSize + cell
+          let tri0 = cell * 4
+          let tri1 = tri0 + 1
+          let tri2 = tri0 + 2
+          let tri3 = tri0 + 3
+          m.edges.append(Edge(va: v0, vb: v4, tl: tri0, tr: tri3))
+          m.edges.append(Edge(va: v4, vb: v1, tl: tri0, tr: tri1))
+          m.edges.append(Edge(va: v4, vb: v3, tl: tri1, tr: tri2))
+          m.edges.append(Edge(va: v4, vb: v2, tl: tri2, tr: tri3))
+          // Left edge : different when on left edge / when the v0 % (cells + 1) == 0
+          if v0 % (vertexPerSide) == 0 { // On edge
+            m.edges.append(Edge(va: v0, vb: v2, tl: tri3, tr: -1))
+          } else { // Not on edge
+            let tri4 = tri0 - 3
+            m.edges.append(Edge(va: v0, vb: v2, tl: tri0, tr: tri4))
+          }
+          // Bottom edge : different when in last row
+          if j == cells - 1 {
+            m.edges.append(Edge(va: v2, vb: v3, tl: tri2, tr: -1))
+          } else {
+            let tri5 = tri0 + (cells * 4)
+            m.edges.append(Edge(va: v2, vb: v3, tl: tri1, tr: tri5))
+          }
+        }
+      }
+    }
+
+    // Right side:
+    for i in 1...cells {
+      let v0 = i * (vertexPerSide) - 1
+      let v1 = v0 + vertexPerSide
+      let tri = (i * (cells * 4)) - 1
+      m.edges.append(Edge(va: v1, vb: v0, tl: tri, tr: -1))
+    }
+
+    // Top
+    var tempCount = 1
+    for i in 0...(cells - 1) {
+      let v0 = i
+      let v1 = v0 + 1
+      let tri = 4 * i
+      tempCount += 1
+      m.edges.append(Edge(va: v1, vb: v0, tl: tri, tr: -1))
+    }
+
+    m.segments = []
+
+    m.validate()
+    return m
+  }
 }
