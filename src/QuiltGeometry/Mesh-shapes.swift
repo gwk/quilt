@@ -62,7 +62,7 @@ extension Mesh {
     return m
   }
 
-  public class func terrain(width: Double, cells: Int, dir: Int, origin: V3D, height: Double, noiseMap: GKNoiseMap) -> Mesh {
+  public class func squareDiaganolTerrain(width: Double, cells: Int, dir: Int, origin: V3D, height: Double, noiseMap: GKNoiseMap) -> Mesh {
     let m = Mesh(name: "terrain")
     if cells == 0 {
       return m
@@ -154,7 +154,7 @@ extension Mesh {
 
 
 
-  public class func terrain2(width: Double, cells: Int, dir: Int, origin: V3D, height: Double, noiseMap: GKNoiseMap) -> Mesh {
+  public class func squareCrossTerrain(width: Double, cells: Int, dir: Int, origin: V3D, height: Double, noiseMap: GKNoiseMap) -> Mesh {
     let m = Mesh(name: "terrain")
     if cells == 0 {
       return m
@@ -256,4 +256,56 @@ extension Mesh {
     m.validate()
     return m
   }
+
+  public class func equilateralTriangleTerrain(length: Double, subdivisions: Int, dir: Int, origin: V3D, height: Double, noise: GKNoise) -> Mesh {
+    let x: Double = (sqrt(3.0) * 0.5) * length
+    let size = vector2(Double(2*x), Double(length*(3/2)))
+    let origin = vector2(0.0, 0.0)
+    let sampleCount = vector2(Int32(length*x), Int32(length*x))
+    let noiseMap = GKNoiseMap(noise, size: size, origin: origin, sampleCount: sampleCount, seamless: true)
+
+    var m = Mesh(name: "triangle")
+
+    m.positions = [
+      V3D(0, 0, -length),
+      V3D(-x, 0, length/2),
+      V3D( x, 0, length/2)]
+
+    m.triangles = [Tri(0, 1, 2)]
+
+    m.edges = [
+      Edge(va: 0, vb: 1, tl: 0, tr: -1),
+      Edge(va: 1, vb: 2, tl: 0, tr: -1),
+      Edge(va: 2, vb: 0, tl: 0, tr: -1)]
+
+    m.validate()
+
+    m = m.subdivide(steps: subdivisions)
+
+    var count = 0
+    for pos in m.positions{
+      let noisePos = SIMD2<Double>(pos.x, pos.z)
+      let lowX = Foundation.floor(noisePos.x + x)
+      let lowY = Foundation.floor(noisePos.y + length)
+      let shiftedPos = vector2(noisePos.x + x,noisePos.y + length)
+      let xDec = Float(shiftedPos.x - lowX)
+      let yDec = Float(shiftedPos.y - lowY)
+      let v1 = noiseMap.value(at: SIMD2<Int32>(Int32(lowX), Int32(lowY)))
+      let v2 = noiseMap.value(at: SIMD2<Int32>(Int32(lowX), Int32(lowY) + 1))
+      let v3 = noiseMap.value(at: SIMD2<Int32>(Int32(lowX) + 1, Int32(lowY)))
+      let v4 = noiseMap.value(at: SIMD2<Int32>(Int32(lowX + 1), Int32(lowY) + 1))
+      let yAvg1 = ((v1 + v3) * yDec)
+      let yAvg2 = ((v2 + v4) * (1 - yDec))
+      let yAvg = (yAvg1 + yAvg2) / 4
+      let xAvg1 = ((v1 + v2) * (1 - xDec))
+      let xAvg2 = ((v3 + v4) * (xDec))
+      let xAvg = (xAvg1 + xAvg2) / 4
+      let avgSample = (xAvg + yAvg)/2
+
+      m.positions[count].y = (Double(avgSample) + 1)/2 * height
+      count += 1
+    }
+    return m
+  }
 }
+
