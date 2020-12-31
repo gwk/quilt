@@ -6,3 +6,6 @@ import Darwin
 public func stringForCurrentError() -> String {
   String(cString: Darwin.strerror(Darwin.errno))
 }
+
+
+public func mustOverride() -> Never { fatalError("must override") }
