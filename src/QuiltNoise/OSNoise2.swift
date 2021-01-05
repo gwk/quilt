@@ -22,7 +22,7 @@ public class OSNoise2 {
 
   let perm: [Int]
 
-  init(seed: Int = 0x12345678) {
+  public init(seed: Int = 0x12345678) {
     func next(_ i: Int) -> Int {
       // TODO: find the explanation for these constants.
       i &* 6364136223846793005 &+ 1442695040888963407
