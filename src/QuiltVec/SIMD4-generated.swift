@@ -10,6 +10,7 @@ extension SIMD4: Vec, Vec4 where Scalar: ArithmeticProtocol { // Float/Int agnos
   public typealias VFType = V4F
   public typealias VDType = V4D
   public typealias VU8Type = V4U8
+  public typealias V2Type = SIMD2<Scalar>
 
   public init(_ v: V4F) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
@@ -20,7 +21,22 @@ extension SIMD4: Vec, Vec4 where Scalar: ArithmeticProtocol { // Float/Int agnos
   public init(_ v: V4I) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
   }
+  public init(_ v: V4I8) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
+  public init(_ v: V4I16) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
+  public init(_ v: V4I32) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
   public init(_ v: V4U8) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
+  public init(_ v: V4U16) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
+  public init(_ v: V4U32) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
   }
   public init(_ v: SIMD3<Scalar>, w: Scalar) {

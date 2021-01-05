@@ -13,6 +13,7 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
   public typealias VFType = V2F
   public typealias VDType = V2D
   public typealias VU8Type = V2U8
+  public typealias V2Type = CGVector
 
   public init(_ v: V2F) {
     self.init(Scalar(v.x), Scalar(v.y))
@@ -23,7 +24,22 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
   public init(_ v: V2I) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
+  public init(_ v: V2I8) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V2I16) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V2I32) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
   public init(_ v: V2U8) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V2U16) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V2U32) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(_ v: V3F) {
@@ -35,7 +51,22 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
   public init(_ v: V3I) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
+  public init(_ v: V3I8) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V3I16) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V3I32) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
   public init(_ v: V3U8) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V3U16) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V3U32) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
   public init(_ v: V4F) {
@@ -47,7 +78,22 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
   public init(_ v: V4I) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
+  public init(_ v: V4I8) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V4I16) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V4I32) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
   public init(_ v: V4U8) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V4U16) {
+    self.init(Scalar(v.x), Scalar(v.y))
+  }
+  public init(_ v: V4U32) {
     self.init(Scalar(v.x), Scalar(v.y))
   }
 

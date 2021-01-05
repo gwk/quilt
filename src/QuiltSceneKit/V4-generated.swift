@@ -15,6 +15,7 @@ extension V4: Vec, Vec4 { // Float/Int agnostic.
   public typealias VFType = V4F
   public typealias VDType = V4D
   public typealias VU8Type = V4U8
+  public typealias V2Type = V2
 
   public init(_ v: V4F) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
@@ -25,7 +26,22 @@ extension V4: Vec, Vec4 { // Float/Int agnostic.
   public init(_ v: V4I) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
   }
+  public init(_ v: V4I8) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
+  public init(_ v: V4I16) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
+  public init(_ v: V4I32) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
   public init(_ v: V4U8) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
+  public init(_ v: V4U16) {
+    self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
+  }
+  public init(_ v: V4U32) {
     self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z), Scalar(v.w))
   }
   public init(_ v: V3, w: Scalar) {

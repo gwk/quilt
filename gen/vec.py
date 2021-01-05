@@ -43,9 +43,15 @@ import QuiltArithmetic\
   scalar = args.scalar or 'Scalar'
 
   # `v_prev` is the lower dimension vector type, e.g. v_type=V3F, v_prev=V2F. TODO: rename v_lower?
-  if dim == 2: v_prev = None
-  elif is_simd: v_prev = f'SIMD{dim-1}<Scalar>'
-  else: v_prev = f'{v_type[:-1]}{dim-1}'
+  if dim == 2:
+    v_prev = None
+    v_type2 = v_type
+  elif is_simd:
+    v_prev = f'SIMD{dim-1}<Scalar>'
+    v_type2 = f'SIMD2<Scalar>'
+  else:
+    v_prev = f'{v_type[:-1]}{dim-1}'
+    v_type2 = f'{v_type[:-1]}2'
 
   needs_zero = is_simd or is_scn
   needs_equatable = is_scn
@@ -79,6 +85,7 @@ import QuiltArithmetic\
   outL('  public typealias VFType = V$F', dim)
   outL('  public typealias VDType = V$D', dim)
   outL('  public typealias VU8Type = V$U8', dim)
+  outL('  public typealias V2Type = $', v_type2)
 
   outL()
   for d in range(dim, 5):
