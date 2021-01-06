@@ -16,7 +16,12 @@ extension NSWindow {
     deferred: Bool = true,
     screen: NSScreen? = nil,
     dissolveOnClose: Bool, // Nullify delegate/contentViewController.
+    view: NSView? = nil,
     viewController: NSViewController? = nil) {
+
+    precondition(
+      view == nil || viewController == nil,
+      "NSWindow: cannot specify both view and viewController:\n  \(view!)\n  \(viewController!)")
 
     self.init(
       contentRect: CGRect.zero, // Gets clobbered by controller view initial size.
@@ -27,7 +32,11 @@ extension NSWindow {
 
     isReleasedWhenClosed = false
 
-    if let viewController = viewController {
+    if let view = view {
+      contentView = view
+      delegate = view as? NSWindowDelegate
+
+    } else if let viewController = viewController {
       contentViewController = viewController
       delegate = viewController as? NSWindowDelegate
     }
@@ -48,9 +57,10 @@ extension NSWindow {
     if dissolveOnClose {
       _ = observeCloseOnce {
         (window) in
-        errL("dissolving window: \(window); controller: \(window.contentViewController.optDesc)")
-        window.delegate = nil
+        errL("dissolving window: \(window)")
+        window.contentView = nil
         window.contentViewController = nil
+        window.delegate = nil
       }
     }
   }
