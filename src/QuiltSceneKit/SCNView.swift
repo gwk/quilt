@@ -6,6 +6,13 @@ import QuiltUI
 
 extension SCNView {
 
+  public class func initOptions(api: SCNRenderingAPI = .metal) -> [String : Any] {
+    return [
+      SCNView.Option.preferredRenderingAPI.rawValue: NSNumber(value: api.rawValue)
+    ]
+  }
+
+
   public func hitTest(event: CREvent, root: SCNNode, ignoreChildren: Bool,
     sorted: Bool = true) -> [SCNHitTestResult] {
 
