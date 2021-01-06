@@ -7,20 +7,23 @@ import Quilt
 
 open class QuiltListView: NSScrollView {
 
+  // MARK: NSView
+
   override public var isFlipped: Bool { true }
 
   public required init?(coder: NSCoder) { super.init(coder: coder) }
 
+
   // MARK: QuiltListView
 
-  public weak var source: QuiltListSource!
+  public unowned var source: QuiltListSource! = nil
 
   public var docView: StyledView { documentView as! StyledView }
 
 
   public init(frame: CGRect = .frameInit, name: String? = nil, source: QuiltListSource? = nil) {
-    self.source = source
     super.init(frame: frame)
+    self.source = source ?? (self as? QuiltListSource)
     self.name = name
     documentView = StyledView(frame: frame)
     docView.flex = [.w]
