@@ -47,9 +47,9 @@ public struct DictOfSet<Key: Hashable, SetElement: Hashable>: Collection, Expres
 
   public mutating func removeValue(_ forKey: Key) -> SetRef? { dict.removeValue(forKey: forKey) }
 
-  public subscript (index: Index) -> Element { dict[index] }
+  public subscript(index: Index) -> Element { dict[index] }
 
-  public subscript (key: Key) -> SetRef? {
+  public subscript(key: Key) -> SetRef? {
     get { dict[key] }
     set { dict[key] = newValue }
   }
