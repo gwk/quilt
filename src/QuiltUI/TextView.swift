@@ -7,9 +7,7 @@ import CoreGraphics
 
 public class TextView: StyledView {
 
-  public required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
+  public required init?(coder: NSCoder) { super.init(coder: coder) }
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
