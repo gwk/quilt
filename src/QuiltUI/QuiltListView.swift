@@ -24,7 +24,7 @@ open class QuiltListView: NSScrollView {
     self.name = name
     documentView = StyledView(frame: frame)
     docView.flex = [.w]
-    backgroundColor = .darkGray
+    color = .darkGray
     hasVerticalScroller = true
     autohidesScrollers = true
     contentView.postsBoundsChangedNotifications = true

@@ -29,16 +29,6 @@ open class StyledView: CRView {
     set { styledLayer.layerStyle = newValue }
   }
 
-  public var backgroundColor: CRColor? {
-    get {
-      guard let cgColor = layer?.backgroundColor else { return nil }
-      return CRColor(cgColor: cgColor)
-    }
-    set {
-      layer!.backgroundColor = newValue?.cgColor
-      setNeedsDisplay()
-    }
-  }
 
   override public func viewDidChangeBackingProperties() {
     if let window = window {

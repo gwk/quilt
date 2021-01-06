@@ -10,8 +10,9 @@
 extension CALayer {
 
   public var color: CRColor {
+    // Like backgroundColor, but non-nil.
     get {
-      if let cg = backgroundColor { return CRColor(cgColor: cg)! }
+      if let cgColor = backgroundColor { return CRColor(cgColor: cgColor)! }
       return .clear
     }
     set { backgroundColor = (newValue == .clear ? nil : newValue.cgColor) }

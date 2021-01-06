@@ -184,5 +184,35 @@ extension CRView {
       subview.updateContentsScale(contentsScale)
     }
   }
-}
 
+
+  public var color: CRColor {
+    // Like backgroundColor, but non-nil.
+    // Note: as of Swift 5.3, it does not appear possible to define `backgroundColor` for NSView,
+    // because some NSView subclasses also define it and it results in "Ambiguous use of 'backgroundColor' errors.
+    get {
+      #if os(OSX)
+      if let layer = layer { // If the view has a layer, assume that it provides the background color.
+        return layer.color
+      }
+      // Other Cocoa views provide colors themselves. Try to fetch it.
+      let backgroundColor = self.value(forKey: "backgroundColor") as? CRColor
+      return backgroundColor ?? .clear
+      #else
+      return backgroundColor ?? .clear
+      #endif
+    }
+    set {
+      #if os(OSX)
+      if let layer = layer {
+        layer.color = newValue
+      } else { // A
+        self.setValue(newValue, forKey: "backgroundColor")
+      }
+      setNeedsDisplay() // TODO: Necessary?
+      #else
+      backgroundColor = (newValue == .clear) ? nil : color
+      #endif
+    }
+  }
+}
