@@ -3,33 +3,30 @@
 import QuiltVec
 
 
-public struct AreaIterator: Sequence, IteratorProtocol {
+public struct RowCoordIterator: Sequence, IteratorProtocol {
   public typealias Element = V2I
-  public typealias Iterator = AreaIterator
+  public typealias Iterator = RowCoordIterator
 
   private var start: V2I
   private var end: V2I
   private var step: V2I
-  private var coord: V2I
+  private var state: V2I
 
   public init(start: V2I, end: V2I, step: V2I) {
     self.start = start
     self.end = end
     self.step = step
-    self.coord = start
+    self.state = start
   }
 
   public mutating func next() -> Element? {
-    if end.x <= 0 || coord.y >= end.y { return nil }
-    let c = coord
-    coord.x += step.x
-    if coord.x >= end.x {
-      coord.x = start.x
-      coord.y += step.y
+    if end.x <= 0 || state.y >= end.y { return nil }
+    let c = state
+    state.x += step.x
+    if state.x >= end.x {
+      state.x = start.x
+      state.y += step.y
     }
     return c
   }
 }
-
-
-

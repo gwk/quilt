@@ -38,7 +38,7 @@ public class Mesh {
     self.name = name
   }
 
-  var vertexCount: Int { positions.count }
+  public var vertexCount: Int { positions.count }
 
 
   public func validate() {
@@ -372,7 +372,7 @@ public class Mesh {
   }
 
 
-  public func fillTritexture(triangleGrid: Range<Int>, src: AreaArray<V4U8>, dst: AreaArray<V4U8>) {
+  public func fillTritexture(triangleGrid: Range<Int>, src: RowArray<V4U8>, dst: RowArray<V4U8>) {
 
     // Convert to lon/lat and sample from the mercator image.
     func sampleMercator(_ p0: V3D, _ p1: V3D, _ p2: V3D) -> V4U8 {
