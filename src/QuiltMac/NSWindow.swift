@@ -24,7 +24,7 @@ extension NSWindow {
       "NSWindow: cannot specify both view and viewController:\n  \(view!)\n  \(viewController!)")
 
     self.init(
-      contentRect: CGRect.zero, // Gets clobbered by controller view initial size.
+      contentRect: CGRect.zero, // Gets clobbered by content view initial size.
       styleMask: styleMask,
       backing: NSWindow.BackingStoreType.buffered, // the only modern mode.
       defer: deferred,
