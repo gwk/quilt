@@ -52,6 +52,7 @@ extension NSEvent.ModifierFlags: CustomStringConvertible {
   ]
 
   public var description: String {
+    if self.isEmpty { return "[]" }
     var result = ""
     for (flag, desc) in NSEvent.ModifierFlags.flagDescs {
       if self.contains(flag) {
