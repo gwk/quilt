@@ -24,6 +24,13 @@ extension NSEvent {
   public var modifiersAndKey: (NSEvent.ModifierFlags, String) {
     (modifierFlags.intersection(.deviceIndependentFlagsMask), charactersIgnoringModifiers ?? "")
   }
+
+
+  public var scrollingDeltaPrimary: CGFloat {
+    // If shift is held down, then the main scroll wheel (normally the Y axis) becomes the X axis.
+    // The secondary scroll wheel remains the X axis as well, so while shift is down we cannot disambiguate between them.
+    return modifierFlags.contains(.shift) ? scrollingDeltaX : scrollingDeltaY
+  }
 }
 
 
