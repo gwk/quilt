@@ -22,6 +22,8 @@ public protocol Quaternion: CustomDebugStringConvertible, Equatable {
 
 public extension Quaternion {
 
+  static var dflt: Self { Self(vector: Vector(1, 0, 0, 0)) }
+
   var angleAxisDesc: String {
     return "QF(angle: \(angle), axis: \(axis))"
   }
