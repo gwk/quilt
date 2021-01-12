@@ -5,4 +5,7 @@ import AppKit
 
 extension NSMenuItem {
 
+  convenience init(_ title: String, _ action: Selector? = nil, key: String = "") {
+    self.init(title: title, action: action, keyEquivalent: key)
+  }
 }
