@@ -17,7 +17,6 @@ public class QuiltChoiceMenu<Observable: NSObject, ChoiceEnum: MenuEnum>: NSMenu
 
 
   public init(title: String,
-    supermenu: NSMenu? = nil,
     observable: Observable,
     keyPath: WritableKeyPath<Observable, ChoiceEnum>,
     options: NSKeyValueObservingOptions = []) {
@@ -25,12 +24,6 @@ public class QuiltChoiceMenu<Observable: NSObject, ChoiceEnum: MenuEnum>: NSMenu
     self.observable = observable
     self.keyPath = keyPath
     super.init(title: title)
-
-    if let supermenu = supermenu {
-      let parentItem = NSMenuItem(title: title, action: nil, keyEquivalent: "")
-      parentItem.submenu = self
-      supermenu.addItem(parentItem)
-    }
 
     items = ChoiceEnum.allVariants.map {
       (menuChoice) in

@@ -5,24 +5,19 @@ import AppKit
 
 extension NSMenu {
 
-  public convenience init(title: String, parentItem: NSMenuItem) {
-    self.init(title: title)
-    parentItem.submenu = self
-  }
-
-
-  public convenience init(title: String, superMenu: NSMenu) {
-    self.init(title: title)
-    let parentItem = NSMenuItem(title: title, action: nil, keyEquivalent: "")
-    parentItem.submenu = self
-    superMenu.addItem(parentItem)
-  }
-
-
   @discardableResult
   public func add(_ title: String, _ action: Selector?, key: String = "") -> QuiltObservingMenuItem {
     let item = QuiltObservingMenuItem(title: title, action: action, keyEquivalent: key)
     addItem(item)
     return item
+  }
+
+
+  @discardableResult
+  public func add(submenu: NSMenu) -> NSMenu {
+    let item = NSMenuItem(title: submenu.title, action: nil, keyEquivalent: "")
+    item.submenu = submenu
+    addItem(item)
+    return submenu
   }
 }
