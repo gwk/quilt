@@ -3,6 +3,7 @@
 import Foundation
 import AppKit
 import Quilt
+import QuiltDispatch
 
 
 public class QuiltChoiceMenu<Observable: NSObject, ChoiceEnum: MenuEnum>: NSMenu {
@@ -40,16 +41,20 @@ public class QuiltChoiceMenu<Observable: NSObject, ChoiceEnum: MenuEnum>: NSMenu
     }
 
     observation = observable.observe(keyPath, options: [.new, .old]) {
-      [unowned self] (model, change) in
-      if let old = change.oldValue {
-        self.items[old.rawValue].state = .off
-      }
-      if let new = change.newValue {
-        self.items[new.rawValue].state = .on
+      [weak self] (observable, change) in
+      if let self = self {
+        async {
+          if let old = change.oldValue {
+            self.items[old.rawValue].state = .off
+          }
+          if let new = change.newValue {
+            self.items[new.rawValue].state = .on
+          }
+        }
       }
     }
 
-    // Originally I tried to use the `.initial` option.
+    // Note: we should be able to use the `.initial` option, but it does not work.
     // The initial observation is sent, but for some reason has no newValue (even though `.new` is also specified).
     // Instead we can just set the menu item state manually.
     let initial = observable[keyPath: keyPath]
