@@ -20,4 +20,17 @@ extension NSMenu {
     addItem(item)
     return submenu
   }
+
+  @discardableResult
+  public func addToggle<Observable: NSObject>(
+    _ title: String,
+    key: String = "",
+    observable: Observable,
+    keyPath: WritableKeyPath<Observable, Bool>,
+    inverted: Bool = false) -> QuiltToggleMenuItem<Observable> {
+
+    let item = QuiltToggleMenuItem(title: title, key: key, observable: observable, keyPath: keyPath, inverted: inverted)
+    addItem(item)
+    return item
+  }
 }
