@@ -86,6 +86,18 @@ extension Vec {
   public var heading: F64 { atan2(y.asF64, x.asF64) }
 
   public func angle(_ b: Self) -> F64 { acos(self.dot(b) / (self.len * b.len)) }
+
+  public func plus(x: Scalar) -> Self {
+    var v = self
+    v.x += x
+    return v
+  }
+
+  public func plus(y: Scalar) -> Self {
+    var v = self
+    v.y += y
+    return v
+  }
 }
 
 
@@ -128,6 +140,12 @@ public extension Vec3 {
 
   var sqrLen: F64 { x.asF64.sqr + y.asF64.sqr + z.asF64.sqr }
 
+  func plus(z: Scalar) -> Self {
+    var v = self
+    v.z += z
+    return v
+  }
+
   // Swizzles.
   var xy: V2Type { return V2Type(x, y) }
   var xz: V2Type { return V2Type(x, z) }
@@ -159,4 +177,16 @@ public extension Vec4 {
   var vd: V4D { V4D(x.asF64, y.asF64, z.asF64, w.asF64) }
 
   var sqrLen: F64 { x.asF64.sqr + y.asF64.sqr + z.asF64.sqr + w.asF64.sqr }
+
+  func plus(z: Scalar) -> Self {
+    var v = self
+    v.z += z
+    return v
+  }
+
+  func plus(w: Scalar) -> Self {
+    var v = self
+    v.w += w
+    return v
+  }
 }
