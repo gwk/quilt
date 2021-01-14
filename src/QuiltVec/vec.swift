@@ -50,13 +50,6 @@ public typealias V4U16 = SIMD4<U16>
 public typealias V4U32 = SIMD4<U32>
 
 
-
-// © 2015 George King. Permission to use this file is granted in license-quilt.txt.
-
-import Darwin
-import QuiltArithmetic
-
-
 public protocol Vec: Equatable, CustomStringConvertible {
   associatedtype Scalar: ArithmeticProtocol
   associatedtype VFType: FloatVec where VFType.Scalar == F32
