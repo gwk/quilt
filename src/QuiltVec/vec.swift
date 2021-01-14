@@ -68,8 +68,9 @@ public protocol Vec: Equatable, CustomStringConvertible {
 
   subscript(index: Int) -> Scalar { get set }
 
-  var x: Scalar { get }
-  var y: Scalar { get }
+  var x: Scalar { get set }
+  var y: Scalar { get set }
+
   var vf: VFType { get }
   var vd: VDType { get }
   var sqrLen: F64 { get }
@@ -90,8 +91,6 @@ extension Vec {
 
 public protocol Vec2: Vec {
   init(_ x: Scalar, _ y: Scalar)
-  var x: Scalar { get set }
-  var y: Scalar { get set }
 }
 
 public extension Vec2 {
@@ -113,8 +112,6 @@ public extension Vec2 {
 
 public protocol Vec3: Vec {
   init(_ x: Scalar, _ y: Scalar, _ z: Scalar)
-  var x: Scalar { get set }
-  var y: Scalar { get set }
   var z: Scalar { get set }
 }
 
@@ -145,8 +142,6 @@ public extension Vec3 {
 
 public protocol Vec4: Vec {
   init(_ x: Scalar, _ y: Scalar, _ z: Scalar, _ w: Scalar)
-  var x: Scalar { get set }
-  var y: Scalar { get set }
   var z: Scalar { get set }
   var w: Scalar { get set }
 }
