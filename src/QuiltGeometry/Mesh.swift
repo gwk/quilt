@@ -41,6 +41,22 @@ public class Mesh {
   public var vertexCount: Int { positions.count }
 
 
+  public var bounds: (V3D, V3D) {
+    if positions.isEmpty { return (.zero, .zero) }
+    var low = V3D(.greatestFiniteMagnitude, .greatestFiniteMagnitude, .greatestFiniteMagnitude)
+    var high = V3D(-.greatestFiniteMagnitude, -.greatestFiniteMagnitude, -.greatestFiniteMagnitude)
+    for p in positions {
+      if p.x < low.x { low.x = p.x }
+      if p.x > high.x { high.x = p.x }
+      if p.y < low.y { low.y = p.y }
+      if p.y > high.y { high.y = p.y }
+      if p.z < low.z { low.z = p.z }
+      if p.z > high.z { high.z = p.z }
+    }
+    return (low, high)
+  }
+
+
   public func validate() {
     let vc = positions.count
     precondition(normals.isEmpty || normals.count == vc)
@@ -96,6 +112,33 @@ public class Mesh {
     assert(colors.isEmpty)
     for tex in textures[channel] {
       colors.append(V4F(tex.x, tex.y, tex.x, 1))
+    }
+  }
+
+
+  public func addTexCoordsFromXY() {
+    assert(textures.isEmpty)
+    textures.append([])
+    let (low, high) = bounds
+    let size = high - low
+    for pos in positions {
+      let uv = V2F(
+        F32((pos.x - low.x) / size.x).clamp(min: 0, max: 1),
+        F32((pos.y - low.y) / size.y).clamp(min: 0, max: 1))
+      textures[0].append(uv)
+    }
+  }
+
+  public func addTexCoordsFromXZ() {
+    assert(textures.isEmpty)
+    textures.append([])
+    let (low, high) = bounds
+    let size = high - low
+    for pos in positions {
+      let uv = V2F(
+        F32((pos.x - low.x) / size.x).clamp(min: 0, max: 1),
+        F32((pos.z - low.z) / size.z).clamp(min: 0, max: 1))
+      textures[0].append(uv)
     }
   }
 
