@@ -13,8 +13,7 @@ extension SCNView {
   }
 
 
-  public func hitTest(event: CREvent, root: SCNNode, ignoreChildren: Bool,
-    sorted: Bool = true) -> [SCNHitTestResult] {
+  public func hitTest(event: CREvent, root: SCNNode, ignoreChildren: Bool, sorted: Bool = true) -> [SCNHitTestResult] {
 
     let p = self.convert(event.locationInWindow, from: nil)
     return hitTest(p, options: [
