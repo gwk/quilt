@@ -9,3 +9,8 @@ public func stringForCurrentError() -> String {
 
 
 public func mustOverride() -> Never { fatalError("must override") }
+
+
+public func notImplemented(function: String = #function) {
+  print("Not implemented: \(function).")
+}
