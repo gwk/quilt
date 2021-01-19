@@ -9,9 +9,9 @@ import AppKit
 public class Button: TextView {
 
   public enum State: Int, DenseEnum {
-    case disabled, enabled, pressed
+    case disabled, dimmed, enabled, pressed
 
-    public static let count: Int = 3
+    public static let count: Int = 4
   }
 
 
@@ -19,6 +19,7 @@ public class Button: TextView {
     didSet { updateStyle() }
   }
 
+  private var wasDimmed: Bool = false
 
   public var styles: DenseEnumArray<State, TextLayerStyle> = [] {
     didSet { updateStyle() }
@@ -38,15 +39,18 @@ public class Button: TextView {
 
   override public func mouseDown(with event: NSEvent) {
     if state == .disabled { return }
+    wasDimmed = (state == .dimmed)
     state = .pressed
   }
 
   override public func mouseUp(with event: NSEvent) {
     if state == .disabled { return }
-    state = .enabled
     let loc = event.location(in: self)
-    if bounds.contains(loc), let action = action {
-      action()
+    if bounds.contains(loc) {
+      state = .enabled
+      action?()
+    } else {
+      state = (wasDimmed ? .dimmed : .enabled)
     }
   }
   #endif
