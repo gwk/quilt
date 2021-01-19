@@ -22,6 +22,8 @@ public protocol CRViewOrLayer: class {
   func add(toParentView parent: CRView)
 
   func removeFromParent()
+
+  func setNeedsLayout()
 }
 
 
