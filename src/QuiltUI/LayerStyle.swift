@@ -3,13 +3,14 @@
 import QuartzCore
 
 
-public class LayerStyle {
+public class LayerStyle: NSCopying {
 
   public var color: CRColor
   public var cornerRadius: CGFloat
   public var cornerMask: CACornerMask
   public var borderColor: CRColor
   public var borderWidth: CGFloat
+
 
   public init(
     color: CRColor = .clear,
@@ -24,6 +25,17 @@ public class LayerStyle {
     self.borderColor = borderColor
     self.borderWidth = borderWidth
   }
+
+
+  public func copy(with zone: NSZone? = nil) -> Any {
+    LayerStyle(
+      color: color,
+      cornerRadius: cornerRadius,
+      cornerMask: cornerMask,
+      borderColor: borderColor,
+      borderWidth: borderWidth)
+  }
+
 
   public func apply(to layer: CALayer) {
     layer.color = color
