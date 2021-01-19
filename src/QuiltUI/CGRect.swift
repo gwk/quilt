@@ -7,6 +7,8 @@ extension CGRect {
 
   public static let unit = CGRect(0, 0, 1, 1)
 
+  public init(x: Flt, y: Flt, w: Flt, h: Flt) { self.init(x: x, y: y, width: w, height: h) }
+
   public init(_ x: Flt, _ y: Flt, _ w: Flt, _ h: Flt) { self.init(x: x, y: y, width: w, height: h) }
 
   public init(_ w: Flt, _ h: Flt) { self.init(0, 0, w, h) }
@@ -17,6 +19,7 @@ extension CGRect {
 
   public init(_ s: CGSize) { self.init(0, 0, s.w, s.h) }
 
+
   public init(l: Flt? = nil, r: Flt? = nil, w: Flt? = nil, t: Flt? = nil, b: Flt? = nil, h: Flt? = nil) {
    self.init(
      x: l ?? (r! - w!),
@@ -25,9 +28,6 @@ extension CGRect {
      height: h ?? (b! - t!))
   }
 
-  public init(x: Flt, y: Flt, w: Flt, b: Flt) { self.init(x, y, w, b-y) }
-
-  public init(x: Flt, y: Flt, r: Flt, h: Flt) { self.init(x, y, r-x, h) }
 
   public init(p0: CGPoint, p1: CGPoint) {
     var x, y, w, h: Flt
