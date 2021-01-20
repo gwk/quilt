@@ -43,9 +43,6 @@ open class TextLayer: StyledLayer {
   private var _truncationString = NSMutableAttributedString(string: "\u{2026}") // ellipsis.
   private var _style = NSMutableParagraphStyle()
 
-  private lazy var _framesetter = CTFramesetter.make(attributedString: _attrString)
-  private lazy var _truncationLine = CTLine.make(attrString: _truncationString)
-
   // MARK: CALayer
 
   public required init?(coder: NSCoder) { fatalError() }
@@ -104,23 +101,27 @@ open class TextLayer: StyledLayer {
     updateAttrs(_truncationString)
 
     let textBounds = bounds.insetBy(edgeInsets)
-    //let (suggestedSize, _) = _framesetter.suggestFrameSize(constraintSize: CGSize(textBounds.width, .infinity))
-    let frame = _framesetter.createFrame(bounds: textBounds)
+    let framesetter = CTFramesetter.make(attributedString: _attrString)
+    let truncationLine = CTLine.make(attrString: _truncationString)
+
+    //let (suggestedSize, _) = framesetter.suggestFrameSize(constraintSize: CGSize(textBounds.width, .infinity))
+    let frame = framesetter.createFrame(bounds: textBounds)
     if let backgroundColor = backgroundColor {
       ctx.setFillColor(backgroundColor)
       ctx.fill(bounds)
-    if isOpaque {
-      ctx.setAllowsFontSmoothing(true)
-      ctx.setAllowsFontSubpixelPositioning(true)
-      ctx.setAllowsFontSubpixelQuantization(true)
-      ctx.setShouldSmoothFonts(true)
-      ctx.setShouldSubpixelPositionFonts(true)
-      ctx.setShouldSubpixelQuantizeFonts(true)
+
+      if isOpaque {
+        ctx.setAllowsFontSmoothing(true)
+        ctx.setAllowsFontSubpixelPositioning(true)
+        ctx.setAllowsFontSubpixelQuantization(true)
+        ctx.setShouldSmoothFonts(true)
+        ctx.setShouldSubpixelPositionFonts(true)
+        ctx.setShouldSubpixelQuantizeFonts(true)
       }
     }
     ctx.textMatrix = .identity
     ctx.translateBy(x: textBounds.origin.x, y: bounds.size.height - textBounds.origin.y)
     ctx.scaleBy(x: 1.0, y: -1.0)
-    frame.draw(ctx: ctx, attrString: _attrString, width:textBounds.width, truncationType: .end, truncationLine: _truncationLine)
+    frame.draw(ctx: ctx, attrString: _attrString, width:textBounds.width, truncationType: .end, truncationLine: truncationLine)
   }
 }
