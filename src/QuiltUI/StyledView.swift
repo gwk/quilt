@@ -10,7 +10,7 @@ open class StyledView: CRView {
   public override init(frame: CGRect) {
     super.init(frame: frame)
     #if os(OSX)
-      self.wantsLayer = true
+    self.wantsLayer = true // Setting `wantsLayer` creates a "layer-backed view".
     #endif
   }
 

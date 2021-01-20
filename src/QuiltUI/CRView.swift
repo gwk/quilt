@@ -196,7 +196,7 @@ extension CRView {
       if let layer = layer { // If the view has a layer, assume that it provides the background color.
         return layer.color
       }
-      // Other Cocoa views provide colors themselves. Try to fetch it.
+      // Other Cocoa views provide backgroundColor themselves. Try to fetch it.
       let backgroundColor = self.value(forKey: "backgroundColor") as? CRColor
       return backgroundColor ?? .clear
       #else
@@ -207,7 +207,7 @@ extension CRView {
       #if os(OSX)
       if let layer = layer {
         layer.color = newValue
-      } else { // A
+      } else { // Assume that the layer provides a backgroundColor property.
         self.setValue(newValue, forKey: "backgroundColor")
       }
       setNeedsDisplay() // TODO: Necessary?
