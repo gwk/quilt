@@ -19,7 +19,7 @@ public class StatefulTextLayer<State: DenseEnum>: TextLayer {
     didSet { updateStyle() }
   }
 
-  public var styles: DenseEnumArray<State, LayerStyle> = [] {
+  public var styles: CaseArray<State, LayerStyle> = [] {
     didSet { updateStyle() }
   }
 

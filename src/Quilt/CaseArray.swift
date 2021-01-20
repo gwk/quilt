@@ -1,7 +1,7 @@
 // © 2020 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public struct DenseEnumArray<Enum: DenseEnum, Element>: Collection, ExpressibleByArrayLiteral {
+public struct CaseArray<Enum: DenseEnum, Element>: Collection, ExpressibleByArrayLiteral {
 
   public typealias Index = Enum?
   public typealias ArrayLiteralElement = Element
@@ -10,7 +10,7 @@ public struct DenseEnumArray<Enum: DenseEnum, Element>: Collection, ExpressibleB
   public struct Iterator : IteratorProtocol {
     private var it: Array<Element>.Iterator
 
-    public init(_ array: DenseEnumArray) {
+    public init(_ array: CaseArray) {
       it = array.storage.makeIterator()
     }
 
@@ -89,7 +89,7 @@ public struct DenseEnumArray<Enum: DenseEnum, Element>: Collection, ExpressibleB
 
 
   public mutating func append(_ el: Element) {
-    if count >= Enum.count { fatalError("DenseEnumArray is full; cannot append.") }
+    if count >= Enum.count { fatalError("CaseArray is full; cannot append.") }
     storage.append(el)
   }
 }

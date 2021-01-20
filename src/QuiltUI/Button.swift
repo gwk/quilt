@@ -19,7 +19,7 @@ public class Button: TextView {
 
   private var wasDimmed: Bool = false
 
-  public var styles: DenseEnumArray<State, TextLayerStyle> = [] {
+  public var styles: CaseArray<State, TextLayerStyle> = [] {
     didSet { updateStyle() }
   }
 
