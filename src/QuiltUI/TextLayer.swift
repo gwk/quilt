@@ -101,7 +101,7 @@ open class TextLayer: StyledLayer {
     updateAttrs(_truncationString)
 
     let textBounds = bounds.insetBy(edgeInsets)
-    let framesetter = CTFramesetter.make(attributedString: _attrString)
+    let framesetter = CTFramesetter.make(attrString: _attrString)
     let truncationLine = CTLine.make(attrString: _truncationString)
 
     //let (suggestedSize, _) = framesetter.suggestFrameSize(constraintSize: CGSize(textBounds.width, .infinity))

@@ -6,8 +6,8 @@ import Foundation
 
 extension CTFramesetter {
 
-  public class func make(attributedString: NSAttributedString) -> CTFramesetter {
-    CTFramesetterCreateWithAttributedString(attributedString as CFAttributedString)
+  public class func make(attrString: NSAttributedString) -> CTFramesetter {
+    CTFramesetterCreateWithAttributedString(attrString)
   }
 
   public var typesetter: CTTypesetter { CTFramesetterGetTypesetter(self) }
