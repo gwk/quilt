@@ -39,7 +39,10 @@ extension CTFrame {
         let longString = NSMutableAttributedString(attributedString: attrString.attributedSubstring(from: NSRange(line.range)))
         longString.mutableString.append("\u{2026}") // Append something to make the line too long; use ellipsis for consistency.
         let longLine = CTLine.make(attrString: longString)
-        guard let truncated = longLine.truncate(width: width, truncationType: truncationType, truncationLine: truncationLine) else { print("TOO SMALL"); return }
+        guard let truncated = longLine.truncate(width: width, truncationType: truncationType, truncationLine: truncationLine) else {
+          print("CTFrame.draw: line truncation failed")
+          return
+        }
         truncated.draw(ctx: ctx)
       }
     }
