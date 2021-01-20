@@ -10,8 +10,6 @@ public class Button: TextView {
 
   public enum State: Int, DenseEnum {
     case disabled, dimmed, enabled, pressed
-
-    public static let count: Int = 4
   }
 
 

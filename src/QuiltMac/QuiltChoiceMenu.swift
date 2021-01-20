@@ -25,7 +25,7 @@ public class QuiltChoiceMenu<Observable: NSObject, ChoiceEnum: MenuEnum>: NSMenu
     self.keyPath = keyPath
     super.init(title: title)
 
-    items = ChoiceEnum.allVariants.map {
+    items = ChoiceEnum.allCases.map {
       (menuChoice) in
       let item = NSMenuItem(title: menuChoice.menuTitle, action: #selector(updateChoice(_:)), keyEquivalent: "")
       item.target = self

@@ -1,22 +1,21 @@
 // © 2015 George King. Permission to use this file is granted in license-quilt.txt.
 
 
-public protocol DenseEnum: Comparable {
+public protocol DenseEnum: CaseIterable, Comparable {
 
   init?(rawValue: Int)
 
   var rawValue: Int { get }
-  static var count: Int { get }
 }
 
 
 extension DenseEnum {
 
+  public static var count: Int { allCases.count }
+
   public static var range: CountableRange<Int> { 0..<count }
 
-  public static var allVariants: [Self] { range.map { Self(rawValue: $0)! } }
-
-  public static var firstVariant: Self? { count == 0 ? nil : Self(rawValue: 0) }
+  public static var firstCase: Self? { count == 0 ? nil : Self(rawValue: 0) }
 
   public static func < (lhs: Self, rhs: Self) -> Bool {
     /// Default implementation of Comparable.
