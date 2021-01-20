@@ -3,7 +3,7 @@
 import QuartzCore
 
 
-public class LayerStyle: NSCopying {
+open class LayerStyle: NSCopying {
 
   public var color: CRColor
   public var cornerRadius: CGFloat

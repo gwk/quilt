@@ -3,7 +3,7 @@
 import QuartzCore
 
 
-public class TextLayerStyle: LayerStyle {
+open class TextLayerStyle: LayerStyle {
 
   public var font: CRFont = .systemFont(ofSize: 12)
   public var textColor: CRColor = .black

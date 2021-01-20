@@ -13,7 +13,7 @@ import Quilt
 
 
 @available(macOS 10.11, *)
-public class StatefulTextLayer<State: DenseEnum>: TextLayer {
+open class StatefulTextLayer<State: DenseEnum>: TextLayer {
 
   public var state: State = State(rawValue: 0)! {
     didSet { updateStyle() }

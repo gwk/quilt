@@ -11,7 +11,7 @@ import Foundation
 
 
 @available(macOS 10.11, *)
-public class TextLayer: StyledLayer {
+open class TextLayer: StyledLayer {
 
   // MARK: TextLayer
 

@@ -3,7 +3,7 @@
 import QuartzCore
 
 
-public class StyledLayer: CALayer {
+open class StyledLayer: CALayer {
 
   public var layerStyle: LayerStyle = .emptyStyle {
     didSet {

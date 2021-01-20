@@ -4,7 +4,7 @@ import AppKit
 import Quilt
 
 
-public class QuiltWindow: NSWindow {
+open class QuiltWindow: NSWindow {
 
   deinit {
     errL("deinit: \(self)")

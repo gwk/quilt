@@ -5,7 +5,7 @@ import AppKit
 import CoreGraphics
 
 
-public class TextView: StyledView {
+open class TextView: StyledView {
 
   public required init?(coder: NSCoder) { super.init(coder: coder) }
 

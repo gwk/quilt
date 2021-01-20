@@ -6,7 +6,7 @@ import AppKit
 #endif
 
 
-public class Button: TextView {
+open class Button: TextView {
 
   public enum State: Int, DenseEnum {
     case disabled, dimmed, enabled, pressed
