@@ -14,11 +14,11 @@ extension NSMenu {
 
 
   @discardableResult
-  public func add(submenu: NSMenu) -> NSMenu {
+  public func add(submenu: NSMenu) -> NSMenuItem {
     let item = NSMenuItem(title: submenu.title, action: nil, keyEquivalent: "")
     item.submenu = submenu
     addItem(item)
-    return submenu
+    return item
   }
 
   @discardableResult
