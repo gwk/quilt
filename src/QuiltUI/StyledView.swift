@@ -18,6 +18,8 @@ open class StyledView: CRView {
 
   override public var isFlipped: Bool { true }
 
+  override public var isOpaque: Bool { layer!.isOpaque }
+  
   override public var wantsUpdateLayer: Bool { true }
 
   override public func makeBackingLayer() -> CALayer { StyledLayer() }
