@@ -122,4 +122,13 @@ extension SCNNode {
     let hits = hitTestWithSegment(from: segment.0, to: segment.1, options: options)
     return hits.isEmpty ? nil : hits[0]
   }
+
+
+  public func withSelfHidden<T>(body: ()->(T)) -> T {
+    let isHidden = self.isHidden
+    self.isHidden = true
+    let result = body()
+    self.isHidden = isHidden
+    return result
+  }
 }
