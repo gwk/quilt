@@ -74,17 +74,6 @@ extension SCNNode {
   }
 
 
-  public func highlight(color: NSColor, duration: TimeInterval = 0.2) {
-  // Highlight the selected node with an animation.
-  let matEmission = geometry!.firstMaterial!.emission
-  let origContents = matEmission.contents
-  matEmission.contents = color
-    SCNTransaction.animate(duration) {
-      matEmission.contents = origContents
-    }
-  }
-
-
   public var motion: RigidMotion {
     get {
       RigidMotion(position: self.simdPosition, orientation: self.simdOrientation)
@@ -95,6 +84,7 @@ extension SCNNode {
     }
   }
 
+
   public var worldMotion: RigidMotion {
     get {
       RigidMotion(position: self.simdWorldPosition, orientation: self.simdWorldOrientation)
@@ -102,6 +92,17 @@ extension SCNNode {
     set {
       self.simdWorldPosition = newValue.position
       self.simdWorldOrientation = newValue.orientation
+    }
+  }
+
+
+  public func highlight(color: NSColor, duration: TimeInterval = 0.2) {
+  // Highlight the selected node with an animation.
+  let matEmission = geometry!.firstMaterial!.emission
+  let origContents = matEmission.contents
+  matEmission.contents = color
+    SCNTransaction.animate(duration) {
+      matEmission.contents = origContents
     }
   }
 }
