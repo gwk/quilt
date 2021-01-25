@@ -105,4 +105,21 @@ extension SCNNode {
       matEmission.contents = origContents
     }
   }
+
+
+  public func hitTestClosest(
+    segment: (V3, V3),
+    root: SCNNode? = nil,
+    ignoreChildren: Bool = false,
+    ignoreHidden: Bool = true) -> SCNHitTestResult? {
+
+    let options: [String: Any] = [
+      SCNHitTestOption.searchMode.rawValue: SCNHitTestSearchMode.closest.rawValue,
+      SCNHitTestOption.rootNode.rawValue: root ?? self,
+      SCNHitTestOption.ignoreChildNodes.rawValue: ignoreChildren,
+      SCNHitTestOption.ignoreHiddenNodes.rawValue: ignoreHidden,
+    ]
+    let hits = hitTestWithSegment(from: segment.0, to: segment.1, options: options)
+    return hits.isEmpty ? nil : hits[0]
+  }
 }
