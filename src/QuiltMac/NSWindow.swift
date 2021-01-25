@@ -8,7 +8,7 @@ import QuiltUI
 extension NSWindow {
 
   public convenience init(
-    origin: CGPoint = .zero,
+    topLeftInScreen: CGPoint = .zero,
     viewSize: CGSize = .zero,
     fillScreen: Bool = false,
     fixedAspect: Bool = false,
@@ -23,8 +23,10 @@ extension NSWindow {
       view == nil || viewController == nil,
       "NSWindow: cannot specify both view and viewController:\n  \(view!)\n  \(viewController!)")
 
+    let viewSize = (viewSize.isPositive ? viewSize : (view?.frame.size ?? CGSize(1024, 512)))
+
     self.init(
-      contentRect: CGRect.zero, // Gets clobbered by content view initial size.
+      contentRect: CGRect(origin: .zero, size: viewSize), // Top left will be set later, so only size matters.
       styleMask: styleMask,
       backing: NSWindow.BackingStoreType.buffered, // the only modern mode.
       defer: deferred,
@@ -35,21 +37,21 @@ extension NSWindow {
     if let view = view {
       contentView = view
       delegate = view as? NSWindowDelegate
-
     } else if let viewController = viewController {
       contentViewController = viewController
       delegate = viewController as? NSWindowDelegate
     }
 
-    self.origin = origin
-    if viewSize.w > 0 && viewSize.h > 0 {
-      setContentSize(viewSize)
-    }
-    if fillScreen {
-      if let screen = screen ?? NSScreen.main {
+    if let screen = screen ?? NSScreen.main {
+      if fillScreen {
         self.setFrame(screen.visibleFrame, display: false)
+      } else {
+        let sr = screen.visibleFrame
+        let screenTopLeft = CGPoint(sr.x, sr.y + sr.h)
+        self.setFrameTopLeftPoint(screenTopLeft + topLeftInScreen)
       }
     }
+
     if fixedAspect {
       contentAspectRatio = viewSize
     }
