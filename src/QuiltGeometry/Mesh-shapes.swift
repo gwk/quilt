@@ -238,4 +238,71 @@ extension Mesh {
     m.validate()
     return m
   }
+
+
+  public class func cuboid(xs: (F64, F64), ys: (F64, F64), zs:(F64, F64)) -> Mesh {
+    // Returns a rectangular cuboid.
+    let mesh = Mesh(name: "cuboid")
+
+    mesh.positions = [
+      V3D(xs.0, ys.0, zs.0),
+      V3D(xs.0, ys.0, zs.1),
+      V3D(xs.0, ys.1, zs.0),
+      V3D(xs.0, ys.1, zs.1),
+      V3D(xs.1, ys.0, zs.0),
+      V3D(xs.1, ys.0, zs.1),
+      V3D(xs.1, ys.1, zs.0),
+      V3D(xs.1, ys.1, zs.1)]
+
+    mesh.segments = [
+      Seg(0, 1),
+      Seg(0, 2),
+      Seg(0, 4),
+      Seg(1, 3),
+      Seg(1, 5),
+      Seg(2, 3),
+      Seg(2, 6),
+      Seg(3, 7),
+      Seg(4, 5),
+      Seg(4, 6),
+      Seg(5, 7),
+      Seg(6, 7)]
+
+    mesh.triangles = [
+      Tri(0, 1, 3),
+      Tri(0, 2, 6),
+      Tri(0, 3, 2),
+      Tri(0, 4, 5),
+      Tri(0, 5, 1),
+      Tri(0, 6, 4),
+      Tri(1, 5, 7),
+      Tri(1, 7, 3),
+      Tri(2, 3, 7),
+      Tri(2, 7, 6),
+      Tri(4, 6, 7),
+      Tri(4, 7, 5)]
+
+    mesh.edges = [
+      Edge(va: 0, vb: 1, tl: 0, tr: 4),
+      Edge(va: 0, vb: 2, tl: 1, tr: 2),
+      Edge(va: 0, vb: 3, tl: 2, tr: 0),
+      Edge(va: 0, vb: 4, tl: 3, tr: 5),
+      Edge(va: 0, vb: 5, tl: 4, tr: 3),
+      Edge(va: 0, vb: 6, tl: 5, tr: 1),
+      Edge(va: 1, vb: 3, tl: 0, tr: 7),
+      Edge(va: 1, vb: 5, tl: 6, tr: 4),
+      Edge(va: 1, vb: 7, tl: 7, tr: 6),
+      Edge(va: 2, vb: 3, tl: 8, tr: 2),
+      Edge(va: 2, vb: 6, tl: 1, tr: 9),
+      Edge(va: 2, vb: 7, tl: 9, tr: 8),
+      Edge(va: 3, vb: 7, tl: 8, tr: 7),
+      Edge(va: 4, vb: 5, tl: 3, tr: 11),
+      Edge(va: 4, vb: 6, tl: 10, tr: 5),
+      Edge(va: 4, vb: 7, tl: 11, tr: 10),
+      Edge(va: 5, vb: 7, tl: 6, tr: 11),
+      Edge(va: 6, vb: 7, tl: 10, tr: 9)]
+
+    mesh.addNormalsFromOriginToPositions()
+    return mesh
+  }
 }
