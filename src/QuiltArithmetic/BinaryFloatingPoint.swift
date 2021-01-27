@@ -5,6 +5,8 @@ import Darwin
 
 extension BinaryFloatingPoint {
 
+  public static var tau: Self { 2 * .pi }
+
   public var sqr: Self { self * self }
   public var sqrt: Self { self.squareRoot() }
   public var ceil: Self { Darwin.ceil(self) }
