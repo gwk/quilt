@@ -29,7 +29,9 @@ extension NSEvent {
   public var scrollingDeltaPrimary: CGFloat {
     // If shift is held down, then the main scroll wheel (normally the Y axis) becomes the X axis.
     // The secondary scroll wheel remains the X axis as well, so while shift is down we cannot disambiguate between them.
-    return modifierFlags.contains(.shift) ? scrollingDeltaX : scrollingDeltaY
+    // Furthermore, the trackpad behaves as normal.
+    // The best we can do for now is sum the two when shift is held down.
+    return modifierFlags.contains(.shift) ? (scrollingDeltaX + scrollingDeltaY) : scrollingDeltaY
   }
 }
 
