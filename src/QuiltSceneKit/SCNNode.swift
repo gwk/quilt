@@ -97,12 +97,25 @@ extension SCNNode {
 
 
   public func highlight(color: NSColor, duration: TimeInterval = 0.2) {
-  // Highlight the selected node with an animation.
-  let matEmission = geometry!.firstMaterial!.emission
-  let origContents = matEmission.contents
-  matEmission.contents = color
+    // Highlight the selected node with an animation.
+    guard let geom = self.geometry else { return }
+    let original = geom.materials
+    let highlighted = original.map {
+      (orig: SCNMaterial) -> SCNMaterial in
+      let mat: SCNMaterial = orig.copy() as! SCNMaterial
+      mat.emission.contents = color
+      return mat
+    }
+    geom.materials = highlighted
     SCNTransaction.animate(duration) {
-      matEmission.contents = origContents
+      () in
+      zip(highlighted, original).forEach {
+        $0.emission.contents = $1.emission.contents
+      }
+    } completion: {
+      if geom.firstMaterial == highlighted.first {
+        geom.materials = original
+      }
     }
   }
 
