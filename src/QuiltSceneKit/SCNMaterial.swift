@@ -12,6 +12,6 @@ extension SCNMaterial {
     self.diffuse.contents = flatColor
   }
 
-  public static func flatGray() -> SCNMaterial { SCNMaterial(flatColor: CRColor.gray) }
+  public static var flatWhite = SCNMaterial(flatColor: .white)
+  public static var flatGray = SCNMaterial(flatColor: CRColor.gray)
 }
-
