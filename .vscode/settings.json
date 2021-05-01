@@ -1,8 +1,7 @@
 {
   "files.exclude": {
-    "**/.git": true,
     "**/.DS_Store": true,
-    "_build/": true,
-    "rumble.xcodeproj": true
+    "**/.build/": true,
+    "**/.git": true,
   }
 }

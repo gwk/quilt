@@ -1,16 +1,14 @@
 {
   "version": "2.0.0",
-  "type": "process",
+  "echoCommand": false,
+  "presentation": {},
   "tasks": [
     { "label": "build",
       "group": { "kind": "build", "isDefault": true },
-      "type": "shell",
       "command": "make",
       "args": ["build"],
       "problemMatcher": "$crafts",
-      "presentation": {
-        "showReuseMessage": false
-      }
+      "presentation": { "showReuseMessage": false }
     }
   ]
 }
