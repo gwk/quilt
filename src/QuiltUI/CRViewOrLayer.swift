@@ -10,7 +10,7 @@
 import Quilt
 
 
-public protocol CRViewOrLayer: class {
+public protocol CRViewOrLayer: AnyObject {
 
   var bounds: CGRect { get set }
   var frame: CGRect { get set }

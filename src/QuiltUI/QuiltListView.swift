@@ -59,7 +59,7 @@ open class QuiltListView: NSScrollView {
 }
 
 
-public protocol QuiltListSource: class {
+public protocol QuiltListSource: AnyObject {
 
   var rowCount: Int?  { get } // a value of nil indicates that rows will be produced in a stream until exhausted.
 
