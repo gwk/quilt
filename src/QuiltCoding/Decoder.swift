@@ -5,7 +5,7 @@ import Foundation
 
 extension Decoder {
 
-  func decode<T>() throws -> T where T: Decodable {
+  public func decode<T>() throws -> T where T: Decodable {
     let c = try singleValueContainer()
     return try c.decode(T.self)
   }

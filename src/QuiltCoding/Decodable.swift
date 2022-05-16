@@ -5,7 +5,7 @@ import Foundation
 
 extension Decodable {
 
-  init(jsonData: Data) throws {
+  public init(jsonData: Data) throws {
     let decoder = JSONDecoder()
     self = try decoder.decode(Self.self, from: jsonData)
   }
