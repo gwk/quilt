@@ -2,6 +2,7 @@
 
 import CoreGraphics
 import Foundation
+import ImageIO
 import Quilt
 import QuiltArea
 import QuiltArithmetic
