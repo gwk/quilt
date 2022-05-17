@@ -24,7 +24,6 @@ extension NSWindow {
       "NSWindow: cannot specify both view and viewController:\n  \(view!)\n  \(viewController!)")
 
     let viewSize = (viewSize.isPositive ? viewSize : (view?.frame.size ?? CGSize(1024, 512)))
-
     self.init(
       contentRect: CGRect(origin: .zero, size: viewSize), // Top left will be set later, so only size matters.
       styleMask: styleMask,
@@ -46,8 +45,9 @@ extension NSWindow {
       if fillScreen {
         self.setFrame(screen.visibleFrame, display: false)
       } else {
-        let sr = screen.visibleFrame
-        let screenTopLeft = CGPoint(sr.x, sr.y + sr.h)
+        let svf = screen.visibleFrame
+        let screenTopLeft = CGPoint(svf.x, svf.y + svf.h)
+        self.setContentSize(viewSize) // Must set size before top left point.
         self.setFrameTopLeftPoint(screenTopLeft + topLeftInScreen)
       }
     }
