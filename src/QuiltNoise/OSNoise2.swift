@@ -5,11 +5,9 @@ import QuiltArithmetic
 
 public class OSNoise2 {
 
-  public typealias Flt = Double
-
-  static let stretchFactor: Flt = (1.0 / sqrt(3.0) - 1.0 ) / 2.0
-  static let squishFactor: Flt  = (sqrt(3.0) - 1.0) / 2.0
-  static let normFactor: Flt = 47.0
+  static let stretchFactor: Double = (1.0 / sqrt(3.0) - 1.0 ) / 2.0
+  static let squishFactor: Double  = (sqrt(3.0) - 1.0) / 2.0
+  static let normFactor: Double = 47.0
 
   // The vector gradients approximate the directions to the vertices of an octagon from the center.
   // TODO: use vectors.
@@ -47,17 +45,17 @@ public class OSNoise2 {
     self.perm = perm
   }
 
-  public func extrapolate2(xsb: Int, ysb: Int, dx: Flt, dy: Flt) -> Flt {
+  public func extrapolate2(xsb: Int, ysb: Int, dx: Double, dy: Double) -> Double {
     let index = perm[(perm[xsb & 0xFF] + ysb) & 0xFF] & 0x0E
-    return Flt(OSNoise2.gradients2D[index]) * dx + Flt(OSNoise2.gradients2D[index + 1]) * dy
+    return Double(OSNoise2.gradients2D[index]) * dx + Double(OSNoise2.gradients2D[index + 1]) * dy
   }
 
-  public func fastFloor(_ x: Flt) -> Int {
+  public func fastFloor(_ x: Double) -> Int {
     let i = Int(x)
-    return x < Flt(i) ? i - 1 : i
+    return x < Double(i) ? i - 1 : i
   }
 
-  public func val(_ x: Flt, _ y: Flt) -> Flt {
+  public func val(_ x: Double, _ y: Double) -> Double {
 
     // Place input coordinates onto grid.
     let stretchOffset = (x + y) * OSNoise2.stretchFactor
@@ -69,13 +67,13 @@ public class OSNoise2 {
     var ysb = fastFloor(ys)
 
     // Skew out to get actual coordinates of rhombus origin. We'll need these later.
-    let squishOffset = Flt(xsb + ysb) * OSNoise2.squishFactor
-    let xb = Flt(xsb) + squishOffset
-    let yb = Flt(ysb) + squishOffset
+    let squishOffset = Double(xsb + ysb) * OSNoise2.squishFactor
+    let xb = Double(xsb) + squishOffset
+    let yb = Double(ysb) + squishOffset
 
     // Compute grid coordinates relative to rhombus origin.
-    let xins = xs - Flt(xsb)
-    let yins = ys - Flt(ysb)
+    let xins = xs - Double(xsb)
+    let yins = ys - Double(ysb)
 
     // Sum those together to get a value that determines which region we're in.
     let inSum = xins + yins
@@ -84,7 +82,7 @@ public class OSNoise2 {
     var dx0 = x - xb
     var dy0 = y - yb
 
-    var value: Flt = 0
+    var value: Double = 0
 
     // Contribution (1,0).
     let dx1 = dx0 - 1 - OSNoise2.squishFactor
@@ -104,7 +102,7 @@ public class OSNoise2 {
       value += attn2 * attn2 * extrapolate2(xsb: xsb + 0, ysb: ysb + 1, dx: dx2, dy: dy2)
     }
 
-    var dx_ext, dy_ext: Flt
+    var dx_ext, dy_ext: Double
     var xsv_ext, ysv_ext: Int
 
     if (inSum <= 1) { // We're inside the triangle (2-Simplex) at (0,0).
@@ -170,11 +168,11 @@ public class OSNoise2 {
     return value / OSNoise2.normFactor
   }
 
-  public func multiVal(_ x: Flt, _ y: Flt, octaveWeights: [Flt]) -> Flt {
+  public func multiVal(_ x: Double, _ y: Double, octaveWeights: [Double]) -> Double {
     let totalWeight = octaveWeights.sum()
     var v = 0.0
     for (i, weight) in octaveWeights.enumerated() {
-      let scale = Flt(1 << i)
+      let scale = Double(1 << i)
       v += val(x * scale, y * scale) * weight
     }
     return v / totalWeight
