@@ -19,6 +19,7 @@ extension CGImage {
     case png(path: Path)
   }
 
+
   // Question mark icon.
   public static let missing: CGImage = CGImage.with(rowArray:
     RowArray<U8>(size: V2I(8, 8), seq: [
@@ -32,6 +33,7 @@ extension CGImage {
       0x40, 0x40, 0x40, 0xff, 0xff, 0x40, 0x40, 0x40,
       ]),
     shouldInterpolate: false)
+
 
   public class func from(path: Path, shouldInterpolate: Bool = true, intent: CGColorRenderingIntent = .defaultIntent) throws -> CGImage {
     guard let provider = CGDataProvider(filename: path.expandUser) else {
@@ -50,6 +52,7 @@ extension CGImage {
     }
   }
 
+
   public class func with<T: PixelType>(bufferPointer: Buffer<T>, size: V2I, colorSpace: CGColorSpace,
     bitmapInfo: CGBitmapInfo, shouldInterpolate: Bool, intent: CGColorRenderingIntent) -> CGImage {
       let bytesPerComponent = MemoryLayout<T.Scalar>.size
@@ -64,6 +67,7 @@ extension CGImage {
       return CGImage(width: size.x, height: size.y,
         bitsPerComponent: bitsPerComponent, bitsPerPixel: bitsPerPixel, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo, provider: provider!, decode: decodeArray, shouldInterpolate: shouldInterpolate, intent: intent)!
   }
+
 
   public class func with<T: PixelType>(rowArray: RowArray<T>, shouldInterpolate: Bool = true,
     intent: CGColorRenderingIntent = .defaultIntent) -> CGImage {
@@ -100,12 +104,14 @@ extension CGImage {
     CGContext(data: nil, width: w, height: h, bitsPerComponent: bitsPerComponent, bytesPerRow: 0, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)!
   }
 
+
   public func flipH() -> CGImage {
     let ctx = CGContext(data: nil, width: w, height: h, bitsPerComponent: bitsPerComponent, bytesPerRow: 0, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)!
     ctx.flipCTMHori()
     ctx.draw(image: self)
     return ctx.createImage()
   }
+
 
   public func writePng(path: Path) -> Bool {
     let dst = CGImageDestinationCreateWithURL(path.url as CFURL, UTType.png.identifier as CFString, 1, nil)!
