@@ -7,6 +7,7 @@ import Quilt
 import QuiltArea
 import QuiltArithmetic
 import QuiltVec
+import UniformTypeIdentifiers
 
 
 extension CGImage {
@@ -107,7 +108,7 @@ extension CGImage {
   }
 
   public func writePng(path: Path) -> Bool {
-    let dst = CGImageDestinationCreateWithURL(path.url as CFURL, kUTTypePNG, 1, nil)!
+    let dst = CGImageDestinationCreateWithURL(path.url as CFURL, UTType.png.identifier as CFString, 1, nil)!
     CGImageDestinationAddImage(dst, self, nil)
     let res = CGImageDestinationFinalize(dst)
     if (!res) {

@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.6
 // © 2016 George King. Permission to use this file is granted in license-quilt.txt.
 
 
@@ -6,7 +6,7 @@ import PackageDescription
 
 let package = Package(
   name: "Quilt",
-  platforms: [.macOS(.v10_15)],
+  platforms: [.macOS(.v12)],
   products: [
     .library(name: "Py",              targets: ["Py"]),
     .library(name: "Quilt",           targets: ["Quilt"]),
