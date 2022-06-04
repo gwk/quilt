@@ -37,7 +37,7 @@ public struct CaseArray<Enum: DenseEnum, Element>: Collection, ExpressibleByArra
   public init(pairs: (Enum, Element)...) {
     self.init()
     for (k, el) in pairs {
-      self[k] = el
+      self[k] = el // TODO: this looks out-of-bounds.
     }
   }
 
