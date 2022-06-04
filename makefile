@@ -40,14 +40,13 @@ src/QuiltVec/SIMD%-generated.swift: gen/vec.py gen/gen_util.py
 	$< SIMD$* > $@
 
 src/QuiltUI/V2-generated.swift: gen/vec.py gen/gen_util.py
-	$< V2 -alias=CGPoint -scalar=Flt -imports CoreGraphics QuiltVec > $@
+	$< V2 -alias=CGPoint -scalar=CGFloat -imports CoreGraphics QuiltVec > $@
 
 src/QuiltUI/CGVector-generated.swift: gen/vec.py gen/gen_util.py
-	$< CGVector -scalar=Flt -imports CoreGraphics QuiltVec > $@
+	$< CGVector -scalar=CGFloat -imports CoreGraphics QuiltVec > $@
 
 src/QuiltSceneKit/V3-generated.swift: gen/vec.py gen/gen_util.py
-	$< V3 -alias=SCNVector3 -scalar=Flt -imports SceneKit QuiltVec QuiltUI > $@
+	$< V3 -alias=SCNVector3 -scalar=CGFloat -imports SceneKit QuiltVec QuiltUI > $@
 
 src/QuiltSceneKit/V4-generated.swift: gen/vec.py gen/gen_util.py
-	$< V4 -alias=SCNVector4 -scalar=Flt -imports SceneKit QuiltVec QuiltUI > $@
-
+	$< V4 -alias=SCNVector4 -scalar=CGFloat -imports SceneKit QuiltVec QuiltUI > $@

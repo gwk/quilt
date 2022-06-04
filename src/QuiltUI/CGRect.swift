@@ -7,11 +7,11 @@ extension CGRect {
 
   public static let unit = CGRect(0, 0, 1, 1)
 
-  public init(x: Flt, y: Flt, w: Flt, h: Flt) { self.init(x: x, y: y, width: w, height: h) }
+  public init(x: Double, y: Double, w: Double, h: Double) { self.init(x: x, y: y, width: w, height: h) }
 
-  public init(_ x: Flt, _ y: Flt, _ w: Flt, _ h: Flt) { self.init(x: x, y: y, width: w, height: h) }
+  public init(_ x: Double, _ y: Double, _ w: Double, _ h: Double) { self.init(x: x, y: y, width: w, height: h) }
 
-  public init(_ w: Flt, _ h: Flt) { self.init(0, 0, w, h) }
+  public init(_ w: Double, _ h: Double) { self.init(0, 0, w, h) }
 
   public init(_ o: CGPoint, _ s: CGSize) { self.init(o.x, o.y, s.w, s.h) }
 
@@ -20,7 +20,7 @@ extension CGRect {
   public init(_ s: CGSize) { self.init(0, 0, s.w, s.h) }
 
 
-  public init(l: Flt? = nil, r: Flt? = nil, w: Flt? = nil, t: Flt? = nil, b: Flt? = nil, h: Flt? = nil) {
+  public init(l: Double? = nil, r: Double? = nil, w: Double? = nil, t: Double? = nil, b: Double? = nil, h: Double? = nil) {
    self.init(
      x: l ?? (r! - w!),
      y: t ?? (b! - h!),
@@ -30,7 +30,7 @@ extension CGRect {
 
 
   public init(p0: CGPoint, p1: CGPoint) {
-    var x, y, w, h: Flt
+    var x, y, w, h: Double
     if p0.x < p1.x {
       x = p0.x
       w = p1.x - p0.x
@@ -63,47 +63,47 @@ extension CGRect {
     set { o = CGPoint(newValue.x - (0.5 * s.w), newValue.y - (0.5 * s.h)) }
   }
 
-  public var x: Flt {
+  public var x: Double {
     get { o.x }
     set { o.x = newValue }
   }
 
-  public var y: Flt {
+  public var y: Double {
     get { o.y }
     set { o.y = newValue }
   }
 
-  public var w: Flt {
+  public var w: Double {
     get { s.w }
     set { s.w = newValue }
   }
 
-  public var h: Flt {
+  public var h: Double {
     get { s.h }
     set { s.h = newValue }
   }
 
-  public var l: Flt {
+  public var l: Double {
     get { o.x }
     set { o.x = newValue }
   }
 
-  public var t: Flt {
+  public var t: Double {
     get { o.y }
     set { o.y = newValue }
   }
 
-  public var r: Flt {
+  public var r: Double {
     get { x + w }
     set { x = newValue - w }
   }
 
-  public var b: Flt {
+  public var b: Double {
     get { y + h }
     set { y = newValue - h }
   }
 
-  public func insetBy(l: Flt, t: Flt, r: Flt, b: Flt) -> CGRect {
+  public func insetBy(l: Double, t: Double, r: Double, b: Double) -> CGRect {
     CGRect(x: x + l, y: y + l, width: width - (l + r), height: height - (t + b))
   }
 

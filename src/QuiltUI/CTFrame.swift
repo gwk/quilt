@@ -25,7 +25,7 @@ extension CTFrame {
 
   public func draw(ctx: CGContext) { CTFrameDraw(self, ctx) }
 
-  public func draw(ctx: CGContext, attrString: NSAttributedString, width: Flt, truncationType: CTLineTruncationType = .end, truncationLine: CTLine) {
+  public func draw(ctx: CGContext, attrString: NSAttributedString, width: Double, truncationType: CTLineTruncationType = .end, truncationLine: CTLine) {
     let (lines, origins) = getLinesAndOrigins()
     if lines.isEmpty { return }
     for i in 0..<lines.count {

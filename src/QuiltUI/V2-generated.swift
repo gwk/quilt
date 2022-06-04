@@ -10,7 +10,7 @@ import QuiltVec
 
 public typealias V2 = CGPoint
 extension V2: Vec, Vec2 { // Float/Int agnostic.
-  public typealias Scalar = Flt
+  public typealias Scalar = CGFloat
   public typealias VFType = V2F
   public typealias VDType = V2D
   public typealias VU8Type = V2U8
@@ -128,10 +128,10 @@ public static func +(a: V2, b: V2) -> V2 { V2(a.x + b.x, a.y + b.y) }
 public static func -(a: V2, b: V2) -> V2 { V2(a.x - b.x, a.y - b.y) }
 public static func *(a: V2, b: V2) -> V2 { V2(a.x * b.x, a.y * b.y) }
 public static func /(a: V2, b: V2) -> V2 { V2(a.x / b.x, a.y / b.y) }
-public static func +(a: V2, s: Flt) -> V2 { V2(a.x + s, a.y + s) }
-public static func -(a: V2, s: Flt) -> V2 { V2(a.x - s, a.y - s) }
-public static func *(a: V2, s: Flt) -> V2 { V2(a.x * s, a.y * s) }
-public static func /(a: V2, s: Flt) -> V2 { V2(a.x / s, a.y / s) }
+public static func +(a: V2, s: CGFloat) -> V2 { V2(a.x + s, a.y + s) }
+public static func -(a: V2, s: CGFloat) -> V2 { V2(a.x - s, a.y - s) }
+public static func *(a: V2, s: CGFloat) -> V2 { V2(a.x * s, a.y * s) }
+public static func /(a: V2, s: CGFloat) -> V2 { V2(a.x / s, a.y / s) }
 public static prefix func -(a: V2) -> V2 { a * -1 }
 }
 

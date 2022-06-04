@@ -29,7 +29,7 @@ extension CRColor {
   }
 
   public convenience init(ur: U8, ug: U8, ub: U8, a: CGFloat = 1) {
-    self.init(red: Flt(ur) / 0xff, green: Flt(ug) / 0xff, blue: Flt(ub) / 0xff, alpha: a)
+    self.init(red: F64(ur) / 0xff, green: F64(ug) / 0xff, blue: F64(ub) / 0xff, alpha: a)
   }
 
   public convenience init(l: CGFloat, a: CGFloat = 1) {
@@ -41,19 +41,19 @@ extension CRColor {
   public convenience init(b: CGFloat, a: CGFloat=1) { self.init(0, 0, b, a) }
 
   public convenience init(v2F v: V2F) {
-    self.init(l: Flt(v.x), a: Flt(v.y))
+    self.init(l: F64(v.x), a: F64(v.y))
   }
 
   public convenience init(v3F v: V3F) {
-    self.init(red: Flt(v.x), green: Flt(v.y), blue: Flt(v.z), alpha: 1)
+    self.init(red: F64(v.x), green: F64(v.y), blue: F64(v.z), alpha: 1)
   }
 
   public convenience init(v4F v: V4F) {
-    self.init(red: Flt(v.x), green: Flt(v.y), blue: Flt(v.z), alpha: Flt(v.w))
+    self.init(red: F64(v.x), green: F64(v.y), blue: F64(v.z), alpha: F64(v.w))
   }
 
-  public var a: Flt {
-    var l: Flt = 0, a: Flt = 0
+  public var a: F64 {
+    var l: CGFloat = 0, a: CGFloat = 0
     #if os(OSX)
       self.getWhite(&l, alpha: &a)
       #else
@@ -63,8 +63,8 @@ extension CRColor {
     return a
   }
 
-  public var l: Flt {
-    var l: Flt = 0, a: Flt = 0
+  public var l: F64 {
+    var l: CGFloat = 0, a: CGFloat = 0
     #if os(OSX)
       self.getWhite(&l, alpha: &a)
       #else
@@ -74,8 +74,8 @@ extension CRColor {
     return l
   }
 
-  public var r: Flt {
-    var r: Flt = 0, g: Flt = 0, b: Flt = 0, a: Flt = 0
+  public var r: F64 {
+    var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
     #if os(OSX)
       self.getRed(&r, green: &g, blue: &b, alpha: &a)
       #else
@@ -85,8 +85,8 @@ extension CRColor {
     return r
   }
 
-  public var g: Flt {
-    var r: Flt = 0, g: Flt = 0, b: Flt = 0, a: Flt = 0
+  public var g: F64 {
+    var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
     #if os(OSX)
       self.getRed(&r, green: &g, blue: &b, alpha: &a)
       #else
@@ -96,8 +96,8 @@ extension CRColor {
     return g
   }
 
-  public var b: Flt {
-    var r: Flt = 0, g: Flt = 0, b: Flt = 0, a: Flt = 0
+  public var b: F64 {
+    var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
     #if os(OSX)
       self.getRed(&r, green: &g, blue: &b, alpha: &a)
       #else

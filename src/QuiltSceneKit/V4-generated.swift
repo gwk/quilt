@@ -11,7 +11,7 @@ import QuiltUI
 
 public typealias V4 = SCNVector4
 extension V4: Vec, Vec4 { // Float/Int agnostic.
-  public typealias Scalar = Flt
+  public typealias Scalar = CGFloat
   public typealias VFType = V4F
   public typealias VDType = V4D
   public typealias VU8Type = V4U8
@@ -85,10 +85,10 @@ public static func +(a: V4, b: V4) -> V4 { V4(a.x + b.x, a.y + b.y, a.z + b.z, a
 public static func -(a: V4, b: V4) -> V4 { V4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w) }
 public static func *(a: V4, b: V4) -> V4 { V4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w) }
 public static func /(a: V4, b: V4) -> V4 { V4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w) }
-public static func +(a: V4, s: Flt) -> V4 { V4(a.x + s, a.y + s, a.z + s, a.w + s) }
-public static func -(a: V4, s: Flt) -> V4 { V4(a.x - s, a.y - s, a.z - s, a.w - s) }
-public static func *(a: V4, s: Flt) -> V4 { V4(a.x * s, a.y * s, a.z * s, a.w * s) }
-public static func /(a: V4, s: Flt) -> V4 { V4(a.x / s, a.y / s, a.z / s, a.w / s) }
+public static func +(a: V4, s: CGFloat) -> V4 { V4(a.x + s, a.y + s, a.z + s, a.w + s) }
+public static func -(a: V4, s: CGFloat) -> V4 { V4(a.x - s, a.y - s, a.z - s, a.w - s) }
+public static func *(a: V4, s: CGFloat) -> V4 { V4(a.x * s, a.y * s, a.z * s, a.w * s) }
+public static func /(a: V4, s: CGFloat) -> V4 { V4(a.x / s, a.y / s, a.z / s, a.w / s) }
 public static prefix func -(a: V4) -> V4 { a * -1 }
 }
 

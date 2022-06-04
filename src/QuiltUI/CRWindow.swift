@@ -15,7 +15,7 @@ extension CRWindow {
   #if os(OSX)
   public var origin: CGPoint { // top-left point.
     get {
-      var sh: Flt
+      var sh: Double
       if let s = screen {
         sh = s.visibleFrame.size.height
       } else {
@@ -25,7 +25,7 @@ extension CRWindow {
       return CGPoint(f.origin.x, sh - (f.origin.y + f.size.height))
     }
     set {
-      var sh: Flt
+      var sh: Double
       if let s = screen {
         sh = s.visibleFrame.size.height
       } else {

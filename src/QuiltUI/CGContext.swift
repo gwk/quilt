@@ -30,24 +30,24 @@ extension CGContext {
 
   public var w: Int { self.width }
   public var h: Int { self.height }
-  public var bounds: CGRect { CGRect(0, 0, Flt(w), Flt(h)) }
+  public var bounds: CGRect { CGRect(0, 0, Double(w), Double(h)) }
 
   public func flipCTMHori() {
-    translateBy(x: Flt(w), y: 0)
+    translateBy(x: Double(w), y: 0)
     scaleBy(x: -1, y: 1)
   }
 
-  public func setFillColor(r: Flt, g: Flt, b: Flt, a: Flt = 1) {
+  public func setFillColor(r: Double, g: Double, b: Double, a: Double = 1) {
     self.setFillColor(red: r, green: g, blue: b, alpha: a)
   }
 
   /*
   public func setFillColor(_ color: V4F) {
-    self.setFillColor(red: Flt(color.r), green: Flt(color.g), blue: Flt(color.b), alpha: Flt(color.a))
+    self.setFillColor(red: Double(color.r), green: Double(color.g), blue: Double(color.b), alpha: Double(color.a))
   }
 
   public func setFillColor(_ color: V3F) {
-    self.setFillColor(red: Flt(color.r), green: Flt(color.g), blue: Flt(color.b), alpha: 1)
+    self.setFillColor(red: Double(color.r), green: Double(color.g), blue: Double(color.b), alpha: 1)
   }
 */
 

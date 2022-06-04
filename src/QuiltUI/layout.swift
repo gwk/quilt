@@ -132,7 +132,7 @@ extension NSLayoutConstraint: QKLayoutConstraining {
     [self] // ignore all the format-related arguments.
   }
 
-  public class func eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, m: Flt = 1, c: Flt = 0, p: LOP = LOPReq) -> NSLayoutConstraint {
+  public class func eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, m: Double = 1, c: Double = 0, p: LOP = LOPReq) -> NSLayoutConstraint {
     // normally, the global functions below are used to construct one or two constraints at a time.
     // however, in the case where we want a handle on a particlur constraint for subsequent modification (e.g. for animation),
     // then use this function to construct exactly one constraint.
@@ -199,12 +199,12 @@ public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, m: CGPoint =
   QKLayoutRel(rel: .equal, l: l, r: r, m: m, c: c, p: p)
 }
 
-public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, m: Flt, c: Flt = 0, p: LOP = LOPReq) -> QKLayoutRel {
+public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, m: Double, c: Double = 0, p: LOP = LOPReq) -> QKLayoutRel {
   // construct an equality relation between two operands with scalar m and optional c; m is required to disambiguate from the vector variant.
   c_eq(l, r, m: CGPoint(m, m), c: CGPoint(c, c), p: p)
 }
 
-public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, c: Flt, p: LOP = LOPReq) -> QKLayoutRel {
+public func c_eq(_ l: QKLayoutOperand, _ r: QKLayoutOperand? = nil, c: Double, p: LOP = LOPReq) -> QKLayoutRel {
   // construct an equality relation between two operands with scalar c; this variant is required to disambiguate from the vector variant.
   c_eq(l, r, m: CGPoint(1, 1), c: CGPoint(c, c), p: p)
 }

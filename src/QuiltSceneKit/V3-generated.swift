@@ -11,7 +11,7 @@ import QuiltUI
 
 public typealias V3 = SCNVector3
 extension V3: Vec, Vec3 { // Float/Int agnostic.
-  public typealias Scalar = Flt
+  public typealias Scalar = CGFloat
   public typealias VFType = V3F
   public typealias VDType = V3D
   public typealias VU8Type = V3U8
@@ -109,10 +109,10 @@ public static func +(a: V3, b: V3) -> V3 { V3(a.x + b.x, a.y + b.y, a.z + b.z) }
 public static func -(a: V3, b: V3) -> V3 { V3(a.x - b.x, a.y - b.y, a.z - b.z) }
 public static func *(a: V3, b: V3) -> V3 { V3(a.x * b.x, a.y * b.y, a.z * b.z) }
 public static func /(a: V3, b: V3) -> V3 { V3(a.x / b.x, a.y / b.y, a.z / b.z) }
-public static func +(a: V3, s: Flt) -> V3 { V3(a.x + s, a.y + s, a.z + s) }
-public static func -(a: V3, s: Flt) -> V3 { V3(a.x - s, a.y - s, a.z - s) }
-public static func *(a: V3, s: Flt) -> V3 { V3(a.x * s, a.y * s, a.z * s) }
-public static func /(a: V3, s: Flt) -> V3 { V3(a.x / s, a.y / s, a.z / s) }
+public static func +(a: V3, s: CGFloat) -> V3 { V3(a.x + s, a.y + s, a.z + s) }
+public static func -(a: V3, s: CGFloat) -> V3 { V3(a.x - s, a.y - s, a.z - s) }
+public static func *(a: V3, s: CGFloat) -> V3 { V3(a.x * s, a.y * s, a.z * s) }
+public static func /(a: V3, s: CGFloat) -> V3 { V3(a.x / s, a.y / s, a.z / s) }
 public static prefix func -(a: V3) -> V3 { a * -1 }
 }
 

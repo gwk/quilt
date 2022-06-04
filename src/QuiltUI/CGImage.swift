@@ -60,7 +60,7 @@ extension CGImage {
       let rawBuffer = UnsafeRawBufferPointer(bufferPointer)
       let data = Data(bytes: rawBuffer.baseAddress!, count: rawBuffer.count)
       let provider = CGDataProvider(data: data as CFData)
-      let decodeArray: UnsafePointer<Flt>? = nil
+      let decodeArray: UnsafePointer<CGFloat>? = nil
       return CGImage(width: size.x, height: size.y,
         bitsPerComponent: bitsPerComponent, bitsPerPixel: bitsPerPixel, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo, provider: provider!, decode: decodeArray, shouldInterpolate: shouldInterpolate, intent: intent)!
   }
@@ -93,7 +93,7 @@ extension CGImage {
 
   public var w: Int { self.width }
   public var h: Int { self.height }
-  public var bounds: CGRect { CGRect(Flt(w), Flt(h)) }
+  public var bounds: CGRect { CGRect(Double(w), Double(h)) }
 
 
   public func makeBitmapContext() -> CGContext {

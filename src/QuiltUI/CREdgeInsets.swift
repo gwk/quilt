@@ -11,16 +11,16 @@
 
 extension CREdgeInsets {
 
-  public var l: Flt { left }
-  public var t: Flt { top }
-  public var r: Flt { right }
-  public var b: Flt { bottom }
+  public var l: Double { left }
+  public var t: Double { top }
+  public var r: Double { right }
+  public var b: Double { bottom }
 
-  public init(l: Flt = 0, t: Flt = 0, r: Flt = 0, b: Flt = 0) {
+  public init(l: Double = 0, t: Double = 0, r: Double = 0, b: Double = 0) {
     self.init(top: t, left: l, bottom: b, right: r)
   }
 
-  public init(x: Flt = 0, y: Flt = 0) {
+  public init(x: Double = 0, y: Double = 0) {
     self.init(top: y, left: x, bottom: y, right: x)
   }
 

@@ -82,7 +82,7 @@ extension NSWindow {
     }
   }
 
-  public func observeBackingProperties(block: @escaping (NSWindow, Flt, NSColorSpace)->Void) -> Observer {
+  public func observeBackingProperties(block: @escaping (NSWindow, Double, NSColorSpace)->Void) -> Observer {
     noteCenter.addObserver(
       forName: NSWindow.didChangeBackingPropertiesNotification,
       object: self,
@@ -92,7 +92,7 @@ extension NSWindow {
         let window = note.object as! NSWindow
         let oldScaleFactor = note.userInfo![NSWindow.oldScaleFactorUserInfoKey] as! NSNumber
         let oldColorSpace = note.userInfo![NSWindow.oldColorSpaceUserInfoKey] as! NSColorSpace
-        block(window, Flt(oldScaleFactor.doubleValue), oldColorSpace)
+        block(window, oldScaleFactor.doubleValue, oldColorSpace)
     })
   }
 }

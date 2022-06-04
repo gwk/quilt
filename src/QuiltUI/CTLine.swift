@@ -17,7 +17,7 @@ extension CTLine {
 
   public func draw(ctx: CGContext) { CTLineDraw(self, ctx) }
 
-  public func truncate(width: Flt, truncationType: CTLineTruncationType = .end, truncationLine: CTLine) -> CTLine? {
+  public func truncate(width: Double, truncationType: CTLineTruncationType = .end, truncationLine: CTLine) -> CTLine? {
     CTLineCreateTruncatedLine(self, Double(width), truncationType, truncationLine)
   }
 }

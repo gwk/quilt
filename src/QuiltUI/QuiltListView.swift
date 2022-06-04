@@ -41,8 +41,8 @@ open class QuiltListView: NSScrollView {
   public func reload() {
     docView.removeAllSubviews()
     var index: Int = 0
-    var height: Flt = 0
-    let width: Flt = docView.w
+    var height: Double = 0
+    let width: Double = docView.w
     while true {
       if let (rowView, rowHeight) = source.row(index: index, width: width) {
         rowView.flex = .w
@@ -67,12 +67,12 @@ public protocol QuiltListSource: AnyObject {
   var approximateRowCount: Int { get }
 
   // A return value of nil indicates that the source cannot approximate the height; the view will be created immediately.
-  func approximateHeightForRow(index: Int) -> Flt?
+  func approximateHeightForRow(index: Int) -> Double?
 
   // A return value of nil indicates that the index is at the end of the row sequence.
-  func row(index: Int, width: Flt) -> (CRViewOrLayer, rowHeight: Flt)?
+  func row(index: Int, width: Double) -> (CRViewOrLayer, rowHeight: Double)?
 
-  var tailHeight: Flt { get }
+  var tailHeight: Double { get }
 }
 
 
@@ -82,7 +82,7 @@ public extension QuiltListSource {
 
   var approximateRowCount: Int { 0 }
 
-  func approximateHeightForRow(index: Int) -> Flt? { nil }
+  func approximateHeightForRow(index: Int) -> Double? { nil }
 
-  var tailHeight: Flt { 0 }
+  var tailHeight: Double { 0 }
 }
