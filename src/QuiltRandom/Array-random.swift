@@ -5,12 +5,12 @@ import Darwin
 
 extension Array {
 
-  public mutating func permuteInPlace(_ random: Random) {
+  public mutating func permuteInPlace<G: RandomNumberGenerator>(rng: inout G) {
     if isEmpty { return }
     let c = count
     for i in 1..<c {
       let j = c - i
-      let k = random.int(j + 1)
+      let k = Int.random(in: 0...j, using: &rng)
       if j == k { continue }
       // note: as of swift 4b1, `swap(&self[j], &self[k])` warns about exclusive access.
       let v = self[j]
@@ -19,13 +19,13 @@ extension Array {
     }
   }
 
-  public func permute(_ random: Random) -> Array {
+  public func permute<G: RandomNumberGenerator>(rng: inout G) -> Array {
     var a = self
-    a.permuteInPlace(random)
+    a.permuteInPlace(rng: &rng)
     return a
   }
 
-  public func randomElement(_ random: Random) -> Element {
-    self[random.int(count)]
+  public func randomEl<G: RandomNumberGenerator>(rng: inout G) -> Element {
+    self[Int.random(in: 0..<count, using: &rng)]
   }
 }

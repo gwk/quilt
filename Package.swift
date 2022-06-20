@@ -39,7 +39,7 @@ let package = Package(
     .target(name: "QuiltGeometry",  dependencies: ["Quilt", "QuiltArea", "QuiltVec"]),
     .target(name: "QuiltMac",       dependencies: ["Quilt", "QuiltUI"]),
     .target(name: "QuiltNoise",     dependencies: ["QuiltArithmetic"]),
-    .target(name: "QuiltRandom",    dependencies: []),
+    .target(name: "QuiltRandom",    dependencies: ["Quilt"]),
     .target(name: "QuiltResource",  dependencies: ["Quilt", "QuiltDispatch"]),
     .target(name: "QuiltSceneKit",  dependencies: ["Quilt", "QuiltGeometry", "QuiltUI"]),
     .target(name: "QuiltSpriteKit", dependencies: ["Quilt", "QuiltUI"]),

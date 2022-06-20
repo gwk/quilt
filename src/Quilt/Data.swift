@@ -16,4 +16,12 @@ extension Data {
   public init(buffer: RawBuffer) {
     self = Data(bytes: buffer.baseAddress!, count: buffer.count)
   }
+
+  public func withUnsafeBuffer<T, R>(body: (UnsafeBufferPointer<T>) -> R) -> R {
+    withUnsafeBytes {
+      (buffer: UnsafeRawBufferPointer) in
+      body(buffer.bindMemory(to: T.self))
+    }
+  }
 }
+
