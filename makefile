@@ -7,7 +7,7 @@
 
 .PHONY: _default build clean gen test xcode
 
-_default: build
+_default: help
 
 build: gen
 	craft-swift
@@ -28,6 +28,9 @@ gen: \
 	src/QuiltUI/V2-generated.swift \
 	src/QuiltSceneKit/V3-generated.swift \
 	src/QuiltSceneKit/V4-generated.swift
+
+help: # Summarize the targets of this makefile.
+	@GREP_COLOR="1;32" egrep --color=always '^\w[^ :]+:' makefile | sort
 
 test: gen
 	craft-swift-utest test
