@@ -1,4 +1,4 @@
-// © 2017 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 
 public func zip3<S0, S1, S2>(_ seq0: S0, _ seq1: S1, _ seq2: S2) -> Zip3Sequence<S0, S1, S2> {
@@ -99,4 +99,3 @@ public struct Zip2And1Sequence <S01: Sequence, S2: Sequence, E0, E1>: Sequence w
     Iterator(seq01.makeIterator(), seq2.makeIterator())
   }
 }
-

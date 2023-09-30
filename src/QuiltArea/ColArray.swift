@@ -1,4 +1,4 @@
-// © 2021 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 import QuiltArithmetic
 import Quilt
@@ -8,7 +8,7 @@ import QuiltVec
 public class ColArray<Element>: AreaArray<Element> {
 
   // Column-major area array.
-  
+
   public typealias Col = ArraySlice<Element>
 
 
@@ -36,7 +36,7 @@ public class ColArray<Element>: AreaArray<Element> {
 
   override public func indicesByRow(start: V2I = .zero, end: V2I? = nil, step: V2I = .one) -> AreaIndexIterator { mustOverride() }
 
-  
+
   override public func mapToCols<R>(_ transform: (Element)->R) -> ColArray<R> {
     ColArray<R>(size: size, seq: array.map(transform))
   }

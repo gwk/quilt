@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# © 2015 George King. Permission to use this file is granted in license-quilt.txt.
+# Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 PixFmtBitU8  = 1 << 0
 PixFmtBitU16 = 1 << 1

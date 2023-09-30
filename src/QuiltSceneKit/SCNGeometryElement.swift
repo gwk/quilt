@@ -1,4 +1,4 @@
-// © 2016 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 import Foundation
 import SceneKit
@@ -18,5 +18,3 @@ extension SCNGeometryElement {
     }
   }
 }
-
-

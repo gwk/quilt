@@ -1,9 +1,9 @@
-// © 2020 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 public struct RigidMotion {
   public var position: V3F = .zero
   public var orientation: QF = QF()
-  
+
   public init(position: V3F = .zero, orientation: QF = QF()) {
     self.position = position
     self.orientation = orientation

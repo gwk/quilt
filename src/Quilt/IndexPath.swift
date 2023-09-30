@@ -1,4 +1,4 @@
-// © 2014 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 import Foundation
 
@@ -6,7 +6,7 @@ import Foundation
 extension IndexPath {
 
   //init(s: Int, r: Int) { init(indexes: [s, r]) }
-  
+
   //init(r: Int) { init(indexes: [0, r]) }
-  
+
 }

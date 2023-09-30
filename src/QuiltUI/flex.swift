@@ -1,4 +1,4 @@
-// © 2017 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 #if os(OSX)
   import AppKit
@@ -117,4 +117,3 @@ public struct Flex: OptionSet, FlexProtocol {
   public static var wl: Flex { [w, l] }
   public static var wr: Flex { [w, r] }
 }
-

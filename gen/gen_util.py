@@ -1,4 +1,4 @@
-# © 2015 George King. Permission to use this file is granted in license-quilt.txt.
+# Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 from sys import stderr
 from itertools import zip_longest, product
@@ -72,4 +72,3 @@ def jfla(j, f, comps):
 
 def jcf(f, a): return jf(', ', f, a)
 #def jcft(f, a): return jft(', ', f, a)
-

@@ -1,4 +1,4 @@
-// © 2017 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 import Foundation
 
@@ -10,4 +10,3 @@ extension Decoder {
     return try c.decode(T.self)
   }
 }
-

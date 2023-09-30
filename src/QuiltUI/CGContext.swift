@@ -1,4 +1,4 @@
-// © 2015 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 import CoreGraphics
 #if os(OSX)
@@ -74,4 +74,3 @@ extension CGBitmapInfo {
   public static var premultipliedFirst: CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
 
 }
-

@@ -1,4 +1,4 @@
-// © 2015 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 
 public func sortQuadIndices(_ a: Int, _ b: Int, _ c: Int, _ d: Int, cmp: (Int, Int) -> Bool) -> (Int, Int, Int, Int) {
@@ -40,4 +40,3 @@ public func sortQuadIndices(_ a: Int, _ b: Int, _ c: Int, _ d: Int, cmp: (Int, I
   }
   return (r0, r1, r2, r3)
 }
-

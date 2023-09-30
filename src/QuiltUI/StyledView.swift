@@ -1,4 +1,4 @@
-// © 2017 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 import QuartzCore
 
@@ -19,7 +19,7 @@ open class StyledView: CRView {
   override public var isFlipped: Bool { true }
 
   override public var isOpaque: Bool { layer!.isOpaque }
-  
+
   override public var wantsUpdateLayer: Bool { true }
 
   override public func makeBackingLayer() -> CALayer { StyledLayer() }

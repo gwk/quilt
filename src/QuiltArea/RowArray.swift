@@ -1,4 +1,4 @@
-// © 2021 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 import QuiltArithmetic
 import Quilt
@@ -11,7 +11,7 @@ public class RowArray<Element>: AreaArray<Element> {
 
   public typealias Row = ArraySlice<Element>
 
-  
+
   override public func index(_ coord: V2I) -> Int {
     size.x * coord.y + coord.x
   }
@@ -23,7 +23,7 @@ public class RowArray<Element>: AreaArray<Element> {
 
   override public func indicesByCol(start: V2I = .zero, end: V2I? = nil, step: V2I = .one) -> AreaIndexIterator { mustOverride() }
 
-  
+
   override public func indicesByRow(start: V2I = .zero, end: V2I? = nil, step: V2I = .one) -> AreaIndexIterator {
     if let end = end {
       precondition(end.x >= 0 && end.x <= size.x && end.y >= 0 && end.y <= size.y,

@@ -1,4 +1,4 @@
-// © 2015 George King. Permission to use this file is granted in license-quilt.txt.
+// Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
 
 public struct RotatedIndexIterator: Sequence, IteratorProtocol {
@@ -22,7 +22,3 @@ public struct RotatedIndexIterator: Sequence, IteratorProtocol {
     return (i + start) % count
   }
 }
-
-
-
-
