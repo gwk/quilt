@@ -5,5 +5,9 @@ import Foundation
 
 extension NSMutableData {
 
-  public func append<T>(_ el: T) { var el = el; self.append(&el, length: MemoryLayout<T>.size) }
+  public func append<T>(_ el: T) {
+    withUnsafeBytes(of: el) {
+      self.append($0.baseAddress!, length: MemoryLayout<T>.size)
+    }
+  }
 }
