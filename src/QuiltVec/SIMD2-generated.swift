@@ -103,12 +103,10 @@ extension SIMD2: Vec, Vec2 where Scalar: ArithmeticProtocol { // Float/Int agnos
     s += y.asF64 * b.y.asF64
     return s
   }
-
 }
 
 
 extension SIMD2: FloatVec, FloatVec2 where Scalar: ArithmeticFloat { // Float-specific.
-
   public var allFinite: Bool { x.isFinite && (y.isFinite) }
   public var allZero: Bool { x.isZero && (y.isZero) }
   public var allZeroOrSubnormal: Bool { x.isZeroOrSubnormal && (y.isZeroOrSubnormal) }
@@ -123,7 +121,7 @@ extension SIMD2: FloatVec, FloatVec2 where Scalar: ArithmeticFloat { // Float-sp
 }
 
 
-extension SIMD2: Comparable where Scalar: Comparable{
+extension SIMD2: Comparable where Scalar: Comparable {
   public static func <(a: SIMD2, b: SIMD2) -> Bool {
     if a.x != b.x { return a.x < b.x }
     return a.y < b.y

@@ -123,20 +123,19 @@ extension CGVector: Vec, Vec2 { // Float/Int agnostic.
     return s
   }
 
-public static func +(a: CGVector, b: CGVector) -> CGVector { CGVector(a.x + b.x, a.y + b.y) }
-public static func -(a: CGVector, b: CGVector) -> CGVector { CGVector(a.x - b.x, a.y - b.y) }
-public static func *(a: CGVector, b: CGVector) -> CGVector { CGVector(a.x * b.x, a.y * b.y) }
-public static func /(a: CGVector, b: CGVector) -> CGVector { CGVector(a.x / b.x, a.y / b.y) }
-public static func +(a: CGVector, s: CGFloat) -> CGVector { CGVector(a.x + s, a.y + s) }
-public static func -(a: CGVector, s: CGFloat) -> CGVector { CGVector(a.x - s, a.y - s) }
-public static func *(a: CGVector, s: CGFloat) -> CGVector { CGVector(a.x * s, a.y * s) }
-public static func /(a: CGVector, s: CGFloat) -> CGVector { CGVector(a.x / s, a.y / s) }
-public static prefix func -(a: CGVector) -> CGVector { a * -1 }
+  public static func +(a: CGVector, b: CGVector) -> CGVector { CGVector(a.x + b.x, a.y + b.y) }
+  public static func -(a: CGVector, b: CGVector) -> CGVector { CGVector(a.x - b.x, a.y - b.y) }
+  public static func *(a: CGVector, b: CGVector) -> CGVector { CGVector(a.x * b.x, a.y * b.y) }
+  public static func /(a: CGVector, b: CGVector) -> CGVector { CGVector(a.x / b.x, a.y / b.y) }
+  public static func +(a: CGVector, s: CGFloat) -> CGVector { CGVector(a.x + s, a.y + s) }
+  public static func -(a: CGVector, s: CGFloat) -> CGVector { CGVector(a.x - s, a.y - s) }
+  public static func *(a: CGVector, s: CGFloat) -> CGVector { CGVector(a.x * s, a.y * s) }
+  public static func /(a: CGVector, s: CGFloat) -> CGVector { CGVector(a.x / s, a.y / s) }
+  public static prefix func -(a: CGVector) -> CGVector { a * -1 }
 }
 
 
 extension CGVector: FloatVec, FloatVec2 { // Float-specific.
-
   public var allFinite: Bool { x.isFinite && (y.isFinite) }
   public var allZero: Bool { x.isZero && (y.isZero) }
   public var allZeroOrSubnormal: Bool { x.isZeroOrSubnormal && (y.isZeroOrSubnormal) }
@@ -157,6 +156,7 @@ extension CGVector: Comparable {
     return a.y < b.y
   }
 }
+
 
 extension CGVector: CustomStringConvertible {
   public var description: String { "CGVector(\(x), \(y))" }

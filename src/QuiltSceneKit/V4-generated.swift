@@ -10,6 +10,7 @@ import QuiltUI
 
 
 public typealias V4 = SCNVector4
+
 extension V4: Vec, Vec4 { // Float/Int agnostic.
   public typealias Scalar = CGFloat
   public typealias VFType = V4F
@@ -81,20 +82,19 @@ extension V4: Vec, Vec4 { // Float/Int agnostic.
     return s
   }
 
-public static func +(a: V4, b: V4) -> V4 { V4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) }
-public static func -(a: V4, b: V4) -> V4 { V4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w) }
-public static func *(a: V4, b: V4) -> V4 { V4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w) }
-public static func /(a: V4, b: V4) -> V4 { V4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w) }
-public static func +(a: V4, s: CGFloat) -> V4 { V4(a.x + s, a.y + s, a.z + s, a.w + s) }
-public static func -(a: V4, s: CGFloat) -> V4 { V4(a.x - s, a.y - s, a.z - s, a.w - s) }
-public static func *(a: V4, s: CGFloat) -> V4 { V4(a.x * s, a.y * s, a.z * s, a.w * s) }
-public static func /(a: V4, s: CGFloat) -> V4 { V4(a.x / s, a.y / s, a.z / s, a.w / s) }
-public static prefix func -(a: V4) -> V4 { a * -1 }
+  public static func +(a: V4, b: V4) -> V4 { V4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w) }
+  public static func -(a: V4, b: V4) -> V4 { V4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w) }
+  public static func *(a: V4, b: V4) -> V4 { V4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w) }
+  public static func /(a: V4, b: V4) -> V4 { V4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w) }
+  public static func +(a: V4, s: CGFloat) -> V4 { V4(a.x + s, a.y + s, a.z + s, a.w + s) }
+  public static func -(a: V4, s: CGFloat) -> V4 { V4(a.x - s, a.y - s, a.z - s, a.w - s) }
+  public static func *(a: V4, s: CGFloat) -> V4 { V4(a.x * s, a.y * s, a.z * s, a.w * s) }
+  public static func /(a: V4, s: CGFloat) -> V4 { V4(a.x / s, a.y / s, a.z / s, a.w / s) }
+  public static prefix func -(a: V4) -> V4 { a * -1 }
 }
 
 
 extension V4: FloatVec, FloatVec4 { // Float-specific.
-
   public var allFinite: Bool { x.isFinite && (y.isFinite && (z.isFinite && (w.isFinite))) }
   public var allZero: Bool { x.isZero && (y.isZero && (z.isZero && (w.isZero))) }
   public var allZeroOrSubnormal: Bool { x.isZeroOrSubnormal && (y.isZeroOrSubnormal && (z.isZeroOrSubnormal && (w.isZeroOrSubnormal))) }
@@ -124,6 +124,7 @@ extension V4: Equatable {
   }
 }
 
+
 extension V4: Comparable {
   public static func <(a: V4, b: V4) -> Bool {
     if a.x != b.x { return a.x < b.x }
@@ -132,6 +133,7 @@ extension V4: Comparable {
     return a.w < b.w
   }
 }
+
 
 extension V4: CustomStringConvertible {
   public var description: String { "V4(\(x), \(y), \(z), \(w))" }

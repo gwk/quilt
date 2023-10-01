@@ -80,12 +80,10 @@ extension SIMD3: Vec, Vec3 where Scalar: ArithmeticProtocol { // Float/Int agnos
     s += z.asF64 * b.z.asF64
     return s
   }
-
 }
 
 
 extension SIMD3: FloatVec, FloatVec3 where Scalar: ArithmeticFloat { // Float-specific.
-
   public var allFinite: Bool { x.isFinite && (y.isFinite && (z.isFinite)) }
   public var allZero: Bool { x.isZero && (y.isZero && (z.isZero)) }
   public var allZeroOrSubnormal: Bool { x.isZeroOrSubnormal && (y.isZeroOrSubnormal && (z.isZeroOrSubnormal)) }
@@ -100,7 +98,7 @@ extension SIMD3: FloatVec, FloatVec3 where Scalar: ArithmeticFloat { // Float-sp
 }
 
 
-extension SIMD3: Comparable where Scalar: Comparable{
+extension SIMD3: Comparable where Scalar: Comparable {
   public static func <(a: SIMD3, b: SIMD3) -> Bool {
     if a.x != b.x { return a.x < b.x }
     if a.y != b.y { return a.y < b.y }

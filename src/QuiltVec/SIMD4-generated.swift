@@ -54,12 +54,10 @@ extension SIMD4: Vec, Vec4 where Scalar: ArithmeticProtocol { // Float/Int agnos
     s += w.asF64 * b.w.asF64
     return s
   }
-
 }
 
 
 extension SIMD4: FloatVec, FloatVec4 where Scalar: ArithmeticFloat { // Float-specific.
-
   public var allFinite: Bool { x.isFinite && (y.isFinite && (z.isFinite && (w.isFinite))) }
   public var allZero: Bool { x.isZero && (y.isZero && (z.isZero && (w.isZero))) }
   public var allZeroOrSubnormal: Bool { x.isZeroOrSubnormal && (y.isZeroOrSubnormal && (z.isZeroOrSubnormal && (w.isZeroOrSubnormal))) }
@@ -74,7 +72,7 @@ extension SIMD4: FloatVec, FloatVec4 where Scalar: ArithmeticFloat { // Float-sp
 }
 
 
-extension SIMD4: Comparable where Scalar: Comparable{
+extension SIMD4: Comparable where Scalar: Comparable {
   public static func <(a: SIMD4, b: SIMD4) -> Bool {
     if a.x != b.x { return a.x < b.x }
     if a.y != b.y { return a.y < b.y }

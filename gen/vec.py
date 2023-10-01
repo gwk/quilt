@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 # Dedicated to the public domain under CC0: https://creativecommons.org/publicdomain/zero/1.0/.
 
-from sys import argv
 from argparse import ArgumentParser
-from gen_util import *
-from typing import *
+from gen_util import types, outL, errL, fmt, all_v_comps, jc, jcf, jfra, ops
 
 '''
 Generate Swift extension code for a single geometric vector type.
@@ -61,22 +59,22 @@ import QuiltArithmetic\
 
   for import_name in args.imports:
     outL('import $', import_name)
-  outL()
+
   outL()
 
   if args.alias:
+    outL()
     outL('public typealias $ = $', v_type, args.alias)
 
   comps = all_v_comps[:dim]
   comps_a = ['a.' + c for c in comps]
   comps_b = ['b.' + c for c in comps]
   comps_ab = [p for p in zip(comps_a, comps_b)]
-  public = '' if is_simd else 'public '
-  is_float = scalar.startswith('F')
   is_signed = not scalar.startswith('U')
 
   ext_where_clause = 'where Scalar: ArithmeticProtocol ' if is_simd else ''
 
+  outL()
   outL('extension $: Vec, Vec$ ${ // Float/Int agnostic.', v_type, dim, ext_where_clause)
 
   if not is_simd:
@@ -143,28 +141,29 @@ import QuiltArithmetic\
     outL('    s += $.asF64 * b.$.asF64', c, c)
   outL('    return s')
   outL('  }')
-  outL()
 
   if scalar == 'U8':
+    outL()
     outL('  public var toFPixel: VFType { VFType($) }', jcf('$.asF32 / F32(0xFF)', comps))
 
   if not is_simd:
+    outL()
     for op in ops:
       cons_comps_v = jc(fmt('$ $ $', a, op, b) for a, b in comps_ab) # e.g. 'a.x + b.x'.
-      outL('public static func $(a: $, b: $) -> $ { $($) }', op, v_type, v_type, v_type, v_type, cons_comps_v)
+      outL('  public static func $(a: $, b: $) -> $ { $($) }', op, v_type, v_type, v_type, v_type, cons_comps_v)
     for op in ops:
       cons_comps_s = jc(fmt('$ $ s', a, op) for a in comps_a) # e.g. 'a.x + s'.
-      outL('public static func $(a: $, s: $) -> $ { $($) }', op, v_type, scalar, v_type, v_type, cons_comps_s)
+      outL('  public static func $(a: $, s: $) -> $ { $($) }', op, v_type, scalar, v_type, v_type, cons_comps_s)
 
     if is_signed:
-      outL('public static prefix func -(a: $) -> $ { a * -1 }', v_type, v_type)
+      outL('  public static prefix func -(a: $) -> $ { a * -1 }', v_type, v_type)
 
-  outL('}\n\n')
+  outL('}')
 
+  outL()
+  outL()
   float_ext_where_clause = 'where Scalar: ArithmeticFloat ' if is_simd else ''
   outL('extension $: FloatVec, FloatVec$ ${ // Float-specific.', v_type, dim, float_ext_where_clause)
-
-  outL('')
   outL('  public var allFinite: Bool { $ }', jfra(' && ', '$.isFinite', comps))
   outL('  public var allZero: Bool { $ }', jfra(' && ', '$.isZero', comps))
   outL('  public var allZeroOrSubnormal: Bool { $ }', jfra(' && ', '$.isZeroOrSubnormal', comps))
@@ -176,19 +175,16 @@ import QuiltArithmetic\
   outL('  public var clampToUnit: $ { $($) }', v_type, v_type, jcf('$.clamp(min: 0, max: 1)', comps))
   outL('  public var clampToSignedUnit: $ { $($) }', v_type, v_type, jcf('$.clamp(min: -1, max: 1)', comps))
   outL('  public var toU8Pixel: VU8Type { VU8Type($) }', jcf('U8(($*255).clamp(min: 0, max: 255))', comps))
+  outL('}')
 
-  outL('}\n\n')
-
-
-  if is_simd and False:
-    outL('extension $: IntVec, IntVec$ where Scalar: SignedArithmeticInt { // Int-specific.', v_type, dim)
-    outL('}\n\n')
 
   if needs_codable:
-    errFL('TODO: Decodable')
+    errL('TODO: Decodable')
 
 
   if needs_equatable:
+    outL()
+    outL()
     outL('extension $: Equatable {', v_type)
     outL('  public static func ==(a: $, b: $) -> Bool {', v_type, v_type)
     for i, c in enumerate(comps, 1):
@@ -205,11 +201,13 @@ import QuiltArithmetic\
       else:
         outL('    return a.$ != b.$', c, c)
     outL('  }')
-    outL('}\n')
+    outL('}')
 
 
   if needs_comparable:
-    qualification = 'where Scalar: Comparable' if is_simd else ''
+    outL()
+    outL()
+    qualification = 'where Scalar: Comparable ' if is_simd else ''
     outL('extension $: Comparable ${', v_type, qualification)
 
     outL('  public static func <(a: $, b: $) -> Bool {', v_type, v_type)
@@ -219,13 +217,15 @@ import QuiltArithmetic\
       else:
         outL('    return a.$ < b.$', c, c)
     outL('  }')
-    outL('}\n')
+    outL('}')
 
 
   if needs_string_convertible:
+    outL()
+    outL()
     outL('extension $: CustomStringConvertible {', v_type)
     outL('  public var description: String { "$($)" }', v_type, jcf('\\($)', comps))
-    outL('}\n')
+    outL('}')
 
 
 

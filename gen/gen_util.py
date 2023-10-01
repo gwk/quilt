@@ -2,8 +2,9 @@
 
 from sys import stderr
 from itertools import zip_longest, product
-from typing import NamedTuple, Optional
+from typing import NamedTuple
 
+product = product
 
 all_v_comps = ['x', 'y', 'z', 'w']
 ops = ['+', '-', '*', '/']
@@ -20,13 +21,13 @@ class GenType(NamedTuple):
 types = [
   GenType(scalar='F32', suffix='F',   f_suffix='F', simd=True, is_novel=False, req_codable=False),
   GenType(scalar='F64', suffix='D',   f_suffix='D', simd=True, is_novel=False, req_codable=False),
-  GenType(scalar='Int', suffix='I',   f_suffix='D', simd=None, is_novel=True,  req_codable=True),
-  GenType(scalar='I8',  suffix='I8',  f_suffix='F', simd=None, is_novel=True,  req_codable=True),
-  GenType(scalar='I16', suffix='I16', f_suffix='F', simd=None, is_novel=True,  req_codable=True),
-  GenType(scalar='I32', suffix='I32', f_suffix='D', simd=None, is_novel=True,  req_codable=True),
-  GenType(scalar='U8',  suffix='U8',  f_suffix='F', simd=None, is_novel=True,  req_codable=True),
-  GenType(scalar='U16', suffix='U16', f_suffix='F', simd=None, is_novel=True,  req_codable=True),
-  GenType(scalar='U32', suffix='U32', f_suffix='D', simd=None, is_novel=True,  req_codable=True),
+  GenType(scalar='Int', suffix='I',   f_suffix='D', simd=False, is_novel=True,  req_codable=True),
+  GenType(scalar='I8',  suffix='I8',  f_suffix='F', simd=False, is_novel=True,  req_codable=True),
+  GenType(scalar='I16', suffix='I16', f_suffix='F', simd=False, is_novel=True,  req_codable=True),
+  GenType(scalar='I32', suffix='I32', f_suffix='D', simd=False, is_novel=True,  req_codable=True),
+  GenType(scalar='U8',  suffix='U8',  f_suffix='F', simd=False, is_novel=True,  req_codable=True),
+  GenType(scalar='U16', suffix='U16', f_suffix='F', simd=False, is_novel=True,  req_codable=True),
+  GenType(scalar='U32', suffix='U32', f_suffix='D', simd=False, is_novel=True,  req_codable=True),
 ]
 
 

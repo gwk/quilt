@@ -10,6 +10,7 @@ import QuiltUI
 
 
 public typealias V3 = SCNVector3
+
 extension V3: Vec, Vec3 { // Float/Int agnostic.
   public typealias Scalar = CGFloat
   public typealias VFType = V3F
@@ -105,20 +106,19 @@ extension V3: Vec, Vec3 { // Float/Int agnostic.
     return s
   }
 
-public static func +(a: V3, b: V3) -> V3 { V3(a.x + b.x, a.y + b.y, a.z + b.z) }
-public static func -(a: V3, b: V3) -> V3 { V3(a.x - b.x, a.y - b.y, a.z - b.z) }
-public static func *(a: V3, b: V3) -> V3 { V3(a.x * b.x, a.y * b.y, a.z * b.z) }
-public static func /(a: V3, b: V3) -> V3 { V3(a.x / b.x, a.y / b.y, a.z / b.z) }
-public static func +(a: V3, s: CGFloat) -> V3 { V3(a.x + s, a.y + s, a.z + s) }
-public static func -(a: V3, s: CGFloat) -> V3 { V3(a.x - s, a.y - s, a.z - s) }
-public static func *(a: V3, s: CGFloat) -> V3 { V3(a.x * s, a.y * s, a.z * s) }
-public static func /(a: V3, s: CGFloat) -> V3 { V3(a.x / s, a.y / s, a.z / s) }
-public static prefix func -(a: V3) -> V3 { a * -1 }
+  public static func +(a: V3, b: V3) -> V3 { V3(a.x + b.x, a.y + b.y, a.z + b.z) }
+  public static func -(a: V3, b: V3) -> V3 { V3(a.x - b.x, a.y - b.y, a.z - b.z) }
+  public static func *(a: V3, b: V3) -> V3 { V3(a.x * b.x, a.y * b.y, a.z * b.z) }
+  public static func /(a: V3, b: V3) -> V3 { V3(a.x / b.x, a.y / b.y, a.z / b.z) }
+  public static func +(a: V3, s: CGFloat) -> V3 { V3(a.x + s, a.y + s, a.z + s) }
+  public static func -(a: V3, s: CGFloat) -> V3 { V3(a.x - s, a.y - s, a.z - s) }
+  public static func *(a: V3, s: CGFloat) -> V3 { V3(a.x * s, a.y * s, a.z * s) }
+  public static func /(a: V3, s: CGFloat) -> V3 { V3(a.x / s, a.y / s, a.z / s) }
+  public static prefix func -(a: V3) -> V3 { a * -1 }
 }
 
 
 extension V3: FloatVec, FloatVec3 { // Float-specific.
-
   public var allFinite: Bool { x.isFinite && (y.isFinite && (z.isFinite)) }
   public var allZero: Bool { x.isZero && (y.isZero && (z.isZero)) }
   public var allZeroOrSubnormal: Bool { x.isZeroOrSubnormal && (y.isZeroOrSubnormal && (z.isZeroOrSubnormal)) }
@@ -146,6 +146,7 @@ extension V3: Equatable {
   }
 }
 
+
 extension V3: Comparable {
   public static func <(a: V3, b: V3) -> Bool {
     if a.x != b.x { return a.x < b.x }
@@ -153,6 +154,7 @@ extension V3: Comparable {
     return a.z < b.z
   }
 }
+
 
 extension V3: CustomStringConvertible {
   public var description: String { "V3(\(x), \(y), \(z))" }
