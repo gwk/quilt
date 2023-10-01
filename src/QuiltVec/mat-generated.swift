@@ -19,6 +19,7 @@ extension M2F {
 
 }
 
+
 public typealias M2D = double2x2
 
 extension M2D {
@@ -31,6 +32,7 @@ extension M2D {
   public static func scale(x: F64, y: F64) -> M2D { M2D(diagonal: V2D(x, y)) }
 
 }
+
 
 public typealias M3F = float3x3
 
@@ -77,8 +79,8 @@ extension M3F {
   public static func rot(a: V3F, _ b: V3F) -> M3F {
     return rot(theta: F32(a.angle(b)), norm: a.cross(b).norm)
   }
-
 }
+
 
 public typealias M3D = double3x3
 
@@ -125,8 +127,8 @@ extension M3D {
   public static func rot(a: V3D, _ b: V3D) -> M3D {
     return rot(theta: F64(a.angle(b)), norm: a.cross(b).norm)
   }
-
 }
+
 
 public typealias M4F = float4x4
 
@@ -179,8 +181,8 @@ extension M4F {
   public static func rot(a: V3F, _ b: V3F) -> M4F {
     return rot(theta: F32(a.angle(b)), norm: a.cross(b).norm)
   }
-
 }
+
 
 public typealias M4D = double4x4
 
@@ -233,5 +235,4 @@ extension M4D {
   public static func rot(a: V3D, _ b: V3D) -> M4D {
     return rot(theta: F64(a.angle(b)), norm: a.cross(b).norm)
   }
-
 }

@@ -6,9 +6,7 @@ from gen_util import *
 
 def gen_mat(dim, t):
   def isLast(i): return i == dim - 1
-  def areLast(i, j): return isLast(i) and isLast(j)
   def commaUnlessIsLast(i): return '' if isLast(i) else ','
-  def commaUnlessAreLast(i, j): return '' if areLast(i, j) else ','
 
   vt = fmt('V$$', dim, t.suffix)
   v3t = fmt('V3$', t.suffix)
@@ -29,8 +27,11 @@ def gen_mat(dim, t):
   if   t.scalar == 'F32': simd = 'float'
   elif t.scalar == 'F64': simd = 'double'
   else: raise NotImplementedError
+
+  outL()
+  outL()
   outL('public typealias $ = $$x$', mt, simd, dim, dim)
-  outL('')
+  outL()
 
   outL('extension $ {', mt)
 
@@ -100,9 +101,9 @@ def gen_mat(dim, t):
 
     outL('  public static func rot(a: $, _ b: $) -> $ {', v3t, v3t, mt)
     outL('    return rot(theta: $(a.angle(b)), norm: a.cross(b).norm)', t.scalar)
-    outL('  }\n')
+    outL('  }')
 
-  outL('}\n')
+  outL('}')
 
 
 if __name__ == '__main__':
@@ -113,8 +114,7 @@ if __name__ == '__main__':
 
 import simd
 import simd.matrix
-import QuiltArithmetic
-
+import QuiltArithmetic\
 ''')
 
   for d in [2, 3, 4]:
