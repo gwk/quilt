@@ -51,7 +51,7 @@ public enum Chain<Element>: IteratorProtocol, Sequence, ExpressibleByArrayLitera
     }
   }
 
-  public static func ==<Element>(l: Chain<Element>, r: Chain<Element>) -> Bool where Element: Equatable {
+  public static func ==(l: Chain<Element>, r: Chain<Element>) -> Bool where Element: Equatable {
     var l = l
     var r = r
     while true {
