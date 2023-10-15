@@ -21,7 +21,7 @@ public func absPath(_ path: Path) -> Path {
 public func absPath(_ string: String) -> Path { absPath(Path(string)) }
 
 
-public func isPathFileOrDir(_ path: Path) -> Bool {
+public func isPathPresent(_ path: Path) -> Bool {
   fileManager.fileExists(atPath: path.expandUser)
 }
 
@@ -38,10 +38,12 @@ public func isPathDir(_ path: Path) -> Bool {
 }
 
 public func isPathLink(_ path: Path) -> Bool {
+  if !isPathPresent(path) { return false }
   do {
     let attrs = try fileManager.attributesOfItem(atPath: path.expandUser)
     return (attrs[FileAttributeKey.type]! as! FileAttributeType) == FileAttributeType.typeSymbolicLink
   } catch {
+    errL("error: isPathLink: \(error)")
     return false
   }
 }
