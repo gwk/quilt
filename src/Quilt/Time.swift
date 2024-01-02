@@ -24,7 +24,7 @@ public func initAppLaunchSysTime() {
 }
 
 public func appLaunchSysTime() -> Time {
-  assert(_appLaunchSysTime != 0, "appLaunchSysTime(): initAppLaunchSysTime() must be called once in main().")
+  assert(_appLaunchSysTime > 0, "appLaunchSysTime(): initAppLaunchSysTime() must be called once in main().")
   return _appLaunchSysTime
 }
 
