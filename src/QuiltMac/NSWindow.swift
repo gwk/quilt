@@ -31,8 +31,6 @@ extension NSWindow {
       defer: deferred,
       screen: screen)
 
-    isReleasedWhenClosed = false
-
     if let view = view {
       contentView = view
       delegate = view as? NSWindowDelegate
@@ -59,7 +57,7 @@ extension NSWindow {
     if dissolveOnClose {
       _ = observeCloseOnce {
         (window) in
-        errL("dissolving window: \(window)")
+        errL("dissolving: \(window)")
         window.contentView = nil
         window.contentViewController = nil
         window.delegate = nil
