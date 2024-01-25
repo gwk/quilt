@@ -21,23 +21,23 @@ class QuiltResponder: CRResponder {
   //var handlers: [EventKind -> (CREvent, CRView) -> ()] = []
 
   #if os(OSX)
-  public override func keyDown(with e: NSEvent) {
+  override public func keyDown(with e: NSEvent) {
     print("QuiltResponder keyDown: \(e)")
   }
 
-  public override func keyUp(with e: NSEvent) {
+  override public func keyUp(with e: NSEvent) {
     print("QuiltResponder keyUp: \(e)")
   }
 
-  public override func flagsChanged(with e: NSEvent) {
+  override public func flagsChanged(with e: NSEvent) {
     print("QuiltResponder flagsChanged: \(e)")
   }
 
-  public override func mouseDown(with e: NSEvent) {
+  override public func mouseDown(with e: NSEvent) {
     print("QuiltResponder mouseDown: \(e)")
   }
 
-  public override func mouseUp(with e: NSEvent) {
+  override public func mouseUp(with e: NSEvent) {
     print("QuiltResponder mouseUp: \(e)")
   }
   #endif

@@ -30,7 +30,7 @@ open class TextLayerStyle: LayerStyle {
   }
 
 
-  public override func copy(with zone: NSZone? = nil) -> Any {
+  override public func copy(with zone: NSZone? = nil) -> Any {
     TextLayerStyle(
       color: color,
       cornerRadius: cornerRadius,
@@ -42,7 +42,7 @@ open class TextLayerStyle: LayerStyle {
   }
 
 
-  public override func apply(to layer: CALayer) {
+  override public func apply(to layer: CALayer) {
     super.apply(to: layer)
     if let layer = layer as? TextLayer {
       layer.textColor = textColor

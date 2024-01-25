@@ -47,13 +47,13 @@ open class TextLayer: StyledLayer {
 
   public required init?(coder: NSCoder) { fatalError() }
 
-  public override init() {
+  override public init() {
     super.init()
     needsDisplayOnBoundsChange = true
     isOpaque = true
   }
 
-  public override init(layer: Any) {
+  override public init(layer: Any) {
     super.init(layer: layer)
     let l = layer as! TextLayer
     text = l.text

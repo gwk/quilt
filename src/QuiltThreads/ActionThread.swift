@@ -18,7 +18,7 @@ public class ActionThread: Thread {
     self.name = name
   }
 
-  public override func main() {
+  override public func main() {
     action()
   }
 }

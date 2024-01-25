@@ -11,7 +11,7 @@ open class QuiltControllerView<Controller: CRViewController>: StyledView {
 
   public weak var controller: Controller!
 
-  required public init?(coder: NSCoder) { super.init(coder: coder) }
+  public required init?(coder: NSCoder) { super.init(coder: coder) }
 
   public init(name: String, controller: Controller? = nil) {
     super.init(frame: .frameInit)

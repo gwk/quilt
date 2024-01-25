@@ -9,12 +9,12 @@ open class TextView: StyledView {
 
   public required init?(coder: NSCoder) { super.init(coder: coder) }
 
-  public override init(frame: CGRect) {
+  override public init(frame: CGRect) {
     super.init(frame: frame)
     //textLayer.allowsFontSubpixelQuantization = true
   }
 
-  public override func makeBackingLayer() -> CALayer {
+  override public func makeBackingLayer() -> CALayer {
     TextLayer()
   }
 
