@@ -18,6 +18,9 @@ clean:
 clean-gen:
 	rm src/Quilt{Vec,UI,SceneKit}/*-generated.swift
 
+format:
+	craft-swift-fmt src/
+
 # all generated source targets.
 gen: \
 	src/QuiltVec/mat-generated.swift \
