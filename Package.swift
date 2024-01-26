@@ -6,7 +6,7 @@ import PackageDescription
 
 let package = Package(
   name: "Quilt",
-  platforms: [.macOS(.v13)],
+  platforms: [.macOS(.v14)],
   products: [
     .library(name: "Py",              targets: ["Py"]),
     .library(name: "Quilt",           targets: ["Quilt"]),
